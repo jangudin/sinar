@@ -10,7 +10,7 @@ class AkreditasiNonRS extends CI_Controller {
         $this->load->model('New_progres');
         $this->load->model('Dashboard_tte');
         $this->sina = $this->load->database('sina', TRUE);
-        $this->load->library('encrypt');
+        $this->load->library('encryption');
         $this->load->helper('tanggal_indonesia');
         if($this->session->userdata('status') != "login"){
             redirect(base_url());
