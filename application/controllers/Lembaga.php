@@ -10,7 +10,7 @@ class Lembaga extends CI_Controller {
         $this->load->model('M_lpa');
         $this->sina = $this->load->database('sina', TRUE);
         $this->nmrs = $this->load->database('nmrs', TRUE);
-        $this->load->library('encrypt');
+        $this->load->library('encryption');
         $this->load->helper('tanggal_indonesia');
         if($this->session->userdata('status') != "login"){
             redirect(base_url());
