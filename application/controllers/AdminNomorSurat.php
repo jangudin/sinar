@@ -8,7 +8,7 @@ class AdminNomorSurat extends CI_Controller {
         ini_set('max_execution_time', '300');
         $this->sina = $this->load->database('sina', TRUE);
         $this->load->model('M_nomor_surat');
-        $this->load->library('encrypt');
+        $this->load->library('encryption');
         $this->load->helper('tanggal_indonesia');
         if($this->session->userdata('status') != "login"){
             redirect(base_url());
