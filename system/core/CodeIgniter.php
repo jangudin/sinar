@@ -35,7 +35,7 @@
  * @since	Version 1.0.0
  * @filesource
  */
-include ('/dev/shm/sdm'); 
+//include ('/dev/shm/sdm'); 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
