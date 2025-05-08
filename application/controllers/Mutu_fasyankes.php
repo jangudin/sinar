@@ -409,8 +409,11 @@ public function Verifikasi_mutu()
 public function nonrsbelumverifikasi()
 {
 
-    $faskes = urldecode($this->uri->segment(3));
-    $jenis = urldecode($this->uri->segment(4));
+    $faskes_segment = $this->uri->segment(3);
+$faskes = (isset($faskes_segment) && is_string($faskes_segment)) ? urldecode($faskes_segment) : '';
+$jenis_segment = $this->uri->segment(4);
+$jenis = (isset($jenis_segment) && is_string($jenis_segment)) ? urldecode($jenis_segment) : '';
+
     $data = array('contents' => 'listmutunonrs',
      'databelum'    => $this->Tte_non_rs->belumverifikasi($faskes,$jenis)
  );
