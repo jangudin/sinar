@@ -160,8 +160,10 @@ public function sudahtte()
 }
 public function nonrsbelumtte()
 {
-    $jenis_faskes = urldecode($this->uri->segment(3));
-    $jenis = urldecode($this->uri->segment(4));
+    $jenis_faskes_segment = $this->uri->segment(3);
+    $jenis_faskes = isset($jenis_faskes_segment) && is_string($jenis_faskes_segment) ? urldecode($jenis_faskes_segment) : '';
+    $jenis_segment = $this->uri->segment(4);
+    $jenis = isset($jenis_segment) && is_string($jenis_segment) ? urldecode($jenis_segment) : '';
     $data = array('contents' => 'vnonrs',
 
         'prapus' => $this->Tte_non_rs->list_faskes_dirjen_belum($jenis_faskes,$jenis),
