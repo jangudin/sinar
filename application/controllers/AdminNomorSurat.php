@@ -55,8 +55,20 @@ class AdminNomorSurat extends CI_Controller {
         // $page = $this->input->get('page') ?? null;
         // $faskes = $this->input->get('faskes') ?? null;
 
-        $jenis = urldecode($this->uri->segment(4));
-        $faskes = urldecode( $this->uri->segment(3));
+        if ($this->uri->segment(4) !== null) {
+            $jenis = urldecode($this->uri->segment(4));
+        } else {
+            $jenis = ''; // Atau nilai default lainnya
+        }
+
+        if ($this->uri->segment(43) !== null) {
+            $faskes = urldecode($this->uri->segment(3));
+        } else {
+            $faskes = ''; // Atau nilai default lainnya
+        }
+
+        // $jenis = urldecode($this->uri->segment(4));
+        // $faskes = urldecode( $this->uri->segment(3));
 
         $data = array('contents' => 'adminsuarat',
                       'data'    => $this->M_nomor_surat->SudahInput($faskes,$jenis),
