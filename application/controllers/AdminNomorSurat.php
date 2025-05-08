@@ -54,26 +54,22 @@ class AdminNomorSurat extends CI_Controller {
         $id = $this->session->userdata('lembaga_id');
         // $page = $this->input->get('page') ?? null;
         // $faskes = $this->input->get('faskes') ?? null;
-
         if ($this->uri->segment(4) !== null) {
             $jenis = urldecode($this->uri->segment(4));
         } else {
             $jenis = ''; // Atau nilai default lainnya
         }
-
-        if ($this->uri->segment(43) !== null) {
+        if ($this->uri->segment(3) !== null) { // Pastikan ini adalah segment yang benar
             $faskes = urldecode($this->uri->segment(3));
         } else {
             $faskes = ''; // Atau nilai default lainnya
         }
-
-        // $jenis = urldecode($this->uri->segment(4));
-        // $faskes = urldecode( $this->uri->segment(3));
-
-        $data = array('contents' => 'adminsuarat',
-                      'data'    => $this->M_nomor_surat->SudahInput($faskes,$jenis),
-                      'belum' => $this->M_nomor_surat->jumlah_belum($faskes),
-      );
+        // Memastikan pemanggilan jumlah_belum dengan dua argumen
+        $data = array(
+            'contents' => 'adminsuarat',
+            'data' => $this->M_nomor_surat->SudahInput($faskes, $jenis),
+            'belum' => $this->M_nomor_surat->jumlah_belum($faskes, $jenis),
+        );
         
        // echo json_encode($data['data']);
         $this->load->view('List_Rekomendasi',$data);
