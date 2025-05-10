@@ -34,7 +34,7 @@ class Tesdev extends CI_Controller {
 
         // $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
 
-            $this->load->view('tespage');
+            $this->load->view('Sertifikatfaskesnew/sertifikatkosong');
 
         
     }
