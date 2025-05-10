@@ -155,12 +155,12 @@
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-home"></i>TPMD</a>
+                  <!-- <li><a><i class="fa fa-home"></i>TPMD</a>
                     <ul class="nav child_menu" style="display:none;">
                       <li><a href="<?php echo base_url('Mutu_fasyankes/tpmd')?>">BELUM VERIFIKASI</a></li>
                       <li><a href="<?php echo base_url('Mutu_fasyankes/tpmdvalid')?>">SUDAH VERIFIKASI</a></li>
                     </ul>
-                  </li>
+                  </li> -->
 
                   <li><a href="<?php echo base_url('DirjenYankes/monitoring');?>"><i class="fa fa-clock-o"></i>Monitoring</a></li>  
                   <li><a href="<?php echo base_url('Auth/logout');?>"><i class="fa fa-sign-out"></i>Logout</a></li>
