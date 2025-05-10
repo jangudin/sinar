@@ -135,23 +135,23 @@
                         </ul>
                       </li>
 
-                      <li><a>TTE LPA<span class="fa fa-chevron-down"></span></a>
+                      <!-- <li><a>TTE LPA<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li class="sub_menu"><a href="<?php echo base_url('Mutu_fasyankes/ceklpa/Belum')?>">Belum TTE</a>
                           </li>
                           <li><a href="<?php echo base_url('Mutu_fasyankes/ceklpa/Sudah')?>">Sudah TTE</a>
                           </li>
                         </ul>
-                      </li>
+                      </li> -->
 
-                      <li><a>TTE Dirjen<span class="fa fa-chevron-down"></span></a>
+                      <!-- <li><a>TTE Dirjen<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li class="sub_menu"><a href="<?php echo base_url('Mutu_fasyankes/cekdirjen/Belum')?>">Belum TTE</a>
                           </li>
                           <li><a href="<?php echo base_url('Mutu_fasyankes/cekdirjen/Sudah')?>">Sudah TTE</a>
                           </li>
                         </ul>
-                      </li>
+                      </li> -->
                     </ul>
                   </li>
 
