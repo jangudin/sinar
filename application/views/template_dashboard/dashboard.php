@@ -483,11 +483,11 @@
       <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
 
-    <div>
-<?php foreach ($menu_data as $menu): ?>
+   <div>
+<?php foreach ($menu_data as $menu_name => $menu): ?>
   <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['icon']); ?>" tabindex="0" role="button" aria-pressed="false">
     <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
-    <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
+    <span class="label"><?php echo htmlspecialchars($menu_name); ?></span>
   </div>
   <?php if (!empty($menu['nama_sub_menu'])): ?>
     <ul class="submenu-list">
@@ -501,6 +501,8 @@
   <?php endif; ?>
 <?php endforeach; ?>
 </div>
+
+
 
   </nav>
   <main class="main-content" role="main" tabindex="-1">
