@@ -491,7 +491,7 @@
   </div>
   <?php if (!empty($menu['nama_sub_menu'])): ?>
     <ul class="submenu-list">
-      <?php foreach ($menu['submenu'] as $sub): ?>
+      <?php foreach ($menu['nama_sub_menu'] as $sub): ?>
         <li tabindex="0" role="button" aria-pressed="false">
           <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($sub['icon']); ?></span>
           <?php echo htmlspecialchars($sub['nama_sub_menu']); ?>
