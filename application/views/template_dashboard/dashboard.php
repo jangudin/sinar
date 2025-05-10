@@ -434,11 +434,11 @@
 
     <div class="nav-items" role="menu">
 <?php foreach ($menu_data as $menu): ?>
-  <div class="nav-item" data-menu-id="<?php echo $menu['id']; ?>" tabindex="0" role="button" aria-pressed="false" aria-expanded="false">
+  <div class="nav-item" data-menu-id="<?php echo $menu['id_apps_menu']; ?>" tabindex="0" role="button" aria-pressed="false" aria-expanded="false">
     <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
     <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
   </div>
-  <div class="submenu-vertical" id="submenu-<?php echo $menu['id']; ?>" role="menu" aria-label="<?php echo htmlspecialchars($menu['nama_menu']); ?> submenu">
+  <div class="submenu-vertical" id="submenu-<?php echo $menu['id_apps_menu']; ?>" role="menu" aria-label="<?php echo htmlspecialchars($menu['nama_menu']); ?> submenu">
     <!-- submenu akan dimuat di sini -->
   </div>
 <?php endforeach; ?>
