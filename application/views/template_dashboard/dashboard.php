@@ -482,12 +482,8 @@
       <div class="profile-menu">SI</div>
       <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
-  <?php foreach ($menu_data as $menu): ?>
-    <div class="nav-item" data-section="<?php echo $menu['icon']; ?>" tabindex="0" role="button" aria-pressed="false">
-      <span class="material-icons" aria-hidden="true"><?php echo $menu['icon']; ?></span>
-      <span class="label"><?php echo $menu['nama_menu']; ?></span>
+
     <div>
-    <?php endforeach; ?>
       <div class="nav-item active" data-section="my-drive" tabindex="0" role="button" aria-pressed="true">
         <span class="material-icons" aria-hidden="true">folder</span>
         <span class="label">My Drive</span>
@@ -527,11 +523,11 @@
       <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
         <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
           <span class="material-icons file-icon" style="color:#fbbc04;">folder</span>
-          <div class="file-name">Sertifikat RS</div>
+          <div class="file-name">Projects</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Photos">
           <span class="material-icons file-icon" style="color:#34a853;">folder</span>
-          <div class="file-name">Sertifikat Non</div>
+          <div class="file-name">Photos</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="File: Report.pdf">
           <span class="material-icons file-icon" style="color:#4285f4;">picture_as_pdf</span>
