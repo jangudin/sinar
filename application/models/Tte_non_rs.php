@@ -1245,7 +1245,8 @@ public function sudahverifikasi($faskes)
                 AND q.id IS NOT NULL
                 AND c.nama = 'Pusat Kesehatan Masyarakat'
                 ORDER BY
-                a.created_at asc");
+                a.created_at asc
+                LIMIT 200");
 
 $klinik=$this->sina->query("SELECT
         a.*,
