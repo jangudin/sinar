@@ -480,7 +480,7 @@
   <nav class="sidebar" aria-label="Main Navigation">
     <div class="profile-top" tabindex="0" role="button" aria-label="User profile: Sinar User">
       <div class="profile-menu">SI</div>
-      <div class="profile-name">Sinar User</div>
+      <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
 
     <div>
