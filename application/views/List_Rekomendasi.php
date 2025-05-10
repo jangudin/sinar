@@ -132,8 +132,6 @@
                           </li>
                           <li><a href="<?php echo base_url('Mutu_fasyankes/nonrssudahverifikasi')?>">Sudah Verifikasi</a>
                           </li>
-                          <li><a href="#level2_2">Perbaikan</a>
-                          </li>
                         </ul>
                       </li>
 
