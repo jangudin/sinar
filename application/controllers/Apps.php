@@ -12,6 +12,6 @@ class Apps extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('template_dashboard/dasboard');
+        $this->load->view('template_dashboard/dashboard');
     }
 }
