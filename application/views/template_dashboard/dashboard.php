@@ -486,7 +486,7 @@
     <div>
 <?php foreach ($menu_data as $menu): ?>
   <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['icon']); ?>" tabindex="0" role="button" aria-pressed="false">
-    <i class="<?php echo htmlspecialchars($menu['icon']); ?>" aria-hidden="true"></i>
+    <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
     <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
   </div>
 <?php endforeach; ?>
