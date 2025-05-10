@@ -177,7 +177,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="<?= 'file://' . FCPATH . 'assets/bg/OIP.jpg' ?>" height="100%" width="100%" />
+    <img src="<?php echo base_url()?>assets/bg/OIP.jpg' ?>" height="100%" width="100%" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
