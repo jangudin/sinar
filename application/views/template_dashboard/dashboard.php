@@ -434,17 +434,19 @@
 
     <div class="nav-items" role="menu">
 <?php foreach ($menu_data as $menu): ?>
-  <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['icon']); ?>" tabindex="0" role="button" aria-pressed="false">
+  <div class="nav-item" data-menu-id="<?php echo $menu['id']; ?>" tabindex="0" role="button" aria-pressed="false" aria-expanded="false">
     <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
     <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
   </div>
+  <div class="submenu-vertical" id="submenu-<?php echo $menu['id']; ?>" role="menu" aria-label="<?php echo htmlspecialchars($menu['nama_menu']); ?> submenu">
+    <!-- submenu akan dimuat di sini -->
+  </div>
 <?php endforeach; ?>
-</div>
-
+    </div>
   </nav>
   <main class="main-content" role="main" tabindex="-1">
     <header class="topbar">
-      <span class="material-icons menu-toggle" title="Toggle menu">menu</span>
+      <span class="material-icons menu-toggle" title="Toggle menu" tabindex="0" role="button" aria-label="Toggle menu">menu</span>
       <span class="app-name" aria-label="Application name">Sinar</span>
       <span class="title">My Drive</span>
       <div class="actions" role="toolbar" aria-label="File actions">
@@ -455,204 +457,127 @@
       </div>
     </header>
     <section class="files-container" aria-label="Files and folders">
-      <!-- Grid View -->
-      <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
-        <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
-          <span class="material-icons file-icon" style="color:#fbbc04;">folder</span>
-          <div class="file-name">Projects</div>
-        </div>
-        <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Photos">
-          <span class="material-icons file-icon" style="color:#34a853;">folder</span>
-          <div class="file-name">Photos</div>
-        </div>
-        <div class="file-item" role="listitem" tabindex="0" aria-label="File: Report.pdf">
-          <span class="material-icons file-icon" style="color:#4285f4;">picture_as_pdf</span>
-          <div class="file-name">Report.pdf</div>
-        </div>
-        <div class="file-item" role="listitem" tabindex="0" aria-label="File: Budget.xlsx">
-          <span class="material-icons file-icon" style="color:#0f9d58;">grid_on</span>
-          <div class="file-name">Budget.xlsx</div>
-        </div>
-        <div class="file-item" role="listitem" tabindex="0" aria-label="File: Meeting Notes.txt">
-          <span class="material-icons file-icon" style="color:#f28b25;">description</span>
-          <div class="file-name">Meeting Notes.txt</div>
-        </div>
-        <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Work">
-          <span class="material-icons file-icon" style="color:#a142f4;">folder</span>
-          <div class="file-name">Work</div>
-        </div>
-        <div class="file-item" role="listitem" tabindex="0" aria-label="File: Presentation.pptx">
-          <span class="material-icons file-icon" style="color:#ea4335;">slideshow</span>
-          <div class="file-name">Presentation.pptx</div>
-        </div>
-        <div class="file-item" role="listitem" tabindex="0" aria-label="File: Design.sketch">
-          <span class="material-icons file-icon" style="color:#00838f;">palette</span>
-          <div class="file-name">Design.sketch</div>
-        </div>
-      </div>
-
-      <!-- Table View (hidden by default) -->
-      <div class="table-responsive" aria-label="File table responsive container">
-        <table class="files-table" role="table" aria-live="polite" aria-relevant="all" style="display:none; width:100%;">
-          <thead>
-            <tr>
-              <th class="file-type-cell" scope="col" aria-label="Type"></th>
-              <th scope="col">Name</th>
-              <th scope="col">Size</th>
-              <th scope="col">Last Modified</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr tabindex="0" aria-label="Folder: Projects, size not applicable, last modified 2024-05-20">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#fbbc04;">folder</span></td>
-              <td data-label="Name">Projects</td>
-              <td data-label="Size">--</td>
-              <td data-label="Last Modified">2024-05-20</td>
-            </tr>
-            <tr tabindex="0" aria-label="Folder: Photos, size not applicable, last modified 2024-04-03">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#34a853;">folder</span></td>
-              <td data-label="Name">Photos</td>
-              <td data-label="Size">--</td>
-              <td data-label="Last Modified">2024-04-03</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Report.pdf, size 1.2MB, last modified 2024-06-01">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#4285f4;">picture_as_pdf</span></td>
-              <td data-label="Name">Report.pdf</td>
-              <td data-label="Size">1.2 MB</td>
-              <td data-label="Last Modified">2024-06-01</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Budget.xlsx, size 900KB, last modified 2024-06-07">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#0f9d58;">grid_on</span></td>
-              <td data-label="Name">Budget.xlsx</td>
-              <td data-label="Size">900 KB</td>
-              <td data-label="Last Modified">2024-06-07</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Meeting Notes.txt, size 20KB, last modified 2024-06-10">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#f28b25;">description</span></td>
-              <td data-label="Name">Meeting Notes.txt</td>
-              <td data-label="Size">20 KB</td>
-              <td data-label="Last Modified">2024-06-10</td>
-            </tr>
-            <tr tabindex="0" aria-label="Folder: Work, size not applicable, last modified 2024-05-10">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#a142f4;">folder</span></td>
-              <td data-label="Name">Work</td>
-              <td data-label="Size">--</td>
-              <td data-label="Last Modified">2024-05-10</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Presentation.pptx, size 2.8MB, last modified 2024-06-01">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#ea4335;">slideshow</span></td>
-              <td data-label="Name">Presentation.pptx</td>
-              <td data-label="Size">2.8 MB</td>
-              <td data-label="Last Modified">2024-06-01</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Design.sketch, size 3.5MB, last modified 2024-06-05">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#00838f;">palette</span></td>
-              <td data-label="Name">Design.sketch</td>
-              <td data-label="Size">3.5 MB</td>
-              <td data-label="Last Modified">2024-06-05</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <!-- Konten files seperti sebelumnya -->
     </section>
   </main>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  // Toggle sidebar expanded/collapsed on large screens or toggle visibility on mobile
-  const sidebar = document.querySelector('.sidebar');
-  const menuToggle = document.querySelector('.menu-toggle');
-  const viewToggleBtn = document.getElementById('viewToggleBtn');
-  const filesGrid = document.querySelector('.files-grid');
-  const filesTable = document.querySelector('.files-table');
-  const topbarTitle = document.querySelector('.topbar .title');
-  const navItems = document.querySelectorAll('.sidebar .nav-item');
+$(function() {
+  const sidebar = $('.sidebar');
+  const menuToggle = $('.menu-toggle');
+  const viewToggleBtn = $('#viewToggleBtn');
+  const filesGrid = $('.files-grid');
+  const filesTable = $('.files-table');
+  const topbarTitle = $('.topbar .title');
+  const navItems = $('.sidebar .nav-item');
 
-  // For view toggle
+  // Toggle grid/table view
   let isGridView = true;
   function updateView() {
-    if(isGridView){
-      filesGrid.style.display = 'grid';
-      filesTable.style.display = 'none';
-      viewToggleBtn.textContent = 'view_module';
-      viewToggleBtn.setAttribute('aria-label', 'Switch to table view');
+    if (isGridView) {
+      filesGrid.show();
+      filesTable.hide();
+      viewToggleBtn.text('view_module');
+      viewToggleBtn.attr('aria-label', 'Switch to table view');
     } else {
-      filesGrid.style.display = 'none';
-      filesTable.style.display = 'table';
-      viewToggleBtn.textContent = 'table_view';
-      viewToggleBtn.setAttribute('aria-label', 'Switch to grid view');
+      filesGrid.hide();
+      filesTable.show();
+      viewToggleBtn.text('table_view');
+      viewToggleBtn.attr('aria-label', 'Switch to grid view');
     }
   }
-  viewToggleBtn.addEventListener('click', () => {
+  viewToggleBtn.on('click', () => {
     isGridView = !isGridView;
     updateView();
   });
-
-  // Sidebar expanded on wider screens - toggle for smaller screens
-  function checkScreenAndSetSidebar() {
-    if(window.innerWidth > 900){
-      sidebar.classList.add('expanded');
-      sidebar.style.display = 'flex';
-    } else {
-      sidebar.classList.remove('expanded');
-      // On mobile viewport, toggle sidebar display by menu toggle button
-      sidebar.style.display = 'none';
-    }
-  }
-
-  checkScreenAndSetSidebar();
-
-  menuToggle.addEventListener('click', () => {
-    if(sidebar.style.display === 'flex'){
-      sidebar.style.display = 'none';
-      menuToggle.setAttribute('aria-expanded', 'false');
-    } else {
-      sidebar.style.display = 'flex';
-      menuToggle.setAttribute('aria-expanded', 'true');
-    }
-  });
-
-  // Close sidebar clicking outside on mobile
-  document.body.addEventListener('click', (e) => {
-    if(window.innerWidth <= 900){
-      if(!sidebar.contains(e.target) && e.target !== menuToggle){
-        sidebar.style.display = 'none';
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    }
-  });
-
-  // Navigation actions (for demo only - highlight active and update title)
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      navItems.forEach(i => {
-        i.classList.remove('active');
-        i.setAttribute('aria-pressed', 'false');
-      });
-      item.classList.add('active');
-      item.setAttribute('aria-pressed', 'true');
-      const label = item.querySelector('.label').textContent;
-      topbarTitle.textContent = label;
-      // Close sidebar on mobile after selection
-      if(window.innerWidth <= 900) {
-        sidebar.style.display = 'none';
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-    item.addEventListener('keydown', e => {
-      if(e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        item.click();
-      }
-    });
-  });
-
-  // Initialize view
   updateView();
 
-  // Update sidebar display and expanded state on window resize
-  window.addEventListener('resize', () => {
-    checkScreenAndSetSidebar();
+  // Sidebar responsive
+  function checkScreenAndSetSidebar() {
+    if (window.innerWidth > 900) {
+      sidebar.addClass('expanded').show();
+    } else {
+      sidebar.removeClass('expanded').hide();
+    }
+  }
+  checkScreenAndSetSidebar();
+  menuToggle.on('click', () => {
+    sidebar.toggle();
+    menuToggle.attr('aria-expanded', sidebar.is(':visible'));
   });
+  $(window).on('resize', checkScreenAndSetSidebar);
+  $('body').on('click', (e) => {
+    if (window.innerWidth <= 900 && !sidebar.is(e.target) && sidebar.has(e.target).length === 0 && !menuToggle.is(e.target)) {
+      sidebar.hide();
+      menuToggle.attr('aria-expanded', false);
+    }
+  });
+
+  // Menu item click handler to load submenu via AJAX
+  $('.sidebar').on('click', '.nav-item', function() {
+    const $this = $(this);
+    const menuId = $this.data('menu-id');
+    const $submenu = $('#submenu-' + menuId);
+
+    // Toggle ARIA pressed and expanded states
+    const isExpanded = $this.attr('aria-pressed') === 'true';
+    $('.nav-item').attr('aria-pressed', 'false').attr('aria-expanded', 'false').removeClass('active');
+    $('.submenu-vertical').removeClass('open').slideUp();
+
+    if (!isExpanded) {
+      $this.attr('aria-pressed', 'true').attr('aria-expanded', 'true').addClass('active');
+      if ($submenu.hasClass('open')) {
+        // Already open, do nothing
+        return;
+      } else {
+        // Load submenu via AJAX
+        $submenu.html('<em>Loading...</em>').slideDown().addClass('open');
+        $.ajax({
+          url: '<?php echo site_url("apps/get_submenu"); ?>',
+          method: 'POST',
+          data: { menu_id: menuId },
+          dataType: 'json',
+          success: function(response) {
+            if (response.status === 'success' && response.data.length > 0) {
+              let html = '';
+              response.data.forEach(function(sub) {
+                html += '<button class="submenu-btn" tabindex="0" role="menuitem" aria-label="'+ escapeHtml(sub.nama_sub_menu) +'">' +
+                          '<span class="material-icons" aria-hidden="true">' + escapeHtml(sub.icon) + '</span> ' +
+                          escapeHtml(sub.nama_sub_menu) +
+                        '</button>';
+              });
+              $submenu.html(html);
+            } else {
+              $submenu.html('<em>No submenu available.</em>');
+            }
+          },
+          error: function() {
+            $submenu.html('<em>Error loading submenu.</em>');
+          }
+        });
+      }
+    }
+  });
+
+  // Accessible keyboard support for nav-item
+  $('.sidebar').on('keydown', '.nav-item', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      $(this).click();
+    }
+  });
+
+  // Simple escapeHtml function
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+});
 </script>
 </body>
 </html>
