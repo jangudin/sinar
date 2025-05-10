@@ -482,8 +482,12 @@
       <div class="profile-menu">SI</div>
       <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
-
+  <?php foreach ($menu_data as $menu): ?>
+    <div class="nav-item" data-section="<?php echo $menu['icon']; ?>" tabindex="0" role="button" aria-pressed="false">
+      <span class="material-icons" aria-hidden="true"><?php echo $menu['icon']; ?></span>
+      <span class="label"><?php echo $menu['nama_menu']; ?></span>
     <div>
+    <?php endforeach; ?>
       <div class="nav-item active" data-section="my-drive" tabindex="0" role="button" aria-pressed="true">
         <span class="material-icons" aria-hidden="true">folder</span>
         <span class="label">My Drive</span>
