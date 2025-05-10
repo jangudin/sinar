@@ -483,12 +483,6 @@
       <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
 
-    <?php foreach ($menu_data as $menu): ?>
-      <div class="nav-item" data-section="<?php echo $menu['nama_menu']; ?>" tabindex="0" role="button" aria-pressed="false">
-        <span class="material-icons" aria-hidden="true"><?php echo $menu['icon']; ?></span>
-        <span class="label"><?php echo $menu['nama_menu']; ?></span>
-      </div>
-    <?php endforeach; ?>
     <div>
       <div class="nav-item active" data-section="my-drive" tabindex="0" role="button" aria-pressed="true">
         <span class="material-icons" aria-hidden="true">folder</span>
