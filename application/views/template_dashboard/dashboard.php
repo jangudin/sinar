@@ -80,12 +80,15 @@
     text-overflow: ellipsis;
     max-width: 110px;
   }
-
   /* Hide profile name on collapsed sidebar */
   .sidebar:not(.expanded) .profile-top .profile-name {
     display: none;
   }
 
+  /* Sidebar navigation items */
+  .sidebar .nav-items {
+    width: 100%;
+  }
   .sidebar .nav-item {
     width: 100%;
     display: flex;
@@ -99,6 +102,7 @@
     font-size: 14px;
     user-select: none;
     transition: background-color 0.2s, color 0.2s;
+    position: relative;
   }
   .sidebar .nav-item.active,
   .sidebar .nav-item:hover {
@@ -115,6 +119,39 @@
   }
   .sidebar .nav-item .label {
     display: none;
+  }
+
+  /* Projects submenu - vertical under Projects menu item */
+  .submenu-vertical {
+    display: none;
+    flex-direction: column;
+    margin-left: 44px; /* indent */
+    margin-top: 4px;
+    width: calc(100% - 44px);
+  }
+  .submenu-vertical.open {
+    display: flex;
+  }
+  .submenu-vertical .submenu-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: #1a73e8;
+    cursor: pointer;
+    border-radius: 6px;
+    user-select: none;
+    transition: background-color 0.2s;
+    width: 100%;
+  }
+  .submenu-vertical .submenu-btn:hover, .submenu-vertical .submenu-btn:focus {
+    background-color: #e8f0fe;
+    outline: none;
+  }
+  .submenu-vertical .submenu-btn.active {
+    background-color: #1a73e8;
+    color: white;
   }
 
   /* Main content */
@@ -196,6 +233,7 @@
     user-select: none;
     transition: background-color 0.2s;
   }
+
   .file-item:hover {
     background-color: #f1f3f4;
   }
@@ -217,55 +255,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
-  }
-
-  /* Responsive table container */
-  .table-responsive {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  /* Stylish Table */
-  .files-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-    min-width: 600px;
-  }
-
-  .files-table thead tr {
-    background-color: #f1f3f4;
-    border-radius: 8px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-  .files-table thead th {
-    padding: 12px 15px;
-    font-weight: 600;
-    color: #5f6368;
-    text-align: left;
-    border-bottom: none;
-  }
-
-  .files-table tbody tr {
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(60,64,67,.1);
-    transition: box-shadow 0.15s ease;
-    border-radius: 8px;
-  }
-  .files-table tbody tr:hover {
-    box-shadow: 0 4px 8px rgba(60,64,67,.15);
-    cursor: pointer;
-  }
-  .files-table tbody td {
-    padding: 14px 15px;
-    vertical-align: middle;
-    color: #202124;
-    white-space: nowrap;
-  }
-  .file-type-cell {
-    width: 48px;
-    text-align: center;
-    font-size: 28px;
   }
 
   /* Scrollbar style */
@@ -359,46 +348,6 @@
       font-size: 16px;
       margin-right: 8px;
     }
-    /* Responsive table block layout */
-    .files-table {
-      border-spacing: 0;
-      min-width: auto;
-    }
-    .files-table thead {
-      display: none;
-    }
-    .files-table tbody tr {
-      display: block;
-      margin-bottom: 12px;
-      box-shadow: none;
-      border-radius: 6px;
-      padding: 12px 10px;
-      background: #f9fafb;
-    }
-    .files-table tbody td {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid #ddd;
-      white-space: normal;
-    }
-    .files-table tbody td:last-child {
-      border-bottom: none;
-    }
-    .files-table tbody td::before {
-      content: attr(data-label);
-      font-weight: 600;
-      color: #5f6368;
-    }
-    .file-type-cell {
-      justify-content: flex-start;
-      font-size: 24px;
-      padding-left: 0;
-    }
-    .file-type-cell span.material-icons {
-      margin-right: 10px;
-      vertical-align: middle;
-    }
   }
 
   /* Tablets 481-900px */
@@ -483,7 +432,7 @@
       <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
 
-    <div>
+    <div class="nav-items" role="menu">
 <?php foreach ($menu_data as $menu): ?>
   <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['icon']); ?>" tabindex="0" role="button" aria-pressed="false">
     <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
