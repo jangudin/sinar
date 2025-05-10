@@ -13,6 +13,8 @@ class Apps extends CI_Controller {
 
     public function index() {
         $data['title'] = 'Sinar || Dashboard';
+        $user_id = $this->session->userdata('name');
+        $data['menu'] = $this->User_model->getMenuAndSubMenuByUser($user_id);
         $this->load->view('template_dashboard/dashboard', $data);
     }
 }

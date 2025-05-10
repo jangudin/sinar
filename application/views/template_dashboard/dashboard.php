@@ -483,6 +483,12 @@
       <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
 
+    <?php foreach ($menu_data as $menu): ?>
+      <div class="nav-item" data-section="<?php echo $menu['nama_menu']; ?>" tabindex="0" role="button" aria-pressed="false">
+        <span class="material-icons" aria-hidden="true"><?php echo $menu['icon']; ?></span>
+        <span class="label"><?php echo $menu['nama_menu']; ?></span>
+      </div>
+    <?php endforeach; ?>
     <div>
       <div class="nav-item active" data-section="my-drive" tabindex="0" role="button" aria-pressed="true">
         <span class="material-icons" aria-hidden="true">folder</span>
@@ -512,12 +518,7 @@
       <span class="material-icons menu-toggle" title="Toggle menu">menu</span>
       <span class="app-name" aria-label="Application name">Sinar</span>
       <span class="title">My Drive</span>
-      <div class="actions" role="toolbar" aria-label="File actions">
-        <span class="material-icons action-btn" title="Refresh" tabindex="0" role="button" aria-label="Refresh files">refresh</span>
-        <span class="material-icons action-btn" title="New Folder" tabindex="0" role="button" aria-label="Create new folder">create_new_folder</span>
-        <span class="material-icons action-btn" title="Upload" tabindex="0" role="button" aria-label="Upload files">upload_file</span>
-        <span class="material-icons action-btn" id="viewToggleBtn" title="Toggle grid/table view" tabindex="0" role="button" aria-label="Toggle grid or table view">view_module</span>
-      </div>
+      
     </header>
     <section class="files-container" aria-label="Files and folders">
       <!-- Grid View -->
