@@ -1590,7 +1590,8 @@ $utd=$this->sina->query("SELECT
         AND r.id IS NOT NULL
         AND q.id IS NOT NULL
         ORDER BY
-        q.created_at ASCLIMIT 200");
+        q.created_at ASC
+        LIMIT 200");
 
 
 if ($faskes == null) {
