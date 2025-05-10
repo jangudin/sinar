@@ -488,7 +488,7 @@
         <span class="material-icons" aria-hidden="true">folder</span>
         <span class="label">My Drive</span>
       </div>
-      <div class="nav-item" data-section="shared" tabindex="0" role="button" aria-pressed="false">
+      <!-- <div class="nav-item" data-section="shared" tabindex="0" role="button" aria-pressed="false">
         <span class="material-icons" aria-hidden="true">people</span>
         <span class="label">Shared with me</span>
       </div>
@@ -503,7 +503,7 @@
       <div class="nav-item" data-section="storage" tabindex="0" role="button" aria-pressed="false">
         <span class="material-icons" aria-hidden="true">storage</span>
         <span class="label">Storage</span>
-      </div>
+      </div> -->
     </div>
   </nav>
   <main class="main-content" role="main" tabindex="-1">
@@ -527,7 +527,7 @@
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Photos">
           <span class="material-icons file-icon" style="color:#34a853;">folder</span>
-          <div class="file-name">Sertifikat Non RS</div>
+          <div class="file-name">Sertifikat Non</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="File: Report.pdf">
           <span class="material-icons file-icon" style="color:#4285f4;">picture_as_pdf</span>
