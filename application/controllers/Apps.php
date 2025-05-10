@@ -12,6 +12,7 @@ class Apps extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('template_dashboard/dashboard');
+        $data['title'] = 'Sinar || Dashboard';
+        $this->load->view('template_dashboard/dashboard', $data);
     }
 }
