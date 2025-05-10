@@ -1359,7 +1359,8 @@ $klinik=$this->sina->query("SELECT
         AND c.nama = 'Klinik'
         AND q.id IS NOT NULL
         ORDER BY
-        a.created_at DESC");
+        a.created_at DESC
+        LIMIT 200");
 
 
 $labkes=$this->sina->query("SELECT
@@ -1474,7 +1475,8 @@ $labkes=$this->sina->query("SELECT
         AND q.id IS NOT NULL
         AND r.id IS NOT NULL
         ORDER BY
-        a.created_at DESC");
+        a.created_at DESC
+        LIMIT 200");
 
 $utd=$this->sina->query("SELECT
         a.*,
@@ -1588,7 +1590,7 @@ $utd=$this->sina->query("SELECT
         AND r.id IS NOT NULL
         AND q.id IS NOT NULL
         ORDER BY
-        q.created_at ASC");
+        q.created_at ASCLIMIT 200");
 
 
 if ($faskes == null) {
