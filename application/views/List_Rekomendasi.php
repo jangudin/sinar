@@ -214,7 +214,7 @@
                       <li><a href="<?php echo base_url('AkreditasiNonRS/nonrssudahtte');?>">Sudah TTE</a></li>
                     </ul>
                   </li> 
-                  <li><a><i class="fa fa-hospital-o"></i>TTE Dirjen Yankes<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-hospital-o"></i>TTE Dirjen<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display:block;">
                       <li><a href="<?php echo base_url('AkreditasiNonRS/cekdirjen/Belum');?>">Belum TTE</span></a></li>
                       <li><a href="<?php echo base_url('AkreditasiNonRS/cekdirjen/Sudah');?>">Sudah TTE</a></li>
@@ -284,7 +284,7 @@
     <!-- footer content -->
     <footer>
       <div class="pull-right">
-        Copyright-2022<i class="fa fa-copyright"></i><a href="https://yankes.kemkes.go.id"> Ditjen Yankes - Informasi dan Humas</a>
+        Copyright-2022<i class="fa fa-copyright"></i><a href="https://yankes.kemkes.go.id"> Ditjen Keslan - Informasi dan Humas</a>
       </div>
       <div class="clearfix"></div>
     </footer>

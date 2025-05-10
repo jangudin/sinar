@@ -60,7 +60,7 @@
                 <td><?=$a->nama_faskes ?></td>
                 <td style="display:<?= $slpa ?>"><?=$a->nmlpa ?></td>
                 <td style="display:<?= $dis ?>">
-                  <button type="button" id="https://sinar.kemkes.go.id/assets/faskessertif/<?=$a->url_sertifikat ?>" class="btn btn-success btn-sm" onClick="reply_click(this.id)">CEK</button>
+                  <button type="button" id="<?php echo base_url()?>assets/faskessertif/<?=$a->url_sertifikat ?>" class="btn btn-success btn-sm" onClick="reply_click(this.id)">CEK</button>
                 </td>
               </tr>
             <?php } ?>
