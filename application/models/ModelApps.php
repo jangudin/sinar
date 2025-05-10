@@ -14,7 +14,7 @@ class ModelApps extends CI_Model {
      * @param int $user_id User ID to filter by
      * @return array Result set array
      */
-    public function getMenuAndSubMenuByUser($user_id)
+    public function getMenusByUser($user_id)
     {
         $this->db->select('apps_menu.nama_menu, apps_menu.icon, apps_sub_menu.nama_sub_menu');
         $this->db->from('apps_role_akses');
