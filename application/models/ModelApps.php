@@ -26,4 +26,17 @@ class ModelApps extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+
+     public function getSubMenuByMenuId($user_id, $menu_id)
+    {
+        $this->db->select('apps_sub_menu.id, apps_sub_menu.nama_sub_menu, apps_sub_menu.icon');
+        $this->db->from('apps_role_akses');
+        $this->db->join('apps_sub_menu', 'apps_role_akses.id_apps_sub_menu = apps_sub_menu.id', 'left');
+        $this->db->where('apps_role_akses.id_user', $user_id);
+        $this->db->where('apps_role_akses.id_apps_menu', $menu_id);
+        $this->db->order_by('apps_sub_menu.nama_sub_menu', 'ASC');
+        
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }
