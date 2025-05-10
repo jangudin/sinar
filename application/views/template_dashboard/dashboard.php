@@ -484,27 +484,14 @@
     </div>
 
     <div>
-      <div class="nav-item active" data-section="my-drive" tabindex="0" role="button" aria-pressed="true">
-        <span class="material-icons" aria-hidden="true">folder</span>
-        <span class="label">My Drive</span>
-      </div>
-      <div class="nav-item" data-section="shared" tabindex="0" role="button" aria-pressed="false">
-        <span class="material-icons" aria-hidden="true">people</span>
-        <span class="label">Shared with me</span>
-      </div>
-      <div class="nav-item" data-section="recent" tabindex="0" role="button" aria-pressed="false">
-        <span class="material-icons" aria-hidden="true">access_time</span>
-        <span class="label">Recent</span>
-      </div>
-      <div class="nav-item" data-section="trash" tabindex="0" role="button" aria-pressed="false">
-        <span class="material-icons" aria-hidden="true">delete</span>
-        <span class="label">Trash</span>
-      </div>
-      <div class="nav-item" data-section="storage" tabindex="0" role="button" aria-pressed="false">
-        <span class="material-icons" aria-hidden="true">storage</span>
-        <span class="label">Storage</span>
-      </div>
-    </div>
+<?php foreach ($menu_data as $menu): ?>
+  <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['section']); ?>" tabindex="0" role="button" aria-pressed="false">
+    <i class="<?php echo htmlspecialchars($menu['icon']); ?>" aria-hidden="true"></i>
+    <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
+  </div>
+<?php endforeach; ?>
+</div>
+
   </nav>
   <main class="main-content" role="main" tabindex="-1">
     <header class="topbar">
