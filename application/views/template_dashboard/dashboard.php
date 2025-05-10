@@ -486,7 +486,7 @@
     <div>
       <div class="nav-item active" data-section="my-drive" tabindex="0" role="button" aria-pressed="true">
         <span class="material-icons" aria-hidden="true">folder</span>
-        <span class="label">My Drive</span>
+        <span class="label">Sertifikat RS</span>
       </div>
       <!-- <div class="nav-item" data-section="shared" tabindex="0" role="button" aria-pressed="false">
         <span class="material-icons" aria-hidden="true">people</span>
@@ -500,7 +500,8 @@
         <span class="material-icons" aria-hidden="true">delete</span>
         <span class="label">Trash</span>
       </div>
-      <div class="nav-item" data-section="storage" tabindex="0" role="button" aria-pressed="false">
+      <div class="nav-item" data-section="storage" tabindex="0" role
+      ="button" aria-pressed="false">
         <span class="material-icons" aria-hidden="true">storage</span>
         <span class="label">Storage</span>
       </div> -->

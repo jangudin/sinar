@@ -119,6 +119,8 @@ class Auth extends CI_Controller {
 				$this->session->set_userdata('jabatan_id',$jabatan);
 				$this->session->set_userdata('name',$name);
 				$this->session->set_userdata('id',$id);
+				$this->session->set_userdata('id_apps_role_akses',$id_apps_role_akses);
+
 				redirect('apps');
 			}elseif($x['jabatan_sertifikat_id'] =='10'){ //
 				$nik = $x['nik'];

@@ -4,6 +4,7 @@ class M_login extends CI_Model{
 	function cek_login($u,$p){		
 		$hasil=$this->db->query("SELECT
 										pengguna.id,
+										pengguna.id_apps_role_akses,
 										pengguna.nama,
 										pengguna.email,
 										pengguna.password_,
