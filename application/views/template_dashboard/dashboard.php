@@ -485,16 +485,16 @@
 
     <div>
 <?php foreach ($menus as $menu): ?>
-  <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['nama_menu']); ?>" tabindex="0" role="button" aria-pressed="false">
+  <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['icon']); ?>" tabindex="0" role="button" aria-pressed="false">
     <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
     <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
   </div>
-  <?php if (!empty($menu['submenu'])): ?>
+  <?php if (!empty($menu['nama_sub_menu'])): ?>
     <ul class="submenu-list">
       <?php foreach ($menu['submenu'] as $sub): ?>
         <li tabindex="0" role="button" aria-pressed="false">
           <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($sub['icon']); ?></span>
-          <?php echo htmlspecialchars($sub['nama_menu']); ?>
+          <?php echo htmlspecialchars($sub['nama_sub_menu']); ?>
         </li>
       <?php endforeach; ?>
     </ul>
