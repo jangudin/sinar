@@ -181,7 +181,7 @@
     <img src="<?= $img_base64 ?>" height="1000" />
     <?php endif; ?>
   </div>
-  <!-- <?php foreach ($data as $s) { ?>
+  <?php foreach ($data as $s) { ?>
     <main>
       <div class="sertifikat-nomor">
         <p style="font-size: 20px; color: red ;">Nomor : </p>
@@ -249,6 +249,6 @@
 
 
   </main>
-<?php } ?> -->
+<?php } ?>
 </body>
 </html>

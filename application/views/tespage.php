@@ -1,30 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <title><?= $title_pdf ?></title>
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-        }
-        img {
-            margin: 20px auto;
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Sertifikat Akreditasi</title>
+  <style>
+    @page {
+      margin: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('http://192.168.67.143/sinar/assets/faskesbg/backgroundsertifikat.jpeg'); /* Ganti path sesuai lokasi file */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .content {
+      padding: 100px 80px;
+      color: #000;
+      position: relative;
+      z-index: 10;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 80px;
+    }
+
+    .nomor {
+      text-align: center;
+      color: red;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 10px 0 30px 0;
+    }
+
+    .info {
+      width: 70%;
+      margin: 0 auto;
+      font-size: 16px;
+    }
+
+    .info table {
+      width: 100%;
+    }
+
+    .info td {
+      padding: 5px;
+    }
+
+    .center-text {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 40px;
+    }
+
+    .paripurna {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      color: #D4AF37;
+      margin-top: 20px;
+    }
+
+    .masa-berlaku {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Test Gambar di PDF</h1>
+  <div class="content">
+    <div class="title">SERTIFIKAT AKREDITASI</div>
+    <div class="nomor">Nomor :</div>
 
-    <!-- Gambar via URL (pastikan URL ini bisa diakses via browser) -->
-    <p>Gambar via URL:</p>
-    <img src="<?= base_url('assets/images/logo.png') ?>" width="200" alt="Gambar dari URL">
+    <div class="info">
+      <table>
+        <tr><td>Klinik</td><td>: <strong>Klinik Amira</strong></td></tr>
+        <tr><td>Alamat</td><td>: Jl. Urip Sumoharjo No.78 Desa Karangsari</td></tr>
+        <tr><td>Kecamatan</td><td>: Cikarang Timur</td></tr>
+        <tr><td>Kabupaten / Kota</td><td>: Bekasi</td></tr>
+        <tr><td>Provinsi</td><td>: Jawa Barat</td></tr>
+      </table>
+    </div>
 
-    <!-- Gambar via Base64 (jika dikirim dari controller) -->
-    <?php if (!empty($img_base64)): ?>
-        <p>Gambar via Base64:</p>
-        <img src="<?= $img_base64 ?>" width="200%" alt="Gambar Base64">
-    <?php endif; ?>
+    <div class="center-text">
+      sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus :
+    </div>
+
+    <div class="paripurna">PARIPURNA</div>
+
+    <div class="masa-berlaku">
+      Masa Berlaku : 25 Agustus 2023 s.d 25 Agustus 2028
+    </div>
+  </div>
 </body>
 </html>
