@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Mutu_fasyankes extends CI_Controller {
     function __construct(){
