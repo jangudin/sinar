@@ -1,4 +1,4 @@
-<!-- <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
+<div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
         <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
           <span class="material-icons file-icon" style="color:#fbbc04;">folder</span>
           <div class="file-name">Projects</div>
@@ -31,21 +31,4 @@
           <span class="material-icons file-icon" style="color:#00838f;">palette</span>
           <div class="file-name">Design.sketch</div>
         </div>
-      </div> -->
-
-<div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
-    <?php foreach ($menu_data as $menu): ?>
-        <div class="file-item nav-item" data-menu-id="<?php echo $menu['id_apps_menu']; ?>" role="listitem" tabindex="0" aria-label="<?php echo htmlspecialchars($menu['nama_menu']); ?>">
-            <span class="material-icons file-icon" style="color:#fbbc04;"><?php echo htmlspecialchars($menu['icon']); ?></span>
-            <div class="file-name"><?php echo htmlspecialchars($menu['nama_menu']); ?></div>
-        </div>
-        <div class="submenu-vertical" id="submenu-<?php echo $menu['id_apps_menu']; ?>" role="menu" aria-label="<?php echo htmlspecialchars($menu['nama_menu']); ?> submenu" style="display: none;">
-            <?php foreach ($menu['sub_menus'] as $sub_menu): ?>
-                <button class="submenu-btn" tabindex="0" role="menuitem" aria-label="<?php echo htmlspecialchars($sub_menu['nama_sub_menu']); ?>">
-                    <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($sub_menu['icon']); ?></span>
-                    <?php echo htmlspecialchars($sub_menu['nama_sub_menu']); ?>
-                </button>
-            <?php endforeach; ?>
-        </div>
-    <?php endforeach; ?>
-</div>
+      </div>

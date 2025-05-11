@@ -432,13 +432,23 @@
       <span class="app-name" aria-label="Application name"><?php echo $this->session->userdata('name')?></span>
     </div>
 
-    <div class="nav-items" role="menu">
-<?php foreach ($menu_data as $menu): ?>
-  <div class="nav-item" data-section="<?php echo htmlspecialchars($menu['icon']); ?>" tabindex="0" role="button" aria-pressed="false">
-    <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
-    <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
-  </div>
-<?php endforeach; ?>
+   <div class="nav-items" role="menu">
+  <?php foreach ($menu_data as $menu): ?>
+    <div class="nav-item" tabindex="0" role="button" aria-pressed="false">
+      <div class="nav-main" data-toggle="submenu">
+        <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
+        <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
+      </div>
+
+      <?php if (!empty($menu['sub_menu'])): ?>
+        <div class="nav-submenu">
+          <?php foreach ($menu['sub_menu'] as $sub): ?>
+            <div class="nav-sub-item"><?php echo htmlspecialchars($sub); ?></div>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+  <?php endforeach; ?>
 </div>
 
   </nav>
@@ -467,6 +477,18 @@
   </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".nav-main").forEach(menu => {
+    menu.addEventListener("click", function() {
+      const submenu = this.parentElement.querySelector(".nav-submenu");
+      if (submenu) {
+        submenu.classList.toggle("show");
+      }
+    });
+  });
+});
+</script>
 <script>
   // Toggle sidebar expanded/collapsed on large screens or toggle visibility on mobile
   const sidebar = document.querySelector('.sidebar');
@@ -580,7 +602,6 @@
     checkScreenAndSetSidebar();
   });
 </script>
-
 </body>
 </html>
 
