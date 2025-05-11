@@ -74,17 +74,25 @@ class Pdfgenerator {
         // }
     }
 
-    //  public function generatefaskes($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
-    // {   
-    //     $options = new Options();
-    //     $options->set('isRemoteEnabled', TRUE);
-    //     $dompdf = new Dompdf($options);
-    //     $dompdf->loadHtml($html);
-    //     $dompdf->setPaper($paper, $orientation);
-    //     $dompdf->render();
-    //     $outPut = $dompdf->output();
-    //     file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
-    // }
+     public function generatefaskes($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
+{
+    $options = new Options();
+    $options->set('isRemoteEnabled', TRUE);      // Aktifkan remote resources (gambar eksternal)
+    $options->set('isHtml5ParserEnabled', TRUE); // Pastikan HTML5 parsing diaktifkan
+    $options->set('isPhpEnabled', TRUE);         // Aktifkan PHP dalam HTML (untuk konten dinamis)
+
+    // Opsional: Aktifkan logging untuk debug
+    $options->set('logOutputFile', '/path/to/dompdf.log');
+
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper($paper, $orientation);
+    $dompdf->render();
+    
+    // Output PDF ke file
+    $outPut = $dompdf->output();
+    file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
+}
 
     public function generatefaskes($html, $filename = '', $paper = '', $orientation = '', $stream = TRUE)
 {   

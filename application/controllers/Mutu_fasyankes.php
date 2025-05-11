@@ -533,34 +533,54 @@ public function simpanverifikasi($value='')
 
 }
 
-public function filesertifikat($faskes,$id,$id_p)
+// public function filesertifikat($faskes,$id,$id_p)
+// {
+//         // $faskes = urldecode($this->uri->segment(3));
+//         // $id = $this->uri->segment(4);
+//     $this->load->library('pdfgenerator');
+//     $this->data['title_pdf'] = 'Sertifikat';
+//     $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
+//     $data['data'] = $content;
+//     $file_pdf = $id_p;
+//     $paper = 'A4';
+//     $orientation = "landscape";
+//           //  echo json_encode($data['data']);
+//     $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
+//     $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+
+//         // if ($faskes == 'klinik') {
+//         //     $this->pdfgenerator->generatefaskeseklinik($html, $file_pdf,$paper,$orientation);
+//         // }elseif ($faskes == 'Pusat Kesehatan Masyarakat') {
+//         //     $this->pdfgenerator->generatefaskesepuskesmas($html, $file_pdf,$paper,$orientation);
+//         // }
+
+
+//          //  $this->load->view('tespage');
+
+
+// }
+
+public function filesertifikat($faskes, $id, $id_p)
 {
-        // $faskes = urldecode($this->uri->segment(3));
-        // $id = $this->uri->segment(4);
     $this->load->library('pdfgenerator');
     $this->data['title_pdf'] = 'Sertifikat';
-    $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
+
+    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id, $id_p);
+
+    if (!$content) {
+        show_error("Data sertifikat tidak ditemukan.");
+    }
+
     $data['data'] = $content;
+
     $file_pdf = $id_p;
     $paper = 'A4';
     $orientation = "landscape";
-          //  echo json_encode($data['data']);
-    $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-    $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
 
-        // if ($faskes == 'klinik') {
-        //     $this->pdfgenerator->generatefaskeseklinik($html, $file_pdf,$paper,$orientation);
-        // }elseif ($faskes == 'Pusat Kesehatan Masyarakat') {
-        //     $this->pdfgenerator->generatefaskesepuskesmas($html, $file_pdf,$paper,$orientation);
-        // }
+    $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
 
-
-         //  $this->load->view('tespage');
-
-
+    $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 }
-
-
 
 
 
