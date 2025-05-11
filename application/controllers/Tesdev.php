@@ -34,7 +34,7 @@ class Tesdev extends CI_Controller {
         // Data untuk tampilan
         $data = [
             'title' => 'Contoh PDF dengan Gambar dari URL',
-            'image_url' => 'https://via.placeholder.com/300' // Gambar dari URL eksternal
+            'image_url' => 'http://192.168.67.143/sinar/assets/faskesbg/backgroundsertifikat.jpeg' // Gambar dari URL eksternal
         ];
 
         // Load tampilan HTML ke DOMPDF
