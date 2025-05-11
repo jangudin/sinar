@@ -14,7 +14,7 @@ class ModelApps extends CI_Model {
      * @param int $user_id User ID to filter by
      * @return array Result set array
      */
-    public function getMenusByUser($user_id)
+    public function getMenuAndSubMenuByUser($user_id)
     {
         $this->db->select('apps_menu.nama_menu, apps_menu.icon, apps_sub_menu.nama_sub_menu');
         $this->db->from('apps_role_akses');
@@ -22,20 +22,9 @@ class ModelApps extends CI_Model {
         $this->db->join('apps_sub_menu', 'apps_role_akses.id_apps_sub_menu = apps_sub_menu.id', 'left');
         $this->db->join('apps_group_akses_menu', 'apps_role_akses.id_apps_group_akses = apps_group_akses_menu.id', 'left');
         $this->db->where('apps_role_akses.id_user', $user_id);
-        $this->db->group_by('apps_menu.id');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
 
-     public function getSubMenuByMenuId($user_id, $menu_id)
-    {
-        $this->db->select('apps_sub_menu.id, apps_sub_menu.nama_sub_menu, apps_sub_menu.icon');
-        $this->db->from('apps_role_akses');
-        $this->db->join('apps_sub_menu', 'apps_role_akses.id_apps_sub_menu = apps_sub_menu.id', 'left');
-        $this->db->where('apps_role_akses.id_user', $user_id);
-        $this->db->where('apps_role_akses.id_apps_menu', $menu_id);
-        $this->db->order_by('apps_sub_menu.nama_sub_menu', 'ASC');
-        
+        $this->db->group_by('apps_menu.id');
+
         $query = $this->db->get();
         return $query->result_array();
     }
