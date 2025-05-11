@@ -466,6 +466,7 @@
     </section>
   </main>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   // Toggle sidebar expanded/collapsed on large screens or toggle visibility on mobile
   const sidebar = document.querySelector('.sidebar');
@@ -479,7 +480,7 @@
   // For view toggle
   let isGridView = true;
   function updateView() {
-    if(isGridView){
+    if (isGridView) {
       filesGrid.style.display = 'grid';
       filesTable.style.display = 'none';
       viewToggleBtn.textContent = 'view_module';
@@ -498,7 +499,7 @@
 
   // Sidebar expanded on wider screens - toggle for smaller screens
   function checkScreenAndSetSidebar() {
-    if(window.innerWidth > 900){
+    if (window.innerWidth > 900) {
       sidebar.classList.add('expanded');
       sidebar.style.display = 'flex';
     } else {
@@ -511,7 +512,7 @@
   checkScreenAndSetSidebar();
 
   menuToggle.addEventListener('click', () => {
-    if(sidebar.style.display === 'flex'){
+    if (sidebar.style.display === 'flex') {
       sidebar.style.display = 'none';
       menuToggle.setAttribute('aria-expanded', 'false');
     } else {
@@ -522,8 +523,8 @@
 
   // Close sidebar clicking outside on mobile
   document.body.addEventListener('click', (e) => {
-    if(window.innerWidth <= 900){
-      if(!sidebar.contains(e.target) && e.target !== menuToggle){
+    if (window.innerWidth <= 900) {
+      if (!sidebar.contains(e.target) && e.target !== menuToggle) {
         sidebar.style.display = 'none';
         menuToggle.setAttribute('aria-expanded', 'false');
       }
@@ -542,17 +543,33 @@
       const label = item.querySelector('.label').textContent;
       topbarTitle.textContent = label;
       // Close sidebar on mobile after selection
-      if(window.innerWidth <= 900) {
+      if (window.innerWidth <= 900) {
         sidebar.style.display = 'none';
         menuToggle.setAttribute('aria-expanded', 'false');
       }
     });
     item.addEventListener('keydown', e => {
-      if(e.key === 'Enter' || e.key === ' ') {
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         item.click();
       }
     });
+  });
+
+  // Menu item click handler to load submenu via AJAX
+  $('.nav-item').on('click', function() {
+    const $this = $(this);
+    const menuId = $this.data('menu-id');
+    const $submenu = $('#submenu-' + menuId);
+
+    // Toggle submenu visibility
+    if ($submenu.is(':visible')) {
+      $submenu.slideUp();
+    } else {
+      // Hide all other submenus
+      $('.submenu-vertical').slideUp();
+      $submenu.slideDown();
+    }
   });
 
   // Initialize view
@@ -563,6 +580,7 @@
     checkScreenAndSetSidebar();
   });
 </script>
+
 </body>
 </html>
 
