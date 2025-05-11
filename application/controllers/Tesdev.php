@@ -33,7 +33,7 @@ class Tesdev extends CI_Controller {
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
         $this->data['img_base64'] = 'data:image/' . $type . ';base64,' . base64_encode($data);
-         $html =  $this->load->view('tespage',$this->data,true);
+         $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$this->data,true);
          $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
 
          //   $this->load->view('Sertifikatfaskesnew/sertifikatkosong'$data);
