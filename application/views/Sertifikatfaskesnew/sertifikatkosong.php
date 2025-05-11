@@ -177,7 +177,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Coat_of_arms_of_Indonesia_Garuda_Pancasila.svg/1200px-Coat_of_arms_of_Indonesia_Garuda_Pancasila.svg.png" alt="Garuda" />
+    <img src="https://cdn.pixabay.com/photo/2016/07/27/05/34/antonio-pereda-1544616_1280.jpg" height="100%" width="100%" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
