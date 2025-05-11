@@ -447,6 +447,12 @@
       <span class="material-icons menu-toggle" title="Toggle menu">menu</span>
       <span class="app-name" aria-label="Application name">Sinar</span>
       <span class="title">My Drive</span>
+      <div class="actions" role="toolbar" aria-label="File actions">
+        <span class="material-icons action-btn" title="Refresh" tabindex="0" role="button" aria-label="Refresh files">refresh</span>
+        <span class="material-icons action-btn" title="New Folder" tabindex="0" role="button" aria-label="Create new folder">create_new_folder</span>
+        <span class="material-icons action-btn" title="Upload" tabindex="0" role="button" aria-label="Upload files">upload_file</span>
+        <span class="material-icons action-btn" id="viewToggleBtn" title="Toggle grid/table view" tabindex="0" role="button" aria-label="Toggle grid or table view">view_module</span>
+      </div>
     </header>
     <section class="files-container" aria-label="Files and folders">
       <!-- Grid View -->
@@ -487,66 +493,7 @@
 
       <!-- Table View (hidden by default) -->
       <div class="table-responsive" aria-label="File table responsive container">
-        <table class="files-table" role="table" aria-live="polite" aria-relevant="all" style="display:none; width:100%;">
-          <thead>
-            <tr>
-              <th class="file-type-cell" scope="col" aria-label="Type"></th>
-              <th scope="col">Name</th>
-              <th scope="col">Size</th>
-              <th scope="col">Last Modified</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr tabindex="0" aria-label="Folder: Projects, size not applicable, last modified 2024-05-20">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#fbbc04;">folder</span></td>
-              <td data-label="Name">Projects</td>
-              <td data-label="Size">--</td>
-              <td data-label="Last Modified">2024-05-20</td>
-            </tr>
-            <tr tabindex="0" aria-label="Folder: Photos, size not applicable, last modified 2024-04-03">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#34a853;">folder</span></td>
-              <td data-label="Name">Photos</td>
-              <td data-label="Size">--</td>
-              <td data-label="Last Modified">2024-04-03</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Report.pdf, size 1.2MB, last modified 2024-06-01">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#4285f4;">picture_as_pdf</span></td>
-              <td data-label="Name">Report.pdf</td>
-              <td data-label="Size">1.2 MB</td>
-              <td data-label="Last Modified">2024-06-01</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Budget.xlsx, size 900KB, last modified 2024-06-07">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#0f9d58;">grid_on</span></td>
-              <td data-label="Name">Budget.xlsx</td>
-              <td data-label="Size">900 KB</td>
-              <td data-label="Last Modified">2024-06-07</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Meeting Notes.txt, size 20KB, last modified 2024-06-10">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#f28b25;">description</span></td>
-              <td data-label="Name">Meeting Notes.txt</td>
-              <td data-label="Size">20 KB</td>
-              <td data-label="Last Modified">2024-06-10</td>
-            </tr>
-            <tr tabindex="0" aria-label="Folder: Work, size not applicable, last modified 2024-05-10">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#a142f4;">folder</span></td>
-              <td data-label="Name">Work</td>
-              <td data-label="Size">--</td>
-              <td data-label="Last Modified">2024-05-10</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Presentation.pptx, size 2.8MB, last modified 2024-06-01">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#ea4335;">slideshow</span></td>
-              <td data-label="Name">Presentation.pptx</td>
-              <td data-label="Size">2.8 MB</td>
-              <td data-label="Last Modified">2024-06-01</td>
-            </tr>
-            <tr tabindex="0" aria-label="File: Design.sketch, size 3.5MB, last modified 2024-06-05">
-              <td class="file-type-cell" data-label="Type"><span class="material-icons" style="color:#00838f;">palette</span></td>
-              <td data-label="Name">Design.sketch</td>
-              <td data-label="Size">3.5 MB</td>
-              <td data-label="Last Modified">2024-06-05</td>
-            </tr>
-          </tbody>
-        </table>
+
       </div>
     </section>
   </main>
