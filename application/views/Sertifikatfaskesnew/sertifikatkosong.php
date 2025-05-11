@@ -85,7 +85,7 @@
 </head>
 <body>
     <div id="watermark">
-        <img src="<?= base_url('assets/img/sertifikat-template.jpg') ?>" alt="Background">
+        <img src="<?= base_url('assets/faskesbg/backgroundsertifikat.jpeg') ?>" alt="Background">
     </div>
 
     <div class="nomor-sertifikat">Nomor: <?= $data->nomor_sertifikat ?></div>

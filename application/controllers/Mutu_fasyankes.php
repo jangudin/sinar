@@ -584,6 +584,7 @@ public function filesertifikat($faskes, $id, $id_p)
 
 
 
+
 public function ttedirnonrs()
 {
     $kd = $this->input->post('id');
