@@ -433,23 +433,26 @@
     </div>
 
    <div class="nav-items" role="menu">
-  <?php foreach ($menu_data as $menu): ?>
-    <div class="nav-item" tabindex="0" role="button" aria-pressed="false">
-      <div class="nav-main" data-toggle="submenu">
-        <span class="material-icons" aria-hidden="true"><?php echo htmlspecialchars($menu['icon']); ?></span>
-        <span class="label"><?php echo htmlspecialchars($menu['nama_menu']); ?></span>
-      </div>
-
-      <?php if (!empty($menu['sub_menu'])): ?>
-        <div class="nav-submenu">
-          <?php foreach ($menu['sub_menu'] as $sub): ?>
-            <div class="nav-sub-item"><?php echo htmlspecialchars($sub); ?></div>
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
+  <?php foreach ($menu_data as $index => $menu): ?>
+    <?php 
+      $menu_id = 'menu_' . $index;
+      $submenu_id = 'submenu_' . $index;
+    ?>
+    <div class="nav-item" id="<?= $menu_id ?>" data-menu-id="<?= $index ?>" tabindex="0" role="menuitem" aria-expanded="false">
+      <span class="material-icons" aria-hidden="true"><?= htmlspecialchars($menu['icon']) ?></span>
+      <span class="label"><?= htmlspecialchars($menu['nama_menu']) ?></span>
     </div>
+
+    <?php if (!empty($menu['sub_menu'])): ?>
+      <div class="submenu-vertical" id="submenu-<?= $index ?>" role="menu" aria-label="<?= htmlspecialchars($menu['nama_menu']) ?> submenu">
+        <?php foreach ($menu['sub_menu'] as $sub): ?>
+          <button class="submenu-btn" tabindex="0" role="menuitem"><?= htmlspecialchars($sub) ?></button>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
   <?php endforeach; ?>
 </div>
+
 
   </nav>
   <main class="main-content" role="main" tabindex="-1">
@@ -478,16 +481,21 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  document.querySelectorAll(".nav-main").forEach(menu => {
-    menu.addEventListener("click", function() {
-      const submenu = this.parentElement.querySelector(".nav-submenu");
-      if (submenu) {
-        submenu.classList.toggle("show");
-      }
-    });
+  $('.nav-item').on('click', function () {
+    const menuId = $(this).data('menu-id');
+    const submenu = $('#submenu-' + menuId);
+
+    if (submenu.length) {
+      // Tutup semua submenu dulu
+      $('.submenu-vertical').not(submenu).slideUp();
+      submenu.slideToggle();
+
+      // Update aria-expanded
+      $('.nav-item').attr('aria-expanded', 'false');
+      const isExpanded = $(this).attr('aria-expanded') === 'true';
+      $(this).attr('aria-expanded', (!isExpanded).toString());
+    }
   });
-});
 </script>
 <script>
   // Toggle sidebar expanded/collapsed on large screens or toggle visibility on mobile
