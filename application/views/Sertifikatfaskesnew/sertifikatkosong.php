@@ -177,7 +177,9 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="<?= $img_base64 ?>" height="100%" width="100%" />
+     <?php if (!empty($img_base64)): ?>
+    <img src="<?= $img_base64 ?>" height="1000" />
+    <?php endif; ?>
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
