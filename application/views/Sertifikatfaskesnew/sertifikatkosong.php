@@ -177,7 +177,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="<?= base_url('assets/faskesbg/backgroundsertifikat.jpeg') ?>" height="100%" width="100%" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Coat_of_arms_of_Indonesia_Garuda_Pancasila.svg/1200px-Coat_of_arms_of_Indonesia_Garuda_Pancasila.svg.png" alt="Garuda" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
