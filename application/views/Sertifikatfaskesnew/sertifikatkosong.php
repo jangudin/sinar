@@ -177,9 +177,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-     <?php if (!empty($img_base64)): ?>
-    <img src="<?= $img_base64 ?>" height="1000" />
-    <?php endif; ?>
+    <img src="https://sinar.kemkes.go.id/assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
