@@ -555,7 +555,7 @@ public function filesertifikat($faskes,$id,$id_p)
         // }
 
 
-           $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true');
+           $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
 
 
 }
