@@ -232,13 +232,13 @@
     </div>
     <div class="capayan">
       <?php if ($s->status_akreditasi == 'Paripurna'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/paripurna.png" height=60 class="center">
+        <img src="<?php echo base_url('assets/faskessertif/capayan/paripurna.png')?>" height=60 class="center">
       <?php elseif ($s->status_akreditasi == 'Utama'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/utama.png" height=60 class="center">
+        <img src="<?php echo base_url('assets/faskessertif/capayan/utama.png')?>" height=60 class="center">
       <?php elseif ($s->status_akreditasi == 'Madya'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/madya.png" height=60 class="center">
+        <img src="<?php echo base_url('assets/faskessertif/capayan/madya.png')?>" height=60 class="center">
       <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/dasar.png" height=60 class="center">
+        <img src="<?php echo base_url('assets/faskessertif/capayan/dasar.png')?>" height=60 class="center">
       <?php endif; ?>
     </div>
     <div class="berlaku">
