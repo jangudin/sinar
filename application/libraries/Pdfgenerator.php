@@ -83,7 +83,7 @@ class Pdfgenerator {
         $dompdf->setPaper($paper, $orientation);
         $dompdf->render();
         $outPut = $dompdf->output();
-        file_put_contents('assets/faskessertif'.$filename.'.pdf',$outPut);
+        file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
     }
 
          public function generatefaskesdirjen($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
