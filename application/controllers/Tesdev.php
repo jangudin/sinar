@@ -11,13 +11,40 @@ class Tesdev extends CI_Controller {
         $this->load->helper('tanggal_indonesia');
     }
 
-    public function index()
-    {
+  public function index()
+    // {
 
-        $this->file1();
-        $this->file2();
+    //     $this->file1();
+    //     $this->file2();
 
         
+    // }
+
+     {
+        // Set opsi DOMPDF
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true); // Aktifkan PHP untuk gambar
+
+        $dompdf = new Dompdf($options);
+
+        // Data untuk tampilan
+        $data = [
+            'title' => 'Contoh PDF dengan Gambar dari URL',
+            'image_url' => 'https://via.placeholder.com/300' // Gambar dari URL eksternal
+        ];
+
+        // Load tampilan HTML
+        $html = view('tespage', $data);
+
+        // Load HTML ke DOMPDF
+        $dompdf->loadHtml($html);
+
+        // Render PDF (termasuk pemrosesan gambar)
+        $dompdf->render();
+
+        // Output file PDF ke browser
+        $dompdf->stream("contoh_pdf_dengan_gambar_dari_url.pdf", ["Attachment" => 0]);
     }
 
 

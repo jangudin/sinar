@@ -17,4 +17,13 @@ class Apps extends CI_Controller {
         $data['menu_data'] = $this->ModelApps->getMenuAndSubMenuByUser ($user_id); // Call the method from ModelApps
         $this->load->view('template_dashboard/dashboard', $data);
     }
+    public function akreditasinonrs() {
+        $data['title'] = 'Sinar || Akreditasi Non RS';
+        $data['content'] = 'akreditasinonrs';
+        $user_id = $this->session->userdata('id'); // Assuming 'id' is the user ID stored in session
+        $data['menu_data'] = $this->ModelApps->getMenuAndSubMenuByUser ($user_id); // Call the method from ModelApps
+        $this->load->view('template_dashboard/dashboard', $data);
+    }
+
+
 }
