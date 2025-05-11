@@ -24,7 +24,7 @@
     <!-- Gambar via Base64 (jika dikirim dari controller) -->
     <?php if (!empty($img_base64)): ?>
         <p>Gambar via Base64:</p>
-        <img src="<?= $img_base64 ?>" width="200" alt="Gambar Base64">
+        <img src="<?= $img_base64 ?>" width="200%" alt="Gambar Base64">
     <?php endif; ?>
 </body>
 </html>
