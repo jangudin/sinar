@@ -546,7 +546,7 @@ public function filesertifikat($faskes,$id,$id_p)
     $orientation = "landscape";
           //  echo json_encode($data['data']);
     $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-    $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+//    ? $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
 
         // if ($faskes == 'klinik') {
         //     $this->pdfgenerator->generatefaskeseklinik($html, $file_pdf,$paper,$orientation);
@@ -555,7 +555,7 @@ public function filesertifikat($faskes,$id,$id_p)
         // }
 
 
-         //  $this->load->view('tespage');
+           $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true');
 
 
 }
