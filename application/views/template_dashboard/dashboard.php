@@ -481,27 +481,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$('.nav-item').on('click', function (e) {
-  e.stopPropagation(); // ⬅️ Tambahkan ini
-
-  const menuId = $(this).data('menu-id');
-  const submenu = $('#submenu-' + menuId);
-
-  if (submenu.length) {
-    // Tutup semua submenu kecuali yang sedang diklik
-    $('.submenu-vertical').not(submenu).slideUp();
-    submenu.slideToggle();
-
-    // Update aria-expanded
-    $('.nav-item').attr('aria-expanded', 'false');
-    const isExpanded = $(this).attr('aria-expanded') === 'true';
-    $(this).attr('aria-expanded', (!isExpanded).toString());
-  }
-});
-
-</script>
-<script>
-  // Toggle sidebar expanded/collapsed on large screens or toggle visibility on mobile
   const sidebar = document.querySelector('.sidebar');
   const menuToggle = document.querySelector('.menu-toggle');
   const viewToggleBtn = document.getElementById('viewToggleBtn');
@@ -510,39 +489,38 @@ $('.nav-item').on('click', function (e) {
   const topbarTitle = document.querySelector('.topbar .title');
   const navItems = document.querySelectorAll('.sidebar .nav-item');
 
-  // For view toggle
+  // View toggle
   let isGridView = true;
   function updateView() {
     if (isGridView) {
       filesGrid.style.display = 'grid';
-      filesTable.style.display = 'none';
+      if (filesTable) filesTable.style.display = 'none';
       viewToggleBtn.textContent = 'view_module';
-      viewToggleBtn.setAttribute('aria-label', 'Switch to table view');
     } else {
       filesGrid.style.display = 'none';
-      filesTable.style.display = 'table';
+      if (filesTable) filesTable.style.display = 'table';
       viewToggleBtn.textContent = 'table_view';
-      viewToggleBtn.setAttribute('aria-label', 'Switch to grid view');
     }
   }
+
   viewToggleBtn.addEventListener('click', () => {
     isGridView = !isGridView;
     updateView();
   });
 
-  // Sidebar expanded on wider screens - toggle for smaller screens
+  // Sidebar expand/collapse logic
   function checkScreenAndSetSidebar() {
     if (window.innerWidth > 900) {
       sidebar.classList.add('expanded');
       sidebar.style.display = 'flex';
     } else {
       sidebar.classList.remove('expanded');
-      // On mobile viewport, toggle sidebar display by menu toggle button
       sidebar.style.display = 'none';
     }
   }
 
   checkScreenAndSetSidebar();
+  window.addEventListener('resize', checkScreenAndSetSidebar);
 
   menuToggle.addEventListener('click', () => {
     if (sidebar.style.display === 'flex') {
@@ -554,65 +532,61 @@ $('.nav-item').on('click', function (e) {
     }
   });
 
-  // Close sidebar clicking outside on mobile
-  document.body.addEventListener('click', (e) => {
+  // ✅ Fix: Hindari sidebar tertutup jika submenu diklik
+  document.addEventListener('click', function (e) {
+    const isInsideSidebar = sidebar.contains(e.target);
+    const isToggle = e.target === menuToggle || menuToggle.contains(e.target);
+    if (window.innerWidth <= 900 && !isInsideSidebar && !isToggle) {
+      sidebar.style.display = 'none';
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // ✅ Submenu toggle dengan jQuery (hanya satu handler)
+  $('.nav-item').on('click', function (e) {
+    e.stopPropagation(); // penting
+
+    const menuId = $(this).data('menu-id');
+    const submenu = $('#submenu-' + menuId);
+
+    if (submenu.length) {
+      // Toggle submenu dan tutup lainnya
+      $('.submenu-vertical').not(submenu).slideUp();
+      submenu.slideToggle();
+
+      // Update aria-expanded
+      $('.nav-item').attr('aria-expanded', 'false');
+      const isExpanded = $(this).attr('aria-expanded') === 'true';
+      $(this).attr('aria-expanded', (!isExpanded).toString());
+    }
+
+    // Highlight active menu
+    $('.nav-item').removeClass('active').attr('aria-pressed', 'false');
+    $(this).addClass('active').attr('aria-pressed', 'true');
+
+    // Update judul topbar
+    const label = $(this).find('.label').text();
+    $('.topbar .title').text(label);
+
+    // Tutup sidebar di mobile
     if (window.innerWidth <= 900) {
-      if (!sidebar.contains(e.target) && e.target !== menuToggle) {
-        sidebar.style.display = 'none';
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
+      sidebar.style.display = 'none';
+      menuToggle.setAttribute('aria-expanded', 'false');
     }
   });
 
-  // Navigation actions (for demo only - highlight active and update title)
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      navItems.forEach(i => {
-        i.classList.remove('active');
-        i.setAttribute('aria-pressed', 'false');
-      });
-      item.classList.add('active');
-      item.setAttribute('aria-pressed', 'true');
-      const label = item.querySelector('.label').textContent;
-      topbarTitle.textContent = label;
-      // Close sidebar on mobile after selection
-      if (window.innerWidth <= 900) {
-        sidebar.style.display = 'none';
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-    item.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        item.click();
-      }
-    });
-  });
-
-  // Menu item click handler to load submenu via AJAX
-  $('.nav-item').on('click', function() {
-    const $this = $(this);
-    const menuId = $this.data('menu-id');
-    const $submenu = $('#submenu-' + menuId);
-
-    // Toggle submenu visibility
-    if ($submenu.is(':visible')) {
-      $submenu.slideUp();
-    } else {
-      // Hide all other submenus
-      $('.submenu-vertical').slideUp();
-      $submenu.slideDown();
-    }
+  // Jika submenu diklik, jangan men-trigger penutupan sidebar
+  $('.submenu-btn').on('click', function (e) {
+    e.stopPropagation(); // tambahkan ini agar klik submenu tidak dianggap klik luar
+    $('.submenu-btn').removeClass('active');
+    $(this).addClass('active');
+    // TODO: Tambahkan aksi sesuai submenu (misal redirect, ajax, dll)
   });
 
   // Initialize view
   updateView();
-
-  // Update sidebar display and expanded state on window resize
-  window.addEventListener('resize', () => {
-    checkScreenAndSetSidebar();
-  });
 </script>
+
 </body>
 </html>
 
