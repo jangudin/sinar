@@ -26,7 +26,7 @@ class ModelApps extends CI_Model {
         $this->db->from('apps_role_akses');
         $this->db->join('apps_menu', 'apps_role_akses.id_apps_menu = apps_menu.id', 'left');
         $this->db->join('apps_sub_menu', 'apps_role_akses.id_apps_sub_menu = apps_sub_menu.id', 'left');
-        $this->db->where('apps_role_akses.id_user', $id_user);
+        $this->db->where('apps_role_akses.id_user', $user_id);
         $query = $this->db->get();
 
         $result = $query->result_array();
