@@ -1,7 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// Pastikan untuk memuat autoloader Composer
+require_once FCPATH . 'vendor/autoload.php';
+
+// Impor kelas Dompdf dan Options
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class Tesdev extends CI_Controller {
+    
+    // Konstruktor controller
     function __construct(){
         parent::__construct();
         date_default_timezone_set('Asia/Jakarta');
@@ -11,21 +20,15 @@ class Tesdev extends CI_Controller {
         $this->load->helper('tanggal_indonesia');
     }
 
-  public function index()
-    // {
-
-    //     $this->file1();
-    //     $this->file2();
-
-        
-    // }
-
-     {
+    // Fungsi untuk generate PDF
+    public function index()
+    {
         // Set opsi DOMPDF
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true); // Aktifkan PHP untuk gambar
 
+        // Membuat instance DOMPDF
         $dompdf = new Dompdf($options);
 
         // Data untuk tampilan
@@ -34,8 +37,9 @@ class Tesdev extends CI_Controller {
             'image_url' => 'https://via.placeholder.com/300' // Gambar dari URL eksternal
         ];
 
-        // Load tampilan HTML
-        $html = view('tespage', $data);
+        // Load tampilan HTML ke DOMPDF
+        // Menggunakan CodeIgniter 3 load->view untuk mendapatkan HTML dari view
+        $html = $this->load->view('tespage', $data, true); // Parameter 'true' untuk mengembalikan HTML sebagai string
 
         // Load HTML ke DOMPDF
         $dompdf->loadHtml($html);
@@ -44,7 +48,7 @@ class Tesdev extends CI_Controller {
         $dompdf->render();
 
         // Output file PDF ke browser
-        $dompdf->stream("contoh_pdf_dengan_gambar_dari_url.pdf", ["Attachment" => 0]);
+        $dompdf->stream("contoh_pdf_dengan_gambar_dari_url.pdf", ["Attachment" => 0]); // 0 untuk membuka di browser, 1 untuk mendownload
     }
 
 
