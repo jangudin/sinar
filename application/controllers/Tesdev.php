@@ -29,10 +29,10 @@ class Tesdev extends CI_Controller {
         $file_pdf = "Lafki11";
         $paper = 'A4';
         $orientation = "landscape";
-        $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$this->data,true);
-        $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
+        // $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$this->data,true);
+        // $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
 
-         //   $this->load->view('Sertifikatfaskesnew/sertifikatkosong');
+            $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data);
 
         
     }
