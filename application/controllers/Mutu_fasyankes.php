@@ -544,9 +544,12 @@ public function filesertifikat($faskes,$id,$id_p)
     $file_pdf = $id_p;
     $paper = 'A4';
     $orientation = "landscape";
-          //  echo json_encode($data['data']);
+    $path = FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg';
+    $type = pathinfo($path, PATHINFO_EXTENSION);
+    $data = file_get_contents($path);
+    $this->data['img_base64'] = 'data:image/' . $type . ';base64,' . base64_encode($data);
     $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-//    ? $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+    $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
 
         // if ($faskes == 'klinik') {
         //     $this->pdfgenerator->generatefaskeseklinik($html, $file_pdf,$paper,$orientation);
@@ -555,7 +558,7 @@ public function filesertifikat($faskes,$id,$id_p)
         // }
 
 
-           $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
+         //  $this->load->view('tespage');
 
 
 }
