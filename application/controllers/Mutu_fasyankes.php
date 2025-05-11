@@ -549,7 +549,7 @@ public function filesertifikat($faskes,$id,$id_p)
     $data = file_get_contents($path);
     $this->data['img_base64'] = 'data:image/' . $type . ';base64,' . base64_encode($data);
     $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-    $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+    $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
 
         // if ($faskes == 'klinik') {
         //     $this->pdfgenerator->generatefaskeseklinik($html, $file_pdf,$paper,$orientation);
