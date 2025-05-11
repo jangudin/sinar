@@ -481,21 +481,24 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $('.nav-item').on('click', function () {
-    const menuId = $(this).data('menu-id');
-    const submenu = $('#submenu-' + menuId);
+$('.nav-item').on('click', function (e) {
+  e.stopPropagation(); // ⬅️ Tambahkan ini
 
-    if (submenu.length) {
-      // Tutup semua submenu dulu
-      $('.submenu-vertical').not(submenu).slideUp();
-      submenu.slideToggle();
+  const menuId = $(this).data('menu-id');
+  const submenu = $('#submenu-' + menuId);
 
-      // Update aria-expanded
-      $('.nav-item').attr('aria-expanded', 'false');
-      const isExpanded = $(this).attr('aria-expanded') === 'true';
-      $(this).attr('aria-expanded', (!isExpanded).toString());
-    }
-  });
+  if (submenu.length) {
+    // Tutup semua submenu kecuali yang sedang diklik
+    $('.submenu-vertical').not(submenu).slideUp();
+    submenu.slideToggle();
+
+    // Update aria-expanded
+    $('.nav-item').attr('aria-expanded', 'false');
+    const isExpanded = $(this).attr('aria-expanded') === 'true';
+    $(this).attr('aria-expanded', (!isExpanded).toString());
+  }
+});
+
 </script>
 <script>
   // Toggle sidebar expanded/collapsed on large screens or toggle visibility on mobile
