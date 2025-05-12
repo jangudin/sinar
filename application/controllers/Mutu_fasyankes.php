@@ -334,7 +334,9 @@ public function cekdirjen()
 
 public function sudahverif()
 {
+
     $id = 0;
+    $this->load->library('encryption');
     $data = array('contents' => 'listsudahverif',
      'data'    => $this->Dashboard_tte->sudahverif($id)
  );
