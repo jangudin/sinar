@@ -545,7 +545,7 @@ public function filesertifikat($faskes,$id,$id_p)
     $paper = 'A4';
     $orientation = "landscape";
     $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-    $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+   // $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
 
         // if ($faskes == 'klinik') {
         //     $this->pdfgenerator->generatefaskeseklinik($html, $file_pdf,$paper,$orientation);
@@ -554,7 +554,7 @@ public function filesertifikat($faskes,$id,$id_p)
         // }
 
 
-         //  $this->load->view('tespage');
+           $this->load->view('tespage');
 
 
 }

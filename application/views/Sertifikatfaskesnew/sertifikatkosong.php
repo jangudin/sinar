@@ -244,8 +244,6 @@
     <div class="berlaku">
       <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_surveior))));?></p>
     </div>
-
-
   </main>
 <?php } ?>
 </body>
