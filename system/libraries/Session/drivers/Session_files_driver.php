@@ -10,17 +10,15 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
     protected $_file_new;
 
     public function open($save_path, $session_name) {
-    $this->_config['_sid_length'] = strlen(session_id());
-    $this->_config['_sid_regexp'] = '[0-9a-zA-Z,-]{'.$this->_config['_sid_length'].'}';
+        $this->_config['_sid_length'] = strlen(session_id());
+        $this->_config['_sid_regexp'] = '[0-9a-zA-Z,-]{'.$this->_config['_sid_length'].'}';
 
-    $this->_save_path = $save_path;
+        $this->_save_path = $save_path;
 
-    return TRUE;
-}
+        return TRUE;
+    }
 
-
-    public function close(): bool
-    {
+    public function close() {
         if (is_resource($this->_file_handle)) {
             flock($this->_file_handle, LOCK_UN);
             fclose($this->_file_handle);
@@ -31,8 +29,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
         return TRUE;
     }
 
-    public function read(string $session_id): string
-    {
+    public function read($session_id) {
         if ($this->_file_path === NULL) {
             $this->_file_path = $this->_save_path . DIRECTORY_SEPARATOR . $session_id;
         }
@@ -52,8 +49,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
         return (string) fread($this->_file_handle, filesize($this->_file_path));
     }
 
-    public function write(string $session_id, string $session_data): bool
-    {
+    public function write($session_id, $session_data) {
         if ($this->_file_path === NULL) {
             $this->_file_path = $this->_save_path . DIRECTORY_SEPARATOR . $session_id;
         }
@@ -76,8 +72,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
         return is_int($written);
     }
 
-    public function destroy(string $session_id): bool
-    {
+    public function destroy($session_id) {
         if ($this->_file_path === NULL) {
             $this->_file_path = $this->_save_path . DIRECTORY_SEPARATOR . $session_id;
         }
@@ -90,15 +85,15 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
         return (@unlink($this->_file_path) && !file_exists($this->_file_path));
     }
 
-    public function gc(int $maxlifetime) {
-    $deletedCount = 0; // Inisialisasi penghitung untuk file yang dihapus
-    foreach (glob($this->_save_path . DIRECTORY_SEPARATOR . '*') as $file) {
-        if (is_file($file) && (filemtime($file) + $maxlifetime) < time()) {
-            if (@unlink($file)) {
-                $deletedCount++; // Tambah penghitung jika file berhasil dihapus
+    public function gc($maxlifetime) {
+        $deletedCount = 0; // Inisialisasi penghitung untuk file yang dihapus
+        foreach (glob($this->_save_path . DIRECTORY_SEPARATOR . '*') as $file) {
+            if (is_file($file) && (filemtime($file) + $maxlifetime) < time()) {
+                if (@unlink($file)) {
+                    $deletedCount++; // Tambah penghitung jika file berhasil dihapus
+                }
             }
         }
+        return $deletedCount > 0 ? $deletedCount : false; // Kembalikan jumlah file yang dihapus atau false
     }
-    return $deletedCount > 0 ? $deletedCount : false; // Kembalikan jumlah file yang dihapus atau false
-}
 }
