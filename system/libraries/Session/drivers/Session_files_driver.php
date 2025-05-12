@@ -9,15 +9,15 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
     protected $_file_path;
     protected $_file_new;
 
-    public function open(string $save_path, string $name): bool
-    {
-        $this->_config['_sid_length'] = strlen(session_id());
-        $this->_config['_sid_regexp'] = '[0-9a-zA-Z,-]{'.$this->_config['_sid_length'].'}';
+    public function open($save_path, $session_name) {
+    $this->_config['_sid_length'] = strlen(session_id());
+    $this->_config['_sid_regexp'] = '[0-9a-zA-Z,-]{'.$this->_config['_sid_length'].'}';
 
-        $this->_save_path = $save_path;
+    $this->_save_path = $save_path;
 
-        return TRUE;
-    }
+    return TRUE;
+}
+
 
     public function close(): bool
     {

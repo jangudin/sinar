@@ -126,15 +126,17 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	 * @param	string	$name		Session cookie name, unused
 	 * @return	bool
 	 */
-	public function open($save_path, $session_name) {
-    $this->_config['_sid_length'] = strlen(session_id());
-    $this->_config['_sid_regexp'] = '[0-9a-zA-Z,-]{'.$this->_config['_sid_length'].'}';
+	public function open($save_path, $name)
+	{
+		if (empty($this->_db->conn_id) && ! $this->_db->db_connect())
+		{
+			return $this->_failure;
+		}
 
-    $this->_save_path = $save_path;
+		$this->php5_validate_id();
 
-    return TRUE;
-}
-
+		return $this->_success;
+	}
 
 	// ------------------------------------------------------------------------
 
