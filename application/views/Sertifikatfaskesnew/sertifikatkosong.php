@@ -200,7 +200,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="<?= base_url('') ?>assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
+    <img src="http://192.168.67.143/sinar/assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
