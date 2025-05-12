@@ -83,12 +83,7 @@ class Pdfgenerator {
         $dompdf->setPaper($paper, $orientation);
         $dompdf->render();
         $outPut = $dompdf->output();
-        if ($stream) {
-            $dompdf->stream($filename.".pdf", array("Attachment" => 0));
-        } else {
-            return $dompdf->output();
-        }
-        //file_put_contents('assets/'.$filename.'.pdf',$outPut);
+        file_put_contents('assets/faskessertif'.$filename.'.pdf',$outPut);
 
         
     }
