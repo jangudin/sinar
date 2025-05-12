@@ -505,7 +505,7 @@ public function ttedirjenonrs()
            ); // cURL options
 
     curl_setopt_array($ch, $options);
-     var_dump($options);exit;
+     echo json_encode($options);exit;
 
     $result =  curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
