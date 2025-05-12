@@ -84,6 +84,11 @@ class Pdfgenerator {
         $dompdf->render();
         $outPut = $dompdf->output();
         file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
+        // if ($stream) {
+        //     $dompdf->stream($filename.".pdf", array("Attachment" => 0));
+        // } else {
+        //     return $dompdf->output();
+        // }
     }
 
          public function generatefaskesdirjen($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
@@ -104,23 +109,22 @@ class Pdfgenerator {
     }
 
 
-        public function generatetpmd($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
-{   
-    $options = new Options();
-    $options->set('isRemoteEnabled', TRUE);
-    $dompdf = new Dompdf($options);
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper($paper, $orientation);
-    $dompdf->render();
-    $outPut = $dompdf->output();
-
-    $path = __DIR__ . '/assets/TPMD/';
-    if (!is_dir($path)) {
-        mkdir($path, 0755, true);
+         public function generatetpmd($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
+    {   
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper($paper, $orientation);
+        $dompdf->render();
+        $outPut = $dompdf->output();
+        file_put_contents('assets/TPMD/'.$filename.'.pdf',$outPut);
+        // if ($stream) {
+        //     $dompdf->stream($filename.".pdf", array("Attachment" => 0));
+        // } else {
+        //     return $dompdf->output();
+        // }
     }
-    $file = $path . $filename . '.pdf';
-    file_put_contents($file, $outPut);
-}
 
          public function generatefaskesdir($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
     {   
