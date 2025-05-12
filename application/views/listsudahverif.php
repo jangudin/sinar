@@ -53,7 +53,7 @@
                     <?php endif ?>
                 </td>
                 <td>
-                  <a class="btn btn-sm btn-success" href="<?php echo base_url('Mutu_fasyankes/Detail/'.$this->encryption->encrypt($a->id));?>"><span data-feather="edit"></span> Review</a>
+                  <a class="btn btn-sm btn-success" href="<?php echo base_url('Mutu_fasyankes/Detail/');?><?php if (!is_null($item->id)): ?><?= encrypt($item->id) ?><?php else: ?><?php endif; ?>"><span data-feather="edit"></span> Review</a>
                   
                 </td>
                 </tr>
