@@ -90,18 +90,15 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
         return (@unlink($this->_file_path) && !file_exists($this->_file_path));
     }
 
-    public function gc(int $maxlifetime): int|false
-    {
-        $deletedCount = 0; // Initialize a counter for deleted files
-
-        foreach (glob($this->_save_path . DIRECTORY_SEPARATOR . '*') as $file) {
-            if (is_file($file) && (filemtime($file) + $maxlifetime) < time()) {
-                if (@unlink($file)) {
-                    $deletedCount++; // Increment the counter if the file was successfully deleted
-                }
+    public function gc(int $maxlifetime) {
+    $deletedCount = 0; // Inisialisasi penghitung untuk file yang dihapus
+    foreach (glob($this->_save_path . DIRECTORY_SEPARATOR . '*') as $file) {
+        if (is_file($file) && (filemtime($file) + $maxlifetime) < time()) {
+            if (@unlink($file)) {
+                $deletedCount++; // Tambah penghitung jika file berhasil dihapus
             }
         }
-
-        return $deletedCount > 0 ? $deletedCount : false; // Return the count of deleted files or false
     }
+    return $deletedCount > 0 ? $deletedCount : false; // Kembalikan jumlah file yang dihapus atau false
+}
 }
