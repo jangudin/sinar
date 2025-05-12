@@ -501,15 +501,16 @@ public function ttedirjenonrs()
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => "POST",
       CURLOPT_POSTFIELDS => $data,
-      CURLOPT_USERPWD=> 'esign-sinar'.':'.'kq&UnD31@l',
+      CURLOPT_USERPWD=> 'esign-sinar'.':'.'K0Lii09rTya1M',
            ); // cURL options
 
-    curl_setopt_array($ch, $options);
-
+    $cek = curl_setopt_array($ch, $options);exit;
+     var_dump($cek);
+     
     $result =  curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        // var_dump($httpcode);
+    
 
     if($httpcode != 200)
     {
