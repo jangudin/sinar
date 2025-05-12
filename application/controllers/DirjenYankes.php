@@ -504,8 +504,8 @@ public function ttedirjenonrs()
       CURLOPT_USERPWD=> 'esign-sinar'.':'.'K0Lii09rTya1M',
            ); // cURL options
 
-    $cek = curl_setopt_array($ch, $options);
-     var_dump($cek);exit;
+    curl_setopt_array($ch, $options);
+     var_dump($options);exit;
 
     $result =  curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
