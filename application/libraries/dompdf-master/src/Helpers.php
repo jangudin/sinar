@@ -501,21 +501,25 @@ class Helpers
      * @throws Exception
      */
     public static function record_warnings($errno, $errstr, $errfile, $errline)
-    {
-        // Not a warning or notice
-        if (!($errno & (E_WARNING | E_NOTICE | E_USER_NOTICE | E_USER_WARNING))) {
-            throw new Exception($errstr . " $errno");
-        }
+{
+    // Tangani hanya error jenis ringan
+    $allowed_errors = E_WARNING | E_NOTICE | E_USER_NOTICE | E_USER_WARNING | E_DEPRECATED | E_USER_DEPRECATED;
 
-        global $_dompdf_warnings;
-        global $_dompdf_show_warnings;
-
-        if ($_dompdf_show_warnings) {
-            echo $errstr . "\n";
-        }
-
-        $_dompdf_warnings[] = $errstr;
+    if (!($errno & $allowed_errors)) {
+        // Untuk error serius tetap lempar
+        throw new \Exception($errstr . " ($errno) in $errfile on line $errline");
     }
+
+    global $_dompdf_warnings;
+    global $_dompdf_show_warnings;
+
+    if ($_dompdf_show_warnings) {
+        echo $errstr . "\n";
+    }
+
+    $_dompdf_warnings[] = $errstr;
+}
+
 
     /**
      * @param $c
