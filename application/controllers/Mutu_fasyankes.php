@@ -10,6 +10,7 @@ class Mutu_fasyankes extends CI_Controller {
       $this->sina = $this->load->database('sina', TRUE);
       $this->dbfaskes = $this->load->database('dbfaskes', TRUE);
       $this->load->helper('tanggal_indonesia');
+      $this->load->library('encryption');
       if($this->session->userdata('status') != "login"){
          redirect(base_url());
      }
