@@ -1,7 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use Dompdf\Dompdf;
-use Dompdf\Options;
 
 class Mutu_fasyankes extends CI_Controller {
     function __construct(){
@@ -411,11 +409,8 @@ public function Verifikasi_mutu()
 public function nonrsbelumverifikasi()
 {
 
-    $faskes_segment = $this->uri->segment(3);
-$faskes = (isset($faskes_segment) && is_string($faskes_segment)) ? urldecode($faskes_segment) : '';
-$jenis_segment = $this->uri->segment(4);
-$jenis = (isset($jenis_segment) && is_string($jenis_segment)) ? urldecode($jenis_segment) : '';
-
+    $faskes = urldecode($this->uri->segment(3));
+    $jenis = urldecode($this->uri->segment(4));
     $data = array('contents' => 'listmutunonrs',
      'databelum'    => $this->Tte_non_rs->belumverifikasi($faskes,$jenis)
  );
@@ -544,6 +539,7 @@ public function filesertifikat($faskes,$id,$id_p)
     $file_pdf = $id_p;
     $paper = 'A4';
     $orientation = "landscape";
+          //  echo json_encode($data['data']);
     $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
     $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
 
