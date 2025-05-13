@@ -45,18 +45,19 @@ class Tesdev extends CI_Controller {
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if (curl_errno($ch)) {
+   if (curl_errno($ch)) {
         $error_msg = curl_error($ch);
+        curl_close($ch);
+        return [
+            'httpcode' => $httpcode,
+            'error' => $error_msg
+        ];
     }
 
     curl_close($ch);
 
-    if (isset($error_msg)) {
-        return ['error' => $error_msg];
-    }
-
     return [
-        'status' => $httpcode,
+        'httpcode' => $httpcode,
         'response' => json_decode($response, true)
     ];
 }
