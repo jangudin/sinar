@@ -516,11 +516,12 @@ public function ttedirjenonrs()
            ); // cURL options
 
     curl_setopt_array($ch, $options);
-     echo json_encode($options);exit;
+   //  echo json_encode($options);exit;
 
     $result =  curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
+           var_dump($httpcode);
+    // echo json_encode($result);exit;
     
 
     if($httpcode != 200)
