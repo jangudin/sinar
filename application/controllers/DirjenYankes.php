@@ -9,11 +9,12 @@ class DirjenYankes extends CI_Controller {
         $this->sina = $this->load->database('sina', TRUE);
         $this->dbfaskes = $this->load->database('dbfaskes', TRUE);
         $this->load->helper('tanggal_indonesia');
-        if ($this->session->userdata('status') != "login" || 
-    ($this->session->userdata('jabatan_id') != '1' && $this->session->userdata('jabatan_id') != '10')) {
-     redirect('auth'); // atau halaman akses ditolak
+       if ($this->session->userdata('status') != "login" || 
+    !in_array($this->session->userdata('jabatan_id'), ['1', '10', '2'])) {
+    // Akses ditolak
+    redirect('auth'); // atau tampilkan view error
 }
-    }
+}
     public function index()
     {
         if($this->session->userdata('id') == '10'){
