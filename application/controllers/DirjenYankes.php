@@ -337,7 +337,7 @@ public function Detail()
     $this->load->view('List_Rekomendasi',$data);
 }else{
             echo "anda tidak berhak mengakses halaman ini";
-            redirec('Auth');
+            redirect('Auth');
         }
 }
 public function Dirjentte()
