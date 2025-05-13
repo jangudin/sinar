@@ -11,14 +11,19 @@ class Tesdev extends CI_Controller {
         $this->load->helper('tanggal_indonesia');
     }
 
-    // public function index()
-    // {
+     public function index() {
+        $this->load->helper('encryption');
 
-    //     $this->file1();
-    //     $this->file2();
+        $key = 'kunci_rahasia_anda'; // Gantilah dengan kunci yang kuat
+        $data = 'Data rahasia';
 
-        
-    // }
+        $encrypted = custom_encrypt($data, $key);
+        $decrypted = custom_decrypt($encrypted, $key);
+
+        echo 'Data asli: ' . $data . '<br>';
+        echo 'Data terenkripsi: ' . $encrypted . '<br>';
+        echo 'Data didekripsi: ' . $decrypted;
+    }
 
 
         public function file1()
