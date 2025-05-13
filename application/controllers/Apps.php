@@ -14,8 +14,6 @@ class Apps extends CI_Controller {
     public function index() {
         $data['title'] = 'Sinar || Dashboard';
         $user_id = $this->session->userdata('id');
-        $jabatan = $this->session->userdata('jenis_user');
-        // $data['userContent'] = $this->ModelApps->getJabatan($jabatan);
         $data['menu_data'] = $this->ModelApps->getMenuAndSubMenuByUser ($user_id); // Call the method from ModelApps
         $this->load->view('template_dashboard/dashboard', $data);
     }
