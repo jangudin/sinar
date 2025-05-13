@@ -81,6 +81,7 @@
             </tr>
           </thead>
           <?php 
+          if (is_array($databelum) || $databelum instanceof Traversable) {
           $i = 1;
           foreach ($databelum as $a) { ?>
             <tr>
@@ -138,7 +139,11 @@
                 </div>
               </div>
 
-            <?php } ?>
+            <?php } 
+            } else {
+    echo "Data tidak tersedia atau tidak dapat diiterasi.";
+}
+?>
           </tbody>
         </table>
       </div>
