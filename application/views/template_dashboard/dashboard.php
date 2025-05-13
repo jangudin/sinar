@@ -4,8 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title><?php echo isset($title) ? $title : 'Default Title'; ?></title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,6 +12,7 @@
   <!-- DataTables CSS & JS -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
   @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
@@ -433,84 +433,6 @@
     }
   }
 </style>
-<style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f5f7fa;
-      padding: 40px;
-      color: #202124;
-    }
-
-    h2 {
-      color: #2c3e50;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .table-container {
-      margin-bottom: 100px;
-      overflow-x: auto;
-      border: 1px solid #dcdcdc;
-      padding: 16px;
-      border-radius: 8px;
-      background-color: #ffffff;
-    }
-
-    table.display {
-      border-collapse: collapse;
-      width: 100%;
-      background-color: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      border: 1px solid #d1d5db;
-    }
-
-    table.display thead {
-      background-color: #eef2f7;
-    }
-
-    table.display th, table.display td {
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    table.display tbody tr:hover {
-      background-color: #f1f5f9;
-    }
-
-    .material-icons {
-      vertical-align: middle;
-    }
-
-    a {
-      text-decoration: none;
-      color: #1a73e8;
-      font-weight: 500;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 768px) {
-      table.display th, table.display td {
-        padding: 10px;
-        font-size: 14px;
-      }
-
-      h2 {
-        font-size: 20px;
-        text-align: center;
-      }
-
-      .table-container {
-        padding: 12px;
-        margin: 20px 8px;
-      }
-    }
-  </style>
 </head>
 <body>
   <nav class="sidebar" aria-label="Main Navigation">
@@ -673,24 +595,6 @@
   // Initialize view
   updateView();
 </script>
- <script>
-    $(document).ready(function () {
-      $('#fileTable').DataTable({
-        language: {
-          search: "Cari:",
-          lengthMenu: "Tampilkan _MENU_ data",
-          info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-          paginate: {
-            first: "Pertama",
-            last: "Terakhir",
-            next: "Berikutnya",
-            previous: "Sebelumnya"
-          },
-          zeroRecords: "Tidak ditemukan data yang cocok"
-        }
-      });
-    });
-  </script>
 
 </body>
 </html>

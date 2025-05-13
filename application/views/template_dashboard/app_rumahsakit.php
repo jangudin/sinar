@@ -10,41 +10,30 @@
         </div> 
       </div>
 <?php endif; ?>
-<hr style="border: 1px solid #ddd; margin: 20px 0;">
-<h2 style="font-family: Arial, sans-serif; color: #333; text-align: center; margin-bottom: 20px;">Daftar Rumah Sakit</h2>
-<table class="table table-striped">
-    <thead>
+ <h2>Daftar Folder Aplikasi</h2>
+
+  <div class="table-container">
+    <table id="fileTable" class="display" style="width:100%">
+      <thead>
         <tr>
-            <th>No</th>
-            <th>Nama Rumah Sakit</th>
-            <th>Alamat</th>
-            <th>Telepon</th>
-            <th>Aksi</th>
+          <th>Icon</th>
+          <th>Nama Folder</th>
+          <th>Aksi</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         <tr>
-            <td>1</td>
-            <td>RS Harapan Sehat</td>
-            <td>Jl. Sehat No. 123</td>
-            <td>021-12345678</td>
-            <td>
-                <a href="edit/1" class="btn btn-warning btn-sm">Edit</a>
-                <a href="delete/1" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?');">Hapus</a>
-            </td>
+          <td><span class="material-icons" style="color:#fbbc04;">folder</span></td>
+          <td>RS</td>
+          <td><a href="apps/rumahsakit">Buka</a></td>
         </tr>
         <tr>
-            <td>2</td>
-            <td>RS Kasih Ibu</td>
-            <td>Jl. Kasih No. 456</td>
-            <td>021-87654321</td>
-            <td>
-                <a href="edit/2" class="btn btn-warning btn-sm">Edit</a>
-                <a href="delete/2" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?');">Hapus</a>
-            </td>
+          <td><span class="material-icons" style="color:#34a853;">folder</span></td>
+          <td>Selain RS</td>
+          <td><a href="apps/pklut">Buka</a></td>
         </tr>
-    </tbody>
-</table>
+      </tbody>
+    </table>
 <script>
 document.querySelectorAll('.file-item').forEach(item => {
   item.addEventListener('click', () => {
@@ -52,4 +41,20 @@ document.querySelectorAll('.file-item').forEach(item => {
     if (href) window.location.href = href;
   });
 });
+    $(document).ready(function () {
+      $('#fileTable').DataTable({
+        language: {
+          search: "Cari:",
+          lengthMenu: "Tampilkan _MENU_ data",
+          info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+          paginate: {
+            first: "Pertama",
+            last: "Terakhir",
+            next: "Berikutnya",
+            previous: "Sebelumnya"
+          },
+          zeroRecords: "Tidak ditemukan data yang cocok"
+        }
+      });
+    });
 </script>
