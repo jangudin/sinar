@@ -431,9 +431,6 @@
       font-size: 20px;
       margin-right: 16px;
     }
-  }
-</style>
-<style>
   /* Filter Buttons */
   .status-filters {
     margin-bottom: 12px;
@@ -457,6 +454,7 @@
     background-color: #1a73e8;
     color: white;
   }
+}
 </style>
 </head>
 <body>
