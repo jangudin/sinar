@@ -154,7 +154,7 @@ class Auth extends CI_Controller {
 function aksi_login() {
         // Batasi jumlah input POST
         $input = $this->input->post();
-        if (count($input, COUNT_RECURSIVE) > 20) {
+        if (count($input, COUNT_RECURSIVE) > 900) {
             log_message('error', 'Terlalu banyak input POST: ' . count($input, COUNT_RECURSIVE));
             show_error('Input terlalu banyak. Harap batasi data Anda.', 400, 'Permintaan Ditolak');
             return;
