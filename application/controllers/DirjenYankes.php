@@ -26,6 +26,9 @@ class DirjenYankes extends CI_Controller {
        );
       //   var_dump($data);
         $this->load->view('List_Rekomendasi',$data);
+        }else{
+            echo "anda tidak berhak mengakses halaman ini";
+            redirec('Auth');
         }
     }
 
