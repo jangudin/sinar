@@ -386,7 +386,7 @@ $data = array('contents' =>'Detail_mutu',
 $this->load->view('List_Rekomendasi',$data);
 
   }else{
-    redirect(base_url());
+    redirect();
   }
 }
 
