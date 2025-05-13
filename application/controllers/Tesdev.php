@@ -58,6 +58,8 @@ class Tesdev extends CI_Controller {
         'httpcode' => $httpcode,
         'response' => json_decode($response, true)
     ];
+    echo "HTTP Status Code: " . $result['httpcode'] . "<br>";
+    print_r($result['response']);
 }
 
 
