@@ -30,9 +30,8 @@
         </div>
       </div>
     </section>
-    <script>
-  // Sample data
-  const data = [
+<script>
+    const data = [
     { name: 'Report.pdf', type: 'PDF', size: '1.2 MB', modified: '2024-06-01' },
     { name: 'Budget.xlsx', type: 'Spreadsheet', size: '900 KB', modified: '2024-06-07' },
     { name: 'Meeting Notes.txt', type: 'Text', size: '20 KB', modified: '2024-06-10' },
@@ -185,9 +184,6 @@
 
   // Initial render
   renderTable();
-
-</script>
-<script>
 document.querySelectorAll('.file-item').forEach(item => {
   item.addEventListener('click', () => {
     const href = item.dataset.href;
