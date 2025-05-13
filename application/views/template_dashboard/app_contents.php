@@ -1,6 +1,6 @@
 <?php if ($this->session->userdata('apps') == '5'): ?>
 <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
-        <div class="file-item" data-href="your-link-here" role="listitem" tabindex="0" aria-label="Folder: Projects" style="cursor: pointer;">
+        <div class="file-item" data-href="apps/rumahsakit" role="listitem" tabindex="0" aria-label="Folder: Projects" style="cursor: pointer;">
           <span class="material-icons file-icon" style="color:#fbbc04;">folder</span>
           <div class="file-name">RS</div>
         </div>
