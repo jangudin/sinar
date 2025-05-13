@@ -15,9 +15,9 @@ class Apps extends CI_Controller {
         $data['title'] = 'Sinar || Dashboard';
         $user_id = $this->session->userdata('id');
         $jabatan = $this->session->userdata('jenis_user');
-        $data['userContent'] = $this->ModelApps->getJabatan($jabatan);
+        // $data['userContent'] = $this->ModelApps->getJabatan($jabatan);
         $data['menu_data'] = $this->ModelApps->getMenuAndSubMenuByUser ($user_id); // Call the method from ModelApps
-       // $this->load->view('template_dashboard/dashboard', $data);
+        $this->load->view('template_dashboard/dashboard', $data);
     }
     public function akreditasinonrs() {
         $data['title'] = 'Sinar || Akreditasi Non RS';

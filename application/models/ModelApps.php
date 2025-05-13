@@ -51,12 +51,7 @@ class ModelApps extends CI_Model {
         return $menu_data;
     }
 
-    function getJabatan($pejabat) 
-     {
-        $this->db->select('id,jenis');
-        $this->db->from('apps_jabatan');
-        $this->db->where('id', $pejabat);        
-    }
+
     /**
      * Get all menu data
      * 
