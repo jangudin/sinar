@@ -55,7 +55,7 @@ class Auth extends CI_Controller {
 				$this->session->set_userdata('name',$name);
 				$this->session->set_userdata('id',$id);
 				$this->session->set_userdata('pid',$pid);
-				if($x['id'] == '3'){
+				if($x['id'] == '48'){
 					redirect('Mutu_fasyankes/nonrsbelumverifikasi');
 				}else{
 					redirect('Mutu_fasyankes');
