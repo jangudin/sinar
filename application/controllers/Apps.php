@@ -13,17 +13,16 @@ class Apps extends CI_Controller {
 
     public function index() {
         $data['title'] = 'Sinar || Dashboard';
+        $data['content'] = 'template_dashboard/app_contents';
         $user_id = $this->session->userdata('id');
         $data['menu_data'] = $this->ModelApps->getMenuAndSubMenuByUser ($user_id); // Call the method from ModelApps
         $this->load->view('template_dashboard/dashboard', $data);
     }
-    public function akreditasinonrs() {
-        $data['title'] = 'Sinar || Akreditasi Non RS';
-        $data['content'] = 'akreditasinonrs';
-        $user_id = $this->session->userdata('id'); // Assuming 'id' is the user ID stored in session
+    public function rumahsakit() {
+        $data['title'] = 'Sinar || Rumah Sakit';
+        $data['content'] = 'template_dashboard/app_rumahsakit';
+        $user_id = $this->session->userdata('id');
         $data['menu_data'] = $this->ModelApps->getMenuAndSubMenuByUser ($user_id); // Call the method from ModelApps
         $this->load->view('template_dashboard/dashboard', $data);
     }
-
-
 }

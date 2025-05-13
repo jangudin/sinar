@@ -470,7 +470,7 @@
     <section class="files-container" aria-label="Files and folders">
       <!-- Grid View -->
 
-        <?php $this->load->view('template_dashboard/app_contents'); ?>
+        <?php $this->load->view($conten); ?>
         
         <!-- Table View (hidden by default) -->
       <div class="table-responsive" aria-label="File table responsive container">
