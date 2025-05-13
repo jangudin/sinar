@@ -72,7 +72,11 @@ class Auth extends CI_Controller {
 				$this->session->set_userdata('nik',$nik);
 				$this->session->set_userdata('name',$name);
 				$this->session->set_userdata('id',$id);
-				redirect('DirjenYankes');
+				if($x['id'] == '10'){
+					redirect('DirjenYankes');
+				}else{
+					redirect('DirjenYankes/nonrsbelumtte');
+				}
 			}elseif($x['jabatan_sertifikat_id'] =='4'){ //
 				$nik = $x['nik'];
 				$name = $x['nama'];
