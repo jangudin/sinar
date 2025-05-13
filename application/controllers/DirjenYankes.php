@@ -226,22 +226,33 @@ public function nonrssudahtte()
 public function nonrsdetail()
 {
     $id = $this->uri->segment(3);
-    // if ($this->uri->segment(4) == 'KEMENKES') {
-    //     $this->filesertifikatkmk($id);
-    // }
+
+    // Ambil data dari database
     $cek = $this->Tte_non_rs->list_faskes_dirjen_detail($id);
-    $lembaga = $cek[0]->file_name;
-    $dirjenyankes = $cek[0]->url_sertifikat;
-    $attachment = 'assets/faskessertif/'.$dirjenyankes;
-    $hasiltte = 'assets/faskessertif/'.$lembaga;
-    $data = array('contents' => 'vdetailnonrs',
-       'data'    => $this->Tte_non_rs->list_faskes_dirjen_detail($id),
-       'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-       'hasiltte' => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null,
-   );
-  //   echo json_encode($data);
-    $this->load->view('List_Rekomendasi',$data);
+
+    // Cek jika $cek ada dan tidak kosong
+    if (!empty($cek) && isset($cek[0])) {
+        $lembaga = $cek[0]->file_name;  // Mengakses file_name
+        $dirjenyankes = $cek[0]->url_sertifikat;  // Mengakses url_sertifikat
+        $attachment = 'assets/faskessertif/' . $dirjenyankes;
+        $hasiltte = 'assets/faskessertif/' . $lembaga;
+    } else {
+        // Set nilai default jika tidak ada data
+        $attachment = null;
+        $hasiltte = null;
+    }
+
+    // Data untuk view
+    $data = array(
+        'contents'   => 'vdetailnonrs',
+        'data'       => $this->Tte_non_rs->list_faskes_dirjen_detail($id),
+        'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
+        'hasiltte'   => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null,
+    );
+
+    $this->load->view('List_Rekomendasi', $data);
 }
+
 
 
 public function filesertifikatkmk($faskes,$id,$id_p)
