@@ -72,7 +72,7 @@
                         <td></td>
                         <td>
 
-                          <a class="btn btn-sm btn-success" href="<?php echo base_url('DirjenYankes/Detail/' . custom_encrypt($a->id)); ?>"><span data-feather="edit"></span> Detail</a>
+                          <a class="btn btn-sm btn-success" href="<?php echo base_url('DirjenYankes/Detail/'.$a->id); ?>"><span data-feather="edit"></span> Detail</a>
 
 
                         </td>
