@@ -10,30 +10,26 @@
         </div> 
       </div>
 <?php endif; ?>
- <h2>Daftar Folder Aplikasi</h2>
-
-  <div class="table-container">
-    <table id="fileTable" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th>Icon</th>
-          <th>Nama Folder</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="material-icons" style="color:#fbbc04;">folder</span></td>
-          <td>RS</td>
-          <td><a href="apps/rumahsakit">Buka</a></td>
-        </tr>
-        <tr>
-          <td><span class="material-icons" style="color:#34a853;">folder</span></td>
-          <td>Selain RS</td>
-          <td><a href="apps/pklut">Buka</a></td>
-        </tr>
-      </tbody>
-    </table>
+        <table class="datatable" aria-describedby="datatableSearchInput">
+          <thead>
+            <tr>
+              <th scope="col" class="sortable" data-key="name" tabindex="0" aria-sort="none">Name <span class="sort-arrow">⇅</span></th>
+              <th scope="col" class="sortable" data-key="type" tabindex="0" aria-sort="none">Type <span class="sort-arrow">⇅</span></th>
+              <th scope="col" class="sortable" data-key="size" tabindex="0" aria-sort="none">Size <span class="sort-arrow">⇅</span></th>
+              <th scope="col" class="sortable" data-key="modified" tabindex="0" aria-sort="none">Last Modified <span class="sort-arrow">⇅</span></th>
+            </tr>
+          </thead>
+          <tbody id="datatableBody">
+            <!-- Rows inserted by JavaScript -->
+          </tbody>
+        </table>
+        <div class="datatable-pagination" aria-label="Pagination controls">
+          <button id="prevPageBtn" aria-label="Previous page" disabled>Prev</button>
+          <button id="nextPageBtn" aria-label="Next page">Next</button>
+          <span class="page-info" id="pageInfo"></span>
+        </div>
+      </div>
+    </section>
 <script>
 document.querySelectorAll('.file-item').forEach(item => {
   item.addEventListener('click', () => {
@@ -41,20 +37,4 @@ document.querySelectorAll('.file-item').forEach(item => {
     if (href) window.location.href = href;
   });
 });
-    $(document).ready(function () {
-      $('#fileTable').DataTable({
-        language: {
-          search: "Cari:",
-          lengthMenu: "Tampilkan _MENU_ data",
-          info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-          paginate: {
-            first: "Pertama",
-            last: "Terakhir",
-            next: "Berikutnya",
-            previous: "Sebelumnya"
-          },
-          zeroRecords: "Tidak ditemukan data yang cocok"
-        }
-      });
-    });
 </script>
