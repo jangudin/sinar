@@ -10,6 +10,15 @@
         </div> 
       </div>
 <?php endif; ?>
+            <section class="files-container" aria-label="Files and folders">
+      <!-- Existing grid and table views here (omitted for brevity) -->
+
+      <!-- DataTable Component -->
+      <div class="datatable-container" aria-label="Data Table">
+        <div class="datatable-search">
+          <label for="datatableSearchInput">Search:</label>
+          <input type="search" id="datatableSearchInput" aria-label="Search files by name" placeholder="Search files..." />
+        </div>
         <table class="datatable" aria-describedby="datatableSearchInput">
           <thead>
             <tr>
