@@ -198,7 +198,7 @@ function aksi_login() {
                     'name' => $name,
                     'id' => $id,
                     'pid' => $pid,
-                    'jabatan_user' => $jabatan
+                    'jenis_user' => $jabatan
                 ]);
 
                 // Redirect berdasarkan jabatan
