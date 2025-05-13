@@ -241,6 +241,7 @@ function aksi_login() {
                 redirect('Auth');
             }
         }
+	}
 
 	// function aksi_login(){
 
