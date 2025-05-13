@@ -1,6 +1,6 @@
 
 <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
-  <p>Masuk Sebagai : <?php echo $this->session->userdata('jenis_user')?></p>
+  <p>Masuk Sebagai : <?php echo $this->session->userdata('apps')?></p>
 </div>
         <!--<div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
           <span class="material-icons file-icon" style="color:#fbbc04;">folder</span>
