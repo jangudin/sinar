@@ -107,12 +107,15 @@
 
 
                   <?php elseif ($this->session->userdata('jabatan_id') == 2) : ?>
+                    <?php if ($this->session->userdata('id') == 3) : ?>
                    <li><a><i class="fa fa-hospital-o"></i>RS</a>
                     <ul class="nav child_menu" style="display:none;">
                       <li><a href="<?php echo base_url('Mutu_fasyankes')?>">BELUM VERIFIKASI</a></li>
                       <li><a href="<?php echo base_url('Mutu_fasyankes/sudahverif')?>">SUDAH VERIFIKASI</a></li>
                     </ul>
                   </li>
+                  <?php endif; ?>
+
 
 
                  <!--  <li><a><i class="fa fa-building-o"></i>NON RS</a>
@@ -357,7 +360,7 @@
           }
         }
       </script>
-      <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+      <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
       <script>
         $(document).ready(function(){
           $(".preloader").fadeOut();
@@ -369,7 +372,7 @@
         }
       </script>
       <script src="<?php echo base_url('assets');?>/vendors/echarts/dist/echarts.min.js"></script>
-      <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+      <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
       <script src="<?php echo base_url('assets');?>/vendors/jquery/dist/jquery.min.js"></script>
       <!-- Bootstrap -->
       <script src="<?php echo base_url('assets');?>/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
