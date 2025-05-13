@@ -171,12 +171,14 @@
 
 
                 <?php elseif ($this->session->userdata('jabatan_id') == 1) : ?>
+                  <?php if ($this->session->userdata('id') == 10) : ?>
                   <li><a><i class="fa fa-building-o"></i>SERTIFIKAT RS</a>
                     <ul class="nav child_menu" style="display:block;">
                       <li><a href="<?php echo base_url('DirjenYankes')?>">BELUM TTE</a></li>
                       <li><a href="<?php echo base_url('DirjenYankes/sudahtte')?>">SUDAH TTE</a></li>
                     </ul>
                   </li>
+                  <?php endif; ?>
                   <li><a><i class="fa fa-hospital-o"></i>SERTIFIKAT NON RS</a>
                     <ul class="nav child_menu" style="display:block;">
                       <li><a href="<?php echo base_url('DirjenYankes/nonrsbelumtte')?>">BELUM TTE</a></li>

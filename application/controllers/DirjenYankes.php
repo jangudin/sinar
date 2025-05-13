@@ -15,10 +15,8 @@ class DirjenYankes extends CI_Controller {
     }
     public function index()
     {
-        if($this->session->userdata('jabatan_id') != "1"){
-            redirect(base_url());
-        }else{
-             $dir = 0;
+        if($this->session->userdata('id') == '10'){
+            $dir = 0;
         $mutu = 1;
         $data = array('contents' => 'List_dirjen',
            'data'    => $this->Dashboard_tte->list_dirjen($dir,$mutu),
@@ -280,6 +278,8 @@ public function filesertifikatkmkkosong($faskes,$id,$id_p)
 
 public function Detail()
 {
+    if($this->session->userdata('id') == '10'){
+        $dir = 1;
     $id = $this->uri->segment(3);
     $nonik = $this->session->userdata('nik'); 
     $data['idrek'] = $this->Dashboard_tte->detail_mutu($id);
@@ -332,6 +332,7 @@ public function Detail()
   );
        // var_dump($data);
     $this->load->view('List_Rekomendasi',$data);
+}
 }
 public function Dirjentte()
 {
