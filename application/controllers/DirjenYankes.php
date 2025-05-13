@@ -15,7 +15,10 @@ class DirjenYankes extends CI_Controller {
     }
     public function index()
     {
-        $dir = 0;
+        if($this->session->userdata('jabatan_id') != "1"){
+            redirect(base_url());
+        }else{
+             $dir = 0;
         $mutu = 1;
         $data = array('contents' => 'List_dirjen',
            'data'    => $this->Dashboard_tte->list_dirjen($dir,$mutu),
@@ -25,6 +28,7 @@ class DirjenYankes extends CI_Controller {
        );
       //   var_dump($data);
         $this->load->view('List_Rekomendasi',$data);
+        }
     }
 
 
