@@ -5,7 +5,7 @@
           <div class="file-name">Verifikasi</div>
         </div>
         <div class="file-item" data-href="apps/tters" role="listitem" tabindex="0" aria-label="Folder: Projects" style="cursor: pointer;">
-          <span class="material-icons file-icon" style="color:#34a853;">signature</span>
+          <span class="material-icons file-icon" style="color:#34a853;">draw</span>
           <div class="file-name">TandaTangan</div>
         </div> 
       </div>
