@@ -24,7 +24,7 @@
 <?php if($this->session->userdata('status') != "login"):?>
     <?=redirect(base_url());?>
 <?php else:?>
-  <?php echo "hallo"; ?>
+  
 <?php endif;?>
 <!-- <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
         <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
