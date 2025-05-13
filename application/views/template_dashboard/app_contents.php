@@ -7,8 +7,7 @@
         <div class="file-item" data-href="apps/pklut" role="listitem" tabindex="0" aria-label="Folder: Projects" style="cursor: pointer;">
           <span class="material-icons file-icon" style="color:#34a853;">folder</span>
           <div class="file-name">Selain RS</div>
-        </div> 
-        
+        </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="File: Report.pdf">
           <span class="material-icons file-icon" style="color:#4285f4;">picture_as_pdf</span>
           <div class="file-name">Report.pdf</div>
