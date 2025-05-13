@@ -1,14 +1,12 @@
-
+<?php if ($this->session->userdata('apps') == '5'): ?>
 <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
-  <p>Masuk Sebagai : <?php echo $this->session->userdata('apps')?></p>
-</div>
-        <!--<div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
+        <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
           <span class="material-icons file-icon" style="color:#fbbc04;">folder</span>
-          <div class="file-name">Projects</div>
+          <div class="file-name">RS</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Photos">
           <span class="material-icons file-icon" style="color:#34a853;">folder</span>
-          <div class="file-name">Photos</div>
+          <div class="file-name">Non RS</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="File: Report.pdf">
           <span class="material-icons file-icon" style="color:#4285f4;">picture_as_pdf</span>
@@ -34,4 +32,5 @@
           <span class="material-icons file-icon" style="color:#00838f;">palette</span>
           <div class="file-name">Design.sketch</div>
         </div>
-      </div> -->
+      </div>
+<?php endif; ?>
