@@ -11,19 +11,57 @@ class Tesdev extends CI_Controller {
         $this->load->helper('tanggal_indonesia');
     }
 
-     public function index() {
-        $this->load->helper('encryption');
+    public function sign_pdf_esign()
+{
+    $base64_pdf = base64_encode(file_get_contents(FCPATH . 'assets/faskessertif/showttedir49578.pdf'));
+    $url = 'https://esign-client-e-sign.apps.devocp.dc.kemkes.go.id/api/v2/sign/pdf';
 
-        $key = 'kunci_rahasia_anda'; // Gantilah dengan kunci yang kuat
-        $data = 'Data rahasia';
+    $headers = [
+        'Content-Type: application/json',
+        'Authorization: Basic ZXNpZ24tc2luYXIyOnMxbjRyMzM0NHg=',
+        'Cookie: 7390520b357aa06ff9847f808198cffb=a49e656a382e58ab2ab7bb0672efbdb9'
+    ];
 
-        $encrypted = custom_encrypt($data, $key);
-        $decrypted = custom_decrypt($encrypted, $key);
+    $payload = [
+        "nik" => "3603287006580002",
+        "passphrase" => "Ek@laskesi02",
+        "signatureProperties" => [
+            [
+                "tampilan" => "INVISIBLE"
+            ]
+        ],
+        "file" => [
+            $base64_pdf
+        ]
+    ];
 
-        echo 'Data asli: ' . $data . '<br>';
-        echo 'Data terenkripsi: ' . $encrypted . '<br>';
-        echo 'Data didekripsi: ' . $decrypted;
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Opsional, tergantung sertifikat SSL
+
+    $response = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        $error_msg = curl_error($ch);
     }
+
+    curl_close($ch);
+
+    if (isset($error_msg)) {
+        return ['error' => $error_msg];
+    }
+
+    return [
+        'status' => $httpcode,
+        'response' => json_decode($response, true)
+    ];
+}
+
+
 
 
         public function file1()
