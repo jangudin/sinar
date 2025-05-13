@@ -355,6 +355,7 @@ public function verifikasisertifikat()
 }
 public function Detail()
 {
+  if($this->session->userdata('id') == '3'){
     $id = $this->uri->segment(3);
     $data['idrek'] = $this->Dashboard_tte->detail_mutu($id);
 
@@ -383,6 +384,10 @@ $data = array('contents' =>'Detail_mutu',
 );
           // echo json_encode($data['nilai']);
 $this->load->view('List_Rekomendasi',$data);
+
+  }else{
+    redirect('base_url()');
+  }
 }
 
 public function Verifikasi_mutu()
