@@ -446,7 +446,7 @@
     <?php if (!empty($menu['sub_menu'])): ?>
       <div class="submenu-vertical" id="submenu-<?= $index ?>" role="menu" aria-label="<?= htmlspecialchars($menu['nama_menu']) ?> submenu">
         <?php foreach ($menu['sub_menu'] as $sub): ?>
-          <button class="submenu-btn" tabindex="0" role="menuitem"><?= htmlspecialchars($sub) ?></button>
+          <a class="submenu-btn" tabindex="0" role="menuitem"><?= htmlspecialchars($sub) ?></a>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
