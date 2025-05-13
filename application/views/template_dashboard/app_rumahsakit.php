@@ -10,6 +10,39 @@
         </div> 
       </div>
 <?php endif; ?>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama Rumah Sakit</th>
+            <th>Alamat</th>
+            <th>Telepon</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>RS Harapan Sehat</td>
+            <td>Jl. Sehat No. 123</td>
+            <td>021-12345678</td>
+            <td>
+                <a href="edit/1" class="btn btn-warning btn-sm">Edit</a>
+                <a href="delete/1" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?');">Hapus</a>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>RS Kasih Ibu</td>
+            <td>Jl. Kasih No. 456</td>
+            <td>021-87654321</td>
+            <td>
+                <a href="edit/2" class="btn btn-warning btn-sm">Edit</a>
+                <a href="delete/2" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?');">Hapus</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 <script>
 document.querySelectorAll('.file-item').forEach(item => {
   item.addEventListener('click', () => {
