@@ -151,7 +151,7 @@ class Auth extends CI_Controller {
 // }
 
 
-ic function aksi_login() {
+function aksi_login() {
         // Batasi jumlah input POST
         $input = $this->input->post();
         if (count($input, COUNT_RECURSIVE) > 900) {
