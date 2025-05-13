@@ -16,7 +16,7 @@ class M_login extends CI_Model{
 										pejabat_sertifikat.email,
 										pejabat_sertifikat.lembaga_akreditasi_id,
 										pejabat_sertifikat.jabatan_sertifikat_id,
-										pengguna.jabatan,
+										pengguna.jabatan
 									FROM
 										pengguna
 										INNER JOIN pejabat_sertifikat ON pengguna.pejabat_sertifikat_id = pejabat_sertifikat.id
