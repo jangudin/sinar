@@ -22,10 +22,10 @@
         <table class="datatable" aria-describedby="datatableSearchInput">
           <thead>
             <tr>
-              <th scope="col" class="sortable" data-key="name" tabindex="0" aria-sort="none">Name <span class="sort-arrow">⇅</span></th>
-              <th scope="col" class="sortable" data-key="type" tabindex="0" aria-sort="none">Type <span class="sort-arrow">⇅</span></th>
-              <th scope="col" class="sortable" data-key="size" tabindex="0" aria-sort="none">Size <span class="sort-arrow">⇅</span></th>
-              <th scope="col" class="sortable" data-key="modified" tabindex="0" aria-sort="none">Last Modified <span class="sort-arrow">⇅</span></th>
+              <th scope="col" class="sortable" data-key="name" tabindex="0" aria-sort="none">Name </th>
+              <th scope="col" class="sortable" data-key="type" tabindex="0" aria-sort="none">Type </th>
+              <th scope="col" class="sortable" data-key="size" tabindex="0" aria-sort="none">Size </th>
+              <th scope="col" class="sortable" data-key="modified" tabindex="0" aria-sort="none">Last Modified </th>
             </tr>
           </thead>
           <tbody id="datatableBody">
