@@ -182,6 +182,7 @@ public function aksi_login() {
                 $id = $x['id'];
                 $pid = $x['pejabat_sertifikat_id'];
                 $jabatan = $x['jabatan_sertifikat_id'];
+                $apps = $x['apps'];
 
                 // Set session
                 $this->session->set_userdata([
@@ -191,7 +192,8 @@ public function aksi_login() {
                     'nik' => $nik,
                     'name' => $name,
                     'id' => $id,
-                    'pid' => $pid
+                    'pid' => $pid,
+                    'apps' => $apps
                 ]);
 
                 // Redirect berdasarkan jabatan
