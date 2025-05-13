@@ -25,7 +25,9 @@
           <div class="file-name">Work</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="File: Presentation.pptx">
-          <span class="material-icons file-icon" style="color:#ea4335;">slideshow</span>
+            <a href="tes.com" class="file-link">
+            <span class="material-icons file-icon" style="color:#ea4335;">slideshow</span>
+            </a>
           <div class="file-name">Presentation.pptx</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="File: Design.sketch">
