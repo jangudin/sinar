@@ -43,10 +43,6 @@
     <input class="form-control" type="email" name="email" placeholder="Username" required>
     <input class="form-control" type="password" name="password" placeholder="Password" maxlength="16" required>
 
-    <!-- CAPTCHA -->
-    <label>Kode CAPTCHA: <strong><?php echo $captcha; ?></strong></label>
-    <input class="form-control" type="text" name="captcha_input" placeholder="Masukkan kode di atas" required>
-
     <div class="action">
         <button type="submit" class="btn btn-lg">Login</button>
     </div>
