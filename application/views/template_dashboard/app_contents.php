@@ -1,4 +1,5 @@
-<div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
+
+<!-- <div class="files-grid" role="list" aria-live="polite" aria-relevant="all">
         <div class="file-item" role="listitem" tabindex="0" aria-label="Folder: Projects">
           <span class="material-icons file-icon" style="color:#fbbc04;">folder</span>
           <div class="file-name">Projects</div>
@@ -31,4 +32,4 @@
           <span class="material-icons file-icon" style="color:#00838f;">palette</span>
           <div class="file-name">Design.sketch</div>
         </div>
-      </div>
+      </div> -->
