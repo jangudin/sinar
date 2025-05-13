@@ -232,24 +232,28 @@ public function nonrsdetail()
 
     // Cek jika $cek ada dan tidak kosong
     if (!empty($cek) && isset($cek[0])) {
-        $lembaga = $cek[0]->file_name;  // Mengakses file_name
-        $dirjenyankes = $cek[0]->url_sertifikat;  // Mengakses url_sertifikat
+        // Hanya mengakses elemen pertama jika ada
+        $lembaga = $cek[0]->file_name;  
+        $dirjenyankes = $cek[0]->url_sertifikat;  
+        
+        // Tentukan path file
         $attachment = 'assets/faskessertif/' . $dirjenyankes;
         $hasiltte = 'assets/faskessertif/' . $lembaga;
     } else {
-        // Set nilai default jika tidak ada data
+        // Jika data tidak ada, beri nilai default
         $attachment = null;
         $hasiltte = null;
     }
 
-    // Data untuk view
+    // Siapkan data untuk view
     $data = array(
         'contents'   => 'vdetailnonrs',
-        'data'       => $this->Tte_non_rs->list_faskes_dirjen_detail($id),
+        'data'       => $this->Tte_non_rs->list_faskes_dirjen_detail($id),  // Bisa dibuang jika data sudah dimasukkan sebelumnya
         'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
         'hasiltte'   => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null,
     );
 
+    // Tampilkan view
     $this->load->view('List_Rekomendasi', $data);
 }
 
