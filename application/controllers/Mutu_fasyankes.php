@@ -355,40 +355,67 @@ public function verifikasisertifikat()
 }
 public function Detail()
 {
-  if($this->session->userdata('id') == '3'){
-    $id = $this->uri->segment(3);
-    $data['idrek'] = $this->Dashboard_tte->detail_mutu($id);
+    if ($this->session->userdata('id') == '3') {
+        $id = $this->uri->segment(3);
+        $data['idrek'] = $this->Dashboard_tte->detail_mutu($id);
 
-    foreach($data['idrek'] as $file) {
-        if ($file->lembagaAkreditasiId == 'lafki') {
-           $attachment = 'assets/generate/lafki/ttelafkilembaga'.$id.'.pdf';
-       }elseif($file->lembagaAkreditasiId == 'kars'){
-        $attachment = 'assets/generate/kars/tteKars_lembaga'.$id.'.pdf';
-    }elseif($file->lembagaAkreditasiId == 'lars'){
-        $attachment = 'assets/generate/lars/tteLarslembaga'.$id.'.pdf';
-    }elseif($file->lembagaAkreditasiId == 'lam'){
-        $attachment = 'assets/generate/lam/tteLamlembaga'.$id.'.pdf';
-    }elseif($file->lembagaAkreditasiId == 'larsdhp'){
-        $attachment = 'assets/generate/larsdhp/tteLarsdhplembaga'.$id.'.pdf';
-    }elseif($file->lembagaAkreditasiId == 'larsi'){
-        $attachment = 'assets/generate/larsi/tteLarsilembaga'.$id.'.pdf';
+        // Inisialisasi variabel attachment
+        $attachment = null;
+
+        // Periksa apakah $data['idrek'] adalah array dan tidak kosong
+        if (!empty($data['idrek']) && is_array($data['idrek'])) {
+            foreach ($data['idrek'] as $file) {
+                if (isset($file->lembagaAkreditasiId)) {
+                    switch ($file->lembagaAkreditasiId) {
+                        case 'lafki':
+                            $attachment = 'assets/generate/lafki/ttelafkilembaga' . $id . '.pdf';
+                            break;
+                        case 'kars':
+                            $attachment = 'assets/generate/kars/tteKars_lembaga' . $id . '.pdf';
+                            break;
+                        case 'lars':
+                            $attachment = 'assets/generate/lars/tteLarslembaga' . $id . '.pdf';
+                            break;
+                        case 'lam':
+                            $attachment = 'assets/generate/lam/tteLamlembaga' . $id . '.pdf';
+                            break;
+                        case 'larsdhp':
+                            $attachment = 'assets/generate/larsdhp/tteLarsdhplembaga' . $id . '.pdf';
+                            break;
+                        case 'larsi':
+                            $attachment = 'assets/generate/larsi/tteLarsilembaga' . $id . '.pdf';
+                            break;
+                        default:
+                            // Jika tidak ada yang cocok, biarkan $attachment tetap null
+                            break;
+                    }
+
+                    // Jika file ditemukan, keluar dari loop
+                    if ($attachment && file_exists(FCPATH . $attachment)) {
+                        break;
+                    } else {
+                        // Jika file tidak ada, set $attachment ke null
+                        $attachment = null;
+                    }
+                }
+            }
+        }
+
+        $data = array(
+            'contents'   => 'Detail_mutu',
+            'data'       => $this->Dashboard_tte->detail_mutu($id),
+            'skorsing'   => $this->Dashboard_tte->cek_skorsing_surveor($id),
+            'nilai'      => $this->Dashboard_tte->penilaian_bab($id),
+            'attachment' => $attachment ? base_url($attachment) : null,
+            'id'         => $id
+        );
+
+        $this->load->view('List_Rekomendasi', $data);
+    } else {
+        redirect('Mutu_fasyankes/nonrsbelumverifikasi');
     }
 }
 
-$data = array('contents' =>'Detail_mutu',
-  'data'     => $this->Dashboard_tte->detail_mutu($id),
-  'skorsing'     => $this->Dashboard_tte->cek_skorsing_surveor($id),
-  'nilai'     => $this->Dashboard_tte->penilaian_bab($id),
-  'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-  'id' => $id
-);
-          // echo json_encode($data['nilai']);
-$this->load->view('List_Rekomendasi',$data);
-
-  }else{
-    redirect('Mutu_fasyankes/nonrsbelumverifikasi');
-  }
-}
 
 public function Verifikasi_mutu()
 {
