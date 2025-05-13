@@ -283,63 +283,60 @@ public function Detail()
 {
     if($this->session->userdata('id') == '10'){
         $dir = 1;
-    $id = $this->uri->segment(3);
-    $nonik = $this->session->userdata('nik'); 
-    $data['idrek'] = $this->Dashboard_tte->detail_mutu($id);
-    foreach($data['idrek'] as $file) {
-        if ($file->lembagaAkreditasiId == 'kars') {
+        $id = $this->uri->segment(3);
+        $nonik = $this->session->userdata('nik'); 
+        
+        $data['idrek'] = $this->Dashboard_tte->detail_mutu($id);
+        
+        // Menetapkan nilai default untuk $dirjen dan $attachment
+        $dirjen = null;
+        $attachment = null;
 
-            $dirjen = 'assets/generate/kars/showfiletteKars_dirjen'.$id.'.pdf';
-            $attachment = 'assets/generate/kars/tteKars_lembaga'.$id.'.pdf';
-        }
-        elseif($file->lembagaAkreditasiId == 'lam'){
-
-            $dirjen = 'assets/generate/lam/showfiletteLamdirjen'.$id.'.pdf';
-            $attachment = 'assets/generate/lam/tteLamlembaga'.$id.'.pdf';
-
-        }
-        elseif($file->lembagaAkreditasiId == 'lafki'){
-
-            $dirjen = 'assets/generate/lafki/showfilettelafkidirjen'.$id.'.pdf';
-            $attachment = 'assets/generate/lafki/ttelafkilembaga'.$id.'.pdf';
-
-        }
-        elseif($file->lembagaAkreditasiId == 'larsi'){
-
-            $dirjen = 'assets/generate/larsi/showfiletteLarsidirjen'.$id.'.pdf';
-            $attachment = 'assets/generate/larsi/tteLarsilembaga'.$id.'.pdf';
-
-        }
-        elseif($file->lembagaAkreditasiId == 'larsdhp'){
-
-            $dirjen = 'assets/generate/larsdhp/showfiletteLarsdhpdirjen'.$id.'.pdf';
-            $attachment = 'assets/generate/larsdhp/tteLarsdhplembaga'.$id.'.pdf';
-
-        }
-        elseif($file->lembagaAkreditasiId == 'lars'){
-
-            $dirjen = 'assets/generate/lars/showfiletteLarsdirjen'.$id.'.pdf';
-            $attachment = 'assets/generate/lars/tteLarslembaga'.$id.'.pdf';
+        foreach($data['idrek'] as $file) {
+            if ($file->lembagaAkreditasiId == 'kars') {
+                $dirjen = 'assets/generate/kars/showfiletteKars_dirjen'.$id.'.pdf';
+                $attachment = 'assets/generate/kars/tteKars_lembaga'.$id.'.pdf';
+            }
+            elseif($file->lembagaAkreditasiId == 'lam'){
+                $dirjen = 'assets/generate/lam/showfiletteLamdirjen'.$id.'.pdf';
+                $attachment = 'assets/generate/lam/tteLamlembaga'.$id.'.pdf';
+            }
+            elseif($file->lembagaAkreditasiId == 'lafki'){
+                $dirjen = 'assets/generate/lafki/showfilettelafkidirjen'.$id.'.pdf';
+                $attachment = 'assets/generate/lafki/ttelafkilembaga'.$id.'.pdf';
+            }
+            elseif($file->lembagaAkreditasiId == 'larsi'){
+                $dirjen = 'assets/generate/larsi/showfiletteLarsidirjen'.$id.'.pdf';
+                $attachment = 'assets/generate/larsi/tteLarsilembaga'.$id.'.pdf';
+            }
+            elseif($file->lembagaAkreditasiId == 'larsdhp'){
+                $dirjen = 'assets/generate/larsdhp/showfiletteLarsdhpdirjen'.$id.'.pdf';
+                $attachment = 'assets/generate/larsdhp/tteLarsdhplembaga'.$id.'.pdf';
+            }
+            elseif($file->lembagaAkreditasiId == 'lars'){
+                $dirjen = 'assets/generate/lars/showfiletteLarsdirjen'.$id.'.pdf';
+                $attachment = 'assets/generate/lars/tteLarslembaga'.$id.'.pdf';
+            }
         }
 
+        // Pastikan $dirjen dan $attachment ada
+        $data = array(
+            'contents' => 'Detail_dirjen',
+            'data'     => $this->Dashboard_tte->detail_dirjenu($id),
+            'dirjen'   => is_file(FCPATH . $dirjen) ? base_url($dirjen) : null,
+            'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
+            'id' => $id,
+            'nik' => $nonik
+        );
+        
+        // Load view
+        $this->load->view('List_Rekomendasi', $data);
+    } else {
+        echo "anda tidak berhak mengakses halaman ini";
+        redirect('Auth');
     }
-
-    //echo "$dirjen";
-
-    $data = array('contents' =>'Detail_dirjen',
-      'data'     => $this->Dashboard_tte->detail_dirjenu($id),
-      'dirjen' => is_file(FCPATH . $dirjen) ? base_url($dirjen) : null,
-      'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-      'id' => $id,
-      'nik' => $nonik
-  );
-       // var_dump($data);
-    $this->load->view('List_Rekomendasi',$data);
-}else{
-            echo "anda tidak berhak mengakses halaman ini";
-            redirect('Auth');
-        }
 }
+
 public function Dirjentte()
 {
     $kd = $this->input->post('id');
