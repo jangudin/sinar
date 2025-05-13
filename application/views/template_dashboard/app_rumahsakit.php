@@ -10,6 +10,8 @@
         </div> 
       </div>
 <?php endif; ?>
+<hr style="border: 1px solid #ddd; margin: 20px 0;">
+<h2 style="font-family: Arial, sans-serif; color: #333; text-align: center; margin-bottom: 20px;">Daftar Rumah Sakit</h2>
 <table class="table table-striped">
     <thead>
         <tr>
