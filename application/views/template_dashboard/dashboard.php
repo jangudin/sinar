@@ -122,44 +122,37 @@
   }
 
   /* Projects submenu - vertical under Projects menu item */
-.submenu-vertical {
-  display: none;
-  flex-direction: column;
-  margin-left: 44px; /* indent */
-  margin-top: 4px;
-  width: calc(100% - 44px);
-}
-
-.submenu-vertical.open {
-  display: flex;
-}
-
-.submenu-vertical .submenu-btn {
-  padding: 8px 12px;
-  font-size: 13px;
-  background: transparent;
-  border: none;
-  text-align: left;
-  color: #1a73e8;
-  cursor: pointer;
-  border-radius: 6px;
-  user-select: none;
-  transition: background-color 0.2s;
-  width: 100%;
-  text-decoration: none; /* Menghilangkan garis bawah pada link */
-}
-
-.submenu-vertical .submenu-btn:hover,
-.submenu-vertical .submenu-btn:focus {
-  background-color: #e8f0fe;
-  outline: none;
-}
-
-.submenu-vertical .submenu-btn.active {
-  background-color: #1a73e8;
-  color: white;
-}
-
+  .submenu-vertical {
+    display: none;
+    flex-direction: column;
+    margin-left: 44px; /* indent */
+    margin-top: 4px;
+    width: calc(100% - 44px);
+  }
+  .submenu-vertical.open {
+    display: flex;
+  }
+  .submenu-vertical .submenu-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: #1a73e8;
+    cursor: pointer;
+    border-radius: 6px;
+    user-select: none;
+    transition: background-color 0.2s;
+    width: 100%;
+  }
+  .submenu-vertical .submenu-btn:hover, .submenu-vertical .submenu-btn:focus {
+    background-color: #e8f0fe;
+    outline: none;
+  }
+  .submenu-vertical .submenu-btn.active {
+    background-color: #1a73e8;
+    color: white;
+  }
 
   /* Main content */
   .main-content {
@@ -453,7 +446,7 @@
     <?php if (!empty($menu['sub_menu'])): ?>
       <div class="submenu-vertical" id="submenu-<?= $index ?>" role="menu" aria-label="<?= htmlspecialchars($menu['nama_menu']) ?> submenu">
         <?php foreach ($menu['sub_menu'] as $sub): ?>
-          <a href="#" class="submenu-btn" role="menuitem" tabindex="0"><?= htmlspecialchars($sub) ?></a>
+          <button class="submenu-btn" tabindex="0" role="menuitem"><?= htmlspecialchars($sub) ?></button>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
