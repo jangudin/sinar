@@ -182,7 +182,7 @@ public function aksi_login() {
                 $id = $x['id'];
                 $pid = $x['pejabat_sertifikat_id'];
                 $jabatan = $x['jabatan_sertifikat_id'];
-                $apps = $x['apps'];
+                $apps = $x['jabatan'];
 
                 // Set session
                 $this->session->set_userdata([
