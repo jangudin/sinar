@@ -227,7 +227,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>Alamat </td>
+            <td>Alamat <?= base_url('/assets/faskesbg/backgroundsertifikat.jpeg') ?></td>
             <td>:</td>
             <td width="700px"><?= $s->alamat; ?></td>
           </tr>
