@@ -11,170 +11,34 @@ class Tesdev extends CI_Controller {
         $this->load->helper('tanggal_indonesia');
     }
 
-    public function index()
+    public function cek_status_user()
     {
-        $nik = '3674061009780016'; // Ganti dengan NIK yang ingin dicek
-        $result = $this->cek_status_user_esign($nik);
+        $url = 'http://esign-e-sign.apps.prdocp.dc.kemkes.go.id/api/user/status/3674061009780016';
+        $authorization = 'Basic ZXNpZ24tc2luYXIyOnMxbjRyMzM0NHg=';
 
-        echo "<h3>Hasil Cek Status User e-Sign</h3>";
-        echo "HTTP Status Code: " . $result['httpcode'] . "<br><br>";
+        // Inisialisasi cURL
+        $ch = curl_init($url);
 
-        if (isset($result['error'])) {
-            echo "Error: " . $result['error'];
+        // Set opsi cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: $authorization"
+        ]);
+
+        // Eksekusi cURL
+        $response = curl_exec($ch);
+
+        // Cek error
+        if (curl_errno($ch)) {
+            echo 'Curl error: ' . curl_error($ch);
         } else {
+            // Decode dan tampilkan hasil
             echo "<pre>";
-            print_r($result['response']);
+            var_dump(json_decode($response, true));
             echo "</pre>";
         }
-    }
 
-    /**
-     * Fungsi untuk mengecek status user dari API e-sign
-     */
-    private function cek_status_user_esign($nik)
-    {
-        $url = 'http://esign-e-sign.apps.prdocp.dc.kemkes.go.id/api/user/status/' . $nik;
-
-        $headers = [
-            'Authorization: Basic ZXNpZ24tc2luYXIyOnMxbjRyMzM0NHg='
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // nonaktifkan SSL untuk dev
-
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if (curl_errno($ch)) {
-            $error = curl_error($ch);
-            curl_close($ch);
-            return [
-                'httpcode' => $httpcode,
-                'error' => $error
-            ];
-        }
-
+        // Tutup koneksi cURL
         curl_close($ch);
-
-        return [
-            'httpcode' => $httpcode,
-            'response' => json_decode($response, true)
-        ];
     }
-
-
-        public function file1()
-    {
-
-        $this->load->library('pdfgenerator');
-        $this->data['title_pdf'] = 'Sertifikat';
-        $file_pdf = "Lafki11";
-        $paper = 'A4';
-        $orientation = "landscape";
-        $path = FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg';
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $this->data['img_base64'] = 'data:image/' . $type . ';base64,' . base64_encode($data);
-         $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$this->data,true);
-         $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
-         //   $this->load->view('Sertifikatfaskesnew/sertifikatkosong'$data);
-    }
-
-        public function file2()
-    {
-
-        $this->load->library('pdfgenerator');
-        $this->data['title_pdf'] = 'Sertifikat';
-        $file_pdf = "Lafki32";
-        $paper = 'A4';
-        $orientation = "landscape";
-        $html =  $this->load->view('tespage',$this->data,true);
-
-
-        $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
-
-            //$this->load->view('tespage');
-
-        
-    }
-
-
-    // function Folder()
-    // {
-    //         $path    = './assets/faskessertif'; //lokasi folder sekarang 
-    //         $files = scandir($path);
-    //         $files = array_diff(scandir($path), array('.', '..'));
-    //         foreach($files as $nama_file)
-    //         {
-    //             echo "<a href='$nama_file'>$nama_file</a><br/>";
-    //             echo  "<hr>";
-    //         }
-    //     }
-
-    // public function index()
-    // {
-    //     // panggil library yang kita buat sebelumnya yang bernama pdfgenerator
-    //     $this->load->library('pdfgenerator');
-        
-    //     // title dari pdf
-    //     $this->data['title_pdf'] = 'tes';
-        
-    //     // filename dari pdf ketika didownload
-    //     $file_pdf = 'tes';
-    //     // setting paper
-    //     $paper = 'A4';
-    //     //orientasi paper potrait / landscape
-    //     $orientation = "landscape";
-        
-    //     $html = $this->load->view('tespage',$this->data, true);     
-        
-    //     // run dompdf
-    //     $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
-
-    //     // $this->load->view('tespage');
-    // }
-
- //        public function index()
- // {
- //            $this->data['title_pdf'] = 'tes';
- //        $this->load->library('pdfgenerator');
- //        $file_pdf = 'tes';
- //        $paper = 'A4';
- //        $orientation = "landscape";
- //        $html = $this->load->view('tespage',$this->data, true);     
- //        $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
-        
- //    }
-
- //            public function index()
- // {
- //        $this->data['title_pdf'] = 'tes';
- //        $this->load->library('pdfgenerator');
- //        $file_pdf = 'tes';
- //        $paper = 'A4';
- //        $orientation = "potrait";
- //        $html = $this->load->view('surtug/surat',$this->data, true);     
- //        $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
-        
- //    }
-
-
- //                public function index()
- // {
- //        // $this->data['title_pdf'] = 'tes';
- //        // $this->load->library('pdfgenerator');
- //        // $file_pdf = 'tes';
- //        // $paper = 'A4';
- //        // $orientation = "potrait";
- //        // $html = $this->load->view('surtug/surat',$this->data, true);     
- //        // $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
-
- //     echo "Sedang Ada Pemeliharaan Kembali Beberapa Saat lagi";
-        
- //    }
-
-
-
     }
