@@ -56,7 +56,7 @@
 </head>
 <body>
   <div class="a4-container">
-    <img class="a4-bg-image" src="https://sinar.kemkes.go.id/assets/faskesbg/assets/ttdfaskes/dirjen.png" alt="A4 Landscape Background" />
+    <img class="a4-bg-image" src="https://sinar.kemkes.go.id/assets/faskesbg/backgroundsertifikat.jpeg" alt="A4 Landscape Background" />
   </div>
 </body>
 </html>
