@@ -79,6 +79,7 @@ class Pdfgenerator {
      public function generatefaskes($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
     {   
         $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', TRUE);
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
