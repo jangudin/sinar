@@ -85,7 +85,7 @@ class Tesdev extends CI_Controller {
 
     function cekurl()
     {
-        $url = base_url('cek');
+        $url = base_url('')."assets/faskesbg/backgroundsertifikat.jpeg";
         var_dump($url);        
     }
     }
