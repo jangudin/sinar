@@ -176,7 +176,8 @@ class AkreditasiNonRS extends CI_Controller {
         $this->load->view('List_Rekomendasi',$data);
        //  echo json_encode($data['data']);exit;
     }
-    
+
+
         public function filesertifikatlembagakmk($id,$idp)
     {
 
