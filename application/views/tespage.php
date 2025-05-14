@@ -56,7 +56,7 @@
 </head>
 <body>
   <div class="a4-container">
-    <h4>hallo kaka puyeng aing</4>
+    <h4 class="center">hallo kaka puyeng aing</h4>
   </div>
 </body>
 </html>
