@@ -77,17 +77,18 @@ class Pdfgenerator {
         // }
     }
 
+
     public function generatefaskes($html, $filename = '', $paper = 'A4', $orientation = 'portrait')
     {
-        $this->generatef($html, $filename, $paper, $orientation, 'assets/faskessertif/');
+        $this->generatepdf($html, $filename, $paper, $orientation, 'assets/faskessertif/');
     }
 
     public function generatefaskesdirjen($html, $filename = '', $paper = 'A4', $orientation = 'portrait')
     {
-        $this->generatef($html, $filename, $paper, $orientation, 'assets/faskessertif/');
+        $this->generatepdf($html, $filename, $paper, $orientation, 'assets/faskessertif/');
     }
 
-    private function generatef($html, $filename, $paper, $orientation, $path)
+    private function generatepdf($html, $filename, $paper, $orientation, $path)
     {
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
@@ -111,6 +112,7 @@ class Pdfgenerator {
             log_message('error', 'File PDF gagal disimpan: ' . $fullpath);
         }
     }
+
 
 
          public function generatetpmd($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
