@@ -167,8 +167,8 @@
 
   <?php foreach ($data as $s) { ?>
     <main>
-      <div class="sertifikat-nomor">
-        <p style="font-size: 20px; color: red ;">Nomor : </p>
+      <div style="text-align: center; margin-top: 30px;">
+        <p style="font-size: 16px; color: red;"><strong>Nomor:</strong></p>
       </div>
       <table style="padding-left: 145px; padding-top:80px;">
         <thead>
@@ -228,9 +228,9 @@
         <?php endif; ?>
       </div>
 
-      <div class="berlaku">
-        <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_surveior)))); ?></p>
-      </div>
+      <div style="text-align: center; margin-top: 30px;">
+  <p>sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus :</p>
+</div>
 
     </main>
   <?php } ?>
