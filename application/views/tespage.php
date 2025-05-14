@@ -56,7 +56,7 @@
 </head>
 <body>
   <div class="a4-container">
-    <h4 class="center">hallo kaka puyeng aing</h4>
+    <img class="a4-bg-image" src="https://sinar.kemkes.go.id/assets/faskesbg/assets/ttdfaskes/dirjen.png" alt="A4 Landscape Background" />
   </div>
 </body>
 </html>
