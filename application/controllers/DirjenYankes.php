@@ -10,7 +10,7 @@ class DirjenYankes extends CI_Controller {
         $this->dbfaskes = $this->load->database('dbfaskes', TRUE);
         $this->load->helper('tanggal_indonesia');
        if ($this->session->userdata('status') != "login" || 
-    !in_array($this->session->userdata('jabatan_id'), ['1', '10', '2'])) {
+    !in_array($this->session->userdata('jabatan_id'), ['1', '10', '2','7'])) {
     // Akses ditolak
     redirect('auth'); // atau tampilkan view error
 }
