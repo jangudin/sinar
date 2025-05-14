@@ -10,13 +10,12 @@ class Pdfgenerator {
 
          public function generatetes($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
     {   
-
-        ob_start();
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper($paper, $orientation);
         $dompdf->render();
-        ob_end_clean();
         $outPut = $dompdf->output();
        //  file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
         if ($stream) {
@@ -77,42 +76,41 @@ class Pdfgenerator {
         // }
     }
 
-
-    public function generatefaskes($html, $filename = '', $paper = 'A4', $orientation = 'portrait')
-    {
-        $this->generatepdf($html, $filename, $paper, $orientation, 'assets/faskessertif/');
-    }
-
-    public function generatefaskesdirjen($html, $filename = '', $paper = 'A4', $orientation = 'portrait')
-    {
-        $this->generatepdf($html, $filename, $paper, $orientation, 'assets/faskessertif/');
-    }
-
-    private function generatepdf($html, $filename, $paper, $orientation, $path)
-    {
+     public function generatefaskes($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
+    {   
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
-        $options->set('isRemoteEnabled', true);
 
+        $options->set('isRemoteEnabled', TRUE);
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper($paper, $orientation);
         $dompdf->render();
-
-        $output = $dompdf->output();
-
-        $fullpath = FCPATH . $path . $filename . '.pdf';
-        if (!is_dir(dirname($fullpath))) {
-            mkdir(dirname($fullpath), 0755, true);
-        }
-
-        file_put_contents($fullpath, $output);
-
-        if (!file_exists($fullpath)) {
-            log_message('error', 'File PDF gagal disimpan: ' . $fullpath);
-        }
+        $outPut = $dompdf->output();
+        file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
+        // if ($stream) {
+        //     $dompdf->stream($filename.".pdf", array("Attachment" => 0));
+        // } else {
+        //     return $dompdf->output();
+        // }
     }
 
+         public function generatefaskesdirjen($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
+    {   
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper($paper, $orientation);
+        $dompdf->render();
+        $outPut = $dompdf->output();
+        file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
+        // if ($stream) {
+        //     $dompdf->stream($filename.".pdf", array("Attachment" => 0));
+        // } else {
+        //     return $dompdf->output();
+        // }
+    }
 
 
          public function generatetpmd($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)

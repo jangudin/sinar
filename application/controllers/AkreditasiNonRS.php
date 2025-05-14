@@ -11,7 +11,6 @@ class AkreditasiNonRS extends CI_Controller {
         $this->load->model('Dashboard_tte');
         $this->sina = $this->load->database('sina', TRUE);
         $this->load->library('encryption');
-        $this->load->library('Pdfgenerator');
         $this->load->helper('tanggal_indonesia');
         if($this->session->userdata('status') != "login"){
             redirect(base_url());
@@ -27,68 +26,6 @@ class AkreditasiNonRS extends CI_Controller {
      // echo json_encode($data['data']);exit;
       //  $this->load->view('pemeliharaan');
         $this->load->view('List_Rekomendasi',$data);
-    }
-
-        public function ttesertifikat()
-    {
-        $id = $this->uri->segment(3);
-        $faskes = $this->uri->segment(4);
-        $idp = $this->uri->segment(5);
-
-        // Generate file
-        $this->filesertifikatlembaga($id, $idp);
-        $this->filesertifikatdir($id, $idp);
-
-        $attachmentPath = FCPATH . 'assets/faskessertif/ttelembaga' . $idp . '.pdf';
-        $hasilTtePath = FCPATH . 'assets/faskessertif/' . $idp . '.pdf';
-
-        $data = [
-            'contents' => 'fasyankes_detail',
-            'data'     => $this->Tte_non_rs->detail_faskes($idp),
-            'idp'      => $idp,
-            'attachment' => is_file($attachmentPath) ? base_url('assets/faskessertif/ttelembaga' . $idp . '.pdf') : null,
-            'hasiltte'   => is_file($hasilTtePath) ? base_url('assets/faskessertif/' . $idp . '.pdf') : null,
-        ];
-
-        $this->load->view('List_Rekomendasi', $data);
-    }
-
-    public function filesertifikatlembaga($id, $idp)
-    {
-        $data['data'] = $this->Tte_non_rs->detail_faskes($idp);
-
-        if (!$data['data']) {
-            log_message('error', 'Data tidak ditemukan untuk sertifikat lembaga IDP: ' . $idp);
-            return;
-        }
-
-        $html = $this->load->view('Sertifikatfaskesnew/sertifikatlembaga', $data, true);
-        $filename = 'lembaga' . $idp;
-
-        $this->Pdfgenerator->generatefaskes($html, $filename, 'A4', 'landscape');
-
-        if (!file_exists(FCPATH . 'assets/faskessertif/' . $filename . '.pdf')) {
-            log_message('error', 'Gagal membuat PDF lembaga untuk IDP: ' . $idp);
-        }
-    }
-
-    public function filesertifikatdir($id, $idp)
-    {
-        $data['data'] = $this->Tte_non_rs->detail_faskes($idp);
-
-        if (!$data['data']) {
-            log_message('error', 'Data tidak ditemukan untuk sertifikat dirjen IDP: ' . $idp);
-            return;
-        }
-
-        $html = $this->load->view('Sertifikatfaskesnew/sertifikatdir', $data, true);
-        $filename = 'dir' . $idp;
-
-        $this->pdfgenerator->generatefaskesdirjen($html, $filename, 'A4', 'landscape');
-
-        if (!file_exists(FCPATH . 'assets/faskessertif/' . $filename . '.pdf')) {
-            log_message('error', 'Gagal membuat PDF dirjen untuk IDP: ' . $idp);
-        }
     }
 
      public function dashboard()
@@ -143,7 +80,36 @@ class AkreditasiNonRS extends CI_Controller {
     $this->load->view('List_Rekomendasi',$data);
 }
 
-public function ttesertifikatkemkes()
+
+    public function ttesertifikat()
+    {
+        $id = $this->uri->segment(3);
+        $faskes = $this->uri->segment(4);
+        $idp = $this->uri->segment(5);
+        $attachment = 'assets/faskessertif/ttelembaga'.$idp.'.pdf';
+        $hasiltte = 'assets/faskessertif/'.$idp.'.pdf';
+        // if ($this->session->userdata('lembaga_id') == "KEMENKES") {
+        //      $this->filesertifikatlembaga($id,$idp);
+        //     $this->filesertifikatdir($id,$idp);
+        //     $this->filesertifikatlembagakmk($id,$idp);
+        //     $this->filesertifikatdirkmk($id,$idp);
+        // }else{
+             $this->filesertifikatlembaga($id,$idp);
+             $this->filesertifikatdir($id,$idp);
+        // }
+
+           
+        $data = array('contents' => 'fasyankes_detail',
+           'data'    => $this->Tte_non_rs->detail_faskes($idp),
+           'idp'    => $idp,
+           'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
+           'hasiltte' => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null,
+       );
+        $this->load->view('List_Rekomendasi',$data);
+      //   echo json_encode($data['data']);exit;
+    }
+
+        public function ttesertifikatkemkes()
     {
         $id = $this->uri->segment(3);
         $faskes = $this->uri->segment(4);
@@ -210,7 +176,7 @@ public function ttesertifikatkemkes()
         $this->load->view('List_Rekomendasi',$data);
        //  echo json_encode($data['data']);exit;
     }
-
+    
         public function filesertifikatlembagakmk($id,$idp)
     {
 
