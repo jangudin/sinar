@@ -89,7 +89,7 @@ class Tesdev extends CI_Controller {
         var_dump($url);        
     }
 
-    public function index()
+    public function tespdf()
     {
         // panggil library yang kita buat sebelumnya yang bernama pdfgenerator
         $this->load->library('pdfgenerator');
@@ -109,7 +109,7 @@ class Tesdev extends CI_Controller {
         // run dompdf
         $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
     }
-    public function test()
+    public function testhtml()
     {
         $this->load->view('tespage');
     }
