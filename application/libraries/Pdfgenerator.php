@@ -77,39 +77,39 @@ class Pdfgenerator {
         // }
     }
 
-     public function generatefaskes($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
-    {   
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
-        $options->set('isRemoteEnabled', TRUE);
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper($paper, $orientation);
-        $dompdf->render();
-        $outPut = $dompdf->output();
-        file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
-        // if ($stream) {
-        //     $dompdf->stream($filename.".pdf", array("Attachment" => 0));
-        // } else {
-        //     return $dompdf->output();
-        // }
+    public function generatefaskes($html, $filename = '', $paper = 'A4', $orientation = 'portrait')
+    {
+        $this->generatef($html, $filename, $paper, $orientation, 'assets/faskessertif/');
     }
 
-         public function generatefaskesdirjen($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
-    {   
+    public function generatefaskesdirjen($html, $filename = '', $paper = 'A4', $orientation = 'portrait')
+    {
+        $this->generatef($html, $filename, $paper, $orientation, 'assets/faskessertif/');
+    }
+
+    private function generatef($html, $filename, $paper, $orientation, $path)
+    {
         $options = new Options();
-        $options->set('isRemoteEnabled', TRUE);
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper($paper, $orientation);
         $dompdf->render();
-        $outPut = $dompdf->output();
-        file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
-        // if ($stream) {
-        //     $dompdf->stream($filename.".pdf", array("Attachment" => 0));
-        // } else {
-        //     return $dompdf->output();
-        // }
+
+        $output = $dompdf->output();
+
+        $fullpath = FCPATH . $path . $filename . '.pdf';
+        if (!is_dir(dirname($fullpath))) {
+            mkdir(dirname($fullpath), 0755, true);
+        }
+
+        file_put_contents($fullpath, $output);
+
+        if (!file_exists($fullpath)) {
+            log_message('error', 'File PDF gagal disimpan: ' . $fullpath);
+        }
     }
 
 
