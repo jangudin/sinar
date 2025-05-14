@@ -10,12 +10,13 @@ class Pdfgenerator {
 
          public function generatetes($html, $filename='', $paper = '', $orientation = '', $stream=TRUE)
     {   
-        $options = new Options();
-        $options->set('isRemoteEnabled', TRUE);
+
+        ob_start();
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper($paper, $orientation);
         $dompdf->render();
+        ob_end_clean();
         $outPut = $dompdf->output();
        //  file_put_contents('assets/faskessertif/'.$filename.'.pdf',$outPut);
         if ($stream) {
