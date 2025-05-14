@@ -1,135 +1,97 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sertifikat</title>
-  <style>
-    @page {
-      margin: 0cm;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A4 Size Background Image</title>
+<style>
+  /* Page sized exactly A4 dimensions at 96 dpi */
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 210mm;
+    height: 297mm;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  body {
+    position: relative;
+  }
 
-    body {
-      font-family: 'Arial', sans-serif;
-      margin-top: 180px;
-      margin-bottom: 0cm;
-      margin-left: 0cm;
-      margin-right: 0cm;
-      position: relative;
-    }
+  /* Container sized exactly A4 */
+  .a4-container {
+    width: 210mm;
+    height: 297mm;
+    position: relative;
+    overflow: hidden;
+  }
 
-    #watermark {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1000;
-    }
+  /* Background image exactly fills the container with no distortion */
+  .a4-bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 210mm;
+    height: 297mm;
+    object-fit: cover;
+    object-position: center center;
+    z-index: 0;
+  }
 
-    .sertifikat-nomor,
-    .sertifikat-nama,
-    .sertifikat-garis,
-    .sertifikat-tingkat,
-    .capayan,
-    .capayanimgparipurna,
-    .capayanimgutama,
-    .ttdlembaga,
-    .ttddirjen,
-    .berlaku,
-    .tglprn,
-    .tglsertifikat,
-    .tglsekarang,
-    .atasnama {
-      position: absolute;
-      margin: auto;
-      text-align: center;
-    }
+  /* Content on top */
+  .content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255 255 255 / 0.65);
+    font-weight: 600;
+    padding: 1rem;
+    box-sizing: border-box;
+    text-align: center;
+  }
 
-    .sertifikat-nomor {
-      top: 25%;
-      width: 100%;
-    }
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: 2.4rem;
+  }
 
-    .sertifikat-nama {
-      top: 30%;
-      left: 14%;
-      width: 800px;
-    }
+  p {
+    font-size: 1.2rem;
+    margin: 0;
+  }
 
-    .sertifikat-garis {
-      top: 33%;
-      left: 14%;
-      width: 800px;
+  @media print {
+    html, body {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
     }
-
-    .sertifikat-tingkat {
-      top: 46%;
-      width: 100%;
+    .a4-bg-image {
+      width: 210mm;
+      height: 297mm;
+      object-fit: cover;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
-
-    .capayan {
-      top: 60%;
-      width: 100%;
+    .content {
+      background: transparent;
     }
-
-    .berlaku {
-      top: 67%;
-      width: 100%;
-    }
-
-    .capayanimgparipurna,
-    .capayanimgutama {
-      top: 52%;
-      left: 25%;
-    }
-
-    .ttdlembaga {
-      top: 80%;
-      left: 15%;
-    }
-
-    .ttddirjen {
-      top: 80%;
-      left: 55%;
-    }
-
-    .title {
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .desc {
-      font-size: 17px;
-    }
-
-    .tingkat {
-      font-size: 30px;
-      font-weight: bold;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div id="watermark">
-    <img src="https://sinar.kemkes.go.id/assets/faskesbg/backgroundsertifikat.jpeg" width="100%" height="100%">
-  </div>
-
-  <div class="sertifikat-nomor">Nomor: 123/ABC/2024</div>
-  <div class="sertifikat-nama title">Nama Lengkap Peserta</div>
-  <div class="sertifikat-garis"><hr></div>
-  <div class="sertifikat-tingkat tingkat">TINGKAT PARIPURNA</div>
-  <div class="capayan desc">Telah mengikuti pelatihan dengan hasil memuaskan</div>
-  <div class="berlaku">Berlaku hingga 31 Desember 2025</div>
-  <div class="capayanimgparipurna">
-    <img src="https://sinar.kemkes.go.id/assets/faskesbg/paripurna.png" width="100">
-  </div>
-  <div class="ttdlembaga">
-    <p>Kepala Lembaga</p>
-    <img src="https://sinar.kemkes.go.id/assets/ttd/kepala.png" width="100">
-  </div>
-  <div class="ttddirjen">
-    <p>Dirjen Pelayanan Kesehatan</p>
-    <img src="https://sinar.kemkes.go.id/assets/ttd/dirjen.png" width="100">
+  <div class="a4-container">
+    <img class="a4-bg-image" src="https://sinar.kemkes.go.id/assets/faskesbg/backgroundsertifikat.jpeg" alt="A4 Background" />
+    <div class="content">
+      <h1>Halaman Ukuran A4</h1>
+      <p>Background image ditampilkan persis dengan ukuran A4</p>
+    </div>
   </div>
 </body>
 </html>
