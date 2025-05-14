@@ -91,6 +91,6 @@ class Tesdev extends CI_Controller {
 
     public function index()
     {
-        $this->load->view('tespege');
+        $this->load->view('tespage');
     }
 }
