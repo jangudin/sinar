@@ -200,7 +200,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
+    <img src="https://sinar.kemkes.go.id/sinar/assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
@@ -255,13 +255,13 @@
       </div>
       <div class="capayan">
         <?php if ($s->status_akreditasi == 'Paripurna'): ?>
-          <img src="assets/faskessertif/capayan/paripurna.png" height=60 class="center">
+          <img src="<?= base_url('') ?>assets/faskessertif/capayan/paripurna.png" height=60 class="center">
         <?php elseif ($s->status_akreditasi == 'Utama'): ?>
-          <img src="assets/faskessertif/capayan/utama.png" height=60 class="center">
+          <img src="<?= base_url('') ?>assets/faskessertif/capayan/utama.png" height=60 class="center">
         <?php elseif ($s->status_akreditasi == 'Madya'): ?>
-          <img src="assets/faskessertif/capayan/madya.png" height=60 class="center">
+          <img src="<?= base_url('') ?>assets/faskessertif/capayan/madya.png" height=60 class="center">
         <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
-          <img src="assets/faskessertif/capayan/dasar.png" height=60 class="center">
+          <img src="<?= base_url('') ?>assets/faskessertif/capayan/dasar.png" height=60 class="center">
         <?php endif; ?>
       </div>
       <div class="berlaku">
