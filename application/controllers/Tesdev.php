@@ -88,4 +88,8 @@ class Tesdev extends CI_Controller {
         $url = base_url('')."assets/faskesbg/backgroundsertifikat.jpeg";
         var_dump($url);        
     }
+
+    public function index()
+    {
+        $this->load->view('Tesdev');
     }
