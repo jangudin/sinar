@@ -8,6 +8,7 @@ class Testpdf extends CI_Controller {
         ini_set('max_execution_time', '300');
         $this->load->model('Dashboard_tte');
         $this->load->library('encryption');
+        $this->load->library('mpdf_library');
         $this->load->helper('tanggal_indonesia');
     }
 
@@ -89,24 +90,14 @@ class Testpdf extends CI_Controller {
         var_dump($url);        
     }
 
-    public function index()
+    public function mpdftes() 
     {
-        // panggil library yang kita buat sebelumnya yang bernama pdfgenerator
-        $this->load->library('pdfgenerator');
-        
-        // title dari pdf
-        $this->data['title_pdf'] = 'Laporan Penjualan Toko Kita';
-        
-        // filename dari pdf ketika didownload
-        $file_pdf = 'laporan_penjualan_toko_kita';
-        // setting paper
-        $paper = 'A4';
-        //orientasi paper potrait / landscape
-        $orientation = "landscape";
-        
-		$html = $this->load->view('tespage',$this->data, true);	    
-        
-        // run dompdf
-        $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
-    }
+        $base_url = base_url(); // URL dasar aplikasi Anda
+
+        // Contoh HTML dengan gambar
+        $html = '<h1>Contoh PDF dengan Gambar</h1>';
+        $html .= '<p>Berikut adalah gambar yang dimuat menggunakan tag &lt;img&gt;:</p>';
+        $html .= '<img src="' . $base_url . 'assets/images/example.jpg" width="300px" />';
+        $this->mpdf_library->load($html, 'pdf_dengan_gambar.pdf', 'I');
+}
 }
