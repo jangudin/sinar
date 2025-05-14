@@ -15,21 +15,11 @@
     .nmrs {
       font-family: 'Germania One', cursive;
     }
-  </style>
-  <style>
-    /** 
-            * Set the margins of the PDF to 0
-            * so the background image will cover the entire page.
-            **/
+
     @page {
       margin: 0cm 0cm;
     }
 
-    /**
-            * Define the real margins of the content of your PDF
-            * Here you will fix the margins of the header and footer
-            * Of your background image.
-            **/
     body {
       margin-top: 180px;
       margin-bottom: 0cm;
@@ -37,35 +27,43 @@
       margin-right: 0cm;
     }
 
-    /** 
-            * Define the width, height, margins and position of the watermark.
-            **/
     #watermark {
       position: fixed;
       bottom: 0px;
       left: 0px;
-      /** The width and height may change 
-                    according to the dimensions of your letterhead
-                **/
       width: 29.7cm;
       height: 21cm;
-
-      /** Your watermark should be behind every content**/
       z-index: -1000;
+    }
+
+    .sertifikat-nomor,
+    .sertifikat-nama,
+    .sertifikat-garis,
+    .sertifikat-tingkat,
+    .capayan,
+    .capayanimgparipurna,
+    .capayanimgutama,
+    .ttdlembaga,
+    .ttddirjen,
+    .bsd,
+    .berlaku,
+    .tglprn,
+    .tglsertifikat,
+    .tglsekarang,
+    .atasnama {
+      position: fixed;
+      margin: auto;
     }
 
     .sertifikat-nomor {
       top: 25%;
       text-align: center;
-      position: fixed;
-      marging: auto;
     }
 
     .sertifikat-nama {
       top: 30%;
       left: 14%;
       text-align: center;
-      position: fixed;
       width: 800px;
     }
 
@@ -73,135 +71,100 @@
       top: 33%;
       left: 14%;
       text-align: center;
-      position: fixed;
       width: 800px;
     }
 
     .sertifikat-tingkat {
       top: 46%;
       text-align: center;
-      position: fixed;
-      marging: auto;
-    }
-
-    .fixed {
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      width: 300px;
-      border: 3px solid #73AD21;
-    }
-
-    .capayanimgparipurna {
-      top: 52%;
-      left: 25%;
-      position: fixed;
-      marging: auto;
-    }
-
-    .capayanimgutama {
-      top: 55%;
-      left: 35 %;
-      position: fixed;
-      marging: auto;
-    }
-
-    .ttdlembaga {
-      top: 80%;
-      left: 15 %;
-      position: fixed;
-      marging: auto;
-    }
-
-    .ttddirjen {
-      top: 80%;
-      left: 55 %;
-      position: fixed;
-      marging: auto;
-    }
-
-    .bsd {
-      top: 53%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
-    }
-
-    .berlaku {
-      top: 67%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
     }
 
     .capayan {
       top: 60%;
       text-align: center;
-      position: fixed;
-      marging: auto;
     }
 
-    .tglprn {
-      top: 72%;
-      left: 10%;
-      position: fixed;
-      marging: auto;
+    .berlaku {
+      top: 67%;
+      text-align: center;
     }
 
-    .tglsertifikat {
-      top: 70%;
-      left: 12%;
+    .capayanimgparipurna,
+    .capayanimgutama {
+      top: 52%;
+      left: 25%;
       position: fixed;
-      marging: auto;
     }
 
-    .tglsekarang {
-      top: 70%;
+    .ttdlembaga {
+      top: 80%;
+      left: 15%;
+    }
+
+    .ttddirjen {
+      top: 80%;
       left: 55%;
-      position: fixed;
-      marging: auto;
     }
 
+    .tglprn,
+    .tglsertifikat,
+    .tglsekarang,
     .atasnama {
-      top: 71.5%;
-      left: 55%;
       position: fixed;
-      marging: auto;
+      margin: auto;
     }
 
-    code {
-      font-family: Consolas, Monaco, Courier New, Courier, monospace;
-      font-size: 18px;
-      color: black;
-    }
-
-    .p3 {
-      font-family: "Lucida Console", "Courier New", monospace;
+    .title,
+    .desc,
+    .tingkat {
+      font-family: 'bernard-mt-condensed-regular', sans-serif;
     }
 
     .title {
-      font-family: 'bernard-mt-condensed-regular', sans-serif;
       font-size: 17px;
     }
 
     .desc {
-      font-family: 'bernard-mt-condensed-regular', sans-serif;
       font-size: 17px;
     }
 
     .tingkat {
-      font-family: 'bernard-mt-condensed-regular', sans-serif;
       font-size: 30px;
       font-weight: bold;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .sertifikat-nama {
+        width: 90%;
+        left: 5%;
+      }
+
+      .sertifikat-garis {
+        width: 90%;
+        left: 5%;
+      }
+
+      .capayanimgparipurna,
+      .capayanimgutama {
+        top: 55%;
+        left: 15%;
+      }
+
+      .ttdlembaga,
+      .ttddirjen {
+        top: 85%;
+      }
     }
   </style>
 </head>
 
-<body class="text-centre">
+<body class="text-center">
 
   <div id="watermark">
     <img src="https://sinar.kemkes.go.id/sinar/assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
   </div>
+
   <?php foreach ($data as $s) { ?>
     <main>
       <div class="sertifikat-nomor">
@@ -248,11 +211,11 @@
           </tr>
         </tbody>
       </table>
-      <div class="sertifikat-tingkat">
-      </div>
+
       <div class="bsd">
         <p class="desc">sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus :</p>
       </div>
+
       <div class="capayan">
         <?php if ($s->status_akreditasi == 'Paripurna'): ?>
           <img src="https://sinar.kemkes.go.id/sinar/assets/faskessertif/capayan/paripurna.png" height=60 class="center">
@@ -264,10 +227,10 @@
           <img src="https://sinar.kemkes.go.id/sinar/assets/faskessertif/capayan/dasar.png" height=60 class="center">
         <?php endif; ?>
       </div>
+
       <div class="berlaku">
         <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_surveior)))); ?></p>
       </div>
-
 
     </main>
   <?php } ?>
