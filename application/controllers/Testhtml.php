@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Tesdev extends CI_Controller {
+class Testhtml extends CI_Controller {
     function __construct(){
         parent::__construct();
         date_default_timezone_set('Asia/Jakarta');
@@ -109,7 +109,7 @@ class Tesdev extends CI_Controller {
         // run dompdf
         $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
     }
-    public function testhtml()
+    public function index()
     {
         $this->load->view('tespage');
     }
