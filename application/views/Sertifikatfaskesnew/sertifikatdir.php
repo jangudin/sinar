@@ -177,7 +177,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="https://sinar.kemkes.go.id/assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
+    <img src="assets/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
@@ -232,13 +232,13 @@
     </div>
     <div class="capayan">
       <?php if ($s->status_akreditasi == 'Paripurna'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/paripurna.png" height=60 class="center">
+        <img src="assets/faskessertif/capayan/paripurna.png" height=60 class="center">
       <?php elseif ($s->status_akreditasi == 'Utama'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/utama.png" height=60 class="center">
+        <img src="assets/faskessertif/capayan/utama.png" height=60 class="center">
       <?php elseif ($s->status_akreditasi == 'Madya'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/madya.png" height=60 class="center">
+        <img src="assets/faskessertif/capayan/madya.png" height=60 class="center">
       <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
-        <img src="https://sinar.kemkes.go.id/assets/faskessertif/capayan/dasar.png" height=60 class="center">
+        <img src="assets/faskessertif/capayan/dasar.png" height=60 class="center">
       <?php endif; ?>
     </div>
     <div class="berlaku">
@@ -253,16 +253,16 @@
    </div>
    <?php if ($s->jenis_faskes == 'Pusat Kesehatan Masyarakat'): ?>
     <div class="ttddirjen">  
-    <img src="https://sinar.kemkes.go.id/assets/ttdfaskes/dirjendua.png" height=90 class="ceter">
+    <img src="assets/ttdfaskes/dirjendua.png" height=90 class="ceter">
   </div>
     <?php else : ?>
    <?php if ($s->kategoriFaskes == 'Pratama'): ?>
     <div class="ttddirjen">  
-    <img src="https://sinar.kemkes.go.id/assets/ttdfaskes/dirjendua.png" height=90 class="ceter">
+    <img src="assets/ttdfaskes/dirjendua.png" height=90 class="ceter">
   </div>
   <?php else : ?>
    <div class="ttddirjen">  
-    <img src="https://sinar.kemkes.go.id/assets/ttdfaskes/dirjen.png" height=90 class="ceter">
+    <img src="assets/ttdfaskes/dirjen.png" height=90 class="ceter">
   </div>
   <?php endif; ?>
   <?php endif; ?>
