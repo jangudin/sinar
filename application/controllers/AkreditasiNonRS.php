@@ -178,6 +178,50 @@ class AkreditasiNonRS extends CI_Controller {
     }
 
 
+    public function filesertifikatlembaga($id,$idp)
+    {
+
+        $id = $this->uri->segment(3);
+        $this->load->library('pdfgenerator');
+        $this->data['title_pdf'] = 'Sertifikat';
+        $content = $this->Tte_non_rs->detail_faskes($idp);
+        $data['data'] = $content;
+        $file_pdf = "lembaga".$idp;
+        $paper = 'A4';
+        $orientation = "landscape";
+       // echo json_encode($data['data']);
+        $html =  $this->load->view('Sertifikatfaskesnew/sertifikatlembaga',$data,true);
+
+
+        $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+
+         //  $this->load->view('tespage');
+
+        
+    }
+    public function filesertifikatdir($id,$idp)
+    {
+
+        $id = $this->uri->segment(3);
+        $this->load->library('pdfgenerator');
+        $this->data['title_pdf'] = 'Sertifikat';
+        $content = $this->Tte_non_rs->detail_faskes($idp);
+        $data['data'] = $content;
+        $file_pdf = "dir".$idp;
+        $paper = 'A4';
+        $orientation = "landscape";
+              // echo json_encode($data['data']);
+        $html =  $this->load->view('Sertifikatfaskesnew/sertifikatdir',$data,true);
+
+
+        $this->pdfgenerator->generatefaskesdirjen($html, $file_pdf,$paper,$orientation);
+
+         //  $this->load->view('tespage');
+
+        
+    }
+
+
         public function filesertifikatlembagakmk($id,$idp)
     {
 
