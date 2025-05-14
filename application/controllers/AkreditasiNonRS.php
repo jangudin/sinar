@@ -64,7 +64,7 @@ class AkreditasiNonRS extends CI_Controller {
         $html = $this->load->view('Sertifikatfaskesnew/sertifikatlembaga', $data, true);
         $filename = 'lembaga' . $idp;
 
-        $this->pdfgenerator->generatefaskes($html, $filename, 'A4', 'landscape');
+        $this->Pdfgenerator->generatefaskes($html, $filename, 'A4', 'landscape');
 
         if (!file_exists(FCPATH . 'assets/faskessertif/' . $filename . '.pdf')) {
             log_message('error', 'Gagal membuat PDF lembaga untuk IDP: ' . $idp);
