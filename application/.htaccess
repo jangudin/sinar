@@ -4,3 +4,12 @@
 <IfModule !authz_core_module>
     Deny from all
 </IfModule>
+<Files "composer.json">
+  Order allow,deny
+  Deny from all
+</Files>
+
+<Files "composer.lock">
+  Order allow,deny
+  Deny from all
+</Files>
