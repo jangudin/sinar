@@ -107,6 +107,6 @@ class Tesdev extends CI_Controller {
 		$html = $this->load->view('tespage',$this->data, true);	    
         
         // run dompdf
-        $this->pdfgenerator->generate($html, $file_pdf,$paper,$orientation);
+        $this->pdfgenerator->generatetes($html, $file_pdf,$paper,$orientation);
     }
 }
