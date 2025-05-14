@@ -86,6 +86,6 @@ class Tesdev extends CI_Controller {
     function cekurl()
     {
         $url = base_url('cek');
-        echo jason_encode($url);        
+        var_dump($url);        
     }
     }
