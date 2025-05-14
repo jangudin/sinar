@@ -227,7 +227,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>Alamat <?= base_url('/assets/faskesbg/backgroundsertifikat.jpeg') ?></td>
+            <td>Alamat </td>
             <td>:</td>
             <td width="700px"><?= $s->alamat; ?></td>
           </tr>
@@ -255,13 +255,13 @@
       </div>
       <div class="capayan">
         <?php if ($s->status_akreditasi == 'Paripurna'): ?>
-          <img src="<?= base_url('') ?>assets/faskessertif/capayan/paripurna.png" height=60 class="center">
+          <img src="https://sinar.kemkes.go.id/sinar/assets/faskessertif/capayan/paripurna.png" height=60 class="center">
         <?php elseif ($s->status_akreditasi == 'Utama'): ?>
-          <img src="<?= base_url('') ?>assets/faskessertif/capayan/utama.png" height=60 class="center">
+          <img src="https://sinar.kemkes.go.id/sinar/assets/faskessertif/capayan/utama.png" height=60 class="center">
         <?php elseif ($s->status_akreditasi == 'Madya'): ?>
-          <img src="<?= base_url('') ?>assets/faskessertif/capayan/madya.png" height=60 class="center">
+          <img src="https://sinar.kemkes.go.id/sinar/assets/faskessertif/capayan/madya.png" height=60 class="center">
         <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
-          <img src="<?= base_url('') ?>assets/faskessertif/capayan/dasar.png" height=60 class="center">
+          <img src="https://sinar.kemkes.go.id/sinar/assets/faskessertif/capayan/dasar.png" height=60 class="center">
         <?php endif; ?>
       </div>
       <div class="berlaku">
