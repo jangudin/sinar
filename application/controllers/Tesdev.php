@@ -82,4 +82,10 @@ class Tesdev extends CI_Controller {
 
         curl_close($ch);
     }
+
+    function cekurl()
+    {
+        $url = base_url('cek');
+        echo jason_encode($url);        
+    }
     }
