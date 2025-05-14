@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>A4 Size Background Image</title>
+<title>A4 Landscape Background Image</title>
 <style>
-  /* Page sized exactly A4 dimensions at 96 dpi */
+  /* Page sized exactly A4 landscape dimensions at 96 dpi */
   html, body {
     margin: 0;
     padding: 0;
-    width: 210mm;
-    height: 297mm;
+    width: 297mm;
+    height: 210mm;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-sizing: border-box;
     overflow: hidden;
@@ -19,10 +19,10 @@
     position: relative;
   }
 
-  /* Container sized exactly A4 */
+  /* Container sized exactly A4 landscape */
   .a4-container {
-    width: 210mm;
-    height: 297mm;
+    width: 297mm;
+    height: 210mm;
     position: relative;
     overflow: hidden;
   }
@@ -31,8 +31,8 @@
   .a4-bg-image {
     position: absolute;
     top: 0; left: 0;
-    width: 210mm;
-    height: 297mm;
+    width: 297mm;
+    height: 210mm;
     object-fit: cover;
     object-position: center center;
     z-index: 0;
@@ -68,13 +68,13 @@
 
   @media print {
     html, body {
-      width: 210mm;
-      height: 297mm;
+      width: 297mm;
+      height: 210mm;
       margin: 0;
     }
     .a4-bg-image {
-      width: 210mm;
-      height: 297mm;
+      width: 297mm;
+      height: 210mm;
       object-fit: cover;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -87,10 +87,10 @@
 </head>
 <body>
   <div class="a4-container">
-    <img class="a4-bg-image" src="https://sinar.kemkes.go.id/assets/faskesbg/backgroundsertifikat.jpeg" alt="A4 Background" />
+    <img class="a4-bg-image" src="https://sinar.kemkes.go.id/assets/faskesbg/backgroundsertifikat.jpeg" alt="A4 Landscape Background" />
     <div class="content">
-      <h1>Halaman Ukuran A4</h1>
-      <p>Background image ditampilkan persis dengan ukuran A4</p>
+      <h1>Halaman Ukuran A4 Landscape</h1>
+      <p>Background image ditampilkan persis dengan ukuran A4 lanscape</p>
     </div>
   </div>
 </body>
