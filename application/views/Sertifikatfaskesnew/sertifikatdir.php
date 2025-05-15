@@ -43,8 +43,6 @@
       .capayan,
       .capayanimgparipurna,
       .capayanimgutama,
-      .ttdlembaga,
-      .ttddirjen,
       .bsd,
       .berlaku,
       .tglprn,
@@ -252,23 +250,16 @@
         <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))); ?></p>
       </div>
 
-      <div class="ttd-wrapper">
-  <div class="ttd-box ttdlembaga">
+      <div class="ttd-container">
+  <!-- TTD Lembaga di kiri -->
+  <div class="ttdlembaga">
     <img src="<?= $s->logo ?>" height="90" />
   </div>
-  <div class="ttd-box ttddirjen">
+  <!-- TTD Dirjen di kanan -->
+  <div class="ttddirjen">
     <img src="<?= $dir ?>" height="90" />
   </div>
 </div>
-<div class="ttd-wrapper">
-  <div class="ttd-box ttdlembaga">
-    <img src="<?= $s->logo ?>" height="90" />
-  </div>
-  <div class="ttd-box ttddirjen">
-    <img src="<?= $dir ?>" height="90" />
-  </div>
-</div>
-
 
 
     </main>
