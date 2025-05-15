@@ -227,8 +227,7 @@ public function filesertifikatdir($id,$idp)
 public function filesertifikatlembaga($id,$idp)
 {
     $id = $this->uri->segment(3);
-    // Ambil segment URI jika perlu
-    $idp = $this->uri->segment(3); // atau gunakan parameter $id jika dari route langsung
+    // atau gunakan parameter $id jika dari route langsung
 
     // Load library PDF
     $this->load->library('pdfgenerator');
