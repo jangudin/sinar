@@ -59,8 +59,8 @@
                   </table>
                 </br>
                 <hr>
-                            <label>Sertifikat <a href="<?= $attachment ?>" target="_blank">(Layar Penuh)</a></label><br/>
-                            <iframe src="<?= $attachment?>" frameborder="0" width="100%" height="900px"></iframe>
+                            <!-- <label>Sertifikat <a href="<?= $attachment ?>" target="_blank">(Layar Penuh)</a></label><br/>
+                            <iframe src="<?= $attachment?>" frameborder="0" width="100%" height="900px"></iframe> -->
                
                     <br />
                     <hr>
