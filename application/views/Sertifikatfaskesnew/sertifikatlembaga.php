@@ -91,12 +91,12 @@
         <tr>
           <td>Fasyankes</td>
           <td>:</td>
-          <td><?= $s->nama_fasyankes ?></td>
+          <td><?= $s->nama_faskes ?></td>
         </tr>
         <tr>
           <td>Jenis</td>
           <td>:</td>
-          <td><?= $s->jenis_fasyankes_nama ?></td>
+          <td><?= $s->jenis_faskes ?></td>
         </tr>
         <tr>
           <td>Alamat</td>
@@ -106,17 +106,17 @@
         <tr>
           <td>Kecamatan</td>
           <td>:</td>
-          <td><?= ucwords(strtolower($s->nama_camat)) ?></td>
+          <td><?= ucwords(strtolower($s->kecamatan)) ?></td>
         </tr>
         <tr>
           <td>Kab/Kota</td>
           <td>:</td>
-          <td><?= ucwords(strtolower($s->nama_kota)) ?></td>
+          <td><?= ucwords(strtolower($s->kabkot)) ?></td>
         </tr>
         <tr>
           <td>Provinsi</td>
           <td>:</td>
-          <td><?= $s->nama_prop ?></td>
+          <td><?= $s->provinsi ?></td>
         </tr>
       </table>
 
