@@ -205,6 +205,10 @@ public function filesertifikatlembaga($faskes, $id, $id_p)
     $this->load->model('Tte_non_rs');
 
     $content = $this->Tte_non_rs->bahansertifikat($faskes, $id, $id_p);
+    foreach ($content as $key => $row) {
+    $logoPath = FCPATH . $row->logo; // sesuaikan path file logomu
+    $content[$key]->logo = $this->base64EncodeImage($logoPath);
+}
     $data['data'] = $content;
 
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
