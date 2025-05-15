@@ -234,6 +234,10 @@
         <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))); ?></p>
       </div>
 
+      <div class="logo-lembaga">
+        <img src="<?= $s->logo ?>" height="90" />
+      </div>
+
     </main>
   <?php } ?>
 </body>
