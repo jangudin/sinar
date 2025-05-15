@@ -153,21 +153,29 @@
         left: 15%;
       }
 
-.ttd-container {
-  position: fixed;
-  bottom: 60px;
-  left: 0;
-  width: 40%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 80px; /* Jarak dari sisi kiri dan kanan */
-  align-items: center;
-}
+      .ttd-container {
+            position: relative;
+            width: 100%;
+            height: 100px; /* Sesuaikan tinggi area tanda tangan */
+            display: flex;
+            justify-content: space-between;
+            padding: 0 60px; /* Jarak dari kiri dan kanan */
+            box-sizing: border-box;
+            margin-top: 60px; /* Beri jarak dari konten atas */
+          }
 
-.ttdlembaga img,
-.ttddirjen img {
-  height: 90px;
-}
+          .ttdlembaga,
+          .ttddirjen {
+            width: 300px;
+            height: auto;
+          }
+
+          .ttdlembaga img,
+          .ttddirjen img {
+            width: 100%;
+            height: auto;
+            display: block;
+          }
     }
   </style>
 </head>
