@@ -153,11 +153,11 @@
         left: 15%;
       }
 
-      .ttd-container {
+.ttd-container {
   position: fixed;
   bottom: 60px;
   left: 0;
-  width: 100%;
+  width: 40%;
   display: flex;
   justify-content: space-between;
   padding: 0 80px; /* Jarak dari sisi kiri dan kanan */
