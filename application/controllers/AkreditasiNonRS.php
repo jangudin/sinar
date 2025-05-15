@@ -228,7 +228,7 @@ public function filesertifikatlembaga($id, $idp)
     $data['ttd_dirjen'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
 
     // Judul file PDF
-    $file_pdf = "lembaga_" . $idp;
+    $file_pdf = "lembaga" .$idp;
 
     // Ukuran dan orientasi
     $paper = 'A4';
