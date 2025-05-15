@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
-    <style>
+  <style>
     .nmrs {
       font-family: 'Germania One', cursive;
     }
@@ -241,18 +241,13 @@
         <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))); ?></p>
       </div>
 
-    <div class="ttd-container">
+      <div class="ttd-container">
         <div class="ttdlembaga">
             <img src="<?= $s->logo ?>" height="90" style="position: absolute; bottom: 80px; left: 200px;" />
         </div>
         <div class="ttddirjen">
-            <img src="<?= $dir ?>" height="90" style="position: absolute; bottom: 80px; left: 500px;" />
+            <img src="<?= $dir ?>" height="90" style="position: absolute; bottom: 80px; right: 200px;" />
       </div>
-    </div>
-
-      <div class="sertifikat
-
-
 
     </main>
   <?php } ?>
