@@ -1977,7 +1977,7 @@ if ($faskes == null) {
 }
 
 
-public function bahansertifikat($faskes,$id,$id_p)
+public function bahansertifikat($faskes,$id_p)
 {
         $puskesmas=$this->sina->query("SELECT
                 a.*,
