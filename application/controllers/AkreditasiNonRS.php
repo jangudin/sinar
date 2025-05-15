@@ -214,10 +214,10 @@ public function filesertifikatdir($id,$idp)
     $orientation = "landscape";
 
     // Render view dan generate PDF
-    // $html = $this->load->view('Sertifikatfaskesnew/sertifikatdir', $data, true);
-    // $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
+    $html = $this->load->view('Sertifikatfaskesnew/sertifikatdir', $data, true);
+    $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 
-    $this->load->view('Sertifikatfaskesnew/sertifikatdir', $data, true);
+   // $this->load->view('Sertifikatfaskesnew/sertifikatdir', $data, true);
 }
 
 
