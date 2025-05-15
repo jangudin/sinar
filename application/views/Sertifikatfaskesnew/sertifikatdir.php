@@ -153,7 +153,7 @@
         left: 15%;
       }
 
-            .ttd-container {
+      .ttd-container {
         position: fixed;
         bottom: 80px;
         left: 0;
@@ -163,13 +163,10 @@
         padding: 0 100px;
       }
 
-      .ttdlembaga{
-        text-align: left;
-      }
+      .ttdlembaga,
       .ttddirjen {
-        text-align: right;
+        text-align: center;
       }
-
     }
   </style>
 </head>
