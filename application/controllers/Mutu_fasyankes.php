@@ -473,7 +473,7 @@ public function Detailnonrs()
     $faskes = urldecode($this->uri->segment(3));
     $id = $this->uri->segment(4);
     $id_p = $this->uri->segment(5);
-    $this->filesertifikat($faskes,$id,$id_p);
+    // $this->filesertifikat($faskes,$id,$id_p);
     $attachment = 'assets/faskessertif/'.$id_p.'.pdf';
     $data = array('contents' => 'detailmutunonrs',
       'detail'   =>$this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p),
