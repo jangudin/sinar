@@ -36,25 +36,27 @@
       z-index: -1000;
     }
 
-    .sertifikat-nomor,
-    .sertifikat-nama,
-    .sertifikat-garis,
-    .sertifikat-tingkat,
-    .capayan,
-    .capayanimgparipurna,
-    .capayanimgutama,
-    .ttdlembaga,
-    .ttddirjen,
-    .bsd,
-    .berlaku,
-    .tglprn,
-    .tglsertifikat,
-    .tglsekarang,
-    .atasnama {
-      position: fixed;
-      margin: auto;
-    }
-
+      .sertifikat-nomor,
+      .sertifikat-nama,
+      .sertifikat-garis,
+      .sertifikat-tingkat,
+      .capayan,
+      .capayanimgparipurna,
+      .capayanimgutama,
+      .ttdlembaga,
+      .ttddirjen,
+      .bsd,
+      .berlaku,
+      .tglprn,
+      .tglsertifikat,
+      .tglsekarang,
+      .atasnama {
+        position: fixed;
+        margin: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+      }
     .sertifikat-nomor {
       top: 25%;
       text-align: center;
@@ -216,7 +218,7 @@
         <p class="desc">sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus :</p>
       </div>
 
-       <div class="capayan">
+      <div class="capayan">
       <?php if ($s->status_akreditasi == 'Paripurna'): ?>
         <img src="<?= $capayan_paripurna ?>" height="60" />
       <?php elseif ($s->status_akreditasi == 'Utama'): ?>
