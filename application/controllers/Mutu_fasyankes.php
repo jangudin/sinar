@@ -567,30 +567,45 @@ public function simpanverifikasi($value='')
 
 public function filesertifikat($faskes,$id,$id_p)
 {
-        // $faskes = urldecode($this->uri->segment(3));
-        // $id = $this->uri->segment(4);
     $this->load->library('pdfgenerator');
-    $this->data['title_pdf'] = 'Sertifikat';
+    $this->load->model('Tte_non_rs');
+
+    // Ambil data sertifikat
     $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
     $data['data'] = $content;
-    $file_pdf = $id_p;
-    $paper = 'A4';
-    $orientation = "landscape";
-          //  echo json_encode($data['data']);
-    $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-    $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
 
-        // if ($faskes == 'klinik') {
-        //     $this->pdfgenerator->generatefaskeseklinik($html, $file_pdf,$paper,$orientation);
-        // }elseif ($faskes == 'Pusat Kesehatan Masyarakat') {
-        //     $this->pdfgenerator->generatefaskesepuskesmas($html, $file_pdf,$paper,$orientation);
-        // }
+    // Encode gambar background & tanda tangan ke base64
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
+    $data['ttd_kepala_base64'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/kepala.png');
+    $data['ttd_dirjen_base64'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
 
+    // Encode gambar capayan per data
+    foreach ($data['data'] as &$s) {
+        $capayanFile = '';
+        switch ($s->status_akreditasi) {
+            case 'Paripurna': $capayanFile = FCPATH . 'assets/faskessertif/capayan/paripurna.png'; break;
+            case 'Utama': $capayanFile = FCPATH . 'assets/faskessertif/capayan/utama.png'; break;
+            case 'Madya': $capayanFile = FCPATH . 'assets/faskessertif/capayan/madya.png'; break;
+            case 'Dasar': $capayanFile = FCPATH . 'assets/faskessertif/capayan/dasar.png'; break;
+        }
+        $s->capayan_base64 = $this->base64EncodeImage($capayanFile);
+    }
+    unset($s);
 
-         //  $this->load->view('tespage');
-
-
+    $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
+    $this->pdfgenerator->generatefaskes($html, $id_p, 'A4', 'landscape');
 }
+
+private function base64EncodeImage($filename = "")
+{
+    if (file_exists($filename)) {
+        $type = pathinfo($filename, PATHINFO_EXTENSION);
+        $data = file_get_contents($filename);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+    return '';
+}
+
 
 
 
