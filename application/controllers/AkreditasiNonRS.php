@@ -204,18 +204,22 @@ public function filesertifikatlembaga($faskes, $id, $id_p)
     $this->load->library('pdfgenerator');
     $this->load->model('Tte_non_rs');
 
-    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id, $id_p);
+    // Ambil data sertifikat
+    $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
     foreach ($content as $key => $row) {
     $logoPath = FCPATH . $row->logo; // sesuaikan path file logomu
     $content[$key]->logo = $this->base64EncodeImage($logoPath);
 }
     $data['data'] = $content;
 
+    // Fungsi base64 untuk gambar
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
     $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
     $data['capayan_utama'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/utama.png');
     $data['capayan_madya'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/madya.png');
     $data['capayan_dasar'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/dasar.png');
+
+    $data['ttd_lembaga'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/kepala.png');
     $data['ttd_dirjen'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
 
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatlembaga', $data, true);
