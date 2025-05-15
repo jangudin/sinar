@@ -6,85 +6,75 @@
   <style>
     @page { margin: 0cm; }
     body {
+      margin: 180px 0 0 0;
       font-family: 'Arial', sans-serif;
-      margin-top: 180px;
-      position: relative;
     }
+
     #watermark {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: -1000;
     }
-    .sertifikat-nomor, .sertifikat-nama, .sertifikat-garis, .sertifikat-tingkat,
-    .capayan, .capayanimgparipurna, .ttdlembaga, .ttddirjen, .berlaku {
-      position: absolute;
-      width: 100%;
-      text-align: center;
+
+    .text-center { text-align: center; }
+    .sertifikat-nama, .sertifikat-tingkat, .berlaku {
+      margin-top: 20px;
+      font-size: 20px;
     }
-    .sertifikat-nomor { top: 25%; }
-    .sertifikat-nama { top: 30%; }
-    .sertifikat-garis { top: 33%; }
-    .sertifikat-tingkat { top: 46%; font-size: 30px; font-weight: bold; }
-    .capayan { top: 60%; font-size: 17px; }
-    .berlaku { top: 67%; font-size: 17px; }
-    .capayanimgparipurna {
-      top: 52%;
-      left: 25%;
+
+    .capayan-img {
+      margin: 30px auto;
       width: 100px;
-      height: auto;
     }
-    .ttdlembaga { top: 80%; left: 15%; }
-    .ttddirjen { top: 80%; left: 55%; }
+
+    .ttd {
+      position: absolute;
+      bottom: 100px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .ttd p {
+      margin-bottom: 5px;
+    }
+
+    .ttd img {
+      width: 100px;
+    }
   </style>
 </head>
 <body>
-
-<div id="watermark">
-  <img src="<?= FCPATH ?>assets/faskesbg/backgroundsertifikat.jpeg" width="100%" height="100%">
-</div>
-
-<?php foreach ($data as $s): ?>
-<main>
-  <div class="sertifikat-nomor">
-    Nomor: <?= $s->nomor_sertifikat ?? '123/ABC/2024'; ?>
+  <div id="watermark">
+    <img src="file://<?= FCPATH ?>assets/faskesbg/backgroundsertifikat.jpeg" width="100%" height="100%">
   </div>
 
-  <div class="sertifikat-nama">
-    <h2><?= $s->nama_fasyankes; ?></h2>
-  </div>
+  <?php foreach ($data as $s): ?>
+    <div class="text-center sertifikat-nama"><?= $s->nama_fasyankes ?></div>
+    <div class="text-center sertifikat-tingkat"><strong><?= strtoupper($s->status_akreditasi) ?></strong></div>
+    <div class="text-center berlaku">
+      Masa Berlaku: <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_surveior)))) ?>
+    </div>
 
-  <div class="sertifikat-garis"><hr></div>
-
-  <div class="sertifikat-tingkat"><?= strtoupper($s->status_akreditasi); ?></div>
-
-  <div class="capayan">
-    Fasilitas pelayanan kesehatan ini telah memenuhi standar akreditasi
-  </div>
-
-  <div class="berlaku">
-    Berlaku: <?= format_indo($s->tgl_surveior); ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 years', strtotime($s->tgl_surveior)))); ?>
-  </div>
-
-  <div class="capayanimgparipurna">
-    <?php if ($s->img_capayan): ?>
-      <img src="<?= $s->img_capayan ?>" width="100">
+    <?php if (!empty($s->img_capayan)): ?>
+      <div class="text-center capayan-img">
+        <img src="file://<?= $s->img_capayan ?>" alt="Capayan">
+      </div>
     <?php endif; ?>
-  </div>
 
-  <div class="ttdlembaga">
-    <p>Kepala Lembaga</p>
-    <img src="<?= base_url('assets/ttd/kepala.png') ?>" width="100">
-  </div>
-
-  <div class="ttddirjen">
-    <p>Dirjen Pelayanan Kesehatan</p>
-    <img src="<?= base_url('assets/ttd/dirjen.png') ?>" width="100">
-  </div>
-</main>
-<?php endforeach; ?>
-
+    <div class="ttd">
+      <div class="text-center">
+        <p>Kepala Lembaga</p>
+        <img src="file://<?= FCPATH ?>assets/ttd/kepala.png">
+      </div>
+      <div class="text-center">
+        <p>Dirjen Pelayanan Kesehatan</p>
+        <img src="file://<?= FCPATH ?>assets/ttd/dirjen.png">
+      </div>
+    </div>
+  <?php endforeach; ?>
 </body>
 </html>

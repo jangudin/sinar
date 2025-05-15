@@ -571,36 +571,37 @@ public function filesertifikat($faskes, $id_p)
     $this->data['title_pdf'] = 'Sertifikat';
 
     // Ambil data
-    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id_p, 'fasyankes');
+    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id_p, 'sertifikat');
 
-    // Proses setiap data untuk tambahkan gambar capayan
+    // Pasang path gambar berdasarkan status akreditasi
     foreach ($content as &$s) {
         switch ($s->status_akreditasi) {
             case 'Paripurna':
-                $s->img_capayan = base_url('assets/faskessertif/capayan/paripurna.png');
+                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/paripurna.png';
                 break;
             case 'Utama':
-                $s->img_capayan = base_url('assets/faskessertif/capayan/utama.png');
+                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/utama.png';
                 break;
             case 'Madya':
-                $s->img_capayan = base_url('assets/faskessertif/capayan/madya.png');
+                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/madya.png';
                 break;
             case 'Dasar':
-                $s->img_capayan = base_url('assets/faskessertif/capayan/dasar.png');
+                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/dasar.png';
                 break;
             default:
                 $s->img_capayan = '';
-                break;
         }
     }
 
     $data['data'] = $content;
-
     $file_pdf = $id_p;
     $paper = 'A4';
     $orientation = "landscape";
 
+    // Render view ke HTML
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
+    
+    // Generate PDF
     $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 }
 
