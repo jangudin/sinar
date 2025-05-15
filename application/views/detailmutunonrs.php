@@ -57,7 +57,7 @@
                     <td> <?=$s->lpa ?></td>
                   </tr>
                   </table>
-                  <p><?=$s->jenijenis_fasyankes_nama ?></p>
+                  <p><?=$s->jenis_fasyankes_nama ?></p>
                 </br>
                   <?php if (!empty($attachment)): ?>
                       <label>Sertifikat <a href="<?= htmlspecialchars($attachment) ?>" target="_blank">(Layar Penuh)</a></label><br/>
