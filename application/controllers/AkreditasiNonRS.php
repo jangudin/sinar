@@ -170,26 +170,59 @@ class AkreditasiNonRS extends CI_Controller {
     }
 
 
-public function filesertifikatdir($faskes, $id, $id_p)
+public function filesertifikatdir()
 {
+    $idp = $this->uri->segment(3);
+
     $this->load->library('pdfgenerator');
     $this->load->model('Tte_non_rs');
 
-    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id, $id_p);
+    $content = $this->Tte_non_rs->detail_faskes($idp);
+
+    if (!$content) {
+        show_error('Data tidak ditemukan atau kosong.');
+    }
+
+    foreach ($content as $key => $row) {
+        // Encode logo lembaga ke base64
+        $logoPath = FCPATH . $row->logo;
+        $content[$key]->logo = $this->base64EncodeImage($logoPath);
+
+        // === Tentukan TTD Dirjen ===
+        $use_dirjendua = false;
+
+        if ($row->jenis_faskes === 'Pusat Kesehatan Masyarakat' || $row->kategoriFaskes === 'Pratama') {
+            $use_dirjendua = true;
+        }
+
+        $ttdPath = $use_dirjendua
+            ? FCPATH . 'assets/ttd/dirjendua.png'
+            : FCPATH . 'assets/ttd/dirjen.png';
+
+        // Simpan base64 ttd ke setiap item
+        $content[$key]->ttd_dirjen = $this->base64EncodeImage($ttdPath);
+    }
+
+    // Kirim data utama
     $data['data'] = $content;
 
+    // Background dan capayan base64 (cukup sekali karena tidak tergantung baris)
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
     $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
     $data['capayan_utama'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/utama.png');
     $data['capayan_madya'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/madya.png');
     $data['capayan_dasar'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/dasar.png');
 
-    $data['ttd_lembaga'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/kepala.png');
-    $data['ttd_dirjen'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
+    // Set nama file dan layout PDF
+    $file_pdf = "dir" . $idp;
+    $paper = 'A4';
+    $orientation = "landscape";
 
+    // Render view dan generate PDF
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatdir', $data, true);
-    $this->pdfgenerator->generatefaskesdirjen($html, $id_p, 'A4', 'landscape');
+    $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 }
+
 
 public function filesertifikatlembaga()
 {
