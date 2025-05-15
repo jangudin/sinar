@@ -100,7 +100,7 @@
 
     .ttdlembaga {
       top: 80%;
-      left: 15%;
+      left: 10%;
     }
 
     .ttddirjen {
