@@ -585,7 +585,8 @@ public function filesertifikat($faskes,$id,$id_p)
     $data['ttd_dirjen'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
 
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
-    $this->pdfgenerator->generatefaskes($html, $id_p, 'A4', 'landscape');
+   // $this->pdfgenerator->generatefaskes($html, $id_p, 'A4', 'landscape');
+    $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
 }
 
 private function base64EncodeImage($filename = "")
