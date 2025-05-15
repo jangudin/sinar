@@ -90,7 +90,8 @@ class AkreditasiNonRS extends CI_Controller {
         $idp = $this->uri->segment(5);
         $attachment = 'assets/faskessertif/ttelembaga'.$idp.'.pdf';
         $hasiltte = 'assets/faskessertif/'.$idp.'.pdf';
-        $this->filesertifikatlembaga($faskes,$id,$idp);
+        $this->filesertifikatlembaga($idp);
+         $this->filesertifikatdir($idp);
         $data = array('contents' => 'fasyankes_detail',
            'data'    => $this->Tte_non_rs->detail_faskes($idp),
            'idp'    => $idp,
@@ -170,10 +171,8 @@ class AkreditasiNonRS extends CI_Controller {
     }
 
 
-public function filesertifikatdir()
+public function filesertifikatdir($idp)
 {
-    $idp = $this->uri->segment(3);
-
     $this->load->library('pdfgenerator');
     $this->load->model('Tte_non_rs');
 
@@ -224,7 +223,7 @@ public function filesertifikatdir()
 }
 
 
-public function filesertifikatlembaga()
+public function filesertifikatlembaga($idp)
 {
     // Ambil segment URI jika perlu
     $idp = $this->uri->segment(3); // atau gunakan parameter $id jika dari route langsung
