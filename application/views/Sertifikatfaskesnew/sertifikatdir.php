@@ -153,20 +153,22 @@
         left: 15%;
       }
 
-      .ttd-container {
-        position: fixed;
-        bottom: 80px;
-        left: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 100px;
-      }
-
-      .ttdlembaga,
-      .ttddirjen {
-        text-align: left;
-      }
+     .ttd-container {
+    position: fixed;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 100px; /* Keep padding only on the right */
+  }
+  .ttdlembaga {
+    text-align: left;
+    margin-left: 0; /* Align to the left edge */
+  }
+  .ttddirjen {
+    text-align: left;
+  }
     }
   </style>
 </head>
@@ -246,15 +248,14 @@
 
       <div class="ttd-container">
   <!-- TTD Lembaga di kiri -->
-          <div class="ttdlembaga">
-            <img src="<?= $s->logo ?>" height="90" />
-          </div>
-
-          <!-- TTD Dirjen di kanan -->
-          <div class="ttddirjen">
-            <img src="<?= $dir ?>" height="90" />
-          </div>
-        </div>
+  <div class="ttdlembaga">
+    <img src="<?= $s->logo ?>" height="90" />
+  </div>
+  <!-- TTD Dirjen di kanan -->
+  <div class="ttddirjen">
+    <img src="<?= $dir ?>" height="90" />
+  </div>
+</div>
 
 
     </main>
