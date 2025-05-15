@@ -246,15 +246,15 @@
 
       <div class="ttd-container">
   <!-- TTD Lembaga di kiri -->
-  <div class="ttdlembaga">
-    <img src="<?= $s->logo ?>" />
-  </div>
+          <div class="ttdlembaga">
+            <img src="<?= $s->logo ?>" height="90" />
+          </div>
 
-  <!-- TTD Dirjen di kanan -->
-  <div class="ttddirjen">
-    <img src="<?= $dir ?>" />
-  </div>
-</div>
+          <!-- TTD Dirjen di kanan -->
+          <div class="ttddirjen">
+            <img src="<?= $dir ?>" height="90" />
+          </div>
+        </div>
 
 
     </main>
