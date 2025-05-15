@@ -140,7 +140,7 @@
 
       <!-- Masa Berlaku -->
       <div class="masa-berlaku">
-        Masa Berlaku: <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_surveior)))) ?>
+        Masa Berlaku: <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))) ?>
       </div>
 
       <!-- Logo -->
