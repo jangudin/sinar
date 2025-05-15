@@ -90,17 +90,7 @@ class AkreditasiNonRS extends CI_Controller {
         $idp = $this->uri->segment(5);
         $attachment = 'assets/faskessertif/ttelembaga'.$idp.'.pdf';
         $hasiltte = 'assets/faskessertif/'.$idp.'.pdf';
-        // if ($this->session->userdata('lembaga_id') == "KEMENKES") {
-        //      $this->filesertifikatlembaga($id,$idp);
-        //     $this->filesertifikatdir($id,$idp);
-        //     $this->filesertifikatlembagakmk($id,$idp);
-        //     $this->filesertifikatdirkmk($id,$idp);
-        // }else{
-             $this->filesertifikatlembaga($faskes,$id,$idp);
-            // $this->filesertifikatdir($id,$idp);
-        // }
-
-           
+       // $this->filesertifikatlembaga($faskes,$id,$idp);
         $data = array('contents' => 'fasyankes_detail',
            'data'    => $this->Tte_non_rs->detail_faskes($idp),
            'idp'    => $idp,
@@ -108,8 +98,8 @@ class AkreditasiNonRS extends CI_Controller {
            'hasiltte' => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null,
        );
         $this->load->view('List_Rekomendasi',$data);
-      //   echo json_encode($data['data']);exit;
     }
+
 
         public function ttesertifikatkemkes()
     {
