@@ -2,72 +2,162 @@
 <html lang="en">
 
 <head>
+  <!-- Required meta tags -->
   <meta charset="utf-8">
-  <title>Sertifikat Akreditasi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
+<style>
+    .nmrs {
+      font-family: 'Germania One', cursive;
     }
 
     @page {
-      margin: 0cm;
+      margin: 0cm 0cm;
+    }
+
+    body {
+      margin-top: 180px;
+      margin-bottom: 0cm;
+      margin-left: 0cm;
+      margin-right: 0cm;
     }
 
     #watermark {
       position: fixed;
-      top: 0;
-      left: 0;
+      bottom: 0px;
+      left: 0px;
       width: 29.7cm;
       height: 21cm;
       z-index: -1000;
     }
 
-    .container {
-      position: relative;
-      width: 100%;
-      height: 100%;
+      .sertifikat-nomor,
+      .sertifikat-nama,
+      .sertifikat-garis,
+      .sertifikat-tingkat,
+      .capayan,
+      .capayanimgparipurna,
+      .capayanimgutama,
+      .ttdlembaga,
+      .ttddirjen,
+      .bsd,
+      .berlaku,
+      .tglprn,
+      .tglsertifikat,
+      .tglsekarang,
+      .atasnama {
+        position: fixed;
+        margin: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+      }
+    .sertifikat-nomor {
+      top: 25%;
       text-align: center;
     }
 
+    .sertifikat-nama {
+      top: 30%;
+      left: 14%;
+      text-align: center;
+      width: 800px;
+    }
+
+    .sertifikat-garis {
+      top: 33%;
+      left: 14%;
+      text-align: center;
+      width: 800px;
+    }
+
+    .sertifikat-tingkat {
+      top: 46%;
+      text-align: center;
+    }
+
+    .capayan {
+      top: 60%;
+      text-align: center;
+    }
+
+    .berlaku {
+      top: 67%;
+      text-align: center;
+    }
+
+    .capayanimgparipurna,
+    .capayanimgutama {
+      top: 52%;
+      left: 25%;
+      position: fixed;
+    }
+
+    .ttdlembaga {
+      top: 80%;
+      left: 15%;
+    }
+
+    .ttddirjen {
+      top: 80%;
+      left: 55%;
+    }
+
+    .tglprn,
+    .tglsertifikat,
+    .tglsekarang,
+    .atasnama {
+      position: fixed;
+      margin: auto;
+    }
+
+    .title,
+    .desc,
+    .tingkat {
+      font-family: 'bernard-mt-condensed-regular', sans-serif;
+    }
+
     .title {
-      margin-top: 150px;
-      font-size: 24px;
-      font-weight: bold;
-      color: red;
-    }
-
-    .info-table {
-      margin: 50px auto 20px;
-      width: 80%;
-      font-size: 16px;
-      text-align: left;
-    }
-
-    .info-table td {
-      padding: 4px;
+      font-size: 17px;
     }
 
     .desc {
-      font-size: 16px;
-      margin-top: 20px;
+      font-size: 17px;
     }
 
-    .capayan-img {
-      margin-top: 20px;
+    .tingkat {
+      font-size: 30px;
+      font-weight: bold;
     }
 
-    .masa-berlaku {
-      margin-top: 30px;
-      font-size: 16px;
-    }
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .sertifikat-nama {
+        width: 90%;
+        left: 5%;
+      }
 
-    .logo-lembaga {
-      margin-top: 50px;
-    }
+      .sertifikat-garis {
+        width: 90%;
+        left: 5%;
+      }
 
+      .capayanimgparipurna,
+      .capayanimgutama {
+        top: 55%;
+        left: 15%;
+      }
+
+      .ttdlembaga,
+      .ttddirjen {
+        top: 85%;
+      }
+    }
   </style>
 </head>
 
