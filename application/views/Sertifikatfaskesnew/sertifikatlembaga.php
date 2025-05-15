@@ -164,7 +164,7 @@
 <body class="text-center">
 
   <div id="watermark">
-    <img src="assets/faskesbg/backgroundsertifikat.jpeg" width="100%" height="100%" />
+    <img src="<?= base_url()?>/assets/faskesbg/backgroundsertifikat.jpeg" width="100%" height="100%" />
   </div>
 
   <?php foreach ($data as $s) { ?>
