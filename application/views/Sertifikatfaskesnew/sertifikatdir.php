@@ -96,16 +96,6 @@
       position: fixed;
     }
 
-    .ttdlembaga {
-      top: 80%;
-      left: 0%;
-    }
-
-    .ttddirjen {
-      top: 80%;
-      left: 55%;
-    }
-
     .tglprn,
     .tglsertifikat,
     .tglsekarang,
