@@ -605,8 +605,6 @@ public function filesertifikat($faskes, $id_p)
     $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 }
 
-
-
 public function ttedirnonrs()
 {
     $kd = $this->input->post('id');
