@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
-<style>
+  <style>
     .nmrs {
       font-family: 'Germania One', cursive;
     }
@@ -161,86 +161,80 @@
   </style>
 </head>
 
-<body>
+<body class="text-center">
 
-  <!-- Background Sertifikat -->
   <div id="watermark">
     <img src="<?= $background_base64 ?>" width="100%" height="100%" />
   </div>
 
-  <?php foreach ($data as $s): ?>
-    <div class="container">
-
-      <!-- Nomor Sertifikat -->
-      <div class="title">
-        Nomor Sertifikat
+  <?php foreach ($data as $s) { ?>
+    <main>
+      <div class="sertifikat-nomor">
+        <p style="font-size: 20px; color: red ;">Nomor : </p>
       </div>
-
-      <!-- Informasi Faskes -->
-      <table class="info-table">
-        <tr>
-          <td>Fasyankes</td>
-          <td>:</td>
-          <td><?= $s->nama_faskes ?></td>
-        </tr>
-        <tr>
-          <td>Jenis</td>
-          <td>:</td>
-          <td><?= $s->jenis_faskes ?></td>
-        </tr>
-        <tr>
-          <td>Alamat</td>
-          <td>:</td>
-          <td><?= $s->alamat ?></td>
-        </tr>
-        <tr>
-          <td>Kecamatan</td>
-          <td>:</td>
-          <td><?= ucwords(strtolower($s->kecamatan)) ?></td>
-        </tr>
-        <tr>
-          <td>Kab/Kota</td>
-          <td>:</td>
-          <td><?= ucwords(strtolower($s->kabkot)) ?></td>
-        </tr>
-        <tr>
-          <td>Provinsi</td>
-          <td>:</td>
-          <td><?= $s->provinsi ?></td>
-        </tr>
+      <table style="padding-left: 145px; padding-top:80px;">
+        <thead>
+          <tr>
+            <td>
+              <?php if ($s->jenis_faskes == 'Pusat Kesehatan Masyarakat'): ?>
+                Puskesmas
+              <?php elseif ($s->jenis_faskes == 'Klinik'): ?>
+                Klinik
+              <?php elseif ($s->jenis_faskes == 'Laboratorium Kesehatan'): ?>
+                Labkes
+              <?php elseif ($s->jenis_faskes == 'Unit Transfusi Darah'): ?>
+                UTD
+              <?php endif; ?>
+            </td>
+            <td>:</td>
+            <th style="font-size: 18px;"><?= $s->nama_faskes; ?></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Alamat </td>
+            <td>:</td>
+            <td width="700px"><?= $s->alamat; ?></td>
+          </tr>
+          <tr>
+            <td>Kecamatan</td>
+            <td>:</td>
+            <td><?= ucwords(strtolower($s->kecamatan)); ?></td>
+          </tr>
+          <tr>
+            <td>Kabupaten / Kota </td>
+            <td> : </td>
+            <td><?= ucwords(strtolower($s->kabkot)); ?></td>
+          </tr>
+          <tr>
+            <td>Provinsi </td>
+            <td>:</td>
+            <td><?= $s->provinsi; ?></td>
+          </tr>
+        </tbody>
       </table>
 
-      <!-- Deskripsi -->
-      <div class="desc">
-        sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus:
+      <div class="bsd">
+        <p class="desc">sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus :</p>
       </div>
 
-      <!-- Capayan Gambar -->
-      <div class="capayan-img">
-        <?php if ($s->status_akreditasi == 'Paripurna'): ?>
-          <img src="<?= $capayan_paripurna ?>" height="60" />
-        <?php elseif ($s->status_akreditasi == 'Utama'): ?>
-          <img src="<?= $capayan_utama ?>" height="60" />
-        <?php elseif ($s->status_akreditasi == 'Madya'): ?>
-          <img src="<?= $capayan_madya ?>" height="60" />
-        <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
-          <img src="<?= $capayan_dasar ?>" height="60" />
-        <?php endif; ?>
-      </div>
-
-      <!-- Masa Berlaku -->
-      <div class="masa-berlaku">
-        Masa Berlaku: <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))) ?>
-      </div>
-
-      <!-- Logo -->
-      <div class="logo-lembaga">
-        <img src="<?= $s->logo ?>" height="90" />
-      </div>
-
+      <div class="capayan">
+      <?php if ($s->status_akreditasi == 'Paripurna'): ?>
+        <img src="<?= $capayan_paripurna ?>" height="60" />
+      <?php elseif ($s->status_akreditasi == 'Utama'): ?>
+        <img src="<?= $capayan_utama ?>" height="60" />
+      <?php elseif ($s->status_akreditasi == 'Madya'): ?>
+        <img src="<?= $capayan_madya ?>" height="60" />
+      <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
+        <img src="<?= $capayan_dasar ?>" height="60" />
+      <?php endif; ?>
     </div>
-    <div style="page-break-after: always;"></div>
-  <?php endforeach; ?>
 
+      <div class="berlaku">
+        <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))); ?></p>
+      </div>
+
+    </main>
+  <?php } ?>
 </body>
 </html>
