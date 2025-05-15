@@ -96,15 +96,15 @@
       position: fixed;
     }
 
-    .ttdlembaga {
-      top: 80%;
+    /* .ttdlembaga {
+      top: 100%;
       left: 0%;
-    }
+    } */
 
-    .ttddirjen {
+    /* .ttddirjen {
       top: 80%;
       left: 55%;
-    }
+    } */
 
     .tglprn,
     .tglsertifikat,
