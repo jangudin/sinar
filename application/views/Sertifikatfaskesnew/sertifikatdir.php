@@ -153,22 +153,28 @@
         left: 15%;
       }
 
-     .ttd-container {
-    position: fixed;
-    bottom: 80px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 1px; /* Keep padding only on the right */
-  }
-  .ttdlembaga {
-    text-align: right;
-    margin-left: 0; /* Align to the left edge */
-  }
-  .ttddirjen {
-    text-align: left;
-  }
+     .ttd-wrapper {
+  position: fixed;
+  bottom: 60px; /* Sesuaikan posisi vertikal */
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 60px; /* Beri ruang dari sisi kiri dan kanan */
+}
+
+.ttd-box {
+  text-align: center;
+}
+
+.ttdlembaga {
+  /* Tidak perlu left/right lagi, dikontrol flex */
+}
+
+.ttddirjen {
+  /* Sama */
+}
+
     }
   </style>
 </head>
@@ -246,16 +252,15 @@
         <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))); ?></p>
       </div>
 
-      <div class="ttd-container">
-  <!-- TTD Lembaga di kiri -->
-  <div class="ttdlembaga">
+      <div class="ttd-wrapper">
+  <div class="ttd-box ttdlembaga">
     <img src="<?= $s->logo ?>" height="90" />
   </div>
-  <!-- TTD Dirjen di kanan -->
-  <div class="ttddirjen">
+  <div class="ttd-box ttddirjen">
     <img src="<?= $dir ?>" height="90" />
   </div>
 </div>
+
 
 
     </main>
