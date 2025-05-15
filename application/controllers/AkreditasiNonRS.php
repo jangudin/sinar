@@ -219,8 +219,6 @@ public function filesertifikatlembaga()
     // Kirim ke view
     $data['data'] = $content;
 
-    echo json_encode($data);exit;
-
     // Background dan capayan base64
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
     $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
