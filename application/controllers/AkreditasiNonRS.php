@@ -91,7 +91,7 @@ class AkreditasiNonRS extends CI_Controller {
         $attachment = 'assets/faskessertif/ttelembaga'.$idp.'.pdf';
         $hasiltte = 'assets/faskessertif/'.$idp.'.pdf';
         $this->filesertifikatlembaga($idp);
-         $this->filesertifikatdir($idp);
+        //$this->filesertifikatdir($idp);
         $data = array('contents' => 'fasyankes_detail',
            'data'    => $this->Tte_non_rs->detail_faskes($idp),
            'idp'    => $idp,
