@@ -260,6 +260,14 @@
     <img src="<?= $dir ?>" height="90" />
   </div>
 </div>
+<div class="ttd-wrapper">
+  <div class="ttd-box ttdlembaga">
+    <img src="<?= $s->logo ?>" height="90" />
+  </div>
+  <div class="ttd-box ttddirjen">
+    <img src="<?= $dir ?>" height="90" />
+  </div>
+</div>
 
 
 
