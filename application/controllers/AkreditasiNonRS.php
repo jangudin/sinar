@@ -94,8 +94,8 @@ class AkreditasiNonRS extends CI_Controller {
         //     $this->filesertifikatlembagakmk($id,$idp);
         //     $this->filesertifikatdirkmk($id,$idp);
         // }else{
-             $this->filesertifikatlembaga($id,$idp);
-             $this->filesertifikatdir($id,$idp);
+             $this->filesertifikatlembaga($faskes,$id,$idp);
+            // $this->filesertifikatdir($id,$idp);
         // }
 
            
