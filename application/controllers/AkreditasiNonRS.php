@@ -192,9 +192,9 @@ public function filesertifikatdir($id,$idp)
         $use_dirjendua = false;
 
         if ($row->jenis_faskes === 'Pusat Kesehatan Masyarakat' || $row->kategoriFaskes === 'Pratama') {
-            $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjendua.png');
+            $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjendua.png');
         }else {
-            $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
+            $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjen.png');
         }
     }
 
