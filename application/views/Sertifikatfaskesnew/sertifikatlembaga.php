@@ -153,9 +153,18 @@
         left: 15%;
       }
 
-      .ttdlembaga,
-      .ttddirjen {
-        top: 85%;
+      .ttd-container {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 100px;
+      }
+
+      .ttdlembaga, .ttddirjen {
+        text-align: center;
       }
     }
   </style>
