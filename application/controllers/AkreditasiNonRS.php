@@ -90,7 +90,7 @@ class AkreditasiNonRS extends CI_Controller {
         $idp = $this->uri->segment(5);
         $attachment = 'assets/faskessertif/ttelembaga'.$idp.'.pdf';
         $hasiltte = 'assets/faskessertif/'.$idp.'.pdf';
-       // $this->filesertifikatlembaga($faskes,$id,$idp);
+        $this->filesertifikatlembaga($faskes,$id,$idp);
         $data = array('contents' => 'fasyankes_detail',
            'data'    => $this->Tte_non_rs->detail_faskes($idp),
            'idp'    => $idp,
@@ -191,7 +191,7 @@ public function filesertifikatdir($faskes, $id, $id_p)
     $this->pdfgenerator->generatefaskesdirjen($html, $id_p, 'A4', 'landscape');
 }
 
-public function filesertifikatlembaga($faskes, $id, $id_p)
+public function filesertifikatlembaga($faskes,$id,$id_p)
 {
     $this->load->library('pdfgenerator');
     $this->load->model('Tte_non_rs');
@@ -201,9 +201,6 @@ public function filesertifikatlembaga($faskes, $id, $id_p)
     $content[$key]->logo = $this->base64EncodeImage($logoPath);
     }
     $data['data'] = $content;
-    var_dump($content);
-    exit;
-    // Fungsi base64 untuk gambar
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
     $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
     $data['capayan_utama'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/utama.png');
