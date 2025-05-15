@@ -478,9 +478,9 @@ public function Detailnonrs()
     $data = array('contents' => 'detailmutunonrs',
       'detail'   =>$this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p),
       'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,);
-
+     echo json_encode($data['detail']);
    //  var_dump($data['detail']);
-    $this->load->view('List_Rekomendasi',$data);
+   // $this->load->view('List_Rekomendasi',$data);
 }
 
 public function simpanverifikasi($value='')
@@ -577,9 +577,6 @@ public function filesertifikat($faskes,$id_p)
     $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
     $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
 }
-
-
-
 
 
 public function ttedirnonrs()

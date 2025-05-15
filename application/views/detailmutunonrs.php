@@ -58,19 +58,15 @@
                   </tr>
                   </table>
                 </br>
-<?php if (!empty($attachment)): ?>
-    <label>Sertifikat <a href="<?= htmlspecialchars($attachment) ?>" target="_blank">(Layar Penuh)</a></label><br/>
-    <iframe src="<?= htmlspecialchars($attachment) ?>" frameborder="0" width="100%" height="900px"></iframe>
-<?php else: ?>
-     <a href="<?= site_url('Mutu_fasyankes/filesertifikat') ?>" 
-       style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
-        Generate PDF
-    </a>
-<?php endif; ?>
-
-
-                           
-               
+                  <?php if (!empty($attachment)): ?>
+                      <label>Sertifikat <a href="<?= htmlspecialchars($attachment) ?>" target="_blank">(Layar Penuh)</a></label><br/>
+                      <iframe src="<?= htmlspecialchars($attachment) ?>" frameborder="0" width="100%" height="900px"></iframe>
+                  <?php else: ?>
+                      <a href="<?= site_url('Mutu_fasyankes/filesertifikat') ?>" 
+                        style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                          Generate PDF
+                      </a>
+                  <?php endif; ?>
                     <br />
                     <hr>
                     <br />
