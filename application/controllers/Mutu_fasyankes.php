@@ -565,18 +565,45 @@ public function simpanverifikasi($value='')
 
 }
 
-public function filesertifikat($faskes,$id_p)
+public function filesertifikat($faskes, $id_p)
 {
     $this->load->library('pdfgenerator');
     $this->data['title_pdf'] = 'Sertifikat';
-    $content = $this->Tte_non_rs->bahansertifikat($faskes,$id_p);
+
+    // Ambil data
+    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id_p, 'fasyankes');
+
+    // Proses setiap data untuk tambahkan gambar capayan
+    foreach ($content as &$s) {
+        switch ($s->status_akreditasi) {
+            case 'Paripurna':
+                $s->img_capayan = base_url('assets/faskessertif/capayan/paripurna.png');
+                break;
+            case 'Utama':
+                $s->img_capayan = base_url('assets/faskessertif/capayan/utama.png');
+                break;
+            case 'Madya':
+                $s->img_capayan = base_url('assets/faskessertif/capayan/madya.png');
+                break;
+            case 'Dasar':
+                $s->img_capayan = base_url('assets/faskessertif/capayan/dasar.png');
+                break;
+            default:
+                $s->img_capayan = '';
+                break;
+        }
+    }
+
     $data['data'] = $content;
+
     $file_pdf = $id_p;
     $paper = 'A4';
     $orientation = "landscape";
-    $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-    $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+
+    $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
+    $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 }
+
 
 
 public function ttedirnonrs()
