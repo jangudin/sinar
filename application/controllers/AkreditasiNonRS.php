@@ -191,28 +191,56 @@ public function filesertifikatdir($faskes, $id, $id_p)
     $this->pdfgenerator->generatefaskesdirjen($html, $id_p, 'A4', 'landscape');
 }
 
-public function filesertifikatlembaga($faskes,$id,$id_p)
+public function filesertifikatlembaga($id, $idp)
 {
+    // Ambil segment URI jika perlu
+    $id = $this->uri->segment(3); // atau gunakan parameter $id jika dari route langsung
+
+    // Load library PDF
     $this->load->library('pdfgenerator');
+
+    // Load model
     $this->load->model('Tte_non_rs');
-    $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
-    foreach ($content as $key => $row) {
-    $logoPath = FCPATH . $row->logo; // sesuaikan path file logomu
-    $content[$key]->logo = $this->base64EncodeImage($logoPath);
+
+    // Ambil data dari model
+    $content = $this->Tte_non_rs->detail_faskes($idp);
+
+    // Jika data kosong
+    if (!$content) {
+        show_error('Data tidak ditemukan atau kosong.');
     }
+
+    // Proses base64 image (logo dan gambar lainnya)
+    foreach ($content as $key => $row) {
+        $logoPath = FCPATH . $row->logo; // Sesuaikan dengan path logo
+        $content[$key]->logo = $this->base64EncodeImage($logoPath);
+    }
+
+    // Kirim ke view
     $data['data'] = $content;
+
+    // Background dan capayan base64
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
     $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
     $data['capayan_utama'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/utama.png');
     $data['capayan_madya'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/madya.png');
     $data['capayan_dasar'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/dasar.png');
-
-    $data['ttd_lembaga'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/kepala.png');
     $data['ttd_dirjen'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
 
+    // Judul file PDF
+    $file_pdf = "lembaga_" . $idp;
+
+    // Ukuran dan orientasi
+    $paper = 'A4';
+    $orientation = "landscape";
+
+    // Render view ke HTML
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatlembaga', $data, true);
-    $this->pdfgenerator->generatefaskes($html, $id_p, 'A4', 'landscape');
+
+    // Generate PDF
+    $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 }
+
 
 private function base64EncodeImage($path)
 {
