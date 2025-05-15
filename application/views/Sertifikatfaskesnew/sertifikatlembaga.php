@@ -243,7 +243,7 @@
 
       <div class="ttd-container">
         <div class="ttdlembaga">
-            <img src="<?= $s->logo ?>" height="90" style="position: absolute; bottom: 80px; left: 250px;" />
+            <img src="<?= $s->logo ?>" height="90" style="position: absolute; bottom: 80px; left: 220px;" />
         </div>
       </div>
 
