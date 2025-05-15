@@ -241,14 +241,16 @@
         <p class="desc">Masa Berlaku : <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))); ?></p>
       </div>
 
-    <div class="ttd-wrapper">
-  <div class="ttd-box ttdlembaga">
-    <img src="<?= $s->logo ?>" height="90" />
-  </div>
-  <div class="ttd-box ttddirjen">
-    <img src="<?= $dir ?>" height="90" />
-  </div>
-</div>
+    <div class="ttd-container">
+        <div class="ttdlembaga">
+            <img src="<?= $s->logo ?>" height="90" style="position: absolute; bottom: 80px; left: 200px;" />
+        </div>
+        <div class="ttddirjen">
+            <img src="<?= $s->ttd ?>" height="90" style="position: absolute; bottom: 80px; left: 500px;" />
+      </div>
+    </div>
+
+      <div class="sertifikat
 
 
 
