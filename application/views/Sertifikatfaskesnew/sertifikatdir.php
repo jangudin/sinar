@@ -163,7 +163,7 @@
     padding: 0 100px; /* Keep padding only on the right */
   }
   .ttdlembaga {
-    text-align: left;
+    text-align: right;
     margin-left: 0; /* Align to the left edge */
   }
   .ttddirjen {
