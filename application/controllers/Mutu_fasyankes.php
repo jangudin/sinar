@@ -479,8 +479,8 @@ public function Detailnonrs()
       'detail'   =>$this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p),
       'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,);
     // echo json_encode($data['detail']);
-   //  var_dump($data['detail']);
-   $this->load->view('List_Rekomendasi',$data);
+     var_dump($data['detail']);
+   //$this->load->view('List_Rekomendasi',$data);
 }
 
 public function simpanverifikasi($value='')
