@@ -177,7 +177,7 @@
 <body class="text-centre">
 
   <div id="watermark">
-    <img src="<?= FCPATH ?>/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" />
+    <img src="<?= $background_base64 ?>" width="100%" height="100%" />
   </div>
   <?php foreach ($data as $s) { ?>
     <main>
@@ -232,14 +232,14 @@
   </div>
   <div class="capayan">
     <?php if ($s->status_akreditasi == 'Paripurna'): ?>
-      <img src="<?= FCPATH ?>/assets/faskessertif/capayan/paripurna.png" height=60 class="center">
-    <?php elseif ($s->status_akreditasi == 'Utama'): ?>
-      <img src="<?= FCPATH ?>/assets/faskessertif/capayan/utama.png" height=60 class="center">
-    <?php elseif ($s->status_akreditasi == 'Madya'): ?>
-      <img src="<?= FCPATH ?>/assets/faskessertif/capayan/madya.png" height=60 class="center">
-    <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
-      <img src="<?= FCPATH ?>/assets/faskessertif/capayan/dasar.png" height=60 class="center">
-    <?php endif; ?>
+        <img src="<?= $capayan_paripurna ?>" height="60" />
+      <?php elseif ($s->status_akreditasi == 'Utama'): ?>
+        <img src="<?= $capayan_utama ?>" height="60" />
+      <?php elseif ($s->status_akreditasi == 'Madya'): ?>
+        <img src="<?= $capayan_madya ?>" height="60" />
+      <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
+        <img src="<?= $capayan_dasar ?>" height="60" />
+      <?php endif; ?>
   </div>
   <div class="berlaku">
     <p class="desc">Masa Berlaku : <?=format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei))));?></p>
