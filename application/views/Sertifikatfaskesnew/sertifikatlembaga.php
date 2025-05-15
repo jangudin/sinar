@@ -177,7 +177,7 @@
   <?php foreach ($data as $s) { ?>
     <main>
       <div class="sertifikat-nomor">
-        <p style="font-size: 20px; color: red ;">Nomor : </p>
+        <p style="font-size: 20px; color: red ;">Nomor : <?=$s->nomor_surat ?></p>
       </div>
       <table style="padding-left: 145px; padding-top:80px;">
         <thead>

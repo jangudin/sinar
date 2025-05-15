@@ -177,7 +177,7 @@
   <?php foreach ($data as $s) { ?>
     <main>
       <div class="sertifikat-nomor">
-        <p style="font-size: 20px; color: red ;">Nomor : </p>
+        <p style="font-size: 20px;">Nomor : <?=$s->nomor_surat ?></p>
       </div>
       <table style="padding-left: 145px; padding-top:80px;">
         <thead>
@@ -246,6 +246,7 @@
             <img src="<?= $s->logo ?>" height="90" style="position: absolute; bottom: 80px; left: 200px;" />
         </div>
         <div class="ttddirjen">
+            <p class="mt-4">Jakarta, <?= format_indo($s->tgl_nomor_surat);?></p>
             <img src="<?= $dir ?>" height="90" style="position: absolute; bottom: 80px; right: 200px;" />
       </div>
 
