@@ -574,23 +574,15 @@ public function filesertifikat($faskes,$id,$id_p)
     $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
     $data['data'] = $content;
 
-    // Encode gambar background & tanda tangan ke base64
+    // Fungsi base64 untuk gambar
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
-    $data['ttd_kepala_base64'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/kepala.png');
-    $data['ttd_dirjen_base64'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
+    $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
+    $data['capayan_utama'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/utama.png');
+    $data['capayan_madya'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/madya.png');
+    $data['capayan_dasar'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/dasar.png');
 
-    // Encode gambar capayan per data
-    foreach ($data['data'] as &$s) {
-        $capayanFile = '';
-        switch ($s->status_akreditasi) {
-            case 'Paripurna': $capayanFile = FCPATH . 'assets/faskessertif/capayan/paripurna.png'; break;
-            case 'Utama': $capayanFile = FCPATH . 'assets/faskessertif/capayan/utama.png'; break;
-            case 'Madya': $capayanFile = FCPATH . 'assets/faskessertif/capayan/madya.png'; break;
-            case 'Dasar': $capayanFile = FCPATH . 'assets/faskessertif/capayan/dasar.png'; break;
-        }
-        $s->capayan_base64 = $this->base64EncodeImage($capayanFile);
-    }
-    unset($s);
+    $data['ttd_lembaga'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/kepala.png');
+    $data['ttd_dirjen'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
 
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
     $this->pdfgenerator->generatefaskes($html, $id_p, 'A4', 'landscape');
