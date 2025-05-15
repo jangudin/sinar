@@ -246,7 +246,7 @@
             <img src="<?= $s->logo ?>" height="90" style="position: absolute; bottom: 80px; left: 200px;" />
         </div>
         <div class="ttddirjen">
-            <img src="<?= $s->ttd ?>" height="90" style="position: absolute; bottom: 80px; left: 500px;" />
+            <img src="<?= $dir ?>" height="90" style="position: absolute; bottom: 80px; left: 500px;" />
       </div>
     </div>
 
