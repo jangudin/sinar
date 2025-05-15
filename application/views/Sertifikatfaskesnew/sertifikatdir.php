@@ -43,6 +43,8 @@
       .capayan,
       .capayanimgparipurna,
       .capayanimgutama,
+      .ttdlembaga,
+      .ttddirjen,
       .bsd,
       .berlaku,
       .tglprn,
