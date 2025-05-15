@@ -1,16 +1,23 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sertifikat</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
+
   <style>
-    @page { margin: 0cm; }
-    body {
-      margin-top: 180px;
-      margin-left: 0;
-      margin-right: 0;
-      margin-bottom: 0;
-      font-family: 'Bernard MT Condensed', sans-serif;
+    @page {
+      margin: 0cm;
     }
+
+    body {
+      margin: 180px 0 0 0;
+      font-family: sans-serif;
+    }
+
     #watermark {
       position: fixed;
       bottom: 0;
@@ -19,92 +26,134 @@
       height: 21cm;
       z-index: -1000;
     }
-    .fixed-block {
-      position: fixed;
-      width: 800px;
+
+    .text-center {
       text-align: center;
-      margin: auto;
-      left: 50%;
-      transform: translateX(-50%);
     }
-    .sertifikat-nomor { top: 25%; font-size: 20px; color: red; font-family: 'Germania One', cursive; }
-    table {
-      padding-left: 145px;
-      padding-top: 80px;
+
+    .sertifikat-nomor,
+    .sertifikat-tingkat,
+    .capayan,
+    .berlaku,
+    .bsd {
+      position: fixed;
       width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      border-collapse: collapse;
+      text-align: center;
     }
-    table thead td, table thead th { font-size: 18px; text-align: left; padding: 4px 8px; }
-    table tbody td { padding: 2px 8px; vertical-align: top; }
-    .bsd { top: 53%; font-size: 17px; }
-    .berlaku { top: 67%; font-size: 17px; }
+
+    .sertifikat-nomor { top: 25%; }
+    .bsd { top: 53%; }
     .capayan { top: 60%; }
-    .ttdlembaga { position: fixed; top: 80%; left: 15%; }
-    .ceter { display: block; margin: 0 auto; }
+    .berlaku { top: 67%; }
+    .sertifikat-tingkat { top: 46%; }
+
+    .ttdlembaga {
+      position: fixed;
+      top: 80%;
+      left: 15%;
+    }
+
+    table {
+      position: relative;
+      margin-top: 100px;
+      margin-left: 145px;
+      font-size: 16px;
+    }
+
+    .desc {
+      font-size: 17px;
+      font-family: 'bernard-mt-condensed-regular', sans-serif;
+    }
+
+    .tingkat {
+      font-size: 30px;
+      font-weight: bold;
+      font-family: 'bernard-mt-condensed-regular', sans-serif;
+    }
+
+    img {
+      max-width: 100%;
+    }
   </style>
 </head>
-<body class="text-center">
 
-<div id="watermark">
-  <img src="<?= $background_base64 ?>" height="100%" width="100%" alt="Background Sertifikat" />
-</div>
+<body>
 
-<?php foreach ($data as $s) : ?>
-  <main>
-    <div class="fixed-block sertifikat-nomor">
-      Nomor: <?= htmlspecialchars($s->nomor_surat) ?>
-    </div>
+  <div id="watermark">
+    <img src="<?= $background_base64 ?>" alt="Background" width="100%" height="100%">
+  </div>
 
-    <table>
-      <thead>
+  <?php foreach ($data as $s): ?>
+    <main>
+
+      <div class="sertifikat-nomor">
+        <p style="font-size: 20px; color: red;">Nomor: <?= $s->nomor_surat ?></p>
+      </div>
+
+      <table>
         <tr>
           <td>
-            <?php 
-              if ($s->jenis_faskes == 'Pusat Kesehatan Masyarakat') echo 'Puskesmas';
-              elseif ($s->jenis_faskes == 'Klinik') echo 'Klinik';
-              elseif ($s->jenis_faskes == 'Laboratorium Kesehatan') echo 'Labkes';
-              elseif ($s->jenis_faskes == 'Unit Transfusi Darah') echo 'UTD';
-            ?>
+            <?php if ($s->jenis_fasyankes_nama == 'Pusat Kesehatan Masyarakat'): ?>
+              Puskesmas
+            <?php elseif ($s->jenis_fasyankes_nama == 'Klinik'): ?>
+              Klinik
+            <?php elseif ($s->jenis_fasyankes_nama == 'Laboratorium Kesehatan'): ?>
+              Labkes
+            <?php elseif ($s->jenis_fasyankes_nama == 'Unit Transfusi Darah'): ?>
+              UTD
+            <?php endif; ?>
           </td>
           <td>:</td>
-          <th><?= htmlspecialchars($s->nama_faskes) ?></th>
+          <td><strong><?= $s->nama_fasyankes ?></strong></td>
         </tr>
-      </thead>
-      <tbody>
-        <tr><td>Alamat</td><td>:</td><td width="700px"><?= htmlspecialchars($s->alamat) ?></td></tr>
-        <tr><td>Kecamatan</td><td>:</td><td><?= ucwords(strtolower(htmlspecialchars($s->kecamatan))) ?></td></tr>
-        <tr><td>Kabupaten / Kota</td><td>:</td><td><?= ucwords(strtolower(htmlspecialchars($s->kabkot))) ?></td></tr>
-        <tr><td>Provinsi</td><td>:</td><td><?= ucwords(strtolower(htmlspecialchars($s->provinsi))) ?></td></tr>
-      </tbody>
-    </table>
+        <tr>
+          <td>Alamat</td>
+          <td>:</td>
+          <td><?= $s->alamat ?></td>
+        </tr>
+        <tr>
+          <td>Kecamatan</td>
+          <td>:</td>
+          <td><?= ucwords(strtolower($s->nama_camat)) ?></td>
+        </tr>
+        <tr>
+          <td>Kabupaten / Kota</td>
+          <td>:</td>
+          <td><?= ucwords(strtolower($s->nama_kota)) ?></td>
+        </tr>
+        <tr>
+          <td>Provinsi</td>
+          <td>:</td>
+          <td><?= $s->nama_prop ?></td>
+        </tr>
+      </table>
 
-    <div class="fixed-block bsd">
-      sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus :
-    </div>
+      <div class="bsd">
+        <p class="desc">sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus:</p>
+      </div>
 
-    <div class="fixed-block capayan">
-      <?php if ($s->status_akreditasi == 'Paripurna'): ?>
-        <img src="<?= $capayan_paripurna ?>" height="60" alt="Capayan Paripurna" />
-      <?php elseif ($s->status_akreditasi == 'Utama'): ?>
-        <img src="<?= $capayan_utama ?>" height="60" alt="Capayan Utama" />
-      <?php elseif ($s->status_akreditasi == 'Madya'): ?>
-        <img src="<?= $capayan_madya ?>" height="60" alt="Capayan Madya" />
-      <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
-        <img src="<?= $capayan_dasar ?>" height="60" alt="Capayan Dasar" />
-      <?php endif; ?>
-    </div>
+      <div class="capayan">
+        <?php if ($s->status_akreditasi == 'Paripurna'): ?>
+          <img src="<?= $capayan_paripurna ?>" height="60" alt="Paripurna">
+        <?php elseif ($s->status_akreditasi == 'Utama'): ?>
+          <img src="<?= $capayan_utama ?>" height="60" alt="Utama">
+        <?php elseif ($s->status_akreditasi == 'Madya'): ?>
+          <img src="<?= $capayan_madya ?>" height="60" alt="Madya">
+        <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
+          <img src="<?= $capayan_dasar ?>" height="60" alt="Dasar">
+        <?php endif; ?>
+      </div>
 
-    <div class="fixed-block berlaku">
-      Masa Berlaku : <?= format_indo($s->tgl_survei) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_survei)))) ?>
-    </div>
+      <div class="berlaku">
+        <p class="desc">Masa Berlaku: <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 years', strtotime($s->tgl_surveior)))) ?></p>
+      </div>
 
-    <div class="ttdlembaga">
-      <img src="<?= $s->logo ?>" height="90" alt="Logo Lembaga" class="ceter" />
-    </div>
-  </main>
-<?php endforeach; ?>
+      <div class="ttdlembaga">
+        <img src="<?= $s->logo ?>" height="90" alt="Logo Lembaga">
+      </div>
+
+    </main>
+  <?php endforeach; ?>
 
 </body>
 </html>
