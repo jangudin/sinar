@@ -48,7 +48,7 @@
 <body class="text-center">
 
 <div id="watermark">
-  <img src="<?= FCPATH ?>/faskesbg/backgroundsertifikat.jpeg" height="100%" width="100%" alt="Background Sertifikat" />
+  <img src="<?= $background_base64 ?>" height="100%" width="100%" alt="Background Sertifikat" />
 </div>
 
 <?php foreach ($data as $s) : ?>
