@@ -112,12 +112,12 @@
 
 <body>
   <div id="watermark">
-    <img src="file:///var/www/html/sinar/assets/faskesbg/backgroundsertifikat.jpeg" width="100%" height="100%" />
+    <img src="<?= $background_base64 ?>" width="100%" height="100%" />
   </div>
 
   <?php foreach ($data as $s) { ?>
     <div class="sertifikat-nomor">
-      <p style="font-size: 20px; color: red;">Nomor : <?= $s->nomor_sertifikat ?? '123/ABC/2024' ?></p>
+      <p style="font-size: 20px; color: red;">Nomor : <?= htmlspecialchars($s->nomor_sertifikat ?? '123/ABC/2024') ?></p>
     </div>
 
     <div class="sertifikat-nama title">
@@ -141,41 +141,22 @@
     </div>
 
     <div class="capayanimgparipurna">
-      <?php
-      $capayanPath = 'file:///var/www/html/sinar/assets/faskessertif/capayan/';
-      $imgCapayan = '';
-      switch ($s->status_akreditasi) {
-        case 'Paripurna':
-          $imgCapayan = $capayanPath . 'paripurna.png';
-          break;
-        case 'Utama':
-          $imgCapayan = $capayanPath . 'utama.png';
-          break;
-        case 'Madya':
-          $imgCapayan = $capayanPath . 'madya.png';
-          break;
-        case 'Dasar':
-          $imgCapayan = $capayanPath . 'dasar.png';
-          break;
-      }
-      if ($imgCapayan) {
-        echo '<img src="' . $imgCapayan . '" height="60">';
-      }
-      ?>
+      <?php if (!empty($s->capayan_base64)) : ?>
+        <img src="<?= $s->capayan_base64 ?>" height="60" />
+      <?php endif; ?>
     </div>
 
     <div class="ttdlembaga">
       <p>Kepala Lembaga</p>
-      <img src="file:///var/www/html/sinar/assets/ttd/kepala.png" width="100">
+      <img src="<?= $ttd_kepala_base64 ?>" width="100" />
     </div>
 
     <div class="ttddirjen">
       <p>Dirjen Pelayanan Kesehatan</p>
-      <img src="file:///var/www/html/sinar/assets/ttd/dirjen.png" width="100">
+      <img src="<?= $ttd_dirjen_base64 ?>" width="100" />
     </div>
 
   <?php } ?>
-
 </body>
 
 </html>

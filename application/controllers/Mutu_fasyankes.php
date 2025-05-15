@@ -473,7 +473,7 @@ public function Detailnonrs()
     $faskes = urldecode($this->uri->segment(3));
     $id = $this->uri->segment(4);
     $id_p = $this->uri->segment(5);
-    $this->filesertifikat($faskes,$id,$id_p);
+    // $this->filesertifikat($faskes,$id,$id_p);
     $attachment = 'assets/faskessertif/'.$id_p.'.pdf';
     $data = array('contents' => 'detailmutunonrs',
       'detail'   =>$this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p),
@@ -565,30 +565,64 @@ public function simpanverifikasi($value='')
 
 }
 
-public function filesertifikat($faskes,$id,$id_p) 
+public function filesertifikat($faskes, $id_p)
 {
     $this->load->library('pdfgenerator');
     $this->load->model('Tte_non_rs');
 
-    $this->data['title_pdf'] = 'Sertifikat';
-    
-    // Pastikan fungsi bahansertifikat menerima 3 parameter (sesuaikan dengan model)
-    $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p); // tambahkan parameter ketiga jika memang dibutuhkan
-
-    if (empty($content)) {
-        show_error('Data sertifikat tidak ditemukan.');
-        return;
-    }
-
+    // Ambil data sertifikat dari model
+    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id_p);
     $data['data'] = $content;
-    $file_pdf = 'sertifikat_' . $id_p;
+
+    // Path file gambar, sesuaikan dengan path server Anda
+    $backgroundPath = FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg';
+    $capayanPath = FCPATH . 'assets/faskessertif/capayan/';
+    $ttdKepalaPath = FCPATH . 'assets/ttd/kepala.png';
+    $ttdDirjenPath = FCPATH . 'assets/ttd/dirjen.png';
+
+    // Fungsi helper untuk encode base64
+    $data['background_base64'] = $this->base64EncodeImage($backgroundPath);
+    $data['ttd_kepala_base64'] = $this->base64EncodeImage($ttdKepalaPath);
+    $data['ttd_dirjen_base64'] = $this->base64EncodeImage($ttdDirjenPath);
+
+    // Untuk tiap data sertifikat, encode gambar capayan yang sesuai
+    foreach ($data['data'] as &$s) {
+        $imgCap = '';
+        switch ($s->status_akreditasi) {
+            case 'Paripurna':
+                $imgCap = $capayanPath . 'paripurna.png';
+                break;
+            case 'Utama':
+                $imgCap = $capayanPath . 'utama.png';
+                break;
+            case 'Madya':
+                $imgCap = $capayanPath . 'madya.png';
+                break;
+            case 'Dasar':
+                $imgCap = $capayanPath . 'dasar.png';
+                break;
+        }
+        $s->capayan_base64 = $this->base64EncodeImage($imgCap);
+    }
+    unset($s); // safety
+
+    $file_pdf = $id_p;
     $paper = 'A4';
     $orientation = "landscape";
 
-    // View HTML yang akan di-render ke PDF
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
-
     $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
+}
+
+private function base64EncodeImage($filename = "")
+{
+    if (file_exists($filename)) {
+        $imageFileType = pathinfo($filename, PATHINFO_EXTENSION);
+        $imageData = file_get_contents($filename);
+        $base64 = 'data:image/' . $imageFileType . ';base64,' . base64_encode($imageData);
+        return $base64;
+    }
+    return '';
 }
 
 
