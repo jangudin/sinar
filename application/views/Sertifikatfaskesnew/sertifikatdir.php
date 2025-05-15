@@ -153,28 +153,22 @@
         left: 15%;
       }
 
-      .ttd-container {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 0 60px;
-            margin-top: 60px;
-            box-sizing: border-box;
-          }
+            .ttd-container {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 100px;
+      }
 
-          .ttdlembaga,
-          .ttddirjen {
-            height: 90px;
-          }
-
-          .ttdlembaga img,
-          .ttddirjen img {
-            height: 90px;
-            width: auto;
-            display: block;
-          }
+      .ttdlembaga{
+        text-align: left;
+      }
+      .ttddirjen {
+        text-align: right;
+      }
 
     }
   </style>
