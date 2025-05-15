@@ -162,7 +162,7 @@
       }
 
       .ttdlembaga, .ttddirjen {
-        text-align: center;
+        text-align: Left;
       }
     }
   </style>
