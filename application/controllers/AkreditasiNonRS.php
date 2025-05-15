@@ -191,10 +191,10 @@ public function filesertifikatdir($faskes, $id, $id_p)
     $this->pdfgenerator->generatefaskesdirjen($html, $id_p, 'A4', 'landscape');
 }
 
-public function filesertifikatlembaga($id, $idp)
+public function filesertifikatlembaga()
 {
     // Ambil segment URI jika perlu
-    $id = $this->uri->segment(3); // atau gunakan parameter $id jika dari route langsung
+    $idp = $this->uri->segment(3); // atau gunakan parameter $id jika dari route langsung
 
     // Load library PDF
     $this->load->library('pdfgenerator');
@@ -218,6 +218,8 @@ public function filesertifikatlembaga($id, $idp)
 
     // Kirim ke view
     $data['data'] = $content;
+
+    echo json_encode($data);exit;
 
     // Background dan capayan base64
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
