@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class AkreditasiNonRS extends CI_Controller {
     function __construct(){
         parent::__construct();
@@ -204,15 +205,14 @@ public function filesertifikatlembaga($faskes, $id, $id_p)
 {
     $this->load->library('pdfgenerator');
     $this->load->model('Tte_non_rs');
-
-    // Ambil data sertifikat
     $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
     foreach ($content as $key => $row) {
     $logoPath = FCPATH . $row->logo; // sesuaikan path file logomu
     $content[$key]->logo = $this->base64EncodeImage($logoPath);
-}
+    }
     $data['data'] = $content;
-
+    var_dump($content);
+    exit;
     // Fungsi base64 untuk gambar
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
     $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
