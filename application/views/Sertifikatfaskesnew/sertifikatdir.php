@@ -160,7 +160,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 100px; /* Keep padding only on the right */
+    padding: 0 1px; /* Keep padding only on the right */
   }
   .ttdlembaga {
     text-align: right;
