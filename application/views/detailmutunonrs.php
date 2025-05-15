@@ -58,10 +58,22 @@
                   </tr>
                   </table>
                 </br>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Verifikasi</button>
-                <hr>
-                            <!-- <label>Sertifikat <a href="<?= $attachment ?>" target="_blank">(Layar Penuh)</a></label><br/>
-                            <iframe src="<?= $attachment?>" frameborder="0" width="100%" height="900px"></iframe> -->
+<?php if (!empty($attachment)): ?>
+    <label>Sertifikat <a href="<?= htmlspecialchars($attachment) ?>" target="_blank">(Layar Penuh)</a></label><br/>
+    <iframe src="<?= htmlspecialchars($attachment) ?>" frameborder="0" width="100%" height="900px"></iframe>
+<?php else: ?>
+    <button type="button" onclick="generatePDF()">Generate PDF</button>
+
+    <script>
+        function generatePDF() {
+            alert('Fungsi Generate PDF belum diimplementasikan.');
+            // TODO: Tambahkan logika generate PDF di sini
+        }
+    </script>
+<?php endif; ?>
+
+
+                           
                
                     <br />
                     <hr>
