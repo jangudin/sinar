@@ -565,45 +565,33 @@ public function simpanverifikasi($value='')
 
 }
 
-public function filesertifikat($faskes, $id_p)
+public function filesertifikat($faskes, $id_p) 
 {
     $this->load->library('pdfgenerator');
+    $this->load->model('Tte_non_rs');
+
     $this->data['title_pdf'] = 'Sertifikat';
+    
+    // Pastikan fungsi bahansertifikat menerima 3 parameter (sesuaikan dengan model)
+    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id_p, 'fasyankes'); // tambahkan parameter ketiga jika memang dibutuhkan
 
-    // Ambil data
-    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id_p, 'sertifikat');
-
-    // Pasang path gambar berdasarkan status akreditasi
-    foreach ($content as &$s) {
-        switch ($s->status_akreditasi) {
-            case 'Paripurna':
-                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/paripurna.png';
-                break;
-            case 'Utama':
-                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/utama.png';
-                break;
-            case 'Madya':
-                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/madya.png';
-                break;
-            case 'Dasar':
-                $s->img_capayan = FCPATH . 'assets/faskessertif/capayan/dasar.png';
-                break;
-            default:
-                $s->img_capayan = '';
-        }
+    if (empty($content)) {
+        show_error('Data sertifikat tidak ditemukan.');
+        return;
     }
 
     $data['data'] = $content;
-    $file_pdf = $id_p;
+    $file_pdf = 'sertifikat_' . $id_p;
     $paper = 'A4';
     $orientation = "landscape";
 
-    // Render view ke HTML
+    // View HTML yang akan di-render ke PDF
     $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
-    
-    // Generate PDF
+
     $this->pdfgenerator->generatefaskes($html, $file_pdf, $paper, $orientation);
 }
+
+
 
 public function ttedirnonrs()
 {

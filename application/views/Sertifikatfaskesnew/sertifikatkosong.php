@@ -4,76 +4,88 @@
   <meta charset="UTF-8">
   <title>Sertifikat</title>
   <style>
-    @page { margin: 0cm; }
+    @page {
+      margin: 0cm;
+    }
+
     body {
-      margin: 180px 0 0 0;
       font-family: 'Arial', sans-serif;
+      margin-top: 180px;
+      margin-bottom: 0;
+      margin-left: 0;
+      margin-right: 0;
+      position: relative;
     }
 
     #watermark {
-      position: fixed;
-      top: 0;
+      position: absolute;
+      bottom: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: -1000;
     }
 
-    .text-center { text-align: center; }
-    .sertifikat-nama, .sertifikat-tingkat, .berlaku {
-      margin-top: 20px;
-      font-size: 20px;
-    }
-
-    .capayan-img {
-      margin: 30px auto;
-      width: 100px;
-    }
-
-    .ttd {
+    .sertifikat-nomor,
+    .sertifikat-nama,
+    .sertifikat-garis,
+    .sertifikat-tingkat,
+    .capayan,
+    .berlaku,
+    .capayanimg,
+    .ttdlembaga,
+    .ttddirjen {
       position: absolute;
-      bottom: 100px;
+      margin: auto;
+      text-align: center;
       width: 100%;
-      display: flex;
-      justify-content: space-around;
     }
 
-    .ttd p {
-      margin-bottom: 5px;
-    }
+    .sertifikat-nomor { top: 25%; }
+    .sertifikat-nama { top: 30%; font-size: 24px; font-weight: bold; }
+    .sertifikat-garis { top: 33%; }
+    .sertifikat-tingkat { top: 46%; font-size: 28px; font-weight: bold; }
+    .capayan { top: 60%; font-size: 20px; }
+    .berlaku { top: 67%; font-size: 18px; }
 
-    .ttd img {
-      width: 100px;
-    }
+    .capayanimg { top: 52%; }
+    .ttdlembaga { top: 80%; left: 15%; text-align: left; }
+    .ttddirjen { top: 80%; left: 60%; text-align: left; }
   </style>
 </head>
 <body>
   <div id="watermark">
-    <img src="file://<?= FCPATH ?>assets/faskesbg/backgroundsertifikat.jpeg" width="100%" height="100%">
+    <img src="<?= base_url('assets/faskesbg/backgroundsertifikat.jpeg') ?>" width="100%" height="100%">
   </div>
 
   <?php foreach ($data as $s): ?>
-    <div class="text-center sertifikat-nama"><?= $s->nama_fasyankes ?></div>
-    <div class="text-center sertifikat-tingkat"><strong><?= strtoupper($s->status_akreditasi) ?></strong></div>
-    <div class="text-center berlaku">
-      Masa Berlaku: <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 year', strtotime($s->tgl_surveior)))) ?>
+    <div class="sertifikat-nomor">Nomor: <?= $s->nomor_sertifikat ?? '....' ?></div>
+    <div class="sertifikat-nama"><?= strtoupper($s->nama_fasyankes) ?></div>
+    <div class="sertifikat-garis"><hr></div>
+    <div class="sertifikat-tingkat">TINGKAT <?= strtoupper($s->status_akreditasi) ?></div>
+    <div class="capayan">Telah memenuhi standar akreditasi</div>
+    <div class="berlaku">Berlaku: <?= format_indo($s->tgl_surveior) ?> s.d <?= format_indo(date('Y-m-d', strtotime('+5 years', strtotime($s->tgl_surveior)))) ?></div>
+
+    <div class="capayanimg">
+      <?php if ($s->status_akreditasi == 'Paripurna'): ?>
+        <img src="<?= base_url('assets/faskessertif/capayan/paripurna.png') ?>" height="60">
+      <?php elseif ($s->status_akreditasi == 'Utama'): ?>
+        <img src="<?= base_url('assets/faskessertif/capayan/utama.png') ?>" height="60">
+      <?php elseif ($s->status_akreditasi == 'Madya'): ?>
+        <img src="<?= base_url('assets/faskessertif/capayan/madya.png') ?>" height="60">
+      <?php elseif ($s->status_akreditasi == 'Dasar'): ?>
+        <img src="<?= base_url('assets/faskessertif/capayan/dasar.png') ?>" height="60">
+      <?php endif; ?>
     </div>
 
-    <?php if (!empty($s->img_capayan)): ?>
-      <div class="text-center capayan-img">
-        <img src="file://<?= $s->img_capayan ?>" alt="Capayan">
-      </div>
-    <?php endif; ?>
+    <div class="ttdlembaga">
+      <p>Kepala Lembaga</p>
+      <img src="<?= base_url('assets/ttd/kepala.png') ?>" width="100">
+    </div>
 
-    <div class="ttd">
-      <div class="text-center">
-        <p>Kepala Lembaga</p>
-        <img src="file://<?= FCPATH ?>assets/ttd/kepala.png">
-      </div>
-      <div class="text-center">
-        <p>Dirjen Pelayanan Kesehatan</p>
-        <img src="file://<?= FCPATH ?>assets/ttd/dirjen.png">
-      </div>
+    <div class="ttddirjen">
+      <p>Dirjen Pelayanan Kesehatan</p>
+      <img src="<?= base_url('assets/ttd/dirjen.png') ?>" width="100">
     </div>
   <?php endforeach; ?>
 </body>
