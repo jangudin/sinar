@@ -8,7 +8,7 @@ class AdminNomorSurat extends CI_Controller {
         ini_set('max_execution_time', '300');
         $this->sina = $this->load->database('sina', TRUE);
         $this->load->model('M_nomor_surat');
-        $this->load->library('encryption');
+        $this->load->library('encrypt');
         $this->load->helper('tanggal_indonesia');
         if($this->session->userdata('status') != "login"){
             redirect(base_url());
@@ -25,20 +25,8 @@ class AdminNomorSurat extends CI_Controller {
         // $page = $this->input->get('page') ?? null;
         // $faskes = $this->input->get('faskes') ?? null;
 
-        if ($this->uri->segment(4) !== null) {
-            $jenis = urldecode($this->uri->segment(4));
-        } else {
-            $jenis = ''; // Atau nilai default lainnya
-        }
-
-        if ($this->uri->segment(43) !== null) {
-            $faskes = urldecode($this->uri->segment(3));
-        } else {
-            $faskes = ''; // Atau nilai default lainnya
-        }
-
-        // $jenis = urldecode($this->uri->segment(4));
-        // $faskes = urldecode( $this->uri->segment(3));
+        $jenis = urldecode($this->uri->segment(4));
+        $faskes = urldecode( $this->uri->segment(3));
 
         $data = array('contents' => 'adminsuarat',
                       'data'    => $this->M_nomor_surat->tampil_faskes($faskes,$jenis),
@@ -54,22 +42,14 @@ class AdminNomorSurat extends CI_Controller {
         $id = $this->session->userdata('lembaga_id');
         // $page = $this->input->get('page') ?? null;
         // $faskes = $this->input->get('faskes') ?? null;
-        if ($this->uri->segment(4) !== null) {
-            $jenis = urldecode($this->uri->segment(4));
-        } else {
-            $jenis = ''; // Atau nilai default lainnya
-        }
-        if ($this->uri->segment(3) !== null) { // Pastikan ini adalah segment yang benar
-            $faskes = urldecode($this->uri->segment(3));
-        } else {
-            $faskes = ''; // Atau nilai default lainnya
-        }
-        // Memastikan pemanggilan jumlah_belum dengan dua argumen
-        $data = array(
-            'contents' => 'adminsuarat',
-            'data' => $this->M_nomor_surat->SudahInput($faskes, $jenis),
-            'belum' => $this->M_nomor_surat->jumlah_belum($faskes, $jenis),
-        );
+
+        $jenis = urldecode($this->uri->segment(4));
+        $faskes = urldecode( $this->uri->segment(3));
+
+        $data = array('contents' => 'adminsuarat',
+                      'data'    => $this->M_nomor_surat->SudahInput($faskes,$jenis),
+                      'belum' => $this->M_nomor_surat->jumlah_belum($faskes),
+      );
         
        // echo json_encode($data['data']);
         $this->load->view('List_Rekomendasi',$data);
