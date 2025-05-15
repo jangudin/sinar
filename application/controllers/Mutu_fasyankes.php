@@ -565,7 +565,7 @@ public function simpanverifikasi($value='')
 
 }
 
-public function filesertifikat($faskes, $id_p) 
+public function filesertifikat($faskes,$id,$id_p) 
 {
     $this->load->library('pdfgenerator');
     $this->load->model('Tte_non_rs');
@@ -573,7 +573,7 @@ public function filesertifikat($faskes, $id_p)
     $this->data['title_pdf'] = 'Sertifikat';
     
     // Pastikan fungsi bahansertifikat menerima 3 parameter (sesuaikan dengan model)
-    $content = $this->Tte_non_rs->bahansertifikat($faskes, $id_p, 'fasyankes'); // tambahkan parameter ketiga jika memang dibutuhkan
+    $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p); // tambahkan parameter ketiga jika memang dibutuhkan
 
     if (empty($content)) {
         show_error('Data sertifikat tidak ditemukan.');
