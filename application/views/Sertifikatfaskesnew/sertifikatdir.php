@@ -249,7 +249,7 @@
           <img src="<?= $s->logo ?>" height="90" />
         </div>
         <div class="ttddirjen">
-          <img src="<?= $s->ttd_dirjen ?>" height="90">
+          <img src="<?= $dir ?>" height="90">
         </div>
       </div>
 
