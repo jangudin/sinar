@@ -154,19 +154,20 @@
       }
 
       .ttd-container {
-    position: fixed;
-    bottom: 10%;
-    left: 5%;
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  position: fixed;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 80px; /* Jarak dari sisi kiri dan kanan */
+  align-items: center;
+}
 
-  .ttdlembaga img,
-  .ttddirjen img {
-    height: 90px;
-  }
+.ttdlembaga img,
+.ttddirjen img {
+  height: 90px;
+}
     }
   </style>
 </head>
@@ -245,13 +246,17 @@
       </div>
 
       <div class="ttd-container">
-        <div class="ttdlembaga">
-          <img src="<?= $s->logo ?>" height="90" />
-        </div>
-        <div class="ttddirjen">
-          <img src="<?= $dir ?>" height="90">
-        </div>
-      </div>
+  <!-- TTD Lembaga di kiri -->
+  <div class="ttdlembaga">
+    <img src="<?= $s->logo ?>" />
+  </div>
+
+  <!-- TTD Dirjen di kanan -->
+  <div class="ttddirjen">
+    <img src="<?= $dir ?>" />
+  </div>
+</div>
+
 
     </main>
   <?php } ?>
