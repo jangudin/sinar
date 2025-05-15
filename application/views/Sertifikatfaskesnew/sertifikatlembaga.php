@@ -3,11 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sertifikat</title>
-
+  <title>Sertifikat Akreditasi Faskes</title>
   <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
-
   <style>
     @page {
       margin: 0cm;
@@ -53,6 +50,12 @@
       left: 15%;
     }
 
+    .ttddirjen {
+      position: fixed;
+      top: 80%;
+      left: 55%;
+    }
+
     table {
       position: relative;
       margin-top: 100px;
@@ -87,7 +90,7 @@
     <main>
 
       <div class="sertifikat-nomor">
-        <p style="font-size: 20px; color: red;">Nomor: <?= $s->nomor_surat ?></p>
+        <p style="font-size: 20px; color: red;">Nomor: <?= $s->nomor_surat ?? '-' ?></p>
       </div>
 
       <table>
@@ -150,6 +153,10 @@
 
       <div class="ttdlembaga">
         <img src="<?= $s->logo ?>" height="90" alt="Logo Lembaga">
+      </div>
+
+      <div class="ttddirjen">
+        <img src="<?= $ttd_dirjen ?>" height="90" alt="TTD Dirjen">
       </div>
 
     </main>

@@ -222,15 +222,17 @@ public function filesertifikatlembaga($faskes, $id, $id_p)
     $this->pdfgenerator->generatefaskes($html, $id_p, 'A4', 'landscape');
 }
 
-private function base64EncodeImage($filename = "")
+private function base64EncodeImage($path)
 {
-    if (file_exists($filename)) {
-        $type = pathinfo($filename, PATHINFO_EXTENSION);
-        $data = file_get_contents($filename);
+    if (file_exists($path)) {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
         return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    } else {
+        return ''; // atau gambar default
     }
-    return '';
 }
+
 
 
 
