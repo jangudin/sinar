@@ -156,7 +156,7 @@
       .ttd-container {
             position: relative;
             width: 100%;
-            height: 100px; /* Sesuaikan tinggi area tanda tangan */
+            height: 90px; /* Sesuaikan tinggi area tanda tangan */
             display: flex;
             justify-content: space-between;
             padding: 0 60px; /* Jarak dari kiri dan kanan */
@@ -166,7 +166,7 @@
 
           .ttdlembaga,
           .ttddirjen {
-            width: 300px;
+            width: 70px;
             height: auto;
           }
 
