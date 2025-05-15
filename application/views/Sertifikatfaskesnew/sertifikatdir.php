@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
-  <style>
+    <style>
     .nmrs {
       font-family: 'Germania One', cursive;
     }
@@ -96,6 +96,16 @@
       position: fixed;
     }
 
+    /* .ttdlembaga {
+      top: 100%;
+      left: 0%;
+    } */
+
+    /* .ttddirjen {
+      top: 80%;
+      left: 55%;
+    } */
+
     .tglprn,
     .tglsertifikat,
     .tglsekarang,
@@ -141,28 +151,19 @@
         left: 15%;
       }
 
-     .ttd-wrapper {
-  position: fixed;
-  bottom: 60px; /* Sesuaikan posisi vertikal */
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 60px; /* Beri ruang dari sisi kiri dan kanan */
-}
+      .ttd-container {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 100px;
+      }
 
-.ttd-box {
-  text-align: center;
-}
-
-.ttdlembaga {
-  /* Tidak perlu left/right lagi, dikontrol flex */
-}
-
-.ttddirjen {
-  /* Sama */
-}
-
+      .ttdlembaga, .ttddirjen {
+        text-align: Left;
+      }
     }
   </style>
 </head>
