@@ -156,26 +156,26 @@
       .ttd-container {
             position: relative;
             width: 100%;
-            height: 90px; /* Sesuaikan tinggi area tanda tangan */
             display: flex;
             justify-content: space-between;
-            padding: 0 60px; /* Jarak dari kiri dan kanan */
+            align-items: flex-start;
+            padding: 0 60px;
+            margin-top: 60px;
             box-sizing: border-box;
-            margin-top: 60px; /* Beri jarak dari konten atas */
           }
 
           .ttdlembaga,
           .ttddirjen {
-            width: 70px;
-            height: auto;
+            height: 90px;
           }
 
           .ttdlembaga img,
           .ttddirjen img {
-            width: 100%;
-            height: auto;
+            height: 90px;
+            width: auto;
             display: block;
           }
+
     }
   </style>
 </head>
