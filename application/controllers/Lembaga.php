@@ -144,11 +144,25 @@ public function resume()
 
 // generate pdf kars open
 
+private function base64EncodeImage($filename = "")
+{
+    if (file_exists($filename)) {
+        $type = pathinfo($filename, PATHINFO_EXTENSION);
+        $data = file_get_contents($filename);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+    return '';
+}
+
 public function Kars($id)
 {
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+      $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/bgsertifikat/newKARS-0.jpg');
+      $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsparipurna.png');
+      $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsutama.png');
+      $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsmadya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';

@@ -143,7 +143,7 @@
     <body class="text-centre">
 
         <div id="watermark">
-            <img src="https://sinar.kemkes.go.id/assets/bgsertifikat/newKARS-0.jpg" height="100%" width="100%" />
+            <img src="<?= $background_base64 ?>" height="100%" width="100%" />
         </div>
         <main>
           <div class="sertifikat-nomor">
@@ -158,11 +158,11 @@
          <div class="sertifikat-tingkat" text-align="center">
             <p class="tingkat">TINGKAT KELULUSAN :</p>
             <?php if ($s->capayan == 'Paripurna'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/karsparipurna.png" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya"></img>
             <?php elseif ($s->capayan == 'Utama'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/karsutama.png" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya"></img>
             <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/karsmadya.png" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya"></img>
             <?php endif; ?>
           </div>
           <div class="bsd" text-align="center">
