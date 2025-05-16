@@ -113,7 +113,7 @@ class M_nomor_surat extends CI_Model{
      // return $belum->result();
   }
 
-  function SudahInput($faskes){
+  function SudahInput($faskes,$jenis){
 
     $pkm=$this->sina->query("SELECT
       data_sertifikat.id, 
