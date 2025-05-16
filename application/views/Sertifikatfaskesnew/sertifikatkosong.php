@@ -213,6 +213,7 @@
           </tr>
         </tbody>
       </table>
+      <br>
 
       <div class="bsd">
         <p class="desc">sebagai pengakuan bahwa Fasilitas Pelayanan Kesehatan telah memenuhi standar akreditasi dan dinyatakan lulus :</p>
