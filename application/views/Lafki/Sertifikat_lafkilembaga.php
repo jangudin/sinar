@@ -52,24 +52,25 @@
                 z-index:  -1000;
             }
             .sertifikat-nomor {
-                            width: 100%;
-                            max-width: 700px;
-                            padding: 15px;
-                            margin: 0 auto;
-                            text-align: center;
-                          }
+                            top: 14%;
+                            left: 13%;
+                            text-align: center;                          
+                            position: fixed;
+                            width:800px;
+            } 
             .sertifikat-nama {
-                            width: 100%;
-                            max-width: 800px;
-                            padding: 15px;
-                            margin: 0 auto;
+                            top: 20%;
+                            left: 14%;
                             text-align: center;
+                            position: fixed;
+                            width:800px;
                           }
             .sertifikat-tingkat {
                       top: 40%;
-                      text-align: center;
-                      position: fixed;
-                      marging: auto;
+                      left: 14%;
+                            text-align: center;
+                            position: fixed;
+                            width:800px;
                           }
             .fixed {
                       position: fixed;
@@ -98,9 +99,10 @@
                   }
           .bsd{
                     top: 57%;
+                    left: 14%;
                     text-align: center;
-                      position: fixed;
-                      marging: auto;
+                    position: fixed;
+                    width:800px;
           }
           .tglsertifikat{
                     top: 70%;
@@ -118,9 +120,9 @@
     </head>
     <body class="text-centre">
         <div id="watermark">
-            <img src="https://sinar.kemkes.go.id/assets/sertifikat/lafkilem.jpg" height="100%" width="100%" />
+            <img src="<?= $background_base64 ?>" height="100%" width="100%" />
         </div>
-                <?php foreach ($data as $s) { ?>
+        <?php foreach ($data as $s) { ?>
         <main>
           <div class="sertifikat-nomor">
             <h4 class="mt-5">Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></h3>
@@ -137,11 +139,11 @@
 
           <div>
             <?php if ($s->capayan == 'Paripurna'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/paripurna.png" height=150 width=400 class="capayanimgparipurna" class="ceter">
+            <img src="<?= $paripurna ?>" height=150 width=400 class="capayanimgparipurna" style="margin-left:380px; margin-top: 15px;" >
             <?php elseif ($s->capayan == 'Utama'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/utama.png" height=150 width=400 class="capayanimgutama" class="ceter">
+            <img src="<?= $utama ?>" height=150 width=400 class="capayanimgutama" style="margin-left:380px; margin-top: 15px;">
             <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/madya.png" height=150 width=400 class="capayanimgmadya" class="ceter">
+            <img src="<?= $madya ?>" height=150 width=400 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php endif; ?>
           </div>
           <div class="bsd">
