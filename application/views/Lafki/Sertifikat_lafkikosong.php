@@ -122,7 +122,7 @@
         </div>
         <?php foreach ($data as $s) { ?>
         <main>
-          <div class="sertifikat-nomor">
+          <div class="sertifikat-nomor" style="margin-left:30px;">
             <h4 class="mt-5">Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></h3>
           </div>
           <div class="sertifikat-nama">
