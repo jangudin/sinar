@@ -179,7 +179,11 @@ body { margin: 0px; }
 
 
 
-<h4>Mengetahui,</h4>
+    <table class="center" style="text-align: center;">
+        <tr>
+        <td style="font-size:25px; margin-top:20px;">Mengetahui,</td>
+        </tr>
+    </table>
 
 
     <!-- End : Tampilan Semua Box -->
