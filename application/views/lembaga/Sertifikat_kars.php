@@ -146,8 +146,9 @@
             <img src="<?= $background_base64 ?>" height="100%" width="100%" />
         </div>
         <main>
-          <div class="sertifikat-nomor"  style="left: 300px;">
+            <div class="sertifikat-nomor" style="text-align: center;">
             <code>Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></code>
+            </div>
           </div>
            <div class="sertifikat-nama">
             <p class="title">Diberikan Kepada :</p>
