@@ -50,49 +50,50 @@ body { margin: 0px; }
     z-index: 1;
 }
 #table1 {
-        border-collapse: collapse;
-        width: 100%;
-        margin-left: 10px;
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: 50px; /* Adjusted margin to shift to the right */
     } 
 
     #table {
-        font-family: "Arial", Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
+    font-family: "Arial", Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: 50px; /* Adjusted margin to shift to the right */
     } 
     table.center {
-        margin-left: auto; 
-        margin-right: auto;
+    margin-left: auto; 
+    margin-right: auto;
     }
     #table td,
     #table th {
-        border: 1px solid #ddd;
-        padding: 4px;
+    border: 1px solid #ddd;
+    padding: 4px;
     }
 
     #table tr:nth-child(even) {
-        background-color: #f2f2f2;
+    background-color: #f2f2f2;
     }
 
     #table tr:hover {
-        background-color: #ddd;
+    background-color: #ddd;
     }
 
     #table th {
-        padding-top: 1px;
-        padding-bottom: 1px;
-  padding-left: 1px;
-  padding-right: 1px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 1px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
     }
     .box {
-        width: 300px;
-        height: 200px;
-        background: transparent;
-        display: inline-block;
-        margin-left: 20px;
+    width: 300px;
+    height: 200px;
+    background: transparent;
+    display: inline-block;
+    margin-left: 70px; /* Adjusted margin to shift to the right */
     }
 </style>
 <!-- End : Style -->
