@@ -65,7 +65,7 @@
                             position: fixed;
                             width:800px;
                           }
-            .sertifikat-tingkat {
+            .sertifikat-tingkat{
                       top: 52%;
                       left: 14%;
                       text-align: center;
@@ -159,13 +159,13 @@
           </div>
          <div class="sertifikat-tingkat">
             <p class="tingkat">TINGKAT KELULUSAN :</p>
-            <?php if ($s->capayan == 'Paripurna'): ?>
+            <!-- <?php if ($s->capayan == 'Paripurna'): ?>
             <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya"></img>
             <?php elseif ($s->capayan == 'Utama'): ?>
             <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya"></img>
             <?php elseif ($s->capayan == 'Madya'): ?>
             <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya"></img>
-            <?php endif; ?>
+            <?php endif; ?> -->
           </div>
           <div class="bsd" text-align="center">
           <h3 class="title">Berlaku : s/d <?=tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h3>
