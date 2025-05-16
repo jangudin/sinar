@@ -43,8 +43,8 @@ class AdminNomorSurat extends CI_Controller {
         // $page = $this->input->get('page') ?? null;
         // $faskes = $this->input->get('faskes') ?? null;
 
-        $jenis = urldecode($this->uri->segment(4));
-        $faskes = urldecode( $this->uri->segment(3));
+        $jenis = urldecode($this->uri->segment(4) ?? '');
+        $faskes = urldecode($this->uri->segment(3) ?? '');
 
         $data = array('contents' => 'adminsuarat',
                       'data'    => $this->M_nomor_surat->SudahInput($faskes,$jenis),
