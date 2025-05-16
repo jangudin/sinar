@@ -171,21 +171,5 @@ body { margin: 0px; }
     <br />
      <?php } ?>
 
-
-
-
-
-    <table id='table1' style="margin-left: 15px;">
-        <tr>
-            <td style="width:50%; vertical-align:top; text-align:centre; font-size: 35px;" >
-                <span>  Mengetahui,</span>
-                <br>
-        </td>
-        <td style="width:50%; vertical-align:top; font-size: 18px; text-align:centre;">
-                <br/>
-                <br/>
-            </td>
-        </tr> 
-    </table>
 </body>
 </html>
