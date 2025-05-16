@@ -53,10 +53,10 @@
             }
             .sertifikat-nomor {
                             top: 27%;
-                            display: flex;
-                            justify-content: center;                            
+                            left: 14%;
+                            text-align: center;                          
                             position: fixed;
-                            marging: auto;
+                            width:800px;
                           }
             .sertifikat-nama {
                             top: 31%;
