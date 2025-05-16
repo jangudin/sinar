@@ -148,7 +148,7 @@
         </div>
                 <?php foreach ($data as $s) { ?>
         <main>
-          <div class="sertifikat-nomor">
+          <div class="sertifikat-nomor" style="text-align: center;">
             <code>Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></code>
           </div>
            <div class="sertifikat-nama">
