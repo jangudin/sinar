@@ -67,9 +67,10 @@
                           }
             .sertifikat-tingkat {
                       top: 52%;
+                      left: 14%;
                       text-align: center;
                       position: fixed;
-                      marging: auto;
+                      width:800px;
                           }
             .fixed {
                       position: fixed;
@@ -156,7 +157,7 @@
             <p class="title"><?= $s->ALAMAT ?></p>
             <p class="title">Provinsi : <?= $s->propinsi_name?></p>
           </div>
-         <div class="sertifikat-tingkat" text-align="center">
+         <div class="sertifikat-tingkat">
             <p class="tingkat">TINGKAT KELULUSAN :</p>
             <?php if ($s->capayan == 'Paripurna'): ?>
             <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya"></img>
