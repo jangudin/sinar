@@ -53,7 +53,7 @@
             }
             .sertifikat-nomor {
                             width: 100%;
-                            max-width: 900px;
+                            max-width: 1000px;
                             padding: 15px;
                             margin: 0 auto;
                             text-align: center;
