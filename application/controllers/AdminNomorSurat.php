@@ -37,23 +37,36 @@ class AdminNomorSurat extends CI_Controller {
         $this->load->view('List_Rekomendasi',$data);
     }
 
-     public function SudahInput()
-    {
-        $id = $this->session->userdata('lembaga_id');
-        // $page = $this->input->get('page') ?? null;
-        // $faskes = $this->input->get('faskes') ?? null;
+public function sudah_input()
+{
+    // Ambil input dari GET atau POST (bisa disesuaikan)
+    $faskes = $this->input->get('faskes');  // atau $this->input->post('faskes');
+    $jenis = $this->input->get('jenis');    // atau $this->input->post('jenis');
 
-        $jenis = urldecode($this->uri->segment(4) ?? '');
-        $faskes = urldecode($this->uri->segment(3) ?? '');
-
-        $data = array('contents' => 'adminsuarat',
-                      'data'    => $this->M_nomor_surat->SudahInput($faskes,$jenis),
-                      'belum' => $this->M_nomor_surat->jumlah_belum($faskes),
-      );
-        
-       // echo json_encode($data['data']);
-        $this->load->view('List_Rekomendasi',$data);
+    // Cek jika parameter tidak lengkap
+    if (empty($faskes)) {
+        show_error("Parameter 'faskes' wajib diisi.", 400);
+        return;
     }
+
+    // Load model jika belum
+    $this->load->model('NamaModel'); // Ganti dengan nama model yang benar
+
+    // Ambil data dari model
+    $data = $this->NamaModel->SudahInput($faskes, $jenis);
+
+    // Tampilkan sebagai JSON (jika API)
+    $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode([
+            'status' => 'success',
+            'data' => $data
+        ]));
+
+    // Atau jika mau ditampilkan ke view
+    // $this->load->view('nama_view', ['data' => $data]);
+}
+
 
 
         public function tes()

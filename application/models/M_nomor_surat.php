@@ -113,178 +113,55 @@ class M_nomor_surat extends CI_Model{
      // return $belum->result();
   }
 
-  function SudahInput($faskes,$jenis){
+  public function SudahInput($faskes, $jenis)
+{
+    if (is_null($faskes)) return [];
 
-    $pkm=$this->sina->query("SELECT
-      data_sertifikat.id, 
-      data_sertifikat.persetujuan_direktur_id, 
-      data_sertifikat.kode_faskes, 
-      data_sertifikat.nama_faskes, 
-      data_sertifikat.jenis_faskes, 
-      data_sertifikat.alamat, 
-      data_sertifikat.kecamatan, 
-      data_sertifikat.kabkot, 
-      data_sertifikat.provinsi, 
-      data_sertifikat.status_akreditasi, 
-      data_sertifikat.tgl_survei, 
-      data_sertifikat.logo, 
-      data_sertifikat.nomor_surat, 
-      data_sertifikat.tgl_nomor_surat, 
-      data_sertifikat.lpa, 
-      data_sertifikat.created_at, 
-      tte_lpa.status_tte
-      FROM
-      data_sertifikat
-      LEFT JOIN tte_lpa ON data_sertifikat.id = tte_lpa.data_sertifikat_id 
-      WHERE
-      nomor_surat IS NOT NULL
-      AND data_sertifikat.jenis_faskes = '$faskes'
-      GROUP BY
-      data_sertifikat.kode_faskes
-      ORDER BY
-      data_sertifikat.tgl_nomor_surat DESC,
-      data_sertifikat.nomor_surat DESC
-      LIMIT 300");
-    $Klinik=$this->sina->query("SELECT
-      data_sertifikat.id, 
-      data_sertifikat.persetujuan_direktur_id, 
-      data_sertifikat.kode_faskes, 
-      data_sertifikat.nama_faskes, 
-      data_sertifikat.jenis_faskes, 
-      data_sertifikat.alamat, 
-      data_sertifikat.kecamatan, 
-      data_sertifikat.kabkot, 
-      data_sertifikat.provinsi, 
-      data_sertifikat.status_akreditasi, 
-      data_sertifikat.tgl_survei, 
-      data_sertifikat.logo, 
-      data_sertifikat.nomor_surat, 
-      data_sertifikat.tgl_nomor_surat, 
-      data_sertifikat.lpa, 
-      data_sertifikat.created_at, 
-      tte_lpa.status_tte
-      FROM
-      data_sertifikat
-      LEFT JOIN tte_lpa ON data_sertifikat.id = tte_lpa.data_sertifikat_id
-      LEFT OUTER JOIN dbfaskes.trans_final ON data_sertifikat.kode_faskes = dbfaskes.trans_final.kode_faskes
-      LEFT OUTER JOIN dbfaskes.data_klinik ON dbfaskes.trans_final.id_faskes = dbfaskes.data_klinik.id_faskes
-      WHERE
-      nomor_surat IS NOT NULL
-      AND data_sertifikat.jenis_faskes = '$faskes'
-      AND data_klinik.jenis_klinik = '$jenis'
-      GROUP BY
-      data_sertifikat.kode_faskes
-      ORDER BY
-      data_sertifikat.tgl_nomor_surat DESC,
-      data_sertifikat.nomor_surat DESC
-      LIMIT 300");
-    $lab=$this->sina->query("SELECT
-      data_sertifikat.id, 
-      data_sertifikat.persetujuan_direktur_id, 
-      data_sertifikat.kode_faskes, 
-      data_sertifikat.nama_faskes, 
-      data_sertifikat.jenis_faskes, 
-      data_sertifikat.alamat, 
-      data_sertifikat.kecamatan, 
-      data_sertifikat.kabkot, 
-      data_sertifikat.provinsi, 
-      data_sertifikat.status_akreditasi, 
-      data_sertifikat.tgl_survei, 
-      data_sertifikat.logo, 
-      data_sertifikat.nomor_surat, 
-      data_sertifikat.tgl_nomor_surat, 
-      data_sertifikat.lpa, 
-      data_sertifikat.created_at, 
-      tte_lpa.status_tte
-      FROM
-      data_sertifikat
-      LEFT JOIN tte_lpa ON data_sertifikat.id = tte_lpa.data_sertifikat_id
-      LEFT OUTER JOIN dbfaskes.trans_final ON data_sertifikat.kode_faskes = dbfaskes.trans_final.kode_faskes
-      LEFT OUTER JOIN dbfaskes.data_labkes ON dbfaskes.trans_final.id_faskes = dbfaskes.data_labkes.id_faskes
-      WHERE
-      nomor_surat IS NOT NULL
-      AND data_sertifikat.jenis_faskes = '$faskes'
-      AND data_labkes.jenis_lab LIKE '%$jenis%'
-      GROUP BY
-      data_sertifikat.kode_faskes
-      ORDER BY
-      data_sertifikat.tgl_nomor_surat DESC,
-      data_sertifikat.nomor_surat DESC
-      LIMIT 300");
-    $utd=$this->sina->query("SELECT
-      data_sertifikat.id, 
-      data_sertifikat.persetujuan_direktur_id, 
-      data_sertifikat.kode_faskes, 
-      data_sertifikat.nama_faskes, 
-      data_sertifikat.jenis_faskes, 
-      data_sertifikat.alamat, 
-      data_sertifikat.kecamatan, 
-      data_sertifikat.kabkot, 
-      data_sertifikat.provinsi, 
-      data_sertifikat.status_akreditasi, 
-      data_sertifikat.tgl_survei, 
-      data_sertifikat.logo, 
-      data_sertifikat.nomor_surat, 
-      data_sertifikat.tgl_nomor_surat, 
-      data_sertifikat.lpa, 
-      data_sertifikat.created_at, 
-      tte_lpa.status_tte
-      FROM
-      data_sertifikat
-      LEFT JOIN tte_lpa ON data_sertifikat.id = tte_lpa.data_sertifikat_id 
-      WHERE
-      nomor_surat IS NOT NULL
-      AND data_sertifikat.jenis_faskes = '$faskes'
-      GROUP BY
-      data_sertifikat.kode_faskes
-      ORDER BY
-      data_sertifikat.tgl_nomor_surat DESC,
-      data_sertifikat.nomor_surat DESC
-      LIMIT 300");
-    // $sudah=$this->sina->query("SELECT
-    //   data_sertifikat.id, 
-    //   data_sertifikat.persetujuan_direktur_id, 
-    //   data_sertifikat.kode_faskes, 
-    //   data_sertifikat.nama_faskes, 
-    //   data_sertifikat.jenis_faskes, 
-    //   data_sertifikat.alamat, 
-    //   data_sertifikat.kecamatan, 
-    //   data_sertifikat.kabkot, 
-    //   data_sertifikat.provinsi, 
-    //   data_sertifikat.status_akreditasi, 
-    //   data_sertifikat.tgl_survei, 
-    //   data_sertifikat.logo, 
-    //   data_sertifikat.nomor_surat, 
-    //   data_sertifikat.tgl_nomor_surat, 
-    //   data_sertifikat.lpa, 
-    //   data_sertifikat.created_at, 
-    //   tte_lpa.status_tte
-    //   FROM
-    //   data_sertifikat
-    //   LEFT JOIN tte_lpa ON data_sertifikat.id = tte_lpa.data_sertifikat_id 
-    //   WHERE
-    //   nomor_surat IS NOT NULL
-    //   AND data_sertifikat.jenis_faskes = '$faskes'
-    //   GROUP BY
-    //   data_sertifikat.kode_faskes
-    //   ORDER BY
-    //   data_sertifikat.tgl_nomor_surat DESC,
-    //   data_sertifikat.nomor_surat DESC
-    //   LIMIT 300");
+    $baseQuery = "SELECT
+        ds.id,
+        ds.persetujuan_direktur_id,
+        ds.kode_faskes,
+        ds.nama_faskes,
+        ds.jenis_faskes,
+        ds.alamat,
+        ds.kecamatan,
+        ds.kabkot,
+        ds.provinsi,
+        ds.status_akreditasi,
+        ds.tgl_survei,
+        ds.logo,
+        ds.nomor_surat,
+        ds.tgl_nomor_surat,
+        ds.lpa,
+        ds.created_at,
+        tl.status_tte
+        FROM data_sertifikat ds
+        LEFT JOIN tte_lpa tl ON ds.id = tl.data_sertifikat_id
+    ";
 
-    if ($faskes == null) {
-      return [];
-    }elseif($faskes == 'Pusat Kesehatan Masyarakat'){
-      return $pkm->result();
-    }elseif ($faskes == 'Klinik'){
-      return $Klinik->result();
-    }elseif ($faskes == 'Laboratorium Kesehatan'){
-      return $lab->result();
-    }elseif ($faskes == 'Unit Transfusi Darah'){
-      return $utd->result();
-    };
-     // return $belum->result();
-  }
+    $where = "WHERE ds.nomor_surat IS NOT NULL AND ds.jenis_faskes = " . $this->db->escape($faskes);
+    $groupOrder = " GROUP BY ds.kode_faskes ORDER BY ds.tgl_nomor_surat DESC, ds.nomor_surat DESC LIMIT 300";
+
+    // Tambahkan join dan kondisi khusus jika Klinik atau Lab
+    if ($faskes == 'Klinik') {
+        $baseQuery .= "
+            LEFT JOIN dbfaskes.trans_final tf ON ds.kode_faskes = tf.kode_faskes
+            LEFT JOIN dbfaskes.data_klinik dk ON tf.id_faskes = dk.id_faskes
+        ";
+        $where .= " AND dk.jenis_klinik = " . $this->db->escape($jenis);
+    } elseif ($faskes == 'Laboratorium Kesehatan') {
+        $baseQuery .= "
+            LEFT JOIN dbfaskes.trans_final tf ON ds.kode_faskes = tf.kode_faskes
+            LEFT JOIN dbfaskes.data_labkes dl ON tf.id_faskes = dl.id_faskes
+        ";
+        $where .= " AND dl.jenis_lab LIKE " . $this->db->escape("%$jenis%");
+    }
+
+    $finalQuery = $baseQuery . ' ' . $where . ' ' . $groupOrder;
+
+    return $this->sina->query($finalQuery)->result();
+}
+
 
   function jumlah_belum($faskes,$jenis){
     $hsl=$this->sina->query("SELECT
