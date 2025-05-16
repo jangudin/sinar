@@ -160,13 +160,13 @@
           </div>
          <div class="sertifikat-tingkat">
             <p class="tingkat">TINGKAT KELULUSAN :</p>
-            <!-- <?php if ($s->capayan == 'Paripurna'): ?>
-            <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya"></img>
+            <?php if ($s->capayan == 'Paripurna'): ?>
+            <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya" style="position: absolute; left: 200px;">
             <?php elseif ($s->capayan == 'Utama'): ?>
-            <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya" style="position: absolute; left: 200px;">
             <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya"></img>
-            <?php endif; ?> -->
+            <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya" style="position: absolute; left: 200px;">
+            <?php endif; ?>
           </div>
           <div class="bsd" text-align="center">
           <h3 class="title">Berlaku : s/d <?=tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h3>
