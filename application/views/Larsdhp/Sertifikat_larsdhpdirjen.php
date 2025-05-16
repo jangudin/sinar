@@ -146,7 +146,6 @@ body { margin: 0px; }
         </tr>
        
     </table><br><br><br><br><br>
-    <p>hallo</p>
     <table class="center" style="text-align: center;">
         <tr style="margin-bottom: 10px;">
             <td style="font-size:35px">Tingkat Kelulusan</td>
