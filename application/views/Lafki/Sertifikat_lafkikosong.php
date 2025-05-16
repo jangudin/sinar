@@ -52,12 +52,12 @@
                 z-index:  -1000;
             }
             .sertifikat-nomor {
-                            width: 100%;
-                            max-width: 1000px;
-                            padding: 15px;
-                            margin: 0 auto;
-                            text-align: center;
-                          }
+                            top: 27%;
+                            left: 14%;
+                            text-align: center;                          
+                            position: fixed;
+                            width:800px;
+            } 
             .sertifikat-nama {
                             width: 100%;
                             max-width: 800px;
