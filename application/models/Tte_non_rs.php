@@ -2291,7 +2291,7 @@ $klinik=$this->sina->query("SELECT
         r.persetujuan_ketua_id,
         r.catatan_direktur,
         s.nama AS status_akreditasi,
-        data_klinik.jenis_klinik AS kategori_faskes,
+        data_klinik.jenis_klinik AS kategori_faskes
         FROM
         pengajuan_usulan_survei a
         LEFT OUTER JOIN pengajuan_usulan_survei_detail pusd ON a.id = pusd.pengajuan_usulan_survei_id
