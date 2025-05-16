@@ -45,7 +45,7 @@ class AdminNomorSurat extends CI_Controller {
                       'belum' => $this->M_nomor_surat->jumlah_belum($faskes,$jenis),
       );
         
-        echo json_encode($nik);exit;
+      //  echo json_encode($nik);exit;
         $this->load->view('List_Rekomendasi',$data);
     }
 
