@@ -53,7 +53,7 @@
             }
             .sertifikat-nomor {
                             top: 14%;
-                            left: 14%;
+                            left: 13%;
                             text-align: center;                          
                             position: fixed;
                             width:800px;
@@ -67,7 +67,7 @@
                           }
             .sertifikat-tingkat {
                       top: 40%;
-                      left: 14%;
+                      left: 13%;
                             text-align: center;
                             position: fixed;
                             width:800px;
