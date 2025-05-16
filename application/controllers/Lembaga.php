@@ -57,9 +57,9 @@ class Lembaga extends CI_Controller {
     $id = decrypt_url($uri);
     $idlembaga = $this->session->userdata('lembaga_id');
     if($idlembaga == 'kars'){
-        $this->Kars($id);
+        // $this->Kars($id);
         $this->Karslembaga($id);
-        $this->Karsdirjen($id);
+        // $this->Karsdirjen($id);
         $attachment = 'assets/generate/kars/kars_kosong'.$id.'.pdf';
     }elseif($idlembaga == 'lam') {
         $this->Lam($id);

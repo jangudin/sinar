@@ -141,15 +141,16 @@
               }
         </style>
     </head>
+    <?php foreach ($data as $s) { ?>
     <body class="text-centre">
 
         <div id="watermark">
             <img src="<?= $background_base64 ?>" height="100%" width="100%" />
         </div>
-                <?php foreach ($data as $s) { ?>
         <main>
-          <div class="sertifikat-nomor" style="text-align: center;">
+            <div class="sertifikat-nomor" style="text-align: center;">
             <code>Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></code>
+            </div>
           </div>
            <div class="sertifikat-nama">
             <p class="title">Diberikan Kepada :</p>
@@ -167,7 +168,7 @@
             <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php endif; ?>
           </div>
-          <div class="bsd">
+          <div class="bsd" text-align="center">
           <h3 class="title">Berlaku : s/d <?=tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h3>
           </div>
           <div class="tglprn">
@@ -177,7 +178,6 @@
           <h4 class="mt-4">Mengetahui,</h4>
           </div>
         </main>
-        <?php } ?>
-
     </body>
+            <?php } ?>
 </html>
