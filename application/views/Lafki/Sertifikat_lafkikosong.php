@@ -59,7 +59,7 @@
                             width:800px;
             } 
             .sertifikat-nama {
-                            top: 18%;
+                            top: 20%;
                             left: 14%;
                             text-align: center;
                             position: fixed;
@@ -132,7 +132,7 @@
             <h4 class="mt-5">Alamat : </h4>
             <h4 class="mt-1 mb-2"><?= $s->ALAMAT ?></h4>
           </div>
-          <div class="sertifikat-tingkat">
+          <div class="sertifikat-tingkat" style="margin-left:35px;">
             <h3 class="mt-4 mb-5">Tingkat Kelulusan</h3>
           </div>
 
