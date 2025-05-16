@@ -176,12 +176,5 @@ body { margin: 0px; }
         
     </table><br><br>
     <?php } ?>
-
-
-
-
-
-    <!-- End : Tampilan Semua Box -->
 </body>
-
 </html>
