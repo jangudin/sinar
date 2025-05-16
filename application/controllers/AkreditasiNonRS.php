@@ -191,9 +191,13 @@ public function filesertifikatdir($id,$idp)
         // === Tentukan TTD Dirjen ===
         $use_dirjendua = false;
 
-        if ($row->jenis_faskes === 'Pusat Kesehatan Masyarakat' || $row->kategoriFaskes === 'Pratama') {
+        if ($row->jenis_faskes === 'Pusat Kesehatan Masyarakat'){
             $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjendua.png');
-        }else {
+        }elseif($row->jenis_faskes === 'Klinik' && $row->kategoriFaskes === 'Pratama'){
+             $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjendua.png');
+        }elseif($row->jenis_faskes === 'Klinik' && $row->kategoriFaskes === 'Utama'){
+            $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjen.png');
+        }elseif($row->jenis_faskes === 'Unit Transfusi Darah'){
             $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjen.png');
         }
     }
