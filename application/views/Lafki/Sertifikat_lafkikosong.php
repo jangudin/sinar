@@ -98,9 +98,10 @@
                   }
           .bsd{
                     top: 57%;
+                    left: 14%;
                     text-align: center;
-                      position: fixed;
-                      marging: auto;
+                    position: fixed;
+                    width:800px;
           }
           .tglsertifikat{
                     top: 70%;
@@ -122,7 +123,7 @@
         </div>
         <?php foreach ($data as $s) { ?>
         <main>
-          <div class="sertifikat-nomor" style="margin-left:30px;">
+          <div class="sertifikat-nomor" style="margin-left:35px;">
             <h4 class="mt-5">Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></h3>
           </div>
           <div class="sertifikat-nama">
@@ -137,11 +138,11 @@
 
           <div>
             <?php if ($s->capayan == 'Paripurna'): ?>
-            <img src="<?= $paripurna ?>" height=150 width=400 class="capayanimgparipurna" class="ceter">
+            <img src="<?= $paripurna ?>" height=150 width=400 class="capayanimgparipurna" style="margin-left:380px; margin-top: 15px;" >
             <?php elseif ($s->capayan == 'Utama'): ?>
-            <img src="<?= $utama ?>" height=150 width=400 class="capayanimgutama" class="ceter">
+            <img src="<?= $utama ?>" height=150 width=400 class="capayanimgutama" style="margin-left:380px; margin-top: 15px;">
             <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="<?= $madya ?>" height=150 width=400 class="capayanimgmadya" class="ceter">
+            <img src="<?= $madya ?>" height=150 width=400 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php endif; ?>
           </div>
           <div class="bsd">
