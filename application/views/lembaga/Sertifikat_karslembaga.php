@@ -53,9 +53,10 @@
             }
             .sertifikat-nomor {
                             top: 27%;
-                            text-align: center;
+                            left: 14%;
+                            text-align: center;                          
                             position: fixed;
-                            marging: auto;
+                            width:800px;
                           }
             .sertifikat-nama {
                             top: 31%;
@@ -64,11 +65,12 @@
                             position: fixed;
                             width:800px;
                           }
-            .sertifikat-tingkat {
+            .sertifikat-tingkat{
                       top: 52%;
+                      left: 14%;
                       text-align: center;
                       position: fixed;
-                      marging: auto;
+                      width:800px;
                           }
             .fixed {
                       position: fixed;
@@ -97,9 +99,10 @@
                   }
           .bsd{
                     top: 63%;
+                    left: 14%;
                     text-align: center;
-                      position: fixed;
-                      marging: auto;
+                    position: fixed;
+                    width:800px;
           }
           .tglprn{
                     top: 67%;
@@ -141,7 +144,7 @@
     <body class="text-centre">
 
         <div id="watermark">
-            <img src="https://sinar.kemkes.go.id/assets/bgsertifikat/newKARS-1.jpg" height="100%" width="100%" />
+            <img src="<?= $background_base64 ?>" height="100%" width="100%" />
         </div>
                 <?php foreach ($data as $s) { ?>
         <main>
@@ -157,11 +160,11 @@
          <div class="sertifikat-tingkat">
             <p class="tingkat">TINGKAT KELULUSAN :</p>
             <?php if ($s->capayan == 'Paripurna'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/karsparipurna.png" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php elseif ($s->capayan == 'Utama'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/karsutama.png" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/karsmadya.png" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php endif; ?>
           </div>
           <div class="bsd">
