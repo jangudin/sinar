@@ -37,34 +37,22 @@ class AdminNomorSurat extends CI_Controller {
         $this->load->view('List_Rekomendasi',$data);
     }
 
-public function sudah_input()
+public function sudahInput()
 {
-    // Ambil input dari GET atau POST (bisa disesuaikan)
-    $faskes = $this->input->get('faskes');  // atau $this->input->post('faskes');
-    $jenis = $this->input->get('jenis');    // atau $this->input->post('jenis');
+    $faskes = $this->request->getVar('faskes');
+    $jenis = $this->request->getVar('jenis');
 
-    // Cek jika parameter tidak lengkap
-    if (empty($faskes)) {
-        show_error("Parameter 'faskes' wajib diisi.", 400);
-        return;
+    if (!$faskes) {
+        return $this->response->setStatusCode(400)->setJSON(['message' => 'Faskes harus diisi']);
     }
 
-    // Load model jika belum
-    $this->load->model('NamaModel'); // Ganti dengan nama model yang benar
+    $model = new \App\Models\NamaModel(); // ganti dengan nama model kamu
+    $data = $model->SudahInput($faskes, $jenis);
 
-    // Ambil data dari model
-    $data = $this->NamaModel->SudahInput($faskes, $jenis);
-
-    // Tampilkan sebagai JSON (jika API)
-    $this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode([
-            'status' => 'success',
-            'data' => $data
-        ]));
-
-    // Atau jika mau ditampilkan ke view
-    // $this->load->view('nama_view', ['data' => $data]);
+    return $this->response->setJSON([
+        'status' => 'success',
+        'data' => $data
+    ]);
 }
 
 
