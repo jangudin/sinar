@@ -177,13 +177,6 @@ body { margin: 0px; }
     </table><br><br>
     <?php } ?>
 
-    <table class="center" style="text-align: center;">
-        <tr>
-        <td style="font-size:25px; margin-top:20px;"> Mengetahui,</td>
-        </tr>
-        
-    </table><br><br>
-
 
 
 
