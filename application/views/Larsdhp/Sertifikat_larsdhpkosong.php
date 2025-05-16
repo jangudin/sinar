@@ -105,7 +105,7 @@ body { margin: 0px; }
 </head>
 <body>
     <div id="allbox">
-        <div id="boxsatu"><img src="https://sinar.kemkes.go.id/assets/sertifikat/larsdhp.jpg" height="1585"></div>
+        <div id="boxsatu"><img src="<?= $background_base64 ?>" height="1585"></div>
     </div>
     <br />
     <br />

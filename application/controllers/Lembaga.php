@@ -455,6 +455,7 @@ public function Larsdhp($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/larsdhp.jpg');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -485,6 +486,7 @@ public function Larsdhplembaga($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/larsdhpdir.jpg');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -517,6 +519,7 @@ public function Larsdhpdirjen($id)
     $id = decrypt_url($uri);
 
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lafkikosong.jpeg');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';

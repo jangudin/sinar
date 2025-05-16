@@ -98,7 +98,7 @@ body { margin: 0px; }
 </head>
 <body>
     <div id="allbox">
-        <div id="boxsatu"><img src="https://sinar.kemkes.go.id/assets/sertifikat/larsdhplem.jpg" height="1585"></div>
+        <div id="boxsatu"><img src="<?= $background_base64 ?>" height="1585"></div>
     </div>
 <br />
     <br />
@@ -164,21 +164,5 @@ body { margin: 0px; }
     <br />
      <?php } ?>
 
-
-
-
-
-    <table id='table1' >
-        <tr>
-            <td style="width:50%; vertical-align:top; text-align:centre; font-size: 35px;">
-                <span>  Mengetahui,</span>
-                <br>
-        </td>
-        <td style="width:50%; vertical-align:top; font-size: 18px; text-align:centre;">
-                <br/>
-                <br/>
-            </td>
-        </tr> 
-    </table>
 </body>
 </html>
