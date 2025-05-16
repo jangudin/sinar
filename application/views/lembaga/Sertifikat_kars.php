@@ -53,7 +53,8 @@
             }
             .sertifikat-nomor {
                             top: 27%;
-                            text-align: center;
+                            display: flex;
+                            justify-content: center;                            
                             position: fixed;
                             marging: auto;
                           }
@@ -145,7 +146,7 @@
             <img src="https://sinar.kemkes.go.id/assets/bgsertifikat/newKARS-0.jpg" height="100%" width="100%" />
         </div>
         <main>
-          <div class="sertifikat-nomor" text-align="center">
+          <div class="sertifikat-nomor">
             <code>Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></code>
           </div>
            <div class="sertifikat-nama">
