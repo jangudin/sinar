@@ -100,7 +100,7 @@ body { margin: 0px; }
     <!-- Start : Tampilan Semua Box -->
     <div id="allbox">
         <!-- Start : Tampilkan Box -->
-        <div id="boxsatu"><img src="https://sinar.kemkes.go.id/assets/sertifikat/lamkprskosong.jpg" height="1585"></div>
+        <div id="boxsatu"><img src="<?= $background_base64 ?>" height="1585"></div>
         <!-- End : Tampilan Box -->
     </div>
     <br />
@@ -155,11 +155,11 @@ body { margin: 0px; }
         </tr>
         <tr>
             <?php if ($s->capayan == 'Utama'): ?>
-            <td style="font-weight: bold; font-size:35px"><img src="https://sinar.kemkes.go.id/assets/capayan/lamutama.png" alt=""height=100 width=350></img></td>
+            <td style="font-weight: bold; font-size:35px"><img src="<?= $utama ?>" alt=""height=100 width=350></img></td>
         <?php elseif ($s->capayan == 'Madya'): ?>
-            <td style="font-weight: bold; font-size:35px"><img src="https://sinar.kemkes.go.id/assets/capayan/lammadya.png" alt=""height=100 width=350></img></td>
+            <td style="font-weight: bold; font-size:35px"><img src="<?= $madya ?>" alt=""height=100 width=350></img></td>
         <?php elseif ($s->capayan == 'Paripurna'): ?>
-            <td style="font-weight: bold; font-size:35px"><img src="https://sinar.kemkes.go.id/assets/capayan/lamparipurna.png" alt=""height=120 width=400></img></td>
+            <td style="font-weight: bold; font-size:35px"><img src="<?= $paripurna ?>" alt=""height=120 width=400></img></td>
         <?php endif; ?>
         </tr>
         <tr>

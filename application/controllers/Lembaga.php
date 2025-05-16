@@ -262,6 +262,10 @@ public function Lam($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lafkikosong.jpeg');
+    $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/paripurna.png');
+    $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/utama.png');
+    $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/madya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -292,6 +296,10 @@ public function Lamlembaga($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lamkprskosong.jpg');
+    $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/lamutama.png');
+    $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/lammadya.png');
+    $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/lamparipurna.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -322,6 +330,10 @@ public function Lamdirjen($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lafkikosong.jpeg');
+    $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/paripurna.png');
+    $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/utama.png');
+    $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/madya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
