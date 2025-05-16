@@ -145,7 +145,7 @@
             <img src="https://sinar.kemkes.go.id/assets/bgsertifikat/newKARS-0.jpg" height="100%" width="100%" />
         </div>
         <main>
-          <div class="sertifikat-nomor">
+          <div class="sertifikat-nomor" text-align="center">
             <code>Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></code>
           </div>
            <div class="sertifikat-nama">
