@@ -520,6 +520,7 @@ public function Larsdhpdirjen($id)
 
     $this->load->library('pdfgenerator');
     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/larsdhpdir.jpg');
+    
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
