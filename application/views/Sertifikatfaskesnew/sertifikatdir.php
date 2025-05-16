@@ -249,7 +249,6 @@
             <p class="mt-4">Jakarta, <?= format_indo($s->tgl_nomor_surat);?></p>
             <img src="<?= $dir ?>" height="90" style="position: absolute; bottom: 80px; right: 200px;" />
         </div>
-        </div>
     </main>
   <?php } ?>
 </body>
