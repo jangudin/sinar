@@ -113,7 +113,7 @@
                       <input name="capayan" class="form-control" type="hidden" value="<?= $s->status_akreditasi ?>">
                       <input name="tgl_surveior" class="form-control" type="hidden" value="<?= $s->tgl_surveior ?>">
                       <input name="logo" class="form-control" type="hidden" value="<?= $s->logo ?>">
-                      <input name="kategori_faskes" class="form-control" type="hidden" value="<?= $s->ketegori_faskes ?>">
+                      <input name="kategori_faskes" class="form-control" type="hidden" value="<?= $s->kategori_faskes ?>">
                     </div>
                   </div>
                   <div class="form-group row">
