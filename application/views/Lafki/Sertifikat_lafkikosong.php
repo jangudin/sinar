@@ -67,7 +67,7 @@
                           }
             .sertifikat-tingkat {
                       top: 40%;
-                      left: 13%;
+                      left: 14%;
                             text-align: center;
                             position: fixed;
                             width:800px;
@@ -124,7 +124,7 @@
         </div>
         <?php foreach ($data as $s) { ?>
         <main>
-          <div class="sertifikat-nomor" style="margin-left:35px;">
+          <div class="sertifikat-nomor">
             <h4 class="mt-5">Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></h3>
           </div>
           <div class="sertifikat-nama">
@@ -133,7 +133,7 @@
             <h4 class="mt-5">Alamat : </h4>
             <h4 class="mt-1 mb-2"><?= $s->ALAMAT ?></h4>
           </div>
-          <div class="sertifikat-tingkat" style="margin-left:35px;">
+          <div class="sertifikat-tingkat">
             <h3 class="mt-4 mb-5">Tingkat Kelulusan</h3>
           </div>
 
