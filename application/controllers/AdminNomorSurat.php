@@ -47,7 +47,7 @@ class AdminNomorSurat extends CI_Controller {
         $faskes = urldecode($this->uri->segment(3) ?? '');
 
         $data = array('contents' => 'adminsuarat',
-                      'data'    => $this->M_nomor_surat->SudahInput($faskes,$jenis),
+                      'data'    => $this->M_nomor_surat->SudahInput($faskes),
                       'belum' => $this->M_nomor_surat->jumlah_belum($faskes),
       );
         
