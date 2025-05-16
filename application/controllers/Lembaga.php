@@ -519,7 +519,7 @@ public function Larsdhpdirjen($id)
     $id = decrypt_url($uri);
 
     $this->load->library('pdfgenerator');
-    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lafkikosong.jpeg');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/larsdhpdirjen.jpg');
 
 
         // title dari pdf
