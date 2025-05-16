@@ -163,9 +163,9 @@
             <?php if ($s->capayan == 'Paripurna'): ?>
             <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php elseif ($s->capayan == 'Utama'): ?>
-            <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya" style="position: absolute; left: 200px;"></img>
+            <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya" style="position: absolute; left: 200px;"></img>
+            <img src="<?= $madya ?>" alt="" height=100 class="capayanimgmadya" style="margin-left:380px; margin-top: 15px;">
             <?php endif; ?>
           </div>
           <div class="bsd" text-align="center">
