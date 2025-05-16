@@ -187,7 +187,7 @@
               <?php endif; ?>
             </td>
             <td>:</td>
-            <th style="font-size: 18px;"><?= $s->nama_fasyankes; ?></th>
+            <th style="font-size: 18px; text-align: left;"><?= $s->nama_fasyankes; ?></th>
           </tr>
         </thead>
         <tbody>

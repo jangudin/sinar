@@ -194,7 +194,7 @@
               <?php endif; ?>
             </td>
             <td>:</td>
-            <th style="font-size: 18px;"><?= $s->nama_faskes; ?></th>
+            <th style="font-size: 18px; text-align: left;"><?= $s->nama_faskes; ?></th>
           </tr>
         </thead>
         <tbody>
