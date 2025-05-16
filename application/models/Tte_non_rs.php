@@ -2169,7 +2169,8 @@ $puskesmaskmk=$this->sina->query("SELECT
         r.id AS direktur_id,
         r.status_direktur AS direktur,
         r.persetujuan_ketua_id,
-        r.catatan_direktur 
+        r.catatan_direktur,
+        NULL AS kategori_faskes
         FROM
         pengajuan_usulan_survei a
         LEFT OUTER JOIN pengajuan_usulan_survei_detail pusd ON a.id = pusd.pengajuan_usulan_survei_id
@@ -2289,7 +2290,8 @@ $klinik=$this->sina->query("SELECT
         r.status_direktur AS direktur,
         r.persetujuan_ketua_id,
         r.catatan_direktur,
-        s.nama AS status_akreditasi
+        s.nama AS status_akreditasi,
+        data_klinik.jenis_klinik AS kategori_faskes,
         FROM
         pengajuan_usulan_survei a
         LEFT OUTER JOIN pengajuan_usulan_survei_detail pusd ON a.id = pusd.pengajuan_usulan_survei_id
@@ -2316,7 +2318,7 @@ $klinik=$this->sina->query("SELECT
         LEFT JOIN status_rekomendasi sr on sr.id = p.status_rekomendasi_id
         LEFT OUTER JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
         LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
-        LEFT OUTER JOIN status_rekomendasi s ON s.id = p.status_rekomendasi_id 
+        LEFT OUTER JOIN status_rekomendasi s ON s.id = p.status_rekomendasi_id
         WHERE
         1 = 1
         AND c.nama = 'Klinik'
@@ -2413,7 +2415,8 @@ $labkes=$this->sina->query("SELECT
         r.id AS direktur_id,
         r.status_direktur AS direktur,
         r.persetujuan_ketua_id,
-        r.catatan_direktur 
+        r.catatan_direktur,
+        NULL AS kategori_faskes
         FROM
         pengajuan_usulan_survei a
         LEFT OUTER JOIN pengajuan_usulan_survei_detail pusd ON a.id = pusd.pengajuan_usulan_survei_id
@@ -2535,7 +2538,8 @@ $utd=$this->sina->query("SELECT
         r.id AS direktur_id,
         r.status_direktur AS direktur,
         r.persetujuan_ketua_id,
-        r.catatan_direktur 
+        r.catatan_direktur,
+        NULL AS kategori_faskes
         FROM
         pengajuan_usulan_survei a
         LEFT OUTER JOIN pengajuan_usulan_survei_detail pusd ON a.id = pusd.pengajuan_usulan_survei_id

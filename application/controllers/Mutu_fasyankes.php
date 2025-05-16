@@ -500,6 +500,7 @@ public function simpanverifikasi($value='')
     $logo = $this->input->post('logo');
     $jenis = $this->input->post('jenis_faskes');
     $lpa = $this->input->post('lpa');
+    $jenis_klinik = $this->input->post('jenis_klinik');
 
 
     $verifikasi = array('status_direktur'       => $status,
@@ -537,7 +538,8 @@ public function simpanverifikasi($value='')
        'status_akreditasi'       => $status_akreditasi,
        'tgl_survei'            => $tgl_survei,
        'logo'                    => $logo,
-       'lpa'                    => $lpa,);
+       'lpa'                    => $lpa,
+       'kategoriFaskes'        => $jenis_klinik);
     $this->sina->insert('data_sertifikat',$data_sertifikat);
     //     }
     // }
