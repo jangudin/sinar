@@ -176,5 +176,52 @@ body { margin: 0px; }
         
     </table><br><br>
     <?php } ?>
+
+
+
+
+
+    <table id='table1' >
+        <tr>
+            <td style="width:50%; vertical-align:top; text-align:right; font-size: 25px;">
+                <span style="margin-left: 15px;">                      Mengetahui,</span>
+                    <!-- <br>Direktur Jendral Pelayanan Kesehatan
+                    <br>Kementrian Kesehatan RI
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </span>
+                <br>
+                <span style="font-weight: bold;">
+                   drg. Murti Utami, MPH, QGIA, CGCAE
+                </span> -->
+                <!-- <img width="160px" src="C:/xampp/htdocs/Fasyankes-Online/assets/temp/img/loginlg1.png"/> -->
+        </td>
+        <td style="width:50%;vertical-align:top; text-align:left; font-size: 18px;">
+                <!-- <span>            
+                    <br>Ketua Eksekutif Komisi Akreditasi Rumah Sakit
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                
+                </span>
+                <br>
+                <span style="font-weight: bold;">
+                Dr. dr. Sutoto, M.Kes, FISQua
+                </span> -->
+                <br>
+            <!-- <img width="280px" src="C:/xampp/htdocs/Fasyankes-Online/assets/sertifikat/Kars.png"/> -->
+            </td>
+        </tr> 
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>  
+    </table>
+    <!-- End : Tampilan Semua Box -->
 </body>
+
 </html>
