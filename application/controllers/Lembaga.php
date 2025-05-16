@@ -517,8 +517,10 @@ public function Larsdhpdirjen($id)
 {
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
+
     $this->load->library('pdfgenerator');
-    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/larsdhplem.jpg');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/larsdhpdirjen.jpg');
+
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -539,10 +541,11 @@ public function Larsdhpdirjen($id)
           // $html =  base_url('assets/KARS1.png');
 
 
-    $this->pdfgenerator->generatelarsdhplembaga($html,$file_pdf,$paper,$orientation);
+    $this->pdfgenerator->generatelarsdhpdirjen($html,$file_pdf,$paper,$orientation);
 
 
 }
+
 
 public function Lafki($id)
 {
