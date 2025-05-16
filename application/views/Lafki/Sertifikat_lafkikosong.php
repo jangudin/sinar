@@ -118,7 +118,7 @@
     </head>
     <body class="text-centre">
         <div id="watermark">
-            <img src="https://sinar.kemkes.go.id/assets/sertifikat/lafkikosong.jpeg" height="100%" width="100%" />
+            <img src="<?= $background_base64 ?>" height="100%" width="100%" />
         </div>
         <?php foreach ($data as $s) { ?>
         <main>
@@ -137,11 +137,11 @@
 
           <div>
             <?php if ($s->capayan == 'Paripurna'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/paripurna.png" height=150 width=400 class="capayanimgparipurna" class="ceter">
+            <img src="<?= $paripurna ?>" height=150 width=400 class="capayanimgparipurna" class="ceter">
             <?php elseif ($s->capayan == 'Utama'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/utama.png" height=150 width=400 class="capayanimgutama" class="ceter">
+            <img src="<?= $utama ?>" height=150 width=400 class="capayanimgutama" class="ceter">
             <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/madya.png" height=150 width=400 class="capayanimgmadya" class="ceter">
+            <img src="<?= $madya ?>" height=150 width=400 class="capayanimgmadya" class="ceter">
             <?php endif; ?>
           </div>
           <div class="bsd">
