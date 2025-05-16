@@ -161,7 +161,7 @@
          <div class="sertifikat-tingkat">
             <p class="tingkat">TINGKAT KELULUSAN :</p>
             <?php if ($s->capayan == 'Paripurna'): ?>
-            <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya"></img>
+            <img src="<?= $paripurna ?>" alt="" height=100 class="capayanimgmadya" style="position: absolute; left: 50%; transform: translateX(-50%);"></img>
             <?php elseif ($s->capayan == 'Utama'): ?>
             <img src="<?= $utama ?>" alt="" height=100 class="capayanimgmadya" style="position: absolute; left: 200px;"></img>
             <?php elseif ($s->capayan == 'Madya'): ?>
