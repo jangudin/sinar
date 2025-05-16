@@ -175,7 +175,7 @@ body { margin: 0px; }
 
 
 
-    <table id='table1'>
+    <table id='table1' style="margin-left: 15px;">
         <tr>
             <td style="width:50%; vertical-align:top; text-align:centre; font-size: 35px;" >
                 <span>  Mengetahui,</span>
