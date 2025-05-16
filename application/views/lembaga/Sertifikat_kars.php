@@ -154,7 +154,7 @@
             <p class="title"><?= $s->ALAMAT ?></p>
             <p class="title">Provinsi : <?= $s->propinsi_name?></p>
           </div>
-         <div class="sertifikat-tingkat">
+         <div class="sertifikat-tingkat" text-align="center">
             <p class="tingkat">TINGKAT KELULUSAN :</p>
             <?php if ($s->capayan == 'Paripurna'): ?>
             <img src="https://sinar.kemkes.go.id/assets/capayan/karsparipurna.png" alt="" height=100 class="capayanimgmadya"></img>
@@ -164,7 +164,7 @@
             <img src="https://sinar.kemkes.go.id/assets/capayan/karsmadya.png" alt="" height=100 class="capayanimgmadya"></img>
             <?php endif; ?>
           </div>
-          <div class="bsd">
+          <div class="bsd" text-align="center">
           <h3 class="title">Berlaku : s/d <?=tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h3>
           </div>
           <div class="tglprn">
