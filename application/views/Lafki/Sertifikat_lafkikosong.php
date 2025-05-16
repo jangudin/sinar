@@ -52,7 +52,7 @@
                 z-index:  -1000;
             }
             .sertifikat-nomor {
-                            top: 27%;
+                            top: 20%;
                             left: 14%;
                             text-align: center;                          
                             position: fixed;
