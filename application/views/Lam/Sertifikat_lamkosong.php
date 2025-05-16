@@ -184,7 +184,7 @@ body { margin: 0px; }
     <table id='table1' >
         <tr>
             <td style="width:50%; vertical-align:top; text-align:right; font-size: 25px;">
-                <span style="margin-left: 15px;">  Mengetahui,</span>
+                <span style="margin-left: 15px;">                      Mengetahui,</span>
                     <!-- <br>Direktur Jendral Pelayanan Kesehatan
                     <br>Kementrian Kesehatan RI
                     <br>
