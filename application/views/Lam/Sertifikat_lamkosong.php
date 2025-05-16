@@ -50,8 +50,9 @@ body { margin: 0px; }
     z-index: 1;
 }
 #table1 {
-                border-collapse: collapse;
+        border-collapse: collapse;
         width: 100%;
+        margin-left: 10px;
     } 
 
     #table {
