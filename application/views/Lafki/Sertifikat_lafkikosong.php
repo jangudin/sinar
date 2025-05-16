@@ -59,7 +59,7 @@
                             width:800px;
             } 
             .sertifikat-nama {
-                            top: 31%;
+                            top: 22%;
                             left: 14%;
                             text-align: center;
                             position: fixed;
