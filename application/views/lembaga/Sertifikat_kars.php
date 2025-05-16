@@ -99,9 +99,10 @@
                   }
           .bsd{
                     top: 63%;
+                    left: 14%;
                     text-align: center;
-                      position: fixed;
-                      marging: auto;
+                    position: fixed;
+                    width:800px;
           }
           .tglprn{
                     top: 67%;
