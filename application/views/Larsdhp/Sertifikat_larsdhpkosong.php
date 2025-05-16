@@ -50,8 +50,9 @@ body { margin: 0px; }
     z-index: 1;
 }
 #table1 {
-                border-collapse: collapse;
+        border-collapse: collapse;
         width: 100%;
+        margin-left : 15px; /* Adjusted margin to shift to the right */
     } 
 
     #table {
@@ -174,9 +175,9 @@ body { margin: 0px; }
 
 
 
-    <table id='table1' >
+    <table id='table1'>
         <tr>
-            <td style="width:50%; vertical-align:top; text-align:centre; font-size: 35px;">
+            <td style="width:50%; vertical-align:top; text-align:centre; font-size: 35px;" >
                 <span>  Mengetahui,</span>
                 <br>
         </td>
