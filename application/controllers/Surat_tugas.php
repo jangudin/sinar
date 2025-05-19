@@ -242,6 +242,7 @@ class Surat_tugas extends CI_Controller {
          'data'    => $this->M_surat_tugas->printsuratlab($id),
          'jns'      => $jnis,
      );
+     
        // $content = $this->M_surat_tugas->printsurat($id);
         $this->data['title_pdf'] = 'stte'.$id;
        // $data['data'] = $content;
@@ -266,6 +267,11 @@ class Surat_tugas extends CI_Controller {
          'data'    => $this->M_surat_tugas->printsuratklinik($id),
 
      );
+          $content = $this->M_surat_tugas->printsuratklinik($id);
+     foreach ($content as $key => $row) {
+        $logoPath = FCPATH . $row->kop; // Sesuaikan dengan path logo
+        $content[$key]->kop = $this->base64EncodeImage($logoPath);
+    }
        // $content = $this->M_surat_tugas->printsurat($id);
         $this->data['title_pdf'] = $id;
        // $data['data'] = $content;
@@ -276,6 +282,16 @@ class Surat_tugas extends CI_Controller {
         $html = $this->load->view('surtug/surat',$data, true);     
         $this->pdfgenerator->surattugas($html, $file_pdf,$paper,$orientation);
     }
+    private function base64EncodeImage($path)
+{
+    if (file_exists($path)) {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    } else {
+        return ''; // atau gambar default
+    }
+}
 
     public function printsuratTTEklinik()
     {
