@@ -79,7 +79,7 @@
     <?php 
     foreach ($data as $p) { ?>
     <div style="margin-bottom:10px;">
-        <img src="data:image/png;base64,<?= $row->kop ?>" width="720" class="center"/>
+        <img src="<?= $p->kop ?>" width="720" class="center"/>
     </div>
         
     <p style='text-align: center; margin-top: 1px;'>

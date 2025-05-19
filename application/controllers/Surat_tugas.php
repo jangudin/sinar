@@ -255,42 +255,51 @@ class Surat_tugas extends CI_Controller {
     }
 
     public function printsuratklinik()
-    {
-
-        $id = $this->uri->segment(3);
-        $kd = $this->uri->segment(4);
-        $jnis = 'KLINIK';
-        $data = array(
-         'jns'      => $jnis,
-         'survei'  =>$this->M_surat_tugas->tgl_survei($id),
-         'nar'  =>$this->M_surat_tugas->narahubung($kd),
-         'data'    => $this->M_surat_tugas->printsuratklinik($id),
-
-     );
-          $content = $this->M_surat_tugas->printsuratklinik($id);
-     foreach ($content as $key => $row) {
-        $logoPath = FCPATH . $row->kop; // Sesuaikan dengan path logo
-        $content[$key]->kop = $this->base64EncodeImage($logoPath);
-    }
-       // $content = $this->M_surat_tugas->printsurat($id);
-        $this->data['title_pdf'] = $id;
-       // $data['data'] = $content;
-        $this->load->library('pdfgenerator');
-        $file_pdf = $id;
-        $paper = 'A4';
-        $orientation = "potrait";
-        $html = $this->load->view('surtug/surat',$data, true);     
-        $this->pdfgenerator->surattugas($html, $file_pdf,$paper,$orientation);
-    }
-    private function base64EncodeImage($path)
 {
-    if (file_exists($path)) {
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        return 'data:image/' . $type . ';base64,' . base64_encode($data);
-    } else {
-        return ''; // atau gambar default
+    $id = $this->uri->segment(3);
+    $kd = $this->uri->segment(4);
+    $jnis = 'KLINIK';
+
+    // Ambil data utama
+    $dataKlinik = $this->M_surat_tugas->printsuratklinik($id);
+
+    // Ubah logo menjadi base64
+    foreach ($dataKlinik as $key => $row) {
+        $logoPath = FCPATH . $row->kop; // contoh: 'assets/images/logo.png'
+        $dataKlinik[$key]->kop = $this->base64EncodeImage($logoPath);
     }
+
+    // Siapkan data untuk dikirim ke view
+    $data = array(
+        'jns'     => $jnis,
+        'survei' => $this->M_surat_tugas->tgl_survei($id),
+        'nar'    => $this->M_surat_tugas->narahubung($kd),
+        'data'   => $dataKlinik
+    );
+
+    // PDF Generator
+    $this->data['title_pdf'] = $id;
+    $this->load->library('pdfgenerator');
+    $file_pdf = $id;
+    $paper = 'A4';
+    $orientation = "potrait";
+
+    // Load view ke dalam variabel $html
+    $html = $this->load->view('surtug/surat', $data, true);
+
+    // Generate PDF
+    $this->pdfgenerator->surattugas($html, $file_pdf, $paper, $orientation);
+}
+
+// Tambahkan fungsi untuk encode image
+private function base64EncodeImage($filePath)
+{
+    if (file_exists($filePath)) {
+        $fileInfo = getimagesize($filePath);
+        $imageData = file_get_contents($filePath);
+        return 'data:' . $fileInfo['mime'] . ';base64,' . base64_encode($imageData);
+    }
+    return ''; // Bisa juga return base64 gambar default jika ingin
 }
 
     public function printsuratTTEklinik()
