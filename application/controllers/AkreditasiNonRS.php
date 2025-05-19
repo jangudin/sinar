@@ -199,6 +199,10 @@ public function filesertifikatdir($id,$idp)
             $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjen.png');
         }elseif($row->jenis_faskes === 'Unit Transfusi Darah'){
             $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjen.png');
+        }elseif($row->jenis_faskes === 'Laboratorium Kesehatan' && substr($row->kategoriFaskes, 0, 18) ==='Laboratorium Medis'){
+            $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjen.png');
+        }elseif($row->jenis_faskes === 'Laboratorium Kesehatan' && substr($row->kategoriFaskes, 0, 18) !=='Laboratorium Medis'){
+            $data['dir'] = $this->base64EncodeImage(FCPATH . 'assets/ttdfaskes/dirjendua.png');
         }
     }
 

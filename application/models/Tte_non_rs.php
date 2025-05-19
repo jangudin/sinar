@@ -2416,7 +2416,7 @@ $labkes=$this->sina->query("SELECT
         r.status_direktur AS direktur,
         r.persetujuan_ketua_id,
         r.catatan_direktur,
-        NULL AS kategori_faskes
+        data_labkes.jenis_pelayanan AS kategori_faskes
         FROM
         pengajuan_usulan_survei a
         LEFT OUTER JOIN pengajuan_usulan_survei_detail pusd ON a.id = pusd.pengajuan_usulan_survei_id
