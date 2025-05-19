@@ -137,16 +137,21 @@ class AkreditasiNonRS extends CI_Controller {
                $id_p = $this->uri->segment(5);
                $url = base_url('AkreditasiNonRS/ttesertifikat/'.$id.'/'.$faskes.'/'.$id_p);
 
-               $this->load->library('pdfgenerator');
-               $this->data['title_pdf'] = 'Sertifikat';
                $content = $this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p);
-               $data['data'] = $content;
-               $file_pdf = $id_p;
-               $paper = 'A4';
-               $orientation = "landscape";
-              // echo json_encode($faskes);
-               $html =  $this->load->view('Sertifikatfaskesnew/sertifikatkosong',$data,true);
-               $this->pdfgenerator->generatefaskes($html, $file_pdf,$paper,$orientation);
+                $data['data'] = $content;
+
+                // Fungsi base64 untuk gambar
+                $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/faskesbg/backgroundsertifikat.jpeg');
+                $data['capayan_paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/paripurna.png');
+                $data['capayan_utama'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/utama.png');
+                $data['capayan_madya'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/madya.png');
+                $data['capayan_dasar'] = $this->base64EncodeImage(FCPATH . 'assets/faskessertif/capayan/dasar.png');
+
+                $data['ttd_lembaga'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/kepala.png');
+                $data['ttd_dirjen'] = $this->base64EncodeImage(FCPATH . 'assets/ttd/dirjen.png');
+
+                $html = $this->load->view('Sertifikatfaskesnew/sertifikatkosong', $data, true);
+                $this->pdfgenerator->generatefaskes($html, $id_p, 'A4', 'landscape');
 
               redirect($url);
      }
