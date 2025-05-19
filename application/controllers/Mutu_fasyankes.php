@@ -501,6 +501,7 @@ public function simpanverifikasi($value='')
     $jenis = $this->input->post('jenis_faskes');
     $lpa = $this->input->post('lpa');
     $kategori_faskes = $this->input->post('kategori_faskes');
+    
 
 
     $verifikasi = array('status_direktur'       => $status,
