@@ -2582,7 +2582,7 @@ if ($faskes == null) {
         return $puskesmaskmk->result();
 }elseif($faskes == 'Klinik'){
         return $klinik->result();
-}elseif($faskes == 'Laboratorium Kesehatan'){
+}elseif($faskes == 'Laboratorium'){
         return $labkes->result();
 }elseif($faskes == 'Unit Transfusi Darah'){
         return $utd->result();
