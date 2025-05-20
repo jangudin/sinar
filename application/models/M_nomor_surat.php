@@ -50,9 +50,9 @@ public function tampil_faskes($jenis_faskes = null, $kategori = null)
         $this->sina->where('jenis_faskes', $jenis_faskes);
     }
 
-    if (!empty($kategori)) {
-        $this->sina->where('kategoriFaskes', $kategori);
-    }
+    if (strtolower($jenis_faskes) !== 'Pusat Kesehatan Masyarakat' && $kategori !== null) {
+            $this->db->where('kategoriFaskes', urldecode($kategori));
+        }
 
     return $this->sina->get('data_sertifikat')->result();
 }
