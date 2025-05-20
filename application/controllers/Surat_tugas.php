@@ -442,7 +442,7 @@ private function base64EncodeImage($filePath)
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "POST",
           CURLOPT_POSTFIELDS => $data,
-          CURLOPT_USERPWD=> 'esign-sinar'.':'.'kq&UnD31@l',
+          CURLOPT_USERPWD=> 'esign-sinar2'.':'.'s1n4r3344x',
            ); // cURL options
 
         curl_setopt_array($ch, $options);
