@@ -727,7 +727,7 @@ class Tte_non_rs extends CI_Model{
                 WHERE b.status_usulan_id = 3 AND q.id IS NOT NULL AND r.id IS NULL AND c.nama = 'Pusat Kesehatan Masyarakat'
                 ORDER BY q.created_at ASC
             ";
-            $query = $this->db->query($sql);
+            $query = $this->sina->query($sql);
             return $query->result();
 
         } elseif ($faskes === 'Klinik') {
@@ -736,7 +736,7 @@ class Tte_non_rs extends CI_Model{
                 return []; // Jika jenis tidak disediakan, kembalikan array kosong
             }
 
-            $jenis_escape = $this->db->escape($jenis);
+            $jenis_escape = $this->sina->escape($jenis);
 
             $sql = "
                 SELECT a.*, b.status_usulan_id, b.keterangan, h.nama AS status_usulan,
@@ -792,7 +792,7 @@ class Tte_non_rs extends CI_Model{
                 AND r.id IS NULL AND q.id IS NOT NULL
                 ORDER BY q.created_at ASC
             ";
-            $query = $this->db->query($sql);
+            $query = $this->sina->query($sql);
             return $query->result();
 
         } elseif ($faskes === 'Laboratorium Kesehatan') {
@@ -864,7 +864,7 @@ class Tte_non_rs extends CI_Model{
                 WHERE c.nama = 'Laboratorium' $whereJenis AND r.id IS NULL AND q.id IS NOT NULL
                 ORDER BY q.created_at ASC
             ";
-            $query = $this->db->query($sql);
+            $query = $this->sina->query($sql);
             return $query->result();
 
         } elseif ($faskes === 'Unit Transfusi Darah') {
@@ -922,7 +922,7 @@ class Tte_non_rs extends CI_Model{
                 WHERE c.nama = 'Unit Transfusi Darah' AND r.id IS NULL AND q.id IS NOT NULL
                 ORDER BY q.created_at ASC
             ";
-            $query = $this->db->query($sql);
+            $query = $this->sina->query($sql);
             return $query->result();
 
         } else {
