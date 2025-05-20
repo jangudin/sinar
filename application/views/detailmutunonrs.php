@@ -34,50 +34,57 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  
-                  <table class="table table-striped table-sm">
-<?php if (!empty($detail)): ?>
-  <?php foreach ($detail as $s): ?>
-    <tr>
-      <td>Nama Faskes</td>
-      <td>:</td>
-      <td><?= $s->nama_fasyankes ?? '-' ?></td>
-    </tr>
-    <tr>
-      <td>Alamat</td>
-      <td>:</td>
-      <td><?= $s->alamat ?? '-' ?></td>
-    </tr>
-    <tr>
-      <td>Tingkat Kelulusan</td>
-      <td>:</td>
-      <td><?= $s->status_akreditasi ?? '-' ?></td>
-    </tr>
-    <tr>
-      <td>Lembaga Penyelenggara Akreditasi</td>
-      <td>:</td>
-      <td><?= $s->lpa ?? '-' ?></td>
-    </tr>
-  </table>
 
-  <p><?= $s->jenis_fasyankes_nama ?? '' ?></p><br/>
+                    <table class="table table-striped table-sm">
+                      <?php if (!empty($detail)): ?>
+                        <?php foreach ($detail as $s): ?>
+                          <tr>
+                            <td>Nama Faskes</td>
+                            <td>:</td>
+                            <td><?= $s->nama_fasyankes ?? '-' ?></td>
+                          </tr>
+                          <tr>
+                            <td>Alamat</td>
+                            <td>:</td>
+                            <td><?= $s->alamat ?? '-' ?></td>
+                          </tr>
+                          <tr>
+                            <td>Tingkat Kelulusan</td>
+                            <td>:</td>
+                            <td><?= $s->status_akreditasi ?? '-' ?></td>
+                          </tr>
+                          <tr>
+                            <td>Lembaga Penyelenggara Akreditasi</td>
+                            <td>:</td>
+                            <td><?= $s->lpa ?? '-' ?></td>
+                          </tr>
+                        </table>
 
-  <?php if (!empty($attachment)): ?>
-    <label>Sertifikat <a href="<?= htmlspecialchars($attachment) ?>" target="_blank">(Layar Penuh)</a></label><br/>
-    <iframe src="<?= htmlspecialchars($attachment) ?>" frameborder="0" width="100%" height="900px"></iframe>
-  <?php else: ?>
-    <a href="<?= site_url('Mutu_fasyankes/filesertifikat/' . urlencode($s->jenis_fasyankes_nama) . '/' . $s->id) ?>" 
-      style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
-      Generate PDF
-    </a>
-  <?php endif; ?>
+                        <p><?= $s->jenis_fasyankes_nama ?? '' ?></p><br/>
 
-<?php else: ?>
-  <p style="color: red;">Data tidak ditemukan atau belum tersedia.</p>
-<?php endif; ?>
+                        <?php if (!empty($attachment)): ?>
+                          <label>Sertifikat <a href="<?= htmlspecialchars($attachment) ?>" target="_blank">(Layar Penuh)</a></label><br/>
+                          <iframe src="<?= htmlspecialchars($attachment) ?>" frameborder="0" width="100%" height="900px"></iframe>
+                        <?php else: ?>
+                          <a href="<?= site_url('Mutu_fasyankes/filesertifikat/' . urlencode($s->jenis_fasyankes_nama) . '/' . $s->id) ?>" 
+                            style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                            Generate PDF
+                          </a>
+                        <?php endif; ?>
 
-                    
+                        <!-- TUTUP foreach -->
+                        <?php endforeach; ?>
+
+                      <?php else: ?>
+                        <p style="color: red;">Data tidak ditemukan atau belum tersedia.</p>
+                      <?php endif; ?>
+
+
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Verifikasi</button>
+
+
+
+
           <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
