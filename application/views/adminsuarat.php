@@ -18,7 +18,7 @@
     </div>
 
     <div class="btn-group">
-      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/' . urlencode('Pratama') . '/' . urlencode('Utama')) ?>
+      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/' . urlencode('Klinik') . '/' . urlencode('Pratama')) ?>
 ">
         Klinik Pratama
       </a>
