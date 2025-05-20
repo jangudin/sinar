@@ -19,15 +19,15 @@ class AdminNomorSurat extends CI_Controller {
     {
         redirect(base_url('AdminNomorSurat/nomor'));
     }
- public function nomor($jenis = null, $kategori = null)
-    {
-        $data = [
-            'contents' => 'adminsuarat',
-            'data' => $this->M_nomor_surat->tampil_faskes($jenis, $kategori)
-        ];
+ public function nomor($jenis_faskes = null, $kategori = null)
+{
+    $data = array(
+        'contents' => 'adminsuarat',
+        'data'     => $this->M_nomor_surat->tampil_faskes($jenis_faskes, $kategori)
+    );
 
-        $this->load->view('List_Rekomendasi', $data);
-    }
+    $this->load->view('List_Rekomendasi', $data);
+}
 
     public function deletedata()
     {

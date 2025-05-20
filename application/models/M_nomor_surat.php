@@ -42,18 +42,21 @@ class M_nomor_surat extends CI_Model{
   }
 
 
-public function tampil_faskes($faskes = null, $jenis = null)
+public function tampil_faskes($jenis_faskes = null, $kategori = null)
 {
-    $this->db->where('nomor_surat', null);
-    if ($faskes != null) {
-        $this->sina->where('jenis_faskes', $faskes);
+    $this->sina->where('nomor_surat', null); // ambil data yang belum ada nomor
+
+    if (!empty($jenis_faskes)) {
+        $this->sina->where('jenis_faskes', $jenis_faskes);
     }
-    if ($jenis != null) {
-        $this->sina->where('kategoriFaskes', $jenis);
+
+    if (!empty($kategori)) {
+        $this->sina->where('kategoriFaskes', $kategori);
     }
+
     return $this->sina->get('data_sertifikat')->result();
-    $this->db->limit(100);
 }
+
 
 
     public function jumlah_belum($jenis_faskes = null, $kategoriFaskes = null)
