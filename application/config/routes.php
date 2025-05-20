@@ -53,3 +53,6 @@ $route['default_controller'] = 'Auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['filesertifikat/(:any)/(:any)'] = 'Mutu_fasyankes/filesertifikat/$1/$2';
+$route['AdminNomorSurat/nomor'] = 'AdminNomorSurat/nomor';
+$route['AdminNomorSurat/nomor/(:any)'] = 'AdminNomorSurat/nomor/$1';
+$route['AdminNomorSurat/nomor/(:any)/(:any)'] = 'AdminNomorSurat/nomor/$1/$2';
