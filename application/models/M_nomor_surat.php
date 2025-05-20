@@ -51,7 +51,7 @@ public function tampil_faskes($jenis_faskes = null, $kategoriFaskes = null)
         if ($kategoriFaskes) {
             $this->db->where('kategoriFaskes', $kategoriFaskes);
         }
-        return $this->db->get('nama_tabel_anda')->result(); // ganti dengan nama tabel asli
+        return $this->db->get('data_sertifikat')->result(); // ganti dengan nama tabel asli
     }
 
     public function jumlah_belum($jenis_faskes = null, $kategoriFaskes = null)
@@ -63,21 +63,21 @@ public function tampil_faskes($jenis_faskes = null, $kategoriFaskes = null)
         if ($kategoriFaskes) {
             $this->db->where('kategoriFaskes', $kategoriFaskes);
         }
-        return $this->db->select('COUNT(*) as belum')->get('nama_tabel_anda')->row();
+        return $this->db->select('COUNT(*) as belum')->get('data_sertifikat')->row();
     }
 
     public function input_nomor($data)
     {
         foreach ($data as $id => $row) {
             $this->db->where('kode_faskes', $id);
-            $this->db->update('nama_tabel_anda', $row);
+            $this->db->update('data_sertifikat', $row);
         }
     }
 
     public function delete_nomor($id)
     {
         $this->db->where('id', $id);
-        $this->db->update('nama_tabel_anda', [
+        $this->db->update('data_sertifikat', [
             'nomor_surat' => null,
             'tgl_nomor_surat' => null
         ]);
