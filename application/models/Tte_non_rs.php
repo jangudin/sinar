@@ -801,10 +801,10 @@ class Tte_non_rs extends CI_Model{
                 return []; // Bila jenis tidak ada kembalikan kosong
             }
             // Escape input jenis
-            $jenis_escape = $this->db->escape($jenis);
+            $jenis_escape = $this->sina->escape($jenis);
 
             // Kondisi tambahan untuk Laboratorium Kesehatan berdasarkan $jenis
-            $whereJenis = '';
+                $whereJenis = '';
             if (strtolower($jenis) === 'laboratorium medis') {
                 $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
             } elseif (strtolower($jenis) === 'laboratorium kesmas') {
