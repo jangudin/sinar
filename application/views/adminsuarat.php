@@ -113,8 +113,9 @@
                 <th class="column-title">Kode Faskes </th>
                 <th class="column-title">Nama Faskes </th>
                 <th class="column-title">Jenis Faskes </th>
-                <th class="column-title">Tgl Sertifikat</th>
                 <th class="column-title">Nomor Sertifikat</th>
+                <th class="column-title">Tgl Sertifikat</th>
+                <th class="column-title"> Simpan </th>
                 <th>
                 </tr>
               </thead>
@@ -126,6 +127,8 @@
                   <td><?= $a->kode_faskes ?></td>
                   <td><?= $a->nama_faskes ?></td>
                   <td><?= $a->jenis_faskes ?></td>
+                  <td><?= $a->nomor_surat ?></td>
+                  <td><?= $a->tgl_nomor_surat ?></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
