@@ -106,83 +106,83 @@
       <h6><code>*Jika telah input nomor sertifikat klik simpan</code></h6>
       <div class="x_content">
         <div class="table-responsive">
-         <form action="<?= base_url('AdminNomorSurat/input_nomor') ?>" method="post">
-  <table class="table table-striped jambo_table bulk_action" style="width:100%">
-    <thead>
-      <tr class="headings">
-        <th class="column-title">No</th>
-        <th class="column-title">Kode Faskes</th>
-        <th class="column-title">Nama Faskes</th>
-        <th class="column-title">Jenis Faskes</th>
-        <th class="column-title">Nomor Sertifikat</th>
-        <th class="column-title">Tgl Sertifikat</th>
-        <th class="column-title">Simpan</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php $i = 1; foreach ($data as $a): ?>
-        <?php $key = $a->kode_faskes; ?>
-        <tr class="even pointer">
-          <td style="text-align: center;"><?= $i++ ?></td>
-          <td><?= $a->kode_faskes ?></td>
-          <td><?= $a->nama_faskes ?></td>
-          <td><?= $a->jenis_faskes ?></td>
+            <form action="<?= base_url('AdminNomorSurat/input_nomor') ?>" method="post">
+              <table class="table table-striped jambo_table bulk_action" style="width:100%">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title" style="width: 5%;">Pilih</th>
+                    <th class="column-title">Kode Faskes</th>
+                    <th class="column-title">Nama Faskes</th>
+                    <th class="column-title">Jenis Faskes</th>
+                    <th class="column-title">Nomor Sertifikat</th>
+                    <th class="column-title">Tgl Sertifikat</th>
+                    <th class="column-title">Simpan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($data as $a): ?>
+                    <?php $key = $a->kode_faskes; ?>
+                    <tr class="even pointer">
+                      <td style="text-align: center;">
+                        <?php if ($a->nomor_surat == null): ?>
+                          <input type="checkbox" class="toggleInput" data-key="<?= $key ?>">
+                          <input type="hidden" name="id[]" value="<?= $key ?>">
+                          <input type="hidden" name="kode_faskes" value="<?= $a->kode_faskes ?>">
+                          <input type="hidden" name="jenisfaskes" value="<?= $a->jenis_faskes ?>">
+                        <?php else: ?>
+                          <input type="checkbox" disabled checked>
+                        <?php endif; ?>
+                      </td>
 
-          <td>
-            <?php if ($a->nomor_surat == null): ?>
-              <input type="checkbox" class="toggleInput" data-key="<?= $key ?>">
-              <input type="hidden" name="id[]" value="<?= $key ?>">
-              <input type="hidden" name="kode_faskes" value="<?= $a->kode_faskes ?>">
-              <input type="hidden" name="jenisfaskes" value="<?= $a->jenis_faskes ?>">
+                      <td><?= $a->kode_faskes ?></td>
+                      <td><?= $a->nama_faskes ?></td>
+                      <td><?= $a->jenis_faskes ?></td>
 
-              <div id="input_nomor_<?= $key ?>" style="display: none;">
-                <input type="number" name="nomor_surat[<?= $key ?>]" class="form-control" placeholder="Nomor Surat" required>
-              </div>
-            <?php else: ?>
-              <?= $a->nomor_surat ?>
-            <?php endif; ?>
-          </td>
+                      <td>
+                        <?php if ($a->nomor_surat == null): ?>
+                          <div id="input_nomor_<?= $key ?>" style="display: none;">
+                            <input type="number" name="nomor_surat[<?= $key ?>]" class="form-control" placeholder="Nomor Surat" required>
+                          </div>
+                        <?php else: ?>
+                          <?= $a->nomor_surat ?>
+                        <?php endif; ?>
+                      </td>
 
-          <td>
-            <?php if ($a->nomor_surat == null): ?>
-              <div id="input_tgl_<?= $key ?>" style="display: none;">
-                <input type="date" name="tgl_nomor_surat[<?= $key ?>]" class="form-control" required>
-              </div>
-            <?php else: ?>
-              <?= $a->tgl_nomor_surat ?>
-            <?php endif; ?>
-          </td>
+                      <td>
+                        <?php if ($a->nomor_surat == null): ?>
+                          <div id="input_tgl_<?= $key ?>" style="display: none;">
+                            <input type="date" name="tgl_nomor_surat[<?= $key ?>]" class="form-control" required>
+                          </div>
+                        <?php else: ?>
+                          <?= $a->tgl_nomor_surat ?>
+                        <?php endif; ?>
+                      </td>
 
-          <td>
-            <?php if ($a->nomor_surat == null): ?>
-              <div id="submit_<?= $key ?>" style="display: none;">
-                <button type="submit" class="btn btn-success btn-sm">Simpan</button>
-              </div>
-            <?php else: ?>
-              <span class="badge badge-success">Tersimpan</span>
-            <?php endif; ?>
-          </td>
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-</form>
+                      <td>
+                        <?php if ($a->nomor_surat == null): ?>
+                          <div id="submit_<?= $key ?>" style="display: none;">
+                            <button type="submit" class="btn btn-success btn-sm">Simpan</button>
+                          </div>
+                        <?php else: ?>
+                          <span class="badge badge-success">Tersimpan</span>
+                        <?php endif; ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </form>
 
-<script>
-  document.querySelectorAll('.toggleInput').forEach(function(checkbox) {
-    checkbox.addEventListener('change', function() {
-      const key = this.dataset.key;
-      const inputNomor = document.getElementById('input_nomor_' + key);
-      const inputTgl = document.getElementById('input_tgl_' + key);
-      const submitBtn = document.getElementById('submit_' + key);
-
-      const show = this.checked;
-      inputNomor.style.display = show ? 'block' : 'none';
-      inputTgl.style.display = show ? 'block' : 'none';
-      submitBtn.style.display = show ? 'block' : 'none';
-    });
-  });
-</script>
+            <script>
+              document.querySelectorAll('.toggleInput').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                  const key = this.dataset.key;
+                  document.getElementById('input_nomor_' + key).style.display = this.checked ? 'block' : 'none';
+                  document.getElementById('input_tgl_' + key).style.display = this.checked ? 'block' : 'none';
+                  document.getElementById('submit_' + key).style.display = this.checked ? 'block' : 'none';
+                });
+              });
+            </script>
 
         </div>
         </form>
