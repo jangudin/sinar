@@ -51,7 +51,7 @@ public function tampil_faskes($jenis_faskes = null, $kategori = null)
         $this->sina->where('jenis_faskes', $jenis_faskes);
 
         // Tambah pengecualian kategori hanya jika bukan Puskesmas atau UTD
-        if (!in_array(strtolower($jenis_faskes), ['puskesmas', 'pusat kesehatan masyarakat', 'unit transfusi darah'])) {
+        if (!in_array(strtolower($jenis_faskes), ['pusat kesehatan masyarakat', 'unit transfusi darah'])) {
             if ($kategori !== null) {
                 $this->sina->where('kategoriFaskes', $kategori);
             }

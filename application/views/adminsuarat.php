@@ -25,13 +25,13 @@
     </div>
 
     <div class="btn-group">
-      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Laboratorium Kesehatan/Laboratorium Medis') ?>">
+      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Laboratorium/Laboratorium Medis') ?>">
         Lab Medis
       </a>
     </div>
 
     <div class="btn-group">
-      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Laboratorium Kesehatan/Laboratorium Kesehatan') ?>">
+      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Laboratorium/Laboratorium Kesehatan') ?>">
         Lab Kesmas
       </a>
     </div>
