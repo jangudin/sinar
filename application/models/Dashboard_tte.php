@@ -265,12 +265,15 @@ function MonitoringDirjen($faskes, $jenis)
     ");
 
     // Query untuk Laboratorium Kesehatan
-    $whereJenis = '';
-    if (strtolower($jenis) === 'laboratorium medis') {
-        $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
-    } elseif (strtolower($jenis) === 'laboratorium kesmas') {
-        $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
-    }
+        $whereJenis = '';
+        $jenisLower = strtolower($jenis ?? ''); // Menggunakan null coalescing operator untuk menghindari null
+
+        if ($jenisLower === 'laboratorium medis') {
+            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+        } elseif ($jenisLower === 'laboratorium kesmas') {
+            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+        }
+
 
     $labkes = $this->sina->query("
         SELECT
