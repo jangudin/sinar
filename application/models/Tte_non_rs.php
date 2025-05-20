@@ -2238,7 +2238,7 @@ $labkes=$this->sina->query("SELECT
         LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
         WHERE
         1 = 1
-        AND c.nama = 'Laboratorium Kesehatan'
+        AND c.nama = 'Laboratorium'
         AND q.id IS NOT NULL
         AND a.id = '$id_p'
         ORDER BY
