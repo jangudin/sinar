@@ -291,27 +291,28 @@ class Surat_tugas extends CI_Controller {
     $this->pdfgenerator->surattugas($html, $file_pdf, $paper, $orientation);
 }
 
-// Tambahkan fungsi untuk encode image
-private function base64EncodeImage($filePath)
-{
-    if (file_exists($filePath)) {
-        $fileInfo = getimagesize($filePath);
-        $imageData = file_get_contents($filePath);
-        return 'data:' . $fileInfo['mime'] . ';base64,' . base64_encode($imageData);
-    }
-    return ''; // Bisa juga return base64 gambar default jika ingin
-}
-
-    public function printsuratTTEklinik()
+public function printsuratTTEklinik()
     {
 
        $id = $this->uri->segment(3);
         $kd = $this->uri->segment(4);
         $jnis = 'KLINIK';
+
+        $dataKlinik = $this->M_surat_tugas->printsuratklinik($id);
+
+    // Ubah logo menjadi base64
+    foreach ($dataKlinik as $key => $row) {
+        $logoPath = FCPATH . $row->kop; // contoh: 'assets/images/logo.png'
+        $dataKlinik[$key]->kop = $this->base64EncodeImage($logoPath);
+    }
+
+
+
+        
         $data = array(
          'survei'  =>$this->M_surat_tugas->tgl_survei($id),
          'nar'  =>$this->M_surat_tugas->narahubung($kd),
-         'data'    => $this->M_surat_tugas->printsuratklinik($id),
+         'data'    => $dataKlinik,
          'jns'      => $jnis,
      );
        // $content = $this->M_surat_tugas->printsurat($id);
@@ -324,6 +325,17 @@ private function base64EncodeImage($filePath)
         $html = $this->load->view('surtug/surtugtte',$data, true);     
         $this->pdfgenerator->surattugas($html, $file_pdf,$paper,$orientation);
     }
+
+// Tambahkan fungsi untuk encode image
+private function base64EncodeImage($filePath)
+{
+    if (file_exists($filePath)) {
+        $fileInfo = getimagesize($filePath);
+        $imageData = file_get_contents($filePath);
+        return 'data:' . $fileInfo['mime'] . ';base64,' . base64_encode($imageData);
+    }
+    return ''; // Bisa juga return base64 gambar default jika ingin
+}
 
 
     public function printsurat()
