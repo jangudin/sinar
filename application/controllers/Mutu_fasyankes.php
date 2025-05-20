@@ -470,18 +470,36 @@ public function nonrssudahverifikasi()
 
 public function Detailnonrs()
 {
-    $faskes = urldecode($this->uri->segment(3));
-    $id = $this->uri->segment(4);
-    $id_p = $this->uri->segment(5);
-    $this->filesertifikat($faskes,$id,$id_p);
-    $attachment = 'assets/faskessertif/'.$id_p.'.pdf';
-    $data = array('contents' => 'detailmutunonrs',
-      'detail'   =>$this->Tte_non_rs->bahansertifikat($faskes,$id,$id_p),
-      'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,);
+    $faskes = $this->uri->segment(3) ? urldecode($this->uri->segment(3)) : '';
+    $id     = $this->uri->segment(4);
+    $id_p   = $this->uri->segment(5);
 
- //var_dump($data['detail']);
-    $this->load->view('List_Rekomendasi',$data);
+    // Validasi parameter
+    if (!$faskes || !$id || !$id_p) {
+        show_error("Parameter tidak lengkap atau salah.", 400, "Bad Request");
+        return;
+    }
+
+    // Panggil generate file sertifikat
+    $this->filesertifikat($faskes, $id, $id_p);
+
+    // Tentukan path sertifikat PDF
+    $attachment_path = 'assets/faskessertif/' . $id_p . '.pdf';
+    $attachment_url = is_file(FCPATH . $attachment_path) ? base_url($attachment_path) : null;
+
+    // Ambil data detail dari model
+    $detail = $this->Tte_non_rs->bahansertifikat($faskes, $id, $id_p);
+
+    $data = array(
+        'contents'   => 'detailmutunonrs',
+        'detail'     => $detail,
+        'attachment' => $attachment_url
+    );
+
+    // Kirim ke view
+    $this->load->view('List_Rekomendasi', $data);
 }
+
 
 public function simpanverifikasi($value='')
 {
