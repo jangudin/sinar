@@ -133,21 +133,6 @@ public function tampil_faskes($jenis_faskes = null, $kategoriFaskes = null)
 }
 
 
-  function jumlah_belum($faskes,$jenis){
-    $hsl=$this->sina->query("SELECT
-      COUNT( db_akreditasi_non_rs.data_sertifikat.id ) AS belum,
-      dbfaskes.data_klinik.jenis_klinik 
-      FROM
-      db_akreditasi_non_rs.data_sertifikat
-      LEFT JOIN dbfaskes.trans_final ON db_akreditasi_non_rs.data_sertifikat.kode_faskes = dbfaskes.trans_final.kode_faskes_baru
-      INNER JOIN dbfaskes.data_klinik ON dbfaskes.trans_final.id_faskes = dbfaskes.data_klinik.id_faskes 
-      WHERE
-      nomor_surat IS NULL 
-      AND data_sertifikat.jenis_faskes = '$faskes' 
-      AND dbfaskes.data_klinik.jenis_klinik = '$jenis'");
-    return $hsl->row();
-  }
-
   function jumlah_belum_tpmd(){
     $hsl=$this->sina->query("SELECT
       COUNT(data_sertifikat_tpmd.id) belum

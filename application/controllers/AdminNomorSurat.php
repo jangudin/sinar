@@ -22,31 +22,10 @@ class AdminNomorSurat extends CI_Controller {
     {
         $data = [
             'contents' => 'adminsuarat',
-            'data' => $this->M_nomor_surat->tampil_faskes($jenis, $kategori),
-            'belum' => $this->M_nomor_surat->jumlah_belum($jenis, $kategori)
+            'data' => $this->M_nomor_surat->tampil_faskes($jenis, $kategori)
         ];
 
         $this->load->view('List_Rekomendasi', $data);
-    }
-
-    public function input_nomor()
-    {
-        $input = $this->input->post();
-        $updateData = [];
-
-        if (isset($input['id'])) {
-            foreach ($input['id'] as $id) {
-                $updateData[$id] = [
-                    'nomor_surat' => $input['nomor_surat'][$id],
-                    'tgl_nomor_surat' => $input['tgl_nomor_surat'][$id],
-                    'updated_at' => date('Y-m-d H:i:s')
-                ];
-            }
-            $this->M_nomor_surat->input_nomor($updateData);
-            $this->session->set_flashdata('msg', '<div class="alert alert-success">Nomor berhasil disimpan.</div>');
-        }
-
-        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function deletedata()
@@ -173,55 +152,62 @@ class AdminNomorSurat extends CI_Controller {
 }
 
 
+        public function input_nomor()
+        {
+            $post = $this->input->post();
+            $jnsf = $post['jenisfaskes'];
+            $nik = $this->session->userdata('nik');
 
-    public function input_nomor($value='')
-    {
-        $post = $this->input->post();
-        $jnsf = $this->input->post('jenisfaskes');
-         $nik = $this->session->userdata('nik');
-        foreach ($this->input->post('id') as $ids){
-            if ($nik == '3275041501810019') {
-                 $nomor_surat = $post['nomor_surat'][$ids];
-            $nomor = "YM.02.01/B/".$nomor_surat."/2025";
-            $tgl_nomor_surat = $post['tgl_nomor_surat'][$ids];
-                
-            }else{
-                 $nomor_surat = $post['nomor_surat'][$ids];
-            $nomor = "YM.02.01/D/".$nomor_surat."/2025";
-            $tgl_nomor_surat = $post['tgl_nomor_surat'][$ids];
+            foreach ($post['id'] as $ids) {
+                $nomor_surat_input = $post['nomor_surat'][$ids];
+                $tgl_nomor_surat = $post['tgl_nomor_surat'][$ids];
+
+                // Format nomor sesuai NIK
+                if ($nik == '3275041501810019') {
+                    $nomor = "YM.02.01/B/" . $nomor_surat_input . "/2025";
+                } else {
+                    $nomor = "YM.02.01/D/" . $nomor_surat_input . "/2025";
+                }
+
+                // Data yang akan disimpan
+                $data = [
+                    'nomor_surat' => $nomor,
+                    'tgl_nomor_surat' => $tgl_nomor_surat
+                ];
+
+                $where = ['kode_faskes' => $ids];
+
+                // Simpan ke tabel data_sertifikat
+                $this->sina->update('data_sertifikat', $data, $where);
+
+                // Cek kembali data sertifikat
+                $datacek = $this->M_nomor_surat->select_data('data_sertifikat', $where)->row_array();
+
+                // Jika LPA adalah KEMENKES, insert ke tte_lpa
+                if ($datacek && $datacek['lpa'] == "KEMENKES") {
+                    $ttelpak = [
+                        'data_sertifikat_id' => $datacek['id'],
+                        'kode_faskes' => $ids,
+                        'jenis_faskes' => $jnsf,
+                        'lpa' => 'KEMENKES',
+                    ];
+
+                    // Cek duplikat agar tidak insert berulang
+                    $cek_tte = $this->db->get_where('tte_lpa', [
+                        'kode_faskes' => $ids,
+                        'data_sertifikat_id' => $datacek['id']
+                    ])->num_rows();
+
+                    if ($cek_tte == 0) {
+                        $this->sina->insert('tte_lpa', $ttelpak);
+                    }
+                }
             }
-           
-            $data = array('nomor_surat' => $nomor,
-                      'tgl_nomor_surat' => $tgl_nomor_surat,);
-        $where = array ('kode_faskes' => $ids);
-        // print_r($data);
-         $this->sina->update('data_sertifikat',$data,$where);
 
-        $datacek= $this->M_nomor_surat->select_data('data_sertifikat',$where)->row_array();
-        if($datacek['lpa'] == "KEMENKES"){
-            $ttelpak = array(
-                'data_sertifikat_id' => $datacek['id'],
-                'kode_faskes'   => $ids,
-                'jenis_faskes' => 'Pusat Kesehatan Masyarakat',
-                'lpa' => 'KEMENKES',
-                );
-            $this->sina->insert('tte_lpa',$ttelpak,$where);
-         }
-
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">Nomor surat berhasil disimpan.</div>');
+            redirect($_SERVER['HTTP_REFERER']);
         }
-        // $kode = $this->input->post('kode_faskes');
-        // $nomor_surat = $this->input->post('nomor_surat');
-        // $nomor = "YM.02.01/D/".$nomor_surat."/2023";
-        // $tgl_nomor_surat = $this->input->post('tgl_nomor_surat');
-        // $jnsf = $this->input->post('jenisfaskes');
 
-        // $data = array('nomor_surat' => $nomor,
-        //               'tgl_nomor_surat' => $tgl_nomor_surat,);
-        // $where = array ('kode_faskes' => $kode);
-
-        // $this->sina->update('data_sertifikat',$data,$where);
-        redirect('AdminNomorSurat?page=belum&faskes='.$jnsf);
-    }
 
     public function tambah_nomor()
     {
@@ -315,23 +301,4 @@ redirect('AdminNomorSurat');
        // echo json_encode($gettgl['tglsurvei'][0]->tanggal_survei);exit;
 }
 
-public function deletedata()
-{
-  $id=$this->input->post('id');
-  $data = array('nomor_surat' => null,
-                      'tgl_nomor_surat' => null,);
-        $where = array ('id_pengajuan' => $id);
-  $response=$this->sina->update('data_sertifikat_tpmd',$data,$where);
-  if($response==true){
-    echo $this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible " role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-        </button>Nomor Berhasil Dihapus </div>');
-}
-else{
-    echo $this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible " role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-        </button>Eror 400 </div>');
-}
-redirect('AdminNomorSurat/tpmdnomor');
-}
 }
