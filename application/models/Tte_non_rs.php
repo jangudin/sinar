@@ -672,474 +672,264 @@ class Tte_non_rs extends CI_Model{
                 return $hsl->result();
         }
 
-        public function belumverifikasi($faskes,$jenis)
-        {
-                $puskesmas=$this->sina->query("SELECT
-                        a.*,
-                        b.status_usulan_id,
-                        b.keterangan,
-                        h.nama AS status_usulan,
-                        c.nama AS jenis_fasyankes_nama,
-                        d.nama AS jenis_survei,
-                        e.nama AS jenis_akreditasi,
-                        f.nama AS status_akreditasi,
-                        g.nama AS lpa,
-                        puskesmas_pusdatin.name AS nama_fasyankes,
-                        puskesmas_pusdatin.provinsi_code AS provinsi_id,
-                        puskesmas_pusdatin.provinsi_nama AS nama_prop,
-                        puskesmas_pusdatin.kabkot_code AS kabkota_id,
-                        puskesmas_pusdatin.kabkot_nama AS nama_kota,
-                        i.penerimaan_pengajuan_usulan_survei_id,
-                        i.url_surat_permohonan_survei,
-                        i.url_profil_fasyankes,
-                        i.url_laporan_hasil_penilaian_mandiri,
-                        i.url_pps_reakreditasi,
-                        i.url_surat_usulan_dinas,
-                        i.update_dfo,
-                        i.update_aspak,
-                        i.update_sisdmk,
-                        i.update_inm,
-                        i.update_ikp,
-                        i.id AS berkas_usulan_survei_id,
-                        j.id AS kelengkapan_berkas_id,
-                        j.kelengkapan_berkas_usulan,
-                        j.kelengkapan_berkas_usulan_catatan,
-                        j.kelengkapan_dfo,
-                        j.kelengkapan_dfo_catatan,
-                        j.kelengkapan_sarpras_alkes,
-                        j.kelengkapan_sarpras_alkes_catatan,
-                        j.kelengkapan_nakes,
-                        j.kelengkapan_nakes_catatan,
-                        j.kelengkapan_laporan_inm,
-                        j.kelengkapan_laporan_inm_catatan,
-                        j.kelengkapan_laporan_ikp,
-                        j.kelengkapan_laporan_ikp_catatan,
-                        k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2,
-                        k.id AS penetapan_tanggal_survei_id,
-                        k.url_dokumen_kontrak,
-                        k.url_surat_tugas,
-                        k.tanggal_survei,
-                        k.metode_survei_id,
-                        k.url_dokumen_pendukung_ep,
-                        k.surveior_satu,
-                        k.status_surveior_satu,
-                        k.surveior_dua,
-                        k.status_surveior_dua,
-                        l.id AS trans_final_ep_surveior_id,
-                        l.final AS status_final_ep,
-                        m.id AS pengiriman_laporan_survei_id,
-                        m.tanggal_survei_satu,
-                        m.tanggal_survei_dua,
-                        m.tanggal_survei_tiga,
-                        m.url_bukti_satu,
-                        m.url_bukti_dua,
-                        m.url_bukti_tiga,
-                        n.id AS penetapan_verifikator_id,
-                        n.users_id AS users_verifikator,
-                        o.id AS trans_final_ep_verifikator_id,
-                        o.final AS status_final_ep_verifikator,
-                        p.id AS pengiriman_rekomendasi_id,
-                        p.url_surat_rekomendasi_status,
-                        q.id AS pengajuan_id,
-                        q.status_rekomendasi_id AS pengajuan_rekomendasi,
-                        q.catatan_ketua,
-                        q.status_persetujuan,
-                        q.catatan_terima,
-                        q.created_at,
-                        r.id AS direktur_id,
-                        r.status_direktur AS direktur,
-                        r.persetujuan_ketua_id,
-                        r.catatan_direktur 
-                        FROM
-                        pengajuan_usulan_survei a
-                        LEFT OUTER JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
-                        LEFT OUTER JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
-                        LEFT OUTER JOIN jenis_survei d ON a.jenis_survei_id = d.id
-                        LEFT OUTER JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
-                        LEFT OUTER JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
-                        LEFT OUTER JOIN lpa g ON a.lpa_id = g.id
-                        LEFT OUTER JOIN dbfaskes.puskesmas_pusdatin ON a.fasyankes_id = puskesmas_pusdatin.kode_sarana
-                        LEFT OUTER JOIN status_usulan h ON b.status_usulan_id = h.id
-                        LEFT OUTER JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
-                        LEFT OUTER JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
-                        LEFT OUTER JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
-                        LEFT OUTER JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
-                        LEFT OUTER JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
-                        LEFT OUTER JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
-                        LEFT OUTER JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
-                        INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
-                        LEFT OUTER JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
-                        LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
-                        WHERE
-                        1 = 1 
-                        AND b.status_usulan_id = 3 
-                        AND q.id IS NOT NULL
-                        AND r.id IS NULL
-                        AND c.nama = 'Pusat Kesehatan Masyarakat'
-                        ORDER BY
-                        q.created_at ASC");
+            public function belumverifikasi($faskes = null, $jenis = null)
+    {
+        if ($faskes === null) {
+            return [];
+        }
 
-$klinik=$this->sina->query("SELECT
-        a.*,
-        b.status_usulan_id,
-        b.keterangan,
-        h.nama AS status_usulan,
-        c.nama AS jenis_fasyankes_nama,
-        d.nama AS jenis_survei,
-        e.nama AS jenis_akreditasi,
-        f.nama AS status_akreditasi,
-        g.nama AS lpa,
-        trans_final.kode_faskes AS kode_faskes,
-        trans_final.id_faskes AS id_faskes,
-        trans_final.kode_faskes AS kode_faskes,
-        trans_final.id_faskes AS id_faskes,
-        data_klinik.nama_klinik AS nama_fasyankes,
-        data_klinik.id_prov AS provinsi_id,
-        propinsi.id_prop AS id_prop,
-        propinsi.nama_prop AS nama_prop,
-        data_klinik.id_kota AS kabkota_id,
-        kota.id_kota AS id_kota,
-        kota.nama_kota AS nama_kota,
-        i.penerimaan_pengajuan_usulan_survei_id,
-        i.url_surat_permohonan_survei,
-        i.url_profil_fasyankes,
-        i.url_laporan_hasil_penilaian_mandiri,
-        i.url_pps_reakreditasi,
-        i.url_surat_usulan_dinas,
-        i.update_dfo,
-        i.update_aspak,
-        i.update_sisdmk,
-        i.update_inm,
-        i.update_ikp,
-        i.id AS berkas_usulan_survei_id,
-        j.id AS kelengkapan_berkas_id,
-        j.kelengkapan_berkas_usulan,
-        j.kelengkapan_berkas_usulan_catatan,
-        j.kelengkapan_dfo,
-        j.kelengkapan_dfo_catatan,
-        j.kelengkapan_sarpras_alkes,
-        j.kelengkapan_sarpras_alkes_catatan,
-        j.kelengkapan_nakes,
-        j.kelengkapan_nakes_catatan,
-        j.kelengkapan_laporan_inm,
-        j.kelengkapan_laporan_inm_catatan,
-        j.kelengkapan_laporan_ikp,
-        j.kelengkapan_laporan_ikp_catatan,
-        k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2,
-        k.id AS penetapan_tanggal_survei_id,
-        k.url_dokumen_kontrak,
-        k.url_surat_tugas,
-        k.tanggal_survei,
-        k.metode_survei_id,
-        k.url_dokumen_pendukung_ep,
-        k.surveior_satu,
-        k.status_surveior_satu,
-        k.surveior_dua,
-        k.status_surveior_dua,
-        l.id AS trans_final_ep_surveior_id,
-        l.final AS status_final_ep,
-        m.id AS pengiriman_laporan_survei_id,
-        m.tanggal_survei_satu,
-        m.tanggal_survei_dua,
-        m.tanggal_survei_tiga,
-        m.url_bukti_satu,
-        m.url_bukti_dua,
-        m.url_bukti_tiga,
-        n.id AS penetapan_verifikator_id,
-        n.users_id AS users_verifikator,
-        o.id AS trans_final_ep_verifikator_id,
-        o.final AS status_final_ep_verifikator,
-        p.id AS pengiriman_rekomendasi_id,
-        p.url_surat_rekomendasi_status,
-        q.id AS pengajuan_id,
-        q.status_rekomendasi_id AS pengajuan_rekomendasi,
-        q.catatan_ketua,
-        q.status_persetujuan,
-        q.catatan_terima,
-        q.created_at,
-        r.id AS direktur_id,
-        r.status_direktur AS direktur,
-        r.persetujuan_ketua_id,
-        r.catatan_direktur 
-        FROM
-        pengajuan_usulan_survei a
-        LEFT OUTER JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
-        LEFT OUTER JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
-        LEFT OUTER JOIN jenis_survei d ON a.jenis_survei_id = d.id
-        LEFT OUTER JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
-        LEFT OUTER JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
-        LEFT OUTER JOIN lpa g ON a.lpa_id = g.id
-        LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
-        LEFT OUTER JOIN dbfaskes.data_klinik ON dbfaskes.trans_final.id_faskes = dbfaskes.data_klinik.id_faskes
-        LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_klinik.id_prov = dbfaskes.propinsi.id_prop
-        LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_klinik.id_kota = dbfaskes.kota.id_kota
-        LEFT OUTER JOIN status_usulan h ON b.status_usulan_id = h.id
-        LEFT OUTER JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
-        LEFT OUTER JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
-        LEFT OUTER JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
-        LEFT OUTER JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
-        LEFT OUTER JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
-        LEFT OUTER JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
-        LEFT OUTER JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
-        INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
-        LEFT OUTER JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
-        LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
-        WHERE
-        1 = 1
-        AND c.nama = 'Klinik'
-        AND data_klinik.jenis_klinik = '$jenis'
-        AND r.id IS NULL
-        AND q.id IS NOT NULL
-                        -- AND a.fasyankes_id NOT IN ( 1236773, 1236817, 1270066 ) 
-                        ORDER BY
-                        q.created_at ASC");
+        if ($faskes === 'Pusat Kesehatan Masyarakat') {
+            $sql = "
+                SELECT a.*, b.status_usulan_id, b.keterangan, h.nama AS status_usulan,
+                    c.nama AS jenis_fasyankes_nama, d.nama AS jenis_survei, e.nama AS jenis_akreditasi,
+                    f.nama AS status_akreditasi, g.nama AS lpa, puskesmas_pusdatin.name AS nama_fasyankes,
+                    puskesmas_pusdatin.provinsi_code AS provinsi_id, puskesmas_pusdatin.provinsi_nama AS nama_prop,
+                    puskesmas_pusdatin.kabkot_code AS kabkota_id, puskesmas_pusdatin.kabkot_nama AS nama_kota,
+                    i.penerimaan_pengajuan_usulan_survei_id, i.url_surat_permohonan_survei,
+                    i.url_profil_fasyankes, i.url_laporan_hasil_penilaian_mandiri, i.url_pps_reakreditasi,
+                    i.url_surat_usulan_dinas, i.update_dfo, i.update_aspak, i.update_sisdmk, i.update_inm,
+                    i.update_ikp, i.id AS berkas_usulan_survei_id, j.id AS kelengkapan_berkas_id,
+                    j.kelengkapan_berkas_usulan, j.kelengkapan_berkas_usulan_catatan, j.kelengkapan_dfo,
+                    j.kelengkapan_dfo_catatan, j.kelengkapan_sarpras_alkes, j.kelengkapan_sarpras_alkes_catatan,
+                    j.kelengkapan_nakes, j.kelengkapan_nakes_catatan, j.kelengkapan_laporan_inm,
+                    j.kelengkapan_laporan_inm_catatan, j.kelengkapan_laporan_ikp, j.kelengkapan_laporan_ikp_catatan,
+                    k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2, k.id AS penetapan_tanggal_survei_id,
+                    k.url_dokumen_kontrak, k.url_surat_tugas, k.tanggal_survei, k.metode_survei_id,
+                    k.url_dokumen_pendukung_ep, k.surveior_satu, k.status_surveior_satu, k.surveior_dua,
+                    k.status_surveior_dua, l.id AS trans_final_ep_surveior_id, l.final AS status_final_ep,
+                    m.id AS pengiriman_laporan_survei_id, m.tanggal_survei_satu, m.tanggal_survei_dua,
+                    m.tanggal_survei_tiga, m.url_bukti_satu, m.url_bukti_dua, m.url_bukti_tiga,
+                    n.id AS penetapan_verifikator_id, n.users_id AS users_verifikator,
+                    o.id AS trans_final_ep_verifikator_id, o.final AS status_final_ep_verifikator,
+                    p.id AS pengiriman_rekomendasi_id, p.url_surat_rekomendasi_status, q.id AS pengajuan_id,
+                    q.status_rekomendasi_id AS pengajuan_rekomendasi, q.catatan_ketua, q.status_persetujuan,
+                    q.catatan_terima, q.created_at, r.id AS direktur_id, r.status_direktur AS direktur,
+                    r.persetujuan_ketua_id, r.catatan_direktur
+                FROM pengajuan_usulan_survei a
+                LEFT JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
+                LEFT JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
+                LEFT JOIN jenis_survei d ON a.jenis_survei_id = d.id
+                LEFT JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
+                LEFT JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
+                LEFT JOIN lpa g ON a.lpa_id = g.id
+                LEFT JOIN dbfaskes.puskesmas_pusdatin ON a.fasyankes_id = puskesmas_pusdatin.kode_sarana
+                LEFT JOIN status_usulan h ON b.status_usulan_id = h.id
+                LEFT JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
+                LEFT JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
+                LEFT JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
+                LEFT JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
+                LEFT JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
+                INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
+                LEFT JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
+                LEFT JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id
+                WHERE b.status_usulan_id = 3 AND q.id IS NOT NULL AND r.id IS NULL AND c.nama = 'Pusat Kesehatan Masyarakat'
+                ORDER BY q.created_at ASC
+            ";
+            $query = $this->db->query($sql);
+            return $query->result();
 
+        } elseif ($faskes === 'Klinik') {
 
+            if ($jenis === null) {
+                return []; // Jika jenis tidak disediakan, kembalikan array kosong
+            }
 
-$labkes=$this->sina->query("SELECT
-        a.*,
-        b.status_usulan_id,
-        b.keterangan,
-        h.nama AS status_usulan,
-        c.nama AS jenis_fasyankes_nama,
-        d.nama AS jenis_survei,
-        e.nama AS jenis_akreditasi,
-        f.nama AS status_akreditasi,
-        g.nama AS lpa,
-        trans_final.kode_faskes AS kode_faskes,
-        trans_final.id_faskes AS id_faskes,
-        trans_final.kode_faskes AS kode_faskes,
-        trans_final.id_faskes AS id_faskes,
-        data_labkes.nama_lab AS nama_fasyankes,
-        data_labkes.id_prov AS provinsi_id,
-        propinsi.id_prop AS id_prop,
-        propinsi.nama_prop AS nama_prop,
-        data_labkes.id_kota AS kabkota_id,
-        kota.id_kota AS id_kota,
-        kota.nama_kota AS nama_kota,
-        i.penerimaan_pengajuan_usulan_survei_id,
-        i.url_surat_permohonan_survei,
-        i.url_profil_fasyankes,
-        i.url_laporan_hasil_penilaian_mandiri,
-        i.url_pps_reakreditasi,
-        i.url_surat_usulan_dinas,
-        i.update_dfo,
-        i.update_aspak,
-        i.update_sisdmk,
-        i.update_inm,
-        i.update_ikp,
-        i.id AS berkas_usulan_survei_id,
-        j.id AS kelengkapan_berkas_id,
-        j.kelengkapan_berkas_usulan,
-        j.kelengkapan_berkas_usulan_catatan,
-        j.kelengkapan_dfo,
-        j.kelengkapan_dfo_catatan,
-        j.kelengkapan_sarpras_alkes,
-        j.kelengkapan_sarpras_alkes_catatan,
-        j.kelengkapan_nakes,
-        j.kelengkapan_nakes_catatan,
-        j.kelengkapan_laporan_inm,
-        j.kelengkapan_laporan_inm_catatan,
-        j.kelengkapan_laporan_ikp,
-        j.kelengkapan_laporan_ikp_catatan,
-        k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2,
-        k.id AS penetapan_tanggal_survei_id,
-        k.url_dokumen_kontrak,
-        k.url_surat_tugas,
-        k.tanggal_survei,
-        k.metode_survei_id,
-        k.url_dokumen_pendukung_ep,
-        k.surveior_satu,
-        k.status_surveior_satu,
-        k.surveior_dua,
-        k.status_surveior_dua,
-        l.id AS trans_final_ep_surveior_id,
-        l.final AS status_final_ep,
-        m.id AS pengiriman_laporan_survei_id,
-        m.tanggal_survei_satu,
-        m.tanggal_survei_dua,
-        m.tanggal_survei_tiga,
-        m.url_bukti_satu,
-        m.url_bukti_dua,
-        m.url_bukti_tiga,
-        n.id AS penetapan_verifikator_id,
-        n.users_id AS users_verifikator,
-        o.id AS trans_final_ep_verifikator_id,
-        o.final AS status_final_ep_verifikator,
-        p.id AS pengiriman_rekomendasi_id,
-        p.url_surat_rekomendasi_status,
-        q.id AS pengajuan_id,
-        q.status_rekomendasi_id AS pengajuan_rekomendasi,
-        q.catatan_ketua,
-        q.status_persetujuan,
-        q.catatan_terima,
-        q.created_at,
-        r.id AS direktur_id,
-        r.status_direktur AS direktur,
-        r.persetujuan_ketua_id,
-        r.catatan_direktur 
-        FROM
-        pengajuan_usulan_survei a
-        LEFT OUTER JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
-        LEFT OUTER JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
-        LEFT OUTER JOIN jenis_survei d ON a.jenis_survei_id = d.id
-        LEFT OUTER JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
-        LEFT OUTER JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
-        LEFT OUTER JOIN lpa g ON a.lpa_id = g.id
-        LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
-        LEFT OUTER JOIN dbfaskes.data_labkes ON dbfaskes.trans_final.id_faskes = dbfaskes.data_labkes.id_faskes
-        LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_labkes.id_prov = dbfaskes.propinsi.id_prop
-        LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_labkes.id_kota = dbfaskes.kota.id_kota
-        LEFT OUTER JOIN status_usulan h ON b.status_usulan_id = h.id
-        LEFT OUTER JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
-        LEFT OUTER JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
-        LEFT OUTER JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
-        LEFT OUTER JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
-        LEFT OUTER JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
-        LEFT OUTER JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
-        LEFT OUTER JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
-        INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
-        LEFT OUTER JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
-        LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
-        WHERE
-        1 = 1
-        AND c.nama = 'Laboratorium'
-        AND data_labkes.jenis_lab LIKE '%$jenis%'
-        AND r.id IS NULL
-        AND q.id IS NOT NULL
-        ORDER BY
-        q.created_at ASC");
+            $jenis_escape = $this->db->escape($jenis);
 
-$utd=$this->sina->query("SELECT
-        a.*,
-        b.status_usulan_id,
-        b.keterangan,
-        h.nama AS status_usulan,
-        c.nama AS jenis_fasyankes_nama,
-        d.nama AS jenis_survei,
-        e.nama AS jenis_akreditasi,
-        f.nama AS status_akreditasi,
-        g.nama AS lpa,
-        trans_final.kode_faskes AS kode_faskes,
-        trans_final.id_faskes AS id_faskes,
-        trans_final.kode_faskes AS kode_faskes,
-        trans_final.id_faskes AS id_faskes,
-        data_utd.nama_utd AS nama_fasyankes,
-        data_utd.id_prov AS provinsi_id,
-        propinsi.id_prop AS id_prop,
-        propinsi.nama_prop AS nama_prop,
-        data_utd.id_kota AS kabkota_id,
-        kota.id_kota AS id_kota,
-        kota.nama_kota AS nama_kota,
-        i.penerimaan_pengajuan_usulan_survei_id,
-        i.url_surat_permohonan_survei,
-        i.url_profil_fasyankes,
-        i.url_laporan_hasil_penilaian_mandiri,
-        i.url_pps_reakreditasi,
-        i.url_surat_usulan_dinas,
-        i.update_dfo,
-        i.update_aspak,
-        i.update_sisdmk,
-        i.update_inm,
-        i.update_ikp,
-        i.id AS berkas_usulan_survei_id,
-        j.id AS kelengkapan_berkas_id,
-        j.kelengkapan_berkas_usulan,
-        j.kelengkapan_berkas_usulan_catatan,
-        j.kelengkapan_dfo,
-        j.kelengkapan_dfo_catatan,
-        j.kelengkapan_sarpras_alkes,
-        j.kelengkapan_sarpras_alkes_catatan,
-        j.kelengkapan_nakes,
-        j.kelengkapan_nakes_catatan,
-        j.kelengkapan_laporan_inm,
-        j.kelengkapan_laporan_inm_catatan,
-        j.kelengkapan_laporan_ikp,
-        j.kelengkapan_laporan_ikp_catatan,
-        k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2,
-        k.id AS penetapan_tanggal_survei_id,
-        k.url_dokumen_kontrak,
-        k.url_surat_tugas,
-        k.tanggal_survei,
-        k.metode_survei_id,
-        k.url_dokumen_pendukung_ep,
-        k.surveior_satu,
-        k.status_surveior_satu,
-        k.surveior_dua,
-        k.status_surveior_dua,
-        l.id AS trans_final_ep_surveior_id,
-        l.final AS status_final_ep,
-        m.id AS pengiriman_laporan_survei_id,
-        m.tanggal_survei_satu,
-        m.tanggal_survei_dua,
-        m.tanggal_survei_tiga,
-        m.url_bukti_satu,
-        m.url_bukti_dua,
-        m.url_bukti_tiga,
-        n.id AS penetapan_verifikator_id,
-        n.users_id AS users_verifikator,
-        o.id AS trans_final_ep_verifikator_id,
-        o.final AS status_final_ep_verifikator,
-        p.id AS pengiriman_rekomendasi_id,
-        p.url_surat_rekomendasi_status,
-        q.id AS pengajuan_id,
-        q.status_rekomendasi_id AS pengajuan_rekomendasi,
-        q.catatan_ketua,
-        q.status_persetujuan,
-        q.catatan_terima,
-        q.created_at,
-        r.id AS direktur_id,
-        r.status_direktur AS direktur,
-        r.persetujuan_ketua_id,
-        r.catatan_direktur 
-        FROM
-        pengajuan_usulan_survei a
-        LEFT OUTER JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
-        LEFT OUTER JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
-        LEFT OUTER JOIN jenis_survei d ON a.jenis_survei_id = d.id
-        LEFT OUTER JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
-        LEFT OUTER JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
-        LEFT OUTER JOIN lpa g ON a.lpa_id = g.id
-        LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
-        LEFT OUTER JOIN dbfaskes.data_utd ON dbfaskes.trans_final.id_faskes = dbfaskes.data_utd.id_faskes
-        LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_utd.id_prov = dbfaskes.propinsi.id_prop
-        LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_utd.id_kota = dbfaskes.kota.id_kota
-        LEFT OUTER JOIN status_usulan h ON b.status_usulan_id = h.id
-        LEFT OUTER JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
-        LEFT OUTER JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
-        LEFT OUTER JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
-        LEFT OUTER JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
-        LEFT OUTER JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
-        LEFT OUTER JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
-        LEFT OUTER JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
-        INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
-        LEFT OUTER JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
-        LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
-        WHERE
-        1 = 1
-        AND c.nama = 'Unit Transfusi Darah'
-        AND r.id IS NULL
-        AND q.id IS NOT NULL
-        ORDER BY
-        q.created_at ASC");
+            $sql = "
+                SELECT a.*, b.status_usulan_id, b.keterangan, h.nama AS status_usulan,
+                    c.nama AS jenis_fasyankes_nama, d.nama AS jenis_survei, e.nama AS jenis_akreditasi,
+                    f.nama AS status_akreditasi, g.nama AS lpa, trans_final.kode_faskes AS kode_faskes,
+                    trans_final.id_faskes AS id_faskes, data_klinik.nama_klinik AS nama_fasyankes,
+                    data_klinik.id_prov AS provinsi_id, propinsi.id_prop AS id_prop,
+                    propinsi.nama_prop AS nama_prop, data_klinik.id_kota AS kabkota_id,
+                    kota.id_kota AS id_kota, kota.nama_kota AS nama_kota,
+                    i.penerimaan_pengajuan_usulan_survei_id, i.url_surat_permohonan_survei,
+                    i.url_profil_fasyankes, i.url_laporan_hasil_penilaian_mandiri, i.url_pps_reakreditasi,
+                    i.url_surat_usulan_dinas, i.update_dfo, i.update_aspak, i.update_sisdmk, i.update_inm,
+                    i.update_ikp, i.id AS berkas_usulan_survei_id, j.id AS kelengkapan_berkas_id,
+                    j.kelengkapan_berkas_usulan, j.kelengkapan_berkas_usulan_catatan, j.kelengkapan_dfo,
+                    j.kelengkapan_dfo_catatan, j.kelengkapan_sarpras_alkes, j.kelengkapan_sarpras_alkes_catatan,
+                    j.kelengkapan_nakes, j.kelengkapan_nakes_catatan, j.kelengkapan_laporan_inm,
+                    j.kelengkapan_laporan_inm_catatan, j.kelengkapan_laporan_ikp, j.kelengkapan_laporan_ikp_catatan,
+                    k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2, k.id AS penetapan_tanggal_survei_id,
+                    k.url_dokumen_kontrak, k.url_surat_tugas, k.tanggal_survei, k.metode_survei_id,
+                    k.url_dokumen_pendukung_ep, k.surveior_satu, k.status_surveior_satu, k.surveior_dua,
+                    k.status_surveior_dua, l.id AS trans_final_ep_surveior_id, l.final AS status_final_ep,
+                    m.id AS pengiriman_laporan_survei_id, m.tanggal_survei_satu, m.tanggal_survei_dua,
+                    m.tanggal_survei_tiga, m.url_bukti_satu, m.url_bukti_dua, m.url_bukti_tiga,
+                    n.id AS penetapan_verifikator_id, n.users_id AS users_verifikator,
+                    o.id AS trans_final_ep_verifikator_id, o.final AS status_final_ep_verifikator,
+                    p.id AS pengiriman_rekomendasi_id, p.url_surat_rekomendasi_status, q.id AS pengajuan_id,
+                    q.status_rekomendasi_id AS pengajuan_rekomendasi, q.catatan_ketua, q.status_persetujuan,
+                    q.catatan_terima, q.created_at, r.id AS direktur_id, r.status_direktur AS direktur,
+                    r.persetujuan_ketua_id, r.catatan_direktur
+                FROM pengajuan_usulan_survei a
+                LEFT JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
+                LEFT JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
+                LEFT JOIN jenis_survei d ON a.jenis_survei_id = d.id
+                LEFT JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
+                LEFT JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
+                LEFT JOIN lpa g ON a.lpa_id = g.id
+                LEFT JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
+                LEFT JOIN dbfaskes.data_klinik ON dbfaskes.trans_final.id_faskes = dbfaskes.data_klinik.id_faskes
+                LEFT JOIN dbfaskes.propinsi ON dbfaskes.data_klinik.id_prov = dbfaskes.propinsi.id_prop
+                LEFT JOIN dbfaskes.kota ON dbfaskes.data_klinik.id_kota = dbfaskes.kota.id_kota
+                LEFT JOIN status_usulan h ON b.status_usulan_id = h.id
+                LEFT JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
+                LEFT JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
+                LEFT JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
+                LEFT JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
+                LEFT JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
+                INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
+                LEFT JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
+                LEFT JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id
+                WHERE c.nama = 'Klinik' AND data_klinik.jenis_klinik = $jenis_escape
+                AND r.id IS NULL AND q.id IS NOT NULL
+                ORDER BY q.created_at ASC
+            ";
+            $query = $this->db->query($sql);
+            return $query->result();
 
+        } elseif ($faskes === 'Laboratorium Kesehatan') {
 
-if ($faskes == null) {
-        return [];
-}elseif ($faskes == 'Pusat Kesehatan Masyarakat') {
-        return $puskesmas->result();
-}elseif($faskes == 'Klinik'){
-        return $klinik->result();
-}elseif($faskes == 'Laboratorium Kesehatan'){
-        return $labkes->result();
-}elseif($faskes == 'Unit Transfusi Darah'){
-        return $utd->result();
-}
+            if ($jenis === null) {
+                return []; // Bila jenis tidak ada kembalikan kosong
+            }
+            // Escape input jenis
+            $jenis_escape = $this->db->escape($jenis);
 
-}
+            // Kondisi tambahan untuk Laboratorium Kesehatan berdasarkan $jenis
+            $whereJenis = '';
+            if (strtolower($jenis) === 'laboratorium medis') {
+                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+            } elseif (strtolower($jenis) === 'laboratorium kesmas') {
+                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+            }
 
+            $sql = "
+                SELECT a.*, b.status_usulan_id, b.keterangan, h.nama AS status_usulan,
+                    c.nama AS jenis_fasyankes_nama, d.nama AS jenis_survei, e.nama AS jenis_akreditasi,
+                    f.nama AS status_akreditasi, g.nama AS lpa, trans_final.kode_faskes AS kode_faskes,
+                    trans_final.id_faskes AS id_faskes, data_labkes.nama_lab AS nama_fasyankes,
+                    data_labkes.id_prov AS provinsi_id, propinsi.id_prop AS id_prop,
+                    propinsi.nama_prop AS nama_prop, data_labkes.id_kota AS kabkota_id,
+                    kota.id_kota AS id_kota, kota.nama_kota AS nama_kota,
+                    i.penerimaan_pengajuan_usulan_survei_id, i.url_surat_permohonan_survei,
+                    i.url_profil_fasyankes, i.url_laporan_hasil_penilaian_mandiri, i.url_pps_reakreditasi,
+                    i.url_surat_usulan_dinas, i.update_dfo, i.update_aspak, i.update_sisdmk, i.update_inm,
+                    i.update_ikp, i.id AS berkas_usulan_survei_id, j.id AS kelengkapan_berkas_id,
+                    j.kelengkapan_berkas_usulan, j.kelengkapan_berkas_usulan_catatan, j.kelengkapan_dfo,
+                    j.kelengkapan_dfo_catatan, j.kelengkapan_sarpras_alkes, j.kelengkapan_sarpras_alkes_catatan,
+                    j.kelengkapan_nakes, j.kelengkapan_nakes_catatan, j.kelengkapan_laporan_inm,
+                    j.kelengkapan_laporan_inm_catatan, j.kelengkapan_laporan_ikp, j.kelengkapan_laporan_ikp_catatan,
+                    k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2, k.id AS penetapan_tanggal_survei_id,
+                    k.url_dokumen_kontrak, k.url_surat_tugas, k.tanggal_survei, k.metode_survei_id,
+                    k.url_dokumen_pendukung_ep, k.surveior_satu, k.status_surveior_satu, k.surveior_dua,
+                    k.status_surveior_dua, l.id AS trans_final_ep_surveior_id, l.final AS status_final_ep,
+                    m.id AS pengiriman_laporan_survei_id, m.tanggal_survei_satu, m.tanggal_survei_dua,
+                    m.tanggal_survei_tiga, m.url_bukti_satu, m.url_bukti_dua, m.url_bukti_tiga,
+                    n.id AS penetapan_verifikator_id, n.users_id AS users_verifikator,
+                    o.id AS trans_final_ep_verifikator_id, o.final AS status_final_ep_verifikator,
+                    p.id AS pengiriman_rekomendasi_id, p.url_surat_rekomendasi_status, q.id AS pengajuan_id,
+                    q.status_rekomendasi_id AS pengajuan_rekomendasi, q.catatan_ketua, q.status_persetujuan,
+                    q.catatan_terima, q.created_at, r.id AS direktur_id, r.status_direktur AS direktur,
+                    r.persetujuan_ketua_id, r.catatan_direktur
+                FROM pengajuan_usulan_survei a
+                LEFT JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
+                LEFT JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
+                LEFT JOIN jenis_survei d ON a.jenis_survei_id = d.id
+                LEFT JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
+                LEFT JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
+                LEFT JOIN lpa g ON a.lpa_id = g.id
+                LEFT JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
+                LEFT JOIN dbfaskes.data_labkes ON dbfaskes.trans_final.id_faskes = dbfaskes.data_labkes.id_faskes
+                LEFT JOIN dbfaskes.propinsi ON dbfaskes.data_labkes.id_prov = dbfaskes.propinsi.id_prop
+                LEFT JOIN dbfaskes.kota ON dbfaskes.data_labkes.id_kota = dbfaskes.kota.id_kota
+                LEFT JOIN status_usulan h ON b.status_usulan_id = h.id
+                LEFT JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
+                LEFT JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
+                LEFT JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
+                LEFT JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
+                LEFT JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
+                INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
+                LEFT JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
+                LEFT JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id
+                WHERE c.nama = 'Laboratorium' $whereJenis AND r.id IS NULL AND q.id IS NOT NULL
+                ORDER BY q.created_at ASC
+            ";
+            $query = $this->db->query($sql);
+            return $query->result();
 
+        } elseif ($faskes === 'Unit Transfusi Darah') {
 
+            $sql = "
+                SELECT a.*, b.status_usulan_id, b.keterangan, h.nama AS status_usulan,
+                c.nama AS jenis_fasyankes_nama, d.nama AS jenis_survei, e.nama AS jenis_akreditasi,
+                f.nama AS status_akreditasi, g.nama AS lpa, trans_final.kode_faskes AS kode_faskes,
+                trans_final.id_faskes AS id_faskes, data_utd.nama_utd AS nama_fasyankes,
+                data_utd.id_prov AS provinsi_id, propinsi.id_prop AS id_prop,
+                propinsi.nama_prop AS nama_prop, data_utd.id_kota AS kabkota_id,
+                kota.id_kota AS id_kota, kota.nama_kota AS nama_kota,
+                i.penerimaan_pengajuan_usulan_survei_id, i.url_surat_permohonan_survei,
+                i.url_profil_fasyankes, i.url_laporan_hasil_penilaian_mandiri, i.url_pps_reakreditasi,
+                i.url_surat_usulan_dinas, i.update_dfo, i.update_aspak, i.update_sisdmk, i.update_inm,
+                i.update_ikp, i.id AS berkas_usulan_survei_id, j.id AS kelengkapan_berkas_id,
+                j.kelengkapan_berkas_usulan, j.kelengkapan_berkas_usulan_catatan, j.kelengkapan_dfo,
+                j.kelengkapan_dfo_catatan, j.kelengkapan_sarpras_alkes, j.kelengkapan_sarpras_alkes_catatan,
+                j.kelengkapan_nakes, j.kelengkapan_nakes_catatan, j.kelengkapan_laporan_inm,
+                j.kelengkapan_laporan_inm_catatan, j.kelengkapan_laporan_ikp, j.kelengkapan_laporan_ikp_catatan,
+                k.kelengkapan_berkas_id AS kelengkapan_berkas_id_2, k.id AS penetapan_tanggal_survei_id,
+                k.url_dokumen_kontrak, k.url_surat_tugas, k.tanggal_survei, k.metode_survei_id,
+                k.url_dokumen_pendukung_ep, k.surveior_satu, k.status_surveior_satu, k.surveior_dua,
+                k.status_surveior_dua, l.id AS trans_final_ep_surveior_id, l.final AS status_final_ep,
+                m.id AS pengiriman_laporan_survei_id, m.tanggal_survei_satu, m.tanggal_survei_dua,
+                m.tanggal_survei_tiga, m.url_bukti_satu, m.url_bukti_dua, m.url_bukti_tiga,
+                n.id AS penetapan_verifikator_id, n.users_id AS users_verifikator,
+                o.id AS trans_final_ep_verifikator_id, o.final AS status_final_ep_verifikator,
+                p.id AS pengiriman_rekomendasi_id, p.url_surat_rekomendasi_status, q.id AS pengajuan_id,
+                q.status_rekomendasi_id AS pengajuan_rekomendasi, q.catatan_ketua, q.status_persetujuan,
+                q.catatan_terima, q.created_at, r.id AS direktur_id, r.status_direktur AS direktur,
+                r.persetujuan_ketua_id, r.catatan_direktur
+                FROM pengajuan_usulan_survei a
+                LEFT JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
+                LEFT JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
+                LEFT JOIN jenis_survei d ON a.jenis_survei_id = d.id
+                LEFT JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
+                LEFT JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
+                LEFT JOIN lpa g ON a.lpa_id = g.id
+                LEFT JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
+                LEFT JOIN dbfaskes.data_utd ON dbfaskes.trans_final.id_faskes = dbfaskes.data_utd.id_faskes
+                LEFT JOIN dbfaskes.propinsi ON dbfaskes.data_utd.id_prov = dbfaskes.propinsi.id_prop
+                LEFT JOIN dbfaskes.kota ON dbfaskes.data_utd.id_kota = dbfaskes.kota.id_kota
+                LEFT JOIN status_usulan h ON b.status_usulan_id = h.id
+                LEFT JOIN berkas_usulan_survei i ON i.penerimaan_pengajuan_usulan_survei_id = b.id
+                LEFT JOIN kelengkapan_berkas j ON j.berkas_usulan_survei_id = i.id
+                LEFT JOIN penetapan_tanggal_survei k ON k.kelengkapan_berkas_id = j.id
+                LEFT JOIN trans_final_ep_surveior l ON l.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN pengiriman_laporan_survei m ON m.penetapan_tanggal_survei_id = k.id
+                LEFT JOIN penetapan_verifikator n ON n.pengiriman_laporan_survei_id = m.id
+                LEFT JOIN trans_final_ep_verifikator o ON o.penetapan_verifikator_id = n.id
+                INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
+                LEFT JOIN persetujuan_ketua q ON q.pengiriman_rekomendasi_id = p.id
+                LEFT JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id
+                WHERE c.nama = 'Unit Transfusi Darah' AND r.id IS NULL AND q.id IS NOT NULL
+                ORDER BY q.created_at ASC
+            ";
+            $query = $this->db->query($sql);
+            return $query->result();
+
+        } else {
+            // Jika faskes tidak dikenal, kembalikan array kosong
+            return [];
+        }
+    }
 
 public function sudahverifikasi($faskes)
 {
