@@ -5,19 +5,21 @@
     <br />
    <?php if ($this->uri->segment(2) == 'nomor'):?>
      <div class="btn-group">
-      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Pusat Kesehatan Masyarakat') ?>">
+      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/'. urlencode('Pusat Kesehatan Masyarakat')) ?>">
         Puskesmas
       </a>
     </div>
 
     <div class="btn-group">
-      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Klinik/Utama') ?>">
+      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/' . urlencode('Klinik') . '/' . urlencode('Utama')) ?>
+">
         Klinik Utama
       </a>
     </div>
 
     <div class="btn-group">
-      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Klinik/Pratama') ?>">
+      <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/' . urlencode('Pratama') . '/' . urlencode('Utama')) ?>
+">
         Klinik Pratama
       </a>
     </div>
