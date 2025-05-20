@@ -66,6 +66,8 @@ public function tampil_faskes($jenis_faskes = null, $kategoriFaskes = null)
         return $this->db->select('COUNT(*) as belum')->get('data_sertifikat')->row();
     }
 
+  
+
     public function input_nomor($data)
     {
         foreach ($data as $id => $row) {
