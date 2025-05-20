@@ -42,76 +42,46 @@ class M_nomor_surat extends CI_Model{
   }
 
 
-  function tampil_faskes($faskes,$jenis){
+public function tampil_faskes($jenis_faskes = null, $kategoriFaskes = null)
+    {
+        $this->db->where('nomor_surat IS NULL');
+        if ($jenis_faskes) {
+            $this->db->where('jenis_faskes', $jenis_faskes);
+        }
+        if ($kategoriFaskes) {
+            $this->db->where('kategoriFaskes', $kategoriFaskes);
+        }
+        return $this->db->get('nama_tabel_anda')->result(); // ganti dengan nama tabel asli
+    }
 
-    $pkm=$this->sina->query("SELECT * 
-      FROM data_sertifikat 
-      WHERE nomor_surat IS NULL 
-      AND data_sertifikat.jenis_faskes = '$faskes' LIMIT 10");
-    $Klinik=$this->sina->query("SELECT * 
-      FROM data_sertifikat 
-      LEFT OUTER JOIN dbfaskes.trans_final ON data_sertifikat.kode_faskes = dbfaskes.trans_final.kode_faskes
-      LEFT OUTER JOIN dbfaskes.data_klinik ON dbfaskes.trans_final.id_faskes = dbfaskes.data_klinik.id_faskes
-      WHERE nomor_surat IS NULL 
-      AND data_sertifikat.jenis_faskes = '$faskes'
-      AND data_klinik.jenis_klinik = '$jenis'
-      LIMIT 10");
-    $lab=$this->sina->query("SELECT * 
-      FROM data_sertifikat 
-      LEFT OUTER JOIN dbfaskes.trans_final ON data_sertifikat.kode_faskes = dbfaskes.trans_final.kode_faskes
-      LEFT OUTER JOIN dbfaskes.data_labkes ON dbfaskes.trans_final.id_faskes = dbfaskes.data_labkes.id_faskes
-      WHERE nomor_surat IS NULL 
-      AND data_sertifikat.jenis_faskes = '$faskes'
-      AND data_labkes.jenis_lab LIKE '%$jenis%'
-      LIMIT 10");
-    $utd=$this->sina->query("SELECT * 
-      FROM data_sertifikat 
-      WHERE nomor_surat IS NULL 
-      AND data_sertifikat.jenis_faskes = '$faskes' LIMIT 10");
-    // $sudah=$this->sina->query("SELECT
-    //   data_sertifikat.id, 
-    //   data_sertifikat.persetujuan_direktur_id, 
-    //   data_sertifikat.kode_faskes, 
-    //   data_sertifikat.nama_faskes, 
-    //   data_sertifikat.jenis_faskes, 
-    //   data_sertifikat.alamat, 
-    //   data_sertifikat.kecamatan, 
-    //   data_sertifikat.kabkot, 
-    //   data_sertifikat.provinsi, 
-    //   data_sertifikat.status_akreditasi, 
-    //   data_sertifikat.tgl_survei, 
-    //   data_sertifikat.logo, 
-    //   data_sertifikat.nomor_surat, 
-    //   data_sertifikat.tgl_nomor_surat, 
-    //   data_sertifikat.lpa, 
-    //   data_sertifikat.created_at, 
-    //   tte_lpa.status_tte
-    //   FROM
-    //   data_sertifikat
-    //   LEFT JOIN tte_lpa ON data_sertifikat.id = tte_lpa.data_sertifikat_id 
-    //   WHERE
-    //   nomor_surat IS NOT NULL
-    //   AND data_sertifikat.jenis_faskes = '$faskes'
-    //   GROUP BY
-    //   data_sertifikat.kode_faskes
-    //   ORDER BY
-    //   data_sertifikat.tgl_nomor_surat DESC,
-    //   data_sertifikat.nomor_surat DESC
-    //   LIMIT 300");
+    public function jumlah_belum($jenis_faskes = null, $kategoriFaskes = null)
+    {
+        $this->db->where('nomor_surat IS NULL');
+        if ($jenis_faskes) {
+            $this->db->where('jenis_faskes', $jenis_faskes);
+        }
+        if ($kategoriFaskes) {
+            $this->db->where('kategoriFaskes', $kategoriFaskes);
+        }
+        return $this->db->select('COUNT(*) as belum')->get('nama_tabel_anda')->row();
+    }
 
-    if ($faskes == null) {
-      return [];
-    }elseif($faskes == 'Pusat Kesehatan Masyarakat'){
-      return $pkm->result();
-    }elseif ($faskes == 'Klinik'){
-      return $Klinik->result();
-    }elseif ($faskes == 'Laboratorium Kesehatan'){
-      return $lab->result();
-    }elseif ($faskes == 'Unit Transfusi Darah'){
-      return $utd->result();
-    };
-     // return $belum->result();
-  }
+    public function input_nomor($data)
+    {
+        foreach ($data as $id => $row) {
+            $this->db->where('kode_faskes', $id);
+            $this->db->update('nama_tabel_anda', $row);
+        }
+    }
+
+    public function delete_nomor($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('nama_tabel_anda', [
+            'nomor_surat' => null,
+            'tgl_nomor_surat' => null
+        ]);
+    }
 
   public function SudahInput($faskes, $jenis)
 {

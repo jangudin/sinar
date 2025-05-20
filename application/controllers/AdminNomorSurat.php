@@ -18,35 +18,43 @@ class AdminNomorSurat extends CI_Controller {
     {
         redirect(base_url('AdminNomorSurat/nomor'));
     }
-    public function nomor()
+ public function nomor($jenis = null, $kategori = null)
     {
-        $id = $this->session->userdata('lembaga_id');
-        $nik = $this->session->userdata('nik');
-        // $page = $this->input->get('page') ?? null;
-        // $faskes = $this->input->get('faskes') ?? null;
+        $data = [
+            'contents' => 'adminsuarat',
+            'data' => $this->M_nomor_surat->tampil_faskes($jenis, $kategori),
+            'belum' => $this->M_nomor_surat->jumlah_belum($jenis, $kategori)
+        ];
 
-        if ($this->uri->segment(4) !== null) {
-            $jenis = urldecode($this->uri->segment(4));
-        } else {
-            $jenis = ''; // Atau nilai default lainnya
+        $this->load->view('List_Rekomendasi', $data);
+    }
+
+    public function input_nomor()
+    {
+        $input = $this->input->post();
+        $updateData = [];
+
+        if (isset($input['id'])) {
+            foreach ($input['id'] as $id) {
+                $updateData[$id] = [
+                    'nomor_surat' => $input['nomor_surat'][$id],
+                    'tgl_nomor_surat' => $input['tgl_nomor_surat'][$id],
+                    'updated_at' => date('Y-m-d H:i:s')
+                ];
+            }
+            $this->M_nomor_surat->input_nomor($updateData);
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">Nomor berhasil disimpan.</div>');
         }
 
-        if ($this->uri->segment(43) !== null) {
-            $faskes = urldecode($this->uri->segment(3));
-        } else {
-            $faskes = ''; // Atau nilai default lainnya
-        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 
-        // $jenis = urldecode($this->uri->segment(4));
-        // $faskes = urldecode( $this->uri->segment(3));
-
-        $data = array('contents' => 'adminsuarat',
-                      'data'    => $this->M_nomor_surat->tampil_faskes($faskes,$jenis),
-                      'belum' => $this->M_nomor_surat->jumlah_belum($faskes,$jenis),
-      );
-        
-      //  echo json_encode($nik);exit;
-        $this->load->view('List_Rekomendasi',$data);
+    public function deletedata()
+    {
+        $id = $this->input->post('id');
+        $this->M_nomor_surat->delete_nomor($id);
+        $this->session->set_flashdata('msg', '<div class="alert alert-danger">Nomor berhasil dihapus.</div>');
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
      public function SudahInput()
