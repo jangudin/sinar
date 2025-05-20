@@ -42,17 +42,18 @@ class M_nomor_surat extends CI_Model{
   }
 
 
-public function tampil_faskes($jenis_faskes = null, $kategoriFaskes = null)
-    {
-        $this->db->where('nomor_surat IS NULL');
-        if ($jenis_faskes) {
-            $this->db->where('jenis_faskes', $jenis_faskes);
-        }
-        if ($kategoriFaskes) {
-            $this->db->where('kategoriFaskes', $kategoriFaskes);
-        }
-        return $this->db->get('data_sertifikat')->result(); // ganti dengan nama tabel asli
+public function tampil_faskes($faskes = null, $jenis = null)
+{
+    $this->db->where('nomor_surat', null);
+    if ($faskes != null) {
+        $this->db->where('jenis_faskes', $faskes);
     }
+    if ($jenis != null) {
+        $this->db->where('kategoriFaskes', $jenis);
+    }
+    return $this->db->get('data_sertifikat')->result();
+}
+
 
     public function jumlah_belum($jenis_faskes = null, $kategoriFaskes = null)
     {
