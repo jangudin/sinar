@@ -1003,7 +1003,7 @@ $labkes=$this->sina->query("SELECT
         LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
         WHERE
         1 = 1
-        AND c.nama = 'Laboratorium Kesehatan'
+        AND c.nama = 'Laboratorium'
         AND data_labkes.jenis_lab LIKE '%$jenis%'
         AND r.id IS NULL
         AND q.id IS NOT NULL
