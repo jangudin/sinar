@@ -585,7 +585,7 @@ public function simpanverifikasi($value = '')
             redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Klinik');
             break;
         case 'Laboratorium Kesehatan':
-            redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Labkes');
+            redirect('Mutu_fasyankes/nonrsbelumverifikasi');
             break;
         case 'Unit Transfusi Darah':
             redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=utd');
