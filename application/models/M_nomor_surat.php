@@ -46,25 +46,25 @@ public function tampil_faskes($faskes = null, $jenis = null)
 {
     $this->db->where('nomor_surat', null);
     if ($faskes != null) {
-        $this->db->where('jenis_faskes', $faskes);
+        $this->sina->where('jenis_faskes', $faskes);
     }
     if ($jenis != null) {
-        $this->db->where('kategoriFaskes', $jenis);
+        $this->sina->where('kategoriFaskes', $jenis);
     }
-    return $this->db->get('data_sertifikat')->result();
+    return $this->sina->get('data_sertifikat')->result();
 }
 
 
     public function jumlah_belum($jenis_faskes = null, $kategoriFaskes = null)
     {
-        $this->db->where('nomor_surat IS NULL');
+        $this->sina->where('nomor_surat IS NULL');
         if ($jenis_faskes) {
-            $this->db->where('jenis_faskes', $jenis_faskes);
+            $this->sina->where('jenis_faskes', $jenis_faskes);
         }
         if ($kategoriFaskes) {
-            $this->db->where('kategoriFaskes', $kategoriFaskes);
+            $this->sina->where('kategoriFaskes', $kategoriFaskes);
         }
-        return $this->db->select('COUNT(*) as belum')->get('data_sertifikat')->row();
+        return $this->sina->select('COUNT(*) as belum')->get('data_sertifikat')->row();
     }
 
   
@@ -72,15 +72,15 @@ public function tampil_faskes($faskes = null, $jenis = null)
     public function input_nomor($data)
     {
         foreach ($data as $id => $row) {
-            $this->db->where('kode_faskes', $id);
-            $this->db->update('data_sertifikat', $row);
+            $this->sina->where('kode_faskes', $id);
+            $this->sina->update('data_sertifikat', $row);
         }
     }
 
     public function delete_nomor($id)
     {
-        $this->db->where('id', $id);
-        $this->db->update('data_sertifikat', [
+        $this->sina->where('id', $id);
+        $this->sina->update('data_sertifikat', [
             'nomor_surat' => null,
             'tgl_nomor_surat' => null
         ]);
