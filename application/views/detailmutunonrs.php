@@ -105,7 +105,7 @@
                       <input name="idp" class="form-control" type="hidden" value="<?= $s->idp ?>">
                       <input name="nama_faskes" class="form-control" type="hidden" value="<?=$s->nama_fasyankes ?>">
                       <input name="jenis_faskes" class="form-control" type="hidden" value="<?=$s->jenis_fasyankes_nama ?>">
-                      <input name="lpa" class="form-control" type="hidden" value="<?=$s->inisial ?>">
+                      <input name="lpa" class="form-control" type="hidden" value="<?= isset($objek->inisial) ? $objek->inisial : '-' ?>">
                       <input name="alamat" class="form-control" type="hidden" value="<?= $s->alamat ?>">
                       <input name="kecamatan" class="form-control" type="hidden" value="<?= $s->nama_camat ?>">
                       <input name="kabkot" class="form-control" type="hidden" value="<?= $s->nama_kota ?>">
