@@ -85,7 +85,7 @@
   <div class="col-md-12 ">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Jumlah belum input nomor : <?php echo $belum->belum; ?> </h2>
+        <!-- <h2>Jumlah belum input nomor : <?php echo $belum->belum; ?> </h2> -->
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </li>
@@ -124,74 +124,10 @@
                   <td><?= $a->kode_faskes ?></td>
                   <td><?= $a->nama_faskes ?></td>
                   <td><?= $a->jenis_faskes ?></td>
-
-                  <?php if ($a->nomor_surat == null): ?>
-                    <!-- Form untuk input nomor surat -->
-                    <form action="<?= base_url('AdminNomorSurat/input_nomor') ?>" method="post">
-                      <input type="hidden" name="jenisfaskes" value="<?= $a->jenis_faskes ?>" />
-                      <td>
-                        <input type="date" name="tgl_nomor_surat[<?= $key; ?>]" required />
-                        <input type="hidden" name="kode_faskes" value="<?= $a->kode_faskes ?>" />
-                      </td>
-                      <td>
-                        <input type="number" name="nomor_surat[<?= $key; ?>]" required />
-                        <input type="hidden" name="id[]" value="<?= $key ?>" />
-                      </td>
-                  <?php else: ?>
-                    <!-- Tampilkan nomor surat dan tombol hapus -->
-                    <td><?= $a->tgl_nomor_surat ?></td>
-                    <td><?= $a->nomor_surat ?></td>
-                    <td>
-                      <h6><span class="badge badge-success">Telah Diberi Nomor</span></h6>
-
-                      <?php if ($a->status_tte == 1): ?>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal<?= $a->id ?>">Hapus Nomor</button>
-                      <?php else: ?>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus<?= $a->id ?>">Hapus Nomor</button>
-                      <?php endif; ?>
-
-                      <!-- Modal untuk peringatan -->
-                      <div class="modal fade" id="exampleModal<?= $a->id ?>" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                          <div class="modal-content">
-                            <div class="modal-body">
-                              <h2><span class="badge badge-warning">PERHATIAN</span></h2>
-                              <h6>Nomor Tidak Bisa Dihapus Sudah Terpakai</h6>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Modal untuk konfirmasi hapus -->
-                      <div class="modal fade" id="hapus<?= $a->id ?>" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                          <div class="modal-content">
-                            <div class="modal-body">
-                              <h2><span class="badge badge-warning">Konfirmasi</span></h2>
-                              <h6>Anda akan menghapus Nomor</h6>
-                              <h6><?= $a->nomor_surat ?></h6>
-                              <form action="<?= base_url('AdminNomorSurat/deletedata') ?>" method="post">
-                                <input type="hidden" name="id" value="<?= $a->id ?>" />
-                              </div>
-                              <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Close</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  <?php endif; ?>
                 </tr>
               <?php endforeach; ?>
             </tbody>
-
           </table>
-          <button type="submit" name="submit" id="submit" class="btn btn-info">Simpan</button>
         </div>
         </form>
       </div>
