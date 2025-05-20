@@ -3,31 +3,6 @@
   <div class="">
     <div class="clearfix"></div>
     <br />
-<!--     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="GET" action="<?= base_url('AdminNomorSurat') ?>">
-      <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Pilih Data Untuk Ditampilkan <span class="required">*</span>
-        </label>
-        <div class="col-md-2 col-sm-2 ">
-          <select name="page" class="select2_single form-control" tabindex="-1">
-            <option value="">Pilih ...</option>
-            <option value="belum">Belum Input Nomor</option>
-            <option value="sudah">Sudah Input Nomor</option>
-          </select>
-        </div>
-        <div class="col-md-3 col-sm-3 ">
-          <select name="faskes" class="select2_single form-control" tabindex="-1">
-            <option value="">Pilih ...</option>
-            <option value="Klinik">Klinik</option>
-            <option value="Pusat Kesehatan Masyarakat">Pusat Kesehatan Masyarakat</option>
-            <option value="Laboratorium Kesehatan">Laboratorium Kesehatan</option>
-            <option value="Unit Transfusi Darah">UTD</option>
-          </select>
-        </div>
-        <div class="col-md-4 col-sm-4 ">
-         <input type="submit" class="btn btn-success" value="Tampilkan">
-       </div>
-     </div>
-   </form> -->
    <?php if ($this->uri->segment(2) == 'nomor'):?>
      <div class="btn-group">
       <a type="button" class="btn btn-success" href="<?php echo base_url('AdminNomorSurat/nomor/Pusat Kesehatan Masyarakat') ?>">
