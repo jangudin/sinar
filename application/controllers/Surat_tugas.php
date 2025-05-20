@@ -301,19 +301,26 @@ public function printsuratTTEklinik()
     $dataKlinik = $this->M_surat_tugas->printsuratklinik($id);
 
     // Ubah logo menjadi base64 (kop dan logo)
-    if (!empty($dataKlinik)) {
-        foreach ($dataKlinik as $key => $row) {
-            if (!empty($row->kop)) {
-                $logoPath = FCPATH . $row->kop;
-                $base64Logo = $this->base64EncodeImage($logoPath);
-                $dataKlinik[$key]->kop = $base64Logo;
-                $dataKlinik[$key]->logo = $base64Logo;
-            } else {
-                $dataKlinik[$key]->kop = '';
-                $dataKlinik[$key]->logo = '';
-            }
+   if (!empty($dataKlinik)) {
+    foreach ($dataKlinik as $key => $row) {
+        // Encode kop
+        if (!empty($row->kop)) {
+            $kopPath = FCPATH . $row->kop;
+            $dataKlinik[$key]->kop = $this->base64EncodeImage($kopPath);
+        } else {
+            $dataKlinik[$key]->kop = '';
+        }
+
+        // Encode logo
+        if (!empty($row->logo)) {
+            $logoPath = FCPATH . $row->logo;
+            $dataKlinik[$key]->logo = $this->base64EncodeImage($logoPath);
+        } else {
+            $dataKlinik[$key]->logo = '';
         }
     }
+}
+
 
     // Siapkan data untuk view
     $data = array(
