@@ -292,39 +292,49 @@ class Surat_tugas extends CI_Controller {
 }
 
 public function printsuratTTEklinik()
-    {
+{
+    $id = $this->uri->segment(3);
+    $kd = $this->uri->segment(4);
+    $jnis = 'KLINIK';
 
-       $id = $this->uri->segment(3);
-        $kd = $this->uri->segment(4);
-        $jnis = 'KLINIK';
+    // Ambil data dari model
+    $dataKlinik = $this->M_surat_tugas->printsuratklinik($id);
 
-        $dataKlinik = $this->M_surat_tugas->printsuratklinik($id);
-
-    // Ubah logo menjadi base64
-    foreach ($dataKlinik as $key => $row) {
-        $logoPath = FCPATH . $row->kop; // contoh: 'assets/images/logo.png'
-        $dataKlinik[$key]->kop = $this->base64EncodeImage($logoPath);
+    // Ubah logo menjadi base64 (kop dan logo)
+    if (!empty($dataKlinik)) {
+        foreach ($dataKlinik as $key => $row) {
+            if (!empty($row->kop)) {
+                $logoPath = FCPATH . $row->kop;
+                $base64Logo = $this->base64EncodeImage($logoPath);
+                $dataKlinik[$key]->kop = $base64Logo;
+                $dataKlinik[$key]->logo = $base64Logo;
+            } else {
+                $dataKlinik[$key]->kop = '';
+                $dataKlinik[$key]->logo = '';
+            }
+        }
     }
 
+    // Siapkan data untuk view
+    $data = array(
+        'survei' => $this->M_surat_tugas->tgl_survei($id),
+        'nar'    => $this->M_surat_tugas->narahubung($kd),
+        'data'   => $dataKlinik,
+        'jns'    => $jnis,
+    );
 
+    // PDF Generator
+    $this->data['title_pdf'] = 'stte' . $id;
+    $this->load->library('pdfgenerator');
+    $file_pdf = 'stte' . $id;
+    $paper = 'A4';
+    $orientation = "potrait";
 
-        
-        $data = array(
-         'survei'  =>$this->M_surat_tugas->tgl_survei($id),
-         'nar'  =>$this->M_surat_tugas->narahubung($kd),
-         'data'    => $dataKlinik,
-         'jns'      => $jnis,
-     );
-       // $content = $this->M_surat_tugas->printsurat($id);
-        $this->data['title_pdf'] = 'stte'.$id;
-       // $data['data'] = $content;
-        $this->load->library('pdfgenerator');
-        $file_pdf = 'stte'.$id;
-        $paper = 'A4';
-        $orientation = "potrait";
-        $html = $this->load->view('surtug/surtugtte',$data, true);     
-        $this->pdfgenerator->surattugas($html, $file_pdf,$paper,$orientation);
-    }
+    // Render view untuk PDF
+    $html = $this->load->view('surtug/surtugtte', $data, true);
+    $this->pdfgenerator->surattugas($html, $file_pdf, $paper, $orientation);
+}
+
 
 // Tambahkan fungsi untuk encode image
 private function base64EncodeImage($filePath)

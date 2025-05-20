@@ -79,7 +79,7 @@
     <?php 
     foreach ($data as $p) { ?>
     <div style="margin-bottom:10px;">
-        <img src="data:image/png;base64,<?=$p->kop ?>" width="720" class="center"/>
+        <img src="<?=$p->kop ?>" width="720" class="center"/>
     </div>
         
     <p style='text-align: center; margin-top: 1px;'>
@@ -200,8 +200,7 @@ Agar yang bersangkutan melaksanakan tugas dengan baik dan penuh tanggung jawab.
             <td style="width:40%;vertical-align:top;text-align:left; font-size: 95%">
                 <?=format_indo(date('Y-m-d'));?>
                 <br>
-                <?php 
-                 foreach ($data as $t) { ?><img src="<?=$t->logo?>" height="90"/><?php } ?>
+                <img src="<?=$p->logo?>" height="90"/>
             </td>
         </tr>
     </table>
