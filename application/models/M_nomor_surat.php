@@ -52,6 +52,7 @@ public function tampil_faskes($faskes = null, $jenis = null)
         $this->sina->where('kategoriFaskes', $jenis);
     }
     return $this->sina->get('data_sertifikat')->result();
+    $this->db->limit(100);
 }
 
 

@@ -6,6 +6,7 @@ class AdminNomorSurat extends CI_Controller {
         parent::__construct();
         date_default_timezone_set('Asia/Jakarta');
         ini_set('max_execution_time', '300');
+        ini_set('memory_limit', '256M');
         $this->sina = $this->load->database('sina', TRUE);
         $this->load->model('M_nomor_surat');
         $this->load->library('encryption');
