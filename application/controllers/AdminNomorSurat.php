@@ -21,6 +21,8 @@ class AdminNomorSurat extends CI_Controller {
     }
 public function nomor($jenis_faskes = null, $kategori = null)
 {
+    $jenis_faskes = urldecode($jenis_faskes);
+    $kategori = urldecode($kategori);
     $data = array(
         'contents' => 'adminsuarat',
         'data'     => [],
