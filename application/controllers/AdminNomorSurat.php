@@ -23,19 +23,23 @@ public function nomor($jenis_faskes = null, $kategori = null)
 {
     $jenis_faskes = urldecode($jenis_faskes);
     $kategori = urldecode($kategori);
+
     $data = array(
         'contents' => 'adminsuarat',
         'data'     => [],
         'belum'    => (object)['belum' => 0],
+        'jenis'    => $jenis_faskes,
+        'kategori' => $kategori
     );
 
-    // Jika parameter filter tersedia, baru ambil data
-    if ($jenis_faskes !== null || $kategori !== null) {
+    if ($jenis_faskes !== null) {
         $data['data'] = $this->M_nomor_surat->tampil_faskes($jenis_faskes, $kategori);
+        $data['belum'] = $this->M_nomor_surat->jumlah_belum($jenis_faskes, $kategori);
     }
 
     $this->load->view('List_Rekomendasi', $data);
 }
+
     public function deletedata()
     {
         $id = $this->input->post('id');

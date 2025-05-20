@@ -44,35 +44,41 @@ class M_nomor_surat extends CI_Model{
 
 public function tampil_faskes($jenis_faskes = null, $kategori = null)
 {
-    $this->sina->where('nomor_surat', null); // ambil data yang belum ada nomor
+    $this->sina->from('data_sertifikat');
+    $this->sina->where('nomor_surat IS NULL');
 
-    if (!empty($jenis_faskes)) {
+    if ($jenis_faskes !== null) {
         $this->sina->where('jenis_faskes', $jenis_faskes);
+
+        // Tambah pengecualian kategori hanya jika bukan Puskesmas atau UTD
+        if (!in_array(strtolower($jenis_faskes), ['puskesmas', 'pusat kesehatan masyarakat', 'unit transfusi darah'])) {
+            if ($kategori !== null) {
+                $this->sina->where('kategoriFaskes', $kategori);
+            }
+        }
     }
 
-    if (strtolower($jenis_faskes) !== 'Pusat Kesehatan Masyarakat' && $kategori !== null) {
-            $this->db->where('kategoriFaskes', urldecode($kategori));
-        }
-
-    return $this->sina->get('data_sertifikat')->result();
+    return $this->sina->get()->result();
 }
 
+public function jumlah_belum($jenis_faskes = null, $kategori = null)
+{
+    $this->sina->select('COUNT(*) as belum');
+    $this->sina->from('data_sertifikat');
+    $this->sina->where('nomor_surat IS NULL');
 
+    if ($jenis_faskes !== null) {
+        $this->sina->where('jenis_faskes', $jenis_faskes);
 
-    public function jumlah_belum($jenis_faskes = null, $kategoriFaskes = null)
-    {
-        $this->sina->where('nomor_surat IS NULL');
-        if ($jenis_faskes) {
-            $this->sina->where('jenis_faskes', $jenis_faskes);
+        if (!in_array(strtolower($jenis_faskes), ['puskesmas', 'pusat kesehatan masyarakat', 'unit transfusi darah'])) {
+            if ($kategori !== null) {
+                $this->sina->where('kategoriFaskes', $kategori);
+            }
         }
-        if ($kategoriFaskes) {
-            $this->sina->where('kategoriFaskes', $kategoriFaskes);
-        }
-        return $this->sina->select('COUNT(*) as belum')->get('data_sertifikat')->row();
     }
 
-  
-
+    return $this->sina->get()->row();
+}
     public function input_nomor($data)
     {
         foreach ($data as $id => $row) {
