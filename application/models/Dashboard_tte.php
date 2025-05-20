@@ -106,6 +106,7 @@ class Dashboard_tte extends CI_Model
             ORDER BY
             pusd.tanggal_survei DESC
             ");
+
         $labkes = $this->sina->query("SELECT
             dl.nama_lab AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
@@ -306,7 +307,7 @@ class Dashboard_tte extends CI_Model
             WHERE pus.fasyankes_id IS NOT NULL AND
             dl.nama_lab IS NOT NULL
             AND td.id IS NULL
-            AND dl.jenis_lab LIKE '%$jenis%'
+            AND dl.jenis_pelayanan LIKE '%$jenis%'
             GROUP BY
             pus.id
             ORDER BY
