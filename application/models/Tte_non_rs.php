@@ -2015,7 +2015,7 @@ $klinik=$this->sina->query("SELECT
         data_klinik.nama_klinik AS nama_fasyankes,
         data_klinik.id_prov AS provinsi_id,
         #LEFT(data_klinik.alamat_faskes,72) AS alamat,
-        data_klinik.alamat_faskes_versi_akreditasi AS alamat,
+        data_klinik.alamat_faskes AS alamat,
         propinsi.id_prop AS id_prop,
         propinsi.nama_prop AS nama_prop,
         data_klinik.id_kota AS kabkota_id,
