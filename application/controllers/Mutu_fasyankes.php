@@ -501,8 +501,9 @@ public function Detailnonrs()
 }
 
 
-public function simpanverifikasi($value='')
+public function simpanverifikasi($value = '')
 {
+    // Ambil data dari input
     $status = $this->input->post('status_direktur');
     $persetujuan = $this->input->post('persetujuan_ketua_id');
     $catatan = $this->input->post('catatan_direktur');
@@ -519,72 +520,82 @@ public function simpanverifikasi($value='')
     $jenis = $this->input->post('jenis_faskes');
     $lpa = $this->input->post('lpa');
     $kategori_faskes = $this->input->post('kategori_faskes');
-    
 
-
-    $verifikasi = array('status_direktur'       => $status,
+    // Siapkan data untuk disimpan
+    $verifikasi = array(
+        'status_direktur' => $status,
         'persetujuan_ketua_id' => $persetujuan,
-        'catatan_direktur' => $catatan);
-    $where = array('persetujuan_ketua_id' => $persetujuan);
-    $query = "SELECT id FROM persetujuan_direktur WHERE persetujuan_ketua_id = '".$persetujuan."'";
+        'catatan_direktur' => $catatan
+    );
+
+    // Cek apakah persetujuan sudah ada
+    $query = "SELECT id FROM persetujuan_direktur WHERE persetujuan_ketua_id = " . $this->db->escape($persetujuan);
     $sql = $this->sina->query($query)->row_array();
+
     if ($sql == null) {
-        $simpan = $this->sina->insert('persetujuan_direktur',$verifikasi);
+        // Jika belum ada, simpan data persetujuan
+        $this->sina->insert('persetujuan_direktur', $verifikasi);
+        $id = $this->sina->insert_id(); // Ambil ID yang baru saja disimpan
+    } else {
+        // Jika sudah ada, ambil ID yang ada
+        $id = $sql['id'];
     }
-    $cek = "SELECT id FROM persetujuan_direktur WHERE persetujuan_ketua_id = '".$persetujuan."'";
-    $id = $this->sina->query($query)->row_array();
 
-    // if ($status == 1) {
-    //     $cds = "SELECT id FROM data_sertifikat WHERE kode_faskes = '".$kode_faskes."'";
-    //     $hcds = $this->sina->query($cds)->row_array();
-    //     if ($hcds != null ){
-    //         $update = array(
-    //            'nama_faskes'             => $nama_faskes,
-    //            'jenis_faskes'            => $jenis,
-    //            'alamat'                  => $alamat,);
-    //         $this->sina->where('kode_faskes', $kode_faskes);
-    //         $this->sina->update('data_sertifikat', $update);
-    //     }elseif($hcds == null){
-    $data_sertifikat = array('persetujuan_direktur_id' => $id['id'],
-       'kode_faskes'             => $kode_faskes,
-       'id_pengajuan'             => $idp,
-       'nama_faskes'             => $nama_faskes,
-       'jenis_faskes'            => $jenis,
-       'alamat'                  => $alamat,
-       'kecamatan'               => $kecamatyan,
-       'kabkot'                  => $kabkot,
-       'provinsi'                => $provinsi,
-       'status_akreditasi'       => $status_akreditasi,
-       'tgl_survei'            => $tgl_survei,
-       'logo'                    => $logo,
-       'lpa'                    => $lpa,
-       'kategoriFaskes'        => $kategori_faskes);
-    $this->sina->insert('data_sertifikat',$data_sertifikat);
-    //     }
-    // }
-    if ($jenis == 'Pusat Kesehatan Masyarakat') {
-       echo $this->session->set_flashdata('msg','<div class="alert alert-success alert-dismissible " role="alert">
+    // Siapkan data sertifikat
+    $data_sertifikat = array(
+        'persetujuan_direktur_id' => $id,
+        'kode_faskes' => $kode_faskes,
+        'id_pengajuan' => $idp,
+        'nama_faskes' => $nama_faskes,
+        'jenis_faskes' => $jenis,
+        'alamat' => $alamat,
+        'kecamatan' => $kecamatyan,
+        'kabkot' => $kabkot,
+        'provinsi' => $provinsi,
+        'status_akreditasi' => $status_akreditasi,
+        'tgl_survei' => $tgl_survei,
+        'logo' => $logo,
+        'lpa' => $lpa,
+        'kategoriFaskes' => $kategori_faskes
+    );
+
+    // Cek apakah data sertifikat sudah ada
+    $cds = "SELECT id FROM data_sertifikat WHERE kode_faskes = " . $this->db->escape($kode_faskes);
+    $hcds = $this->sina->query($cds)->row_array();
+
+    if ($hcds != null) {
+        // Jika sudah ada, lakukan update
+        $this->sina->where('kode_faskes', $kode_faskes);
+        $this->sina->update('data_sertifikat', $data_sertifikat);
+    } else {
+        // Jika belum ada, lakukan insert
+        $this->sina->insert('data_sertifikat', $data_sertifikat);
+    }
+
+    // Set flashdata dan redirect sesuai jenis faskes
+    $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible " role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
         Verifikasi berhasil</div>');
-       redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Puskesmas');
-   }elseif ($jenis == 'Klinik') {
-    echo $this->session->set_flashdata('msg','<div class="alert alert-success alert-dismissible " role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        Verifikasi berhasil</div>');
-    redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Klinik');
-}elseif ($jenis == 'Laboratorium Kesehatan') {
-    echo $this->session->set_flashdata('msg','<div class="alert alert-success alert-dismissible " role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        Verifikasi berhasil</div>');
-    redirect('Mutu_fasyankes/nonrsbelumverifikasi');
-}elseif ($jenis == 'Unit Transfusi Darah') {
-    echo $this->session->set_flashdata('msg','<div class="alert alert-success alert-dismissible " role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        Verifikasi berhasil</div>');
-    redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=utd');
+
+    switch ($jenis) {
+        case 'Pusat Kesehatan Masyarakat':
+            redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Puskesmas');
+            break;
+        case 'Klinik':
+            redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Klinik');
+            break;
+        case 'Laboratorium Kesehatan':
+            redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Labkes');
+            break;
+        case 'Unit Transfusi Darah':
+            redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=utd');
+            break;
+        default:
+            redirect('Mutu_fasyankes/nonrsbelumverifikasi');
+            break;
+    }
 }
 
-}
 
 public function filesertifikat($faskes,$id,$id_p)
 {
