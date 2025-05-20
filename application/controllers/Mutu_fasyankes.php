@@ -576,7 +576,7 @@ public function simpanverifikasi($value='')
     echo $this->session->set_flashdata('msg','<div class="alert alert-success alert-dismissible " role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
         Verifikasi berhasil</div>');
-    redirect('Mutu_fasyankes/nonrsbelumverifikasi?faskes=Labkes');
+    redirect('Mutu_fasyankes/nonrsbelumverifikasi');
 }elseif ($jenis == 'Unit Transfusi Darah') {
     echo $this->session->set_flashdata('msg','<div class="alert alert-success alert-dismissible " role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
