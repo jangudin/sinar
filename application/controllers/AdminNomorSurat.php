@@ -164,61 +164,40 @@ public function nomor($jenis_faskes = null, $kategori = null)
 }
 
 
-        public function input_nomor()
-        {
-            $post = $this->input->post();
-            $jnsf = $post['jenisfaskes'];
-            $nik = $this->session->userdata('nik');
+public function input_nomor()
+{
+    $post = $this->input->post();
+    $jnsf = $post['jenisfaskes'] ?? '';
+    $nik = $this->session->userdata('nik');
 
-            foreach ($post['id'] as $ids) {
-                $nomor_surat_input = $post['nomor_surat'][$ids];
-                $tgl_nomor_surat = $post['tgl_nomor_surat'][$ids];
+    foreach ($post['id'] as $ids) {
+        $nomor_raw = $post['nomor_surat'][$ids];
+        $tgl_nomor = $post['tgl_nomor_surat'][$ids];
+        $nomor = ($nik == '3275041501810019') ? "YM.02.01/B/{$nomor_raw}/2025" : "YM.02.01/D/{$nomor_raw}/2025";
 
-                // Format nomor sesuai NIK
-                if ($nik == '3275041501810019') {
-                    $nomor = "YM.02.01/B/" . $nomor_surat_input . "/2025";
-                } else {
-                    $nomor = "YM.02.01/D/" . $nomor_surat_input . "/2025";
-                }
+        $data = [
+            'nomor_surat' => $nomor,
+            'tgl_nomor_surat' => $tgl_nomor,
+        ];
+        $where = ['kode_faskes' => $ids];
+        $this->sina->update('data_sertifikat', $data, $where);
 
-                // Data yang akan disimpan
-                $data = [
-                    'nomor_surat' => $nomor,
-                    'tgl_nomor_surat' => $tgl_nomor_surat
-                ];
-
-                $where = ['kode_faskes' => $ids];
-
-                // Simpan ke tabel data_sertifikat
-                $this->sina->update('data_sertifikat', $data, $where);
-
-                // Cek kembali data sertifikat
-                $datacek = $this->M_nomor_surat->select_data('data_sertifikat', $where)->row_array();
-
-                // Jika LPA adalah KEMENKES, insert ke tte_lpa
-                if ($datacek && $datacek['lpa'] == "KEMENKES") {
-                    $ttelpak = [
-                        'data_sertifikat_id' => $datacek['id'],
-                        'kode_faskes' => $ids,
-                        'jenis_faskes' => $jnsf,
-                        'lpa' => 'KEMENKES',
-                    ];
-
-                    // Cek duplikat agar tidak insert berulang
-                    $cek_tte = $this->db->get_where('tte_lpa', [
-                        'kode_faskes' => $ids,
-                        'data_sertifikat_id' => $datacek['id']
-                    ])->num_rows();
-
-                    if ($cek_tte == 0) {
-                        $this->sina->insert('tte_lpa', $ttelpak);
-                    }
-                }
-            }
-
-            $this->session->set_flashdata('msg', '<div class="alert alert-success">Nomor surat berhasil disimpan.</div>');
-            redirect($_SERVER['HTTP_REFERER']);
+        // Tambahan insert ke tte_lpa jika diperlukan
+        $datacek = $this->M_nomor_surat->select_data('data_sertifikat', $where)->row_array();
+        if ($datacek['lpa'] == "KEMENKES") {
+            $ttelpak = [
+                'data_sertifikat_id' => $datacek['id'],
+                'kode_faskes'   => $ids,
+                'jenis_faskes' => 'Pusat Kesehatan Masyarakat',
+                'lpa' => 'KEMENKES',
+            ];
+            $this->sina->insert('tte_lpa', $ttelpak);
         }
+    }
+
+    redirect('AdminNomorSurat');
+}
+
 
 
     public function tambah_nomor()
