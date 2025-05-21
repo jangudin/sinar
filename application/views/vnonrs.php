@@ -64,7 +64,7 @@
                     </a>
                   </div>
                   <div class="btn-group">
-                    <a type="button" class="btn btn-success" href="<?php echo base_url('DirjenYankes/nonrsbelumtte/Laboratorium Kesehatan/Laboratorium Kesehatan') ?>">
+                    <a type="button" class="btn btn-success" href="<?php echo base_url('DirjenYankes/nonrsbelumtte/Laboratorium/Laboratorium Kesehatan') ?>">
                       Lab Kesmas
                     </a>
                   </div>
@@ -78,7 +78,7 @@
                   </div>
 
                   <div class="btn-group">
-                    <a type="button" class="btn btn-success" href="<?php echo base_url('DirjenYankes/nonrsbelumtte/Laboratorium Kesehatan/Laboratorium Medis') ?>">
+                    <a type="button" class="btn btn-success" href="<?php echo base_url('DirjenYankes/nonrsbelumtte/Laboratorium/Laboratorium Medis') ?>">
                       Lab Medis
                     </a>
                   </div>

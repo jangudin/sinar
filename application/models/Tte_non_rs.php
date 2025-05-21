@@ -360,7 +360,15 @@ class Tte_non_rs extends CI_Model{
                         LIMIT 100
                         ");
                         return $hsl->result();
-                }elseif ($jenis_faskes == 'Laboratorium Kesehatan') {
+                }elseif ($jenis_faskes == 'Laboratorium') {
+                        $jenis_escape = $this->sina->escape($jenis);
+                                $whereJenis = '';
+                        if (strtolower($jenis) === 'laboratorium medis') {
+                                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+                        } elseif (strtolower($jenis) === 'laboratorium kesmas') {
+                                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+                        }
+
                         $hsl=$this->sina->query("SELECT
                         a.id,
                         a.persetujuan_direktur_id,
