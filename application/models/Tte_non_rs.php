@@ -364,9 +364,9 @@ class Tte_non_rs extends CI_Model{
                         $jenis_escape = $this->sina->escape($jenis);
                                 $whereJenis = '';
                         if (strtolower($jenis) === 'laboratorium medis') {
-                                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+                                $whereJenis = " AND LEFT(kategoriFaskes, 18) = 'Laboratorium Medis' ";
                         } elseif (strtolower($jenis) === 'laboratorium kesmas') {
-                                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+                                $whereJenis = " AND LEFT(kategoriFaskes, 18) != 'Laboratorium Medis' ";
                         }
 
                         $hsl=$this->sina->query("SELECT
