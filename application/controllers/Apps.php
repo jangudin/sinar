@@ -30,6 +30,6 @@ class Apps extends CI_Controller {
         $data['content'] = 'template_dashboard/app_rumahsakit';
         $user_id = $this->session->userdata('id');
         $data['menu_data'] = $this->ModelApps->getMenuAndSubMenuByUser ($user_id); // Call the method from ModelApps
-        $this->load->view('template_dashboard/dashboard', $data);
+        $this->load->view('template_dashboard/msipuskesmas', $data);
     }
 }
