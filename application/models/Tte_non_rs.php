@@ -365,7 +365,7 @@ class Tte_non_rs extends CI_Model{
                                 $whereJenis = '';
                         if (strtolower($jenis) === 'laboratorium medis') {
                                 $whereJenis = " AND LEFT(kategoriFaskes, 18) = 'Laboratorium Medis' ";
-                        } elseif (strtolower($jenis) === 'a.laboratorium Kesehatan') {
+                        } elseif (strtolower($jenis) === 'laboratorium Kesehatan') {
                                 $whereJenis = " AND LEFT(a.kategoriFaskes, 18) != 'Laboratorium Medis' ";
                         }
 
