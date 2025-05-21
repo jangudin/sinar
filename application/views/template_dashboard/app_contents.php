@@ -10,7 +10,7 @@
         </div>
         <div class="file-item" data-href="apps/msipuskesmas" role="listitem" tabindex="0" aria-label="Folder: Projects" style="cursor: pointer;">
           <span class="material-icons file-icon" style="color:#34a853;">folder</span>
-          <div class="file-name">Selain RS</div>
+          <div class="file-name">MSI Puskesmas</div>
         </div>
         <div class="file-item" role="listitem" tabindex="0" aria-label="File: Report.pdf">
           <span class="material-icons file-icon" style="color:#4285f4;">picture_as_pdf</span>
