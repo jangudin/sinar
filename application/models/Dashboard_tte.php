@@ -275,9 +275,9 @@ function MonitoringDirjen($faskes, $jenis)
             // Kondisi tambahan untuk Laboratorium Kesehatan berdasarkan $jenis
                 $whereJenis = '';
             if (strtolower($jenis) === 'laboratorium medis') {
-                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+                $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
             } elseif (strtolower($jenis) === 'laboratorium kesmas') {
-                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+                $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
             }
 
 
