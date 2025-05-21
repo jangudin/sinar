@@ -361,11 +361,17 @@ class Tte_non_rs extends CI_Model{
                         ");
                         return $hsl->result();
                 }elseif ($jenis_faskes == 'Laboratorium') {
+                    if ($jenis === null) {
+                                return []; // Bila jenis tidak ada kembalikan kosong
+                        }
+                        // Escape input jenis
                         $jenis_escape = $this->sina->escape($jenis);
+
+                        // Kondisi tambahan untuk Laboratorium Kesehatan berdasarkan $jenis
                                 $whereJenis = '';
                         if (strtolower($jenis) === 'laboratorium medis') {
-                                $whereJenis = " AND LEFT(kategoriFaskes, 18) = 'Laboratorium Medis' ";
-                        } elseif (strtolower($jenis) === 'laboratorium Kesehatan') {
+                                $whereJenis = " AND LEFT(a.kategoriFaskes, 18) = 'Laboratorium Medis' ";
+                        } elseif (strtolower($jenis) === 'laboratorium kesmas') {
                                 $whereJenis = " AND LEFT(a.kategoriFaskes, 18) != 'Laboratorium Medis' ";
                         }
 
