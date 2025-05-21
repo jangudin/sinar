@@ -264,15 +264,21 @@ function MonitoringDirjen($faskes, $jenis)
             pusd.tanggal_survei DESC
     ");
 
+       
     // Query untuk Laboratorium Kesehatan
-        $whereJenis = '';
-        $jenisLower = strtolower($jenis ?? ''); // Menggunakan null coalescing operator untuk menghindari null
+            if ($jenis === null) {
+                return []; // Bila jenis tidak ada kembalikan kosong
+            }
+            // Escape input jenis
+            $jenis_escape = $this->sina->escape($jenis);
 
-        if ($jenisLower === 'laboratorium medis') {
-            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
-        } elseif ($jenisLower === 'laboratorium kesmas') {
-            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
-        }
+            // Kondisi tambahan untuk Laboratorium Kesehatan berdasarkan $jenis
+                $whereJenis = '';
+            if (strtolower($jenis) === 'laboratorium medis') {
+                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+            } elseif (strtolower($jenis) === 'laboratorium kesmas') {
+                $whereJenis = " AND LEFT(data_labkes.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+            }
 
 
     $labkes = $this->sina->query("
