@@ -407,7 +407,7 @@ class Tte_non_rs extends CI_Model{
                         b.id IS NOT NULL
                         AND  c.id IS NULL
                         AND a.jenis_faskes = '$jenis_faskes'
-                        AND data_labkes.jenis_lab LIKE '%$jenis%'
+                        $whereJenis
                         ORDER BY
                         b.tgl_tte ASC 
                         LIMIT 100
