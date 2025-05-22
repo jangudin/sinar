@@ -61,11 +61,11 @@ class DirjenYankes extends CI_Controller {
 
 
 
-   public function monitoring()
+   public function monitoring($faskes = null, $jenis = null)
    {
 
-    $faskes = $this->uri->segment(3);
-    $jenis = $this->uri->segment(4);
+    $faskes = $faskes !== null ? urldecode($faskes) : null;
+    $jenis = $jenis !== null ? urldecode($jenis) : null;
 
     $datam = $this->Dashboard_tte->MonitoringDirjen($faskes, $jenis);
     $last_query = $this->sina->last_query();
