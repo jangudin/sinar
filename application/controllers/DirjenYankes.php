@@ -66,8 +66,15 @@ class DirjenYankes extends CI_Controller {
 
     $faskes = $this->uri->segment(3);
     $jenis = $this->uri->segment(4);
+
+    $datam = $this->Dashboard_tte->MonitoringDirjen($faskes, $jenis);
+    $last_query = $this->sina->last_query();
+
+    // Tampilkan query untuk debugging
+    echo "<pre>Query terakhir: " . $last_query . "</pre>";
+
     $data = array('contents' => 'dashboard/monitoringDirjen',
-        'datam'    => $this->Dashboard_tte->MonitoringDirjen($faskes,$jenis),
+        'datam'    => $datam,
     );
  // echo json_encode($data['datam']);
     $this->load->view('List_Rekomendasi',$data);
