@@ -39,8 +39,8 @@
             <a href="<?php echo base_url('DirjenYankes/monitoring/pkm') ?>" class="btn btn-success">Puskesmas</a>
             <a href="<?php echo base_url('DirjenYankes/monitoring/klinik/Pratama') ?>" class="btn btn-success">Klinik Pratama</a>
             <a href="<?php echo base_url('DirjenYankes/monitoring/klinik/Utama') ?>" class="btn btn-success">Klinik Utama</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/Labkes/Laboratorium Medis') ?>" class="btn btn-success">Lab Medis</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/Labkes/Laboratorium Kesehatan') ?>" class="btn btn-success">Lab Kesmas</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/Labkes/Laboratorium medis') ?>" class="btn btn-success">Lab Medis</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/Labkes/Laboratorium kesmas') ?>" class="btn btn-success">Lab Kesmas</a>
             <a href="<?php echo base_url('DirjenYankes/monitoring/Utd') ?>" class="btn btn-success">UTD</a>
             <a href="<?php echo base_url('DirjenYankes/monitoring_tpmd') ?>" class="btn btn-success">TPMD/TPMDG</a>
           </div>
