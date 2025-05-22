@@ -67,7 +67,7 @@ class DirjenYankes extends CI_Controller {
     $faskes = $this->uri->segment(3);
     $jenis = $this->uri->segment(4);
     $data = array('contents' => 'dashboard/monitoringDirjen',
-        'datam'    => $this->Dashboard_tte->MonitoringDashboard($faskes,$jenis),
+        'datam'    => $this->Dashboard_tte->MonitoringDirjen($faskes,$jenis),
     );
  // echo json_encode($data['datam']);
     $this->load->view('List_Rekomendasi',$data);
