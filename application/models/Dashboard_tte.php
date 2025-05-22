@@ -275,7 +275,7 @@ function MonitoringDirjen($faskes, $jenis)
         }
 
 
-    $labkes = "
+    $labkes = $this->sina->query("
         SELECT
             dl.nama_lab AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
@@ -323,12 +323,12 @@ function MonitoringDirjen($faskes, $jenis)
             pus.fasyankes_id IS NOT NULL
             AND dl.nama_lab IS NOT NULL
             AND td.id IS NULL
-            ".$whereJenis."
+            $whereJenis
         GROUP BY
             pus.id
         ORDER BY
             pusd.tanggal_survei DESC
-    ";
+    ");
 
     // Query untuk Unit Transfusi Darah
     $utd = $this->sina->query("
@@ -393,8 +393,7 @@ function MonitoringDirjen($faskes, $jenis)
     } elseif ($faskes == "klinik") {
         return $klinik->result();
     } elseif ($faskes == "Labkes") {
-        echo $whereJenis;
-       // return $labkes->result();
+        return $labkes->result();
     } elseif ($faskes == "Utd") {
         return $utd->result();
     }
