@@ -73,7 +73,7 @@ class DirjenYankes extends CI_Controller {
     $last_query = $this->db->last_query();
 
     // Tampilkan query untuk debugging
-    echo "<pre>Query terakhir: " . $last_query . "</pre>";exit;
+    echo "<pre>Query terakhir: " . $last_query . "</pre>";
 
     $data = array('contents' => 'dashboard/monitoringDirjen',
         'datam'    => $this->Dashboard_tte->MonitoringDirjen($faskes,$jenis),
