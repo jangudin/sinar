@@ -157,8 +157,12 @@ class Dashboard_tte extends CI_Model
 
 function MonitoringDirjen($faskes, $jenis)
 {
+     if ($faskes === null) {
+            return [];
+        }
+    if ($faskes === 'Pusat Kesehatan Masyarakat') {
     // Query untuk Pusat Kesehatan Masyarakat
-    $pkm = $this->sina->query("
+    $sql = "
         SELECT
             ppd.`name` AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
@@ -207,10 +211,16 @@ function MonitoringDirjen($faskes, $jenis)
             pus.id
         ORDER BY
             pusd.tanggal_survei DESC
-    ");
+    ";
+     $query = $this->sina->query($sql);
+     return $query->result();
+     } elseif ($faskes === 'Klinik') {
+        if ($jenis === null) {
+                return []; // Jika jenis tidak disediakan, kembalikan array kosong
+            }
 
-    // Query untuk Klinik
-    $klinik = $this->sina->query("
+    $jenis_escape = $this->sina->escape($jenis);
+    $sql = "
         SELECT
             dk.nama_klinik AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
@@ -261,22 +271,30 @@ function MonitoringDirjen($faskes, $jenis)
         GROUP BY
             pus.id
         ORDER BY
-            pusd.tanggal_survei DESC
-    ");
+            pusd.tanggal_survei DESC";
+            $query = $this->sina->query($sql);
+            return $query->result();
+
+        } elseif ($faskes === 'Labkes') {
 
     // Query untuk Laboratorium Kesehatan
-        $whereJenis = '';
-        $jenisLower = strtolower($jenis ?? ''); // Menggunakan null coalescing operator untuk menghindari null
+        if ($jenis === null) {
+                return []; // Bila jenis tidak ada kembalikan kosong
+            }
+            // Escape input jenis
+            $jenis_escape = $this->sina->escape($jenis);
 
-        if ($jenisLower === 'laboratorium medis') {
-            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
-        } elseif ($jenisLower === 'laboratorium kesmas') {
-            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
-        }
+            // Kondisi tambahan untuk Laboratorium Kesehatan berdasarkan $jenis
+                $whereJenis = '';
+            if (strtolower($jenis) === 'laboratorium medis') {
+                $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+            } elseif (strtolower($jenis) === 'laboratorium kesmas') {
+                $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+            }
 
 
-    $labkes = $this->sina->query("
-        SELECT
+    $sql ="
+         SELECT
             dl.nama_lab AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
             pus.fasyankes_id_baru AS kode_faskes_baru,
@@ -328,10 +346,12 @@ function MonitoringDirjen($faskes, $jenis)
             pus.id
         ORDER BY
             pusd.tanggal_survei DESC
-    ");
-
+    ";
+    $query = $this->sina->query($sql);
+    return $query->result();
+     } elseif ($faskes === 'Unit Transfusi Darah') {
     // Query untuk Unit Transfusi Darah
-    $utd = $this->sina->query("
+    $sql = "
         SELECT
             du.nama_utd AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
@@ -383,21 +403,17 @@ function MonitoringDirjen($faskes, $jenis)
             pus.id
         ORDER BY
             pusd.tanggal_survei DESC
-    ");
+    ";
 
     // Mengembalikan hasil berdasarkan jenis faskes
-    if ($faskes == null) {
-        return [];
-    } elseif ($faskes == "pkm") {
-        return $pkm->result();
-    } elseif ($faskes == "klinik") {
-        return $klinik->result();
-    } elseif ($faskes == "Labkes") {
-        return $labkes->result();
-    } elseif ($faskes == "Utd") {
-        return $utd->result();
+    $query = $this->sina->query($sql);
+            return $query->result();
+
+        } else {
+            // Jika faskes tidak dikenal, kembalikan array kosong
+            return [];
+        }
     }
-}
 
 
 
