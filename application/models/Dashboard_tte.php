@@ -323,7 +323,7 @@ function MonitoringDirjen($faskes, $jenis)
             pus.fasyankes_id IS NOT NULL
             AND dl.nama_lab IS NOT NULL
             AND td.id IS NULL
-            " . $this->db->escape_str($whereJenis) . "
+            ".$whereJenis."
         GROUP BY
             pus.id
         ORDER BY
