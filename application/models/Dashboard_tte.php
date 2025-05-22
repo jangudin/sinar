@@ -393,7 +393,8 @@ function MonitoringDirjen($faskes, $jenis)
     } elseif ($faskes == "klinik") {
         return $klinik->result();
     } elseif ($faskes == "Labkes") {
-        return $labkes->result();
+        echo $query;
+       // return $labkes->result();
     } elseif ($faskes == "Utd") {
         return $utd->result();
     }
