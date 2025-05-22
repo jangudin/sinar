@@ -155,148 +155,282 @@ class Dashboard_tte extends CI_Model
         }
     }
 
-function Monitoringdashboard($faskes, $jenis = null)
+function MonitoringDashboard($faskes, $jenis = null)
 {
     if ($faskes === null) {
         return [];
     }
 
-    // Define base selects and common joins for reuse
-    $commonSelect = "
-        pus.fasyankes_id AS kode_faskes,
-        pus.fasyankes_id_baru AS kode_faskes_baru,
-        (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id) AS tanggal_survei,
-        pr.created_at AS surv,
-        pk.created_at AS peka,
-        pd.created_at AS dir,
-        ds.tgl_nomor_surat,
-        lpaa.inisial AS nmLPA,
-        DATEDIFF(IFNULL(pr.created_at, CURDATE()), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
-        DATEDIFF(IFNULL(pk.created_at, CURDATE()), pr.created_at) AS katim,
-        DATEDIFF(IFNULL(pd.created_at, CURDATE()), pk.created_at) AS direktur,
-        DATEDIFF(IFNULL(ds.tgl_nomor_surat, CURDATE()), ds.created_at) AS adminNomor,
-        DATEDIFF(IFNULL(tl.created_at, CURDATE()), ds.tgl_nomor_surat) AS lpa,
-        DATEDIFF(IFNULL(td.created_at, CURDATE()), tl.created_at) AS dirjen,
-        pk.id AS idk,
-        pd.id AS idd,
-        tl.id AS idl,
-        td.id AS iddir,
-        tl.created_at AS ttelpa,
-        td.created_at AS TTD
-    ";
+    $results = [];
 
-    // Define base joins for all queries
-    $baseJoins = "
-        JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
-        RIGHT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
-        RIGHT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
-        RIGHT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
-        RIGHT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
-        RIGHT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
-        RIGHT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
-        RIGHT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
-        RIGHT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
-        RIGHT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
-        RIGHT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
-        LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
-        LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
-        LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
-        LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
-        LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id
-    ";
-
-    // Initialize dynamic parts
-    $fromClause = '';
-    $additionalWhere = " AND pus.fasyankes_id IS NOT NULL AND td.id IS NULL ";
-    $facilityNameSelect = '';
-    $facilityJoin = '';
-
-    // Choose parts based on $faskes type
     switch (strtolower($faskes)) {
         case 'pkm':
-            $facilityNameSelect = "ppd.`name` AS NamaFaskes";
-            $facilityJoin = "INNER JOIN dbfaskes.puskesmas_pusdatin AS ppd ON pus.fasyankes_id = ppd.kode_sarana";
-            $fromClause = "pengajuan_usulan_survei AS pus $facilityJoin $baseJoins";
+            $results = $this->getPkmData();
             break;
-
         case 'klinik':
-            $facilityNameSelect = "dk.nama_klinik AS NamaFaskes";
-            // Safely escape $jenis if used in query parameterized below
-            $whereJenis = '';
-            if ($jenis !== null) {
-                $jenisLower = strtolower($jenis);
-                $whereJenis = " AND dk.jenis_klinik = ?";
-            } else {
-                $whereJenis = '';
-            }
-            $facilityJoin = "
-                INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
-                INNER JOIN dbfaskes.data_klinik AS dk ON tf.id_faskes = dk.id_faskes
-            ";
-            $fromClause = "pengajuan_usulan_survei AS pus $facilityJoin $baseJoins";
-            $additionalWhere .= " AND dk.nama_klinik IS NOT NULL $whereJenis";
+            $results = $this->getKlinikData($jenis);
             break;
-
         case 'labkes':
-            $facilityNameSelect = "dl.nama_lab AS NamaFaskes";
-
-            // Set jenis filter condition
-            $whereJenis = '';
-            $params = [];
-            if ($jenis !== null) {
-                $jenisLower = strtolower($jenis);
-                if ($jenisLower === 'laboratorium medis') {
-                    $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
-                } elseif ($jenisLower === 'laboratorium kesmas') {
-                    $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
-                }
-            }
-            $facilityJoin = "
-                INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
-                INNER JOIN dbfaskes.data_labkes AS dl ON tf.id_faskes = dl.id_faskes
-            ";
-            $fromClause = "pengajuan_usulan_survei AS pus $facilityJoin $baseJoins";
-            $additionalWhere .= " AND dl.nama_lab IS NOT NULL $whereJenis";
+            $results = $this->getLabkesData($jenis);
             break;
-
         case 'utd':
-            $facilityNameSelect = "du.nama_utd AS NamaFaskes";
-            $facilityJoin = "
-                INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
-                INNER JOIN dbfaskes.data_utd AS du ON tf.id_faskes = du.id_faskes
-            ";
-            $fromClause = "pengajuan_usulan_survei AS pus $facilityJoin $baseJoins";
-            $additionalWhere .= " AND du.nama_utd IS NOT NULL";
+            $results = $this->getUtdData();
             break;
-
         default:
-            // Unknown faskes type
             return [];
     }
 
-    // Final built query
+    return $results;
+}
+
+private function getPkmData()
+{
     $sql = "
         SELECT
-            $facilityNameSelect,
-            $commonSelect
+            ppd.`name` AS NamaFaskes,
+            pus.fasyankes_id AS kode_faskes,
+            pus.fasyankes_id_baru AS kode_faskes_baru,
+            (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id) AS tanggal_survei,
+            pr.created_at AS surv,
+            pk.created_at AS peka,
+            pd.created_at AS dir,
+            ds.tgl_nomor_surat,
+            lpaa.inisial AS nmLPA,
+            DATEDIFF(IFNULL(pr.created_at, CURDATE()), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
+            DATEDIFF(IFNULL(pk.created_at, CURDATE()), pr.created_at) AS katim,
+            DATEDIFF(IFNULL(pd.created_at, CURDATE()), pk.created_at) AS direktur,
+            DATEDIFF(IFNULL(ds.tgl_nomor_surat, CURDATE()), ds.created_at) AS adminNomor,
+            DATEDIFF(IFNULL(tl.created_at, CURDATE()), ds.tgl_nomor_surat) AS lpa,
+            DATEDIFF(IFNULL(td.created_at, CURDATE()), tl.created_at) AS dirjen,
+            pk.id AS idk,
+            pd.id AS idd,
+            tl.id AS idl,
+            td.id AS iddir,
+            tl.created_at AS ttelpa,
+            td.created_at AS TTD
         FROM
-            $fromClause
+            pengajuan_usulan_survei AS pus
+            JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
+            INNER JOIN dbfaskes.puskesmas_pusdatin AS ppd ON pus.fasyankes_id = ppd.kode_sarana
+            LEFT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
+            LEFT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
+            LEFT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
+            LEFT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
+            LEFT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
+            LEFT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
+            LEFT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
+            LEFT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
+            LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
+            LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
+            LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
+            LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
+            LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
         WHERE
-            1=1
-            $additionalWhere
+            pus.fasyankes_id IS NOT NULL
+            AND td.id IS NULL
         GROUP BY
             pus.id
         ORDER BY
             pusd.tanggal_survei DESC
     ";
 
-    // Prepare and execute query safely with parameters if needed
-    if (isset($params) && count($params) > 0) {
-        // Assuming your database layer supports parameterized queries like this:
-        return $this->sina->query($sql, $params)->result();
-    } else {
-        return $this->sina->query($sql)->result();
+    return $this->sina->query($sql)->result();
+}
+
+private function getKlinikData($jenis)
+{
+    $whereJenis = '';
+    if ($jenis !== null) {
+        $jenis_escape = $this->sina->escape($jenis);
+        $whereJenis = " AND dk.jenis_klinik = '$jenis_escape'";
     }
+
+    $sql = "
+        SELECT
+            dk.nama_klinik AS NamaFaskes,
+            pus.fasyankes_id AS kode_faskes,
+            pus.fasyankes_id_baru AS kode_faskes_baru,
+            (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id) AS tanggal_survei,
+            pr.created_at AS surv,
+            pk.created_at AS peka,
+            pd.created_at AS dir,
+            ds.tgl_nomor_surat,
+            lpaa.inisial AS nmLPA,
+            DATEDIFF(IFNULL(pr.created_at, CURDATE()), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
+            DATEDIFF(IFNULL(pk.created_at, CURDATE()), pr.created_at) AS katim,
+            DATEDIFF(IFNULL(pd.created_at, CURDATE()), pk.created_at) AS direktur,
+            DATEDIFF(IFNULL(ds.tgl_nomor_surat, CURDATE()), ds.created_at) AS adminNomor,
+            DATEDIFF(IFNULL(tl.created_at, CURDATE()), ds.tgl_nomor_surat) AS lpa,
+            DATEDIFF(IFNULL(td.created_at, CURDATE()), tl.created_at) AS dirjen,
+            pk.id AS idk,
+            pd.id AS idd,
+            tl.id AS idl,
+            td.id AS iddir,
+            tl.created_at AS ttelpa,
+            td.created_at AS TTD
+        FROM
+            pengajuan_usulan_survei AS pus
+            JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
+            INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
+            INNER JOIN dbfaskes.data_klinik AS dk ON tf.id_faskes = dk.id_faskes
+            LEFT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
+            LEFT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
+            LEFT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
+            LEFT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
+            LEFT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
+            LEFT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
+            LEFT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
+            LEFT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
+            LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
+            LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
+            LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
+            LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
+            LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
+        WHERE
+            pus.fasyankes_id IS NOT NULL
+            AND dk.nama_klinik IS NOT NULL
+            AND td.id IS NULL
+            $whereJenis
+        GROUP BY
+            pus.id
+        ORDER BY
+            pusd.tanggal_survei DESC
+    ";
+
+    return $this->sina->query($sql)->result();
+}
+
+private function getLabkesData($jenis)
+{
+    $whereJenis = '';
+    if ($jenis !== null) {
+        $jenis_escape = $this->sina->escape($jenis);
+        if (strtolower($jenis) === 'laboratorium medis') {
+            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis'";
+        } elseif (strtolower($jenis) === 'laboratorium kesmas') {
+            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis'";
+        }
+    }
+
+    $sql = "
+        SELECT
+            dl.nama_lab AS NamaFaskes,
+            pus.fasyankes_id AS kode_faskes,
+            pus.fasyankes_id_baru AS kode_faskes_baru,
+            (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id) AS tanggal_survei,
+            pr.created_at AS surv,
+            pk.created_at AS peka,
+            pd.created_at AS dir,
+            tl.created_at AS ttelpa,
+            ds.tgl_nomor_surat,
+            lpaa.inisial AS nmLPA,
+            DATEDIFF(IFNULL(pr.created_at, CURDATE()), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
+            DATEDIFF(IFNULL(pk.created_at, CURDATE()), pr.created_at) AS katim,
+            DATEDIFF(IFNULL(pd.created_at, CURDATE()), pk.created_at) AS direktur,
+            DATEDIFF(IFNULL(ds.tgl_nomor_surat, CURDATE()), ds.created_at) AS adminNomor,
+            DATEDIFF(IFNULL(tl.created_at, CURDATE()), ds.tgl_nomor_surat) AS lpa,
+            DATEDIFF(IFNULL(td.created_at, CURDATE()), tl.created_at) AS dirjen,
+            pk.id AS idk,
+            pd.id AS idd,
+            tl.id AS idl,
+            td.id AS iddir,
+            tl.created_at AS ttelpa,
+            td.created_at AS TTD
+        FROM
+            pengajuan_usulan_survei AS pus
+            JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
+            INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
+            INNER JOIN dbfaskes.data_labkes AS dl ON tf.id_faskes = dl.id_faskes
+            LEFT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
+            LEFT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
+            LEFT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
+            LEFT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
+            LEFT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
+            LEFT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
+            LEFT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
+            LEFT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
+            LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
+            LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
+            LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
+            LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
+            LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
+        WHERE
+            pus.fasyankes_id IS NOT NULL
+            AND dl.nama_lab IS NOT NULL
+            AND td.id IS NULL
+            $whereJenis
+        GROUP BY
+            pus.id
+        ORDER BY
+            pusd.tanggal_survei DESC
+    ";
+
+    return $this->sina->query($sql)->result();
+}
+
+private function getUtdData()
+{
+    $sql = "
+        SELECT
+            du.nama_utd AS NamaFaskes,
+            pus.fasyankes_id AS kode_faskes,
+            pus.fasyankes_id_baru AS kode_faskes_baru,
+            (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id) AS tanggal_survei,
+            pr.created_at AS surv,
+            pk.created_at AS peka,
+            pd.created_at AS dir,
+            tl.created_at AS ttelpa,
+            ds.tgl_nomor_surat,
+            lpaa.inisial AS nmLPA,
+            DATEDIFF(IFNULL(pr.created_at, CURDATE()), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
+            DATEDIFF(IFNULL(pk.created_at, CURDATE()), pr.created_at) AS katim,
+            DATEDIFF(IFNULL(pd.created_at, CURDATE()), pk.created_at) AS direktur,
+            DATEDIFF(IFNULL(ds.tgl_nomor_surat, CURDATE()), ds.created_at) AS adminNomor,
+            DATEDIFF(IFNULL(tl.created_at, CURDATE()), ds.tgl_nomor_surat) AS lpa,
+            DATEDIFF(IFNULL(td.created_at, CURDATE()), tl.created_at) AS dirjen,
+            pk.id AS idk,
+            pd.id AS idd,
+            tl.id AS idl,
+            td.id AS iddir,
+            tl.created_at AS ttelpa,
+            td.created_at AS TTD
+        FROM
+            pengajuan_usulan_survei AS pus
+            JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
+            INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
+            INNER JOIN dbfaskes.data_utd AS du ON tf.id_faskes = du.id_faskes
+            LEFT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
+            LEFT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
+            LEFT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
+            LEFT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
+            LEFT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
+            LEFT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
+            LEFT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
+            LEFT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
+            LEFT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
+            LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
+            LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
+            LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
+            LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
+            LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
+        WHERE
+            pus.fasyankes_id IS NOT NULL
+            AND du.nama_utd IS NOT NULL
+            AND td.id IS NULL
+        GROUP BY
+            pus.id
+        ORDER BY
+            pusd.tanggal_survei DESC
+    ";
+
+    return $this->sina->query($sql)->result();
 }
 
 
