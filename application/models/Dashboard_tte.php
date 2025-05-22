@@ -155,145 +155,6 @@ class Dashboard_tte extends CI_Model
         }
     }
 
-
-function MonitoringDashboard($faskes, $jenis = null)
-{
-    if ($faskes === null) {
-        return [];
-    }
-
-    // Escape $jenis if provided, else null
-    $escapedJenis = null;
-    if ($jenis !== null) {
-        if (method_exists($this->sina, 'escape')) {
-            $escapedJenis = $this->sina->escape($jenis);
-        } else {
-            // fallback if no escape method, naive manual escape (NOT recommended for production)
-            $escapedJenis = addslashes($jenis);
-        }
-    }
-
-    // Define variables to adjust per faskes type
-    $facilitySelect = "";
-    $facilityJoin = "";
-    $additionalWhere = " AND pus.fasyankes_id IS NOT NULL AND td.id IS NULL ";
-
-    // Handle each faskes type
-    switch (strtolower($faskes)) {
-        case "pkm":
-            $facilitySelect = "ppd.`name` AS NamaFaskes";
-            $facilityJoin = "INNER JOIN dbfaskes.puskesmas_pusdatin AS ppd ON pus.fasyankes_id = ppd.kode_sarana";
-            break;
-
-        case "klinik":
-            $facilitySelect = "dk.nama_klinik AS NamaFaskes";
-            $facilityJoin = "
-                INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
-                INNER JOIN dbfaskes.data_klinik AS dk ON tf.id_faskes = dk.id_faskes
-            ";
-            if ($escapedJenis !== null) {
-                $additionalWhere .= " AND dk.jenis_klinik = '$escapedJenis' AND dk.nama_klinik IS NOT NULL ";
-            } else {
-                $additionalWhere .= " AND dk.nama_klinik IS NOT NULL ";
-            }
-            break;
-
-        case "labkes":
-            $facilitySelect = "dl.nama_lab AS NamaFaskes";
-            $facilityJoin = "
-                INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
-                INNER JOIN dbfaskes.data_labkes AS dl ON tf.id_faskes = dl.id_faskes
-            ";
-            // Add jenis condition if given
-            if ($escapedJenis !== null) {
-                if (strtolower($escapedJenis) === 'laboratorium medis') {
-                    $additionalWhere .= " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
-                } elseif (strtolower($escapedJenis) === 'laboratorium kesmas') {
-                    $additionalWhere .= " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
-                }
-            }
-            $additionalWhere .= " AND dl.nama_lab IS NOT NULL ";
-            break;
-
-        case "utd":
-            $facilitySelect = "du.nama_utd AS NamaFaskes";
-            $facilityJoin = "
-                INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
-                INNER JOIN dbfaskes.data_utd AS du ON tf.id_faskes = du.id_faskes
-            ";
-            $additionalWhere .= " AND du.nama_utd IS NOT NULL ";
-            break;
-
-        default:
-            // Unknown faskes type return empty
-            return [];
-    }
-
-    // Build the full SQL query
-    $sql = "
-        SELECT
-            $facilitySelect,
-            pus.fasyankes_id AS kode_faskes,
-            pus.fasyankes_id_baru AS kode_faskes_baru,
-            (
-                SELECT MAX(pusd2.tanggal_survei) 
-                FROM pengajuan_usulan_survei_detail AS pusd2 
-                WHERE pusd2.pengajuan_usulan_survei_id = pus.id
-            ) AS tanggal_survei,
-            pr.created_at AS surv,
-            pk.created_at AS peka,
-            pd.created_at AS dir,
-            ds.tgl_nomor_surat,
-            lpaa.inisial AS nmLPA,
-            DATEDIFF(IFNULL(pr.created_at, CURDATE()), (
-                SELECT MAX(pusd2.tanggal_survei) 
-                FROM pengajuan_usulan_survei_detail AS pusd2 
-                WHERE pusd2.pengajuan_usulan_survei_id = pus.id
-            )) AS rekom,
-            DATEDIFF(IFNULL(pk.created_at, CURDATE()), pr.created_at) AS katim,
-            DATEDIFF(IFNULL(pd.created_at, CURDATE()), pk.created_at) AS direktur,
-            DATEDIFF(IFNULL(ds.tgl_nomor_surat, CURDATE()), ds.created_at) AS adminNomor,
-            DATEDIFF(IFNULL(tl.created_at, CURDATE()), ds.tgl_nomor_surat) AS lpa,
-            DATEDIFF(IFNULL(td.created_at, CURDATE()), tl.created_at) AS dirjen,
-            pk.id AS idk,
-            pd.id AS idd,
-            tl.id AS idl,
-            td.id AS iddir,
-            tl.created_at AS ttelpa,
-            td.created_at AS TTD
-        FROM pengajuan_usulan_survei AS pus
-        JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
-        $facilityJoin
-        LEFT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
-        LEFT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
-        LEFT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
-        LEFT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
-        LEFT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
-        LEFT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
-        LEFT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
-        LEFT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
-        LEFT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
-        LEFT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
-        LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
-        LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
-        LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
-        LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
-        LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id
-        WHERE 1=1
-        $additionalWhere
-        GROUP BY pus.id
-        ORDER BY pusd.tanggal_survei DESC
-    ";
-
-    $query = $this->sina->query($sql);
-    if (!$query) {
-        // Query failed, handle error or return empty
-        return [];
-    }
-    return $query->result();
-}
-
-
 function MonitoringDirjen($faskes, $jenis)
 {
     // Query untuk Pusat Kesehatan Masyarakat
@@ -403,21 +264,15 @@ function MonitoringDirjen($faskes, $jenis)
             pusd.tanggal_survei DESC
     ");
 
-       
     // Query untuk Laboratorium Kesehatan
-            if ($jenis === null) {
-                return []; // Bila jenis tidak ada kembalikan kosong
-            }
-            // Escape input jenis
-            $jenis_escape = $this->sina->escape($jenis);
+        $whereJenis = '';
+        $jenisLower = strtolower($jenis ?? ''); // Menggunakan null coalescing operator untuk menghindari null
 
-            // Kondisi tambahan untuk Laboratorium Kesehatan berdasarkan $jenis
-                $whereJenis = '';
-            if (strtolower($jenis) === 'laboratorium medis') {
-                $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
-            } elseif (strtolower($jenis) === 'laboratorium kesmas') {
-                $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
-            }
+        if ($jenisLower === 'laboratorium medis') {
+            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+        } elseif ($jenisLower === 'laboratorium kesmas') {
+            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
+        }
 
 
     $labkes = $this->sina->query("
