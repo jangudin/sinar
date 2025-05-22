@@ -61,23 +61,23 @@ class DirjenYankes extends CI_Controller {
 
 
 
-   public function monitoring($faskes = null, $jenis = null)
-   {
-
+public function monitoring($faskes = null, $jenis = null)
+{
     $faskes = $faskes !== null ? urldecode($faskes) : null;
     $jenis = $jenis !== null ? urldecode($jenis) : null;
 
-    $datam = $this->Dashboard_tte->MonitoringDirjen($faskes, $jenis);
-    $last_query = $this->sina->last_query();
-
-    // Tampilkan query untuk debugging
-    echo "<pre>Query terakhir: " . $last_query . "</pre>";
-
-    $data = array('contents' => 'dashboard/monitoringDirjen',
-        'datam'    => $datam,
+    $data = array(
+        'contents' => 'dashboard/monitoringDirjen',
+        'datam'    => [],
+        'faskes'   => $faskes,
+        'jenis'    => $jenis
     );
- // echo json_encode($data['datam']);
-    $this->load->view('List_Rekomendasi',$data);
+
+    if ($faskes !== null || $jenis !== null) {
+        $data['datam'] = $this->Dashboard_tte->MonitoringDirjen($faskes, $jenis);
+    }
+
+    $this->load->view('List_Rekomendasi', $data);
 }
 
 public function tpmd()

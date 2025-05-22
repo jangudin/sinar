@@ -36,12 +36,12 @@
             </ul>
             <div class="clearfix"></div>
             <a href="<?php echo base_url('DirjenYankes/monitoring_rs') ?>" class="btn btn-success">Rumah Sakit</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/pkm') ?>" class="btn btn-success">Puskesmas</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/klinik/Pratama') ?>" class="btn btn-success">Klinik Pratama</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/klinik/Utama') ?>" class="btn btn-success">Klinik Utama</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/Laboratorium/Laboratorium medis') ?>" class="btn btn-success">Lab Medis</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/Laboratorium/Laboratorium kesmas') ?>" class="btn btn-success">Lab Kesmas</a>
-            <a href="<?php echo base_url('DirjenYankes/monitoring/Utd') ?>" class="btn btn-success">UTD</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/' . urlencode('Pusat Kesehatan Masyarakat')) ?>" class="btn btn-success">Puskesmas</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/' . urlencode('klinik') . '/' . urlencode('Pratama')) ?>" class="btn btn-success">Klinik Pratama</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/' . urlencode('klinik') . '/' . urlencode('Utama')) ?>" class="btn btn-success">Klinik Utama</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/' . urlencode('Laboratorium') . '/' . urlencode('Laboratorium medis')) ?>" class="btn btn-success">Lab Medis</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/' . urlencode('Laboratorium') . '/' . urlencode('Laboratorium kesmas')) ?>" class="btn btn-success">Lab Kesmas</a>
+            <a href="<?php echo base_url('DirjenYankes/monitoring/' . urlencode('Utd')) ?>" class="btn btn-success">UTD</a>
             <a href="<?php echo base_url('DirjenYankes/monitoring_tpmd') ?>" class="btn btn-success">TPMD/TPMDG</a>
           </div>
 
