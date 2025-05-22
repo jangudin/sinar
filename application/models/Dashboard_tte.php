@@ -335,13 +335,13 @@ SQL
             WHERE pus.fasyankes_id IS NOT NULL
             AND dl.nama_lab IS NOT NULL
             AND td.id IS NULL
-            --WHEREJENIS
+            /*WHEREJENIS*/
             GROUP BY
             pus.id
             ORDER BY
             tanggal_survei DESC
         ";
-        $sql = str_replace('--WHEREJENIS--', $whereJenis, $sql);
+        $sql = str_replace('/*WHEREJENIS*/', $whereJenis, $sql);
         $query = $this->sina->query($sql);
         return $query->result();
     }
