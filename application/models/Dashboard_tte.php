@@ -347,8 +347,13 @@ function MonitoringDirjen($faskes, $jenis)
         ORDER BY
             pusd.tanggal_survei DESC
     ";
-    $query = $this->sina->query($sql);
-    return $query->result();
+    $last_query = $this->sina->last_query();
+
+    // Tampilkan query untuk debugging
+    echo "<pre>Query terakhir: " . $last_query . "</pre>";
+
+    // $query = $this->sina->query($sql);
+    // return $query->result();
      } elseif ($faskes === 'Unit Transfusi Darah') {
     // Query untuk Unit Transfusi Darah
     $sql = "
