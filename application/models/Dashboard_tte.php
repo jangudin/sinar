@@ -275,7 +275,7 @@ function MonitoringDirjen($faskes, $jenis)
         }
 
 
-    $labkes = $this->sina->query("
+    $labkes = "
         SELECT
             dl.nama_lab AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
@@ -328,7 +328,7 @@ function MonitoringDirjen($faskes, $jenis)
             pus.id
         ORDER BY
             pusd.tanggal_survei DESC
-    ");
+    ";
 
     // Query untuk Unit Transfusi Darah
     $utd = $this->sina->query("
