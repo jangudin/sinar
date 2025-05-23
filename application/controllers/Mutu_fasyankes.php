@@ -36,6 +36,16 @@ public function monitoring()
     $this->load->view('List_Rekomendasi',$data);
 }
 
+public function tpmdbelumverifikasi()
+{
+    // $faskes = $this->uri->segment(3) ?? null;
+    $data = array('contents' => 'tpmdbelumverifikasi',
+    //  'datam'    => $this->Dashboard_tte->tpmdbelumverifikasi($faskes)
+ );
+   // echo json_encode($data);
+    $this->load->view('List_Rekomendasi',$data);
+}
+
 public function tpmd()
 {
         $timestamp = time(); // Generate current timestamp automatically
