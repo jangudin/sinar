@@ -67,52 +67,52 @@
             
           <h2>Hasil API Verifikasi</h2>
 
-                    <?php if (isset($api_result['error'])): ?>
-                        <p>Error: <?php echo htmlspecialchars($api_result['error']); ?></p>
-                    <?php else: ?>
-                        <?php if (!empty($api_result)): ?>
-                            <table border="1" cellpadding="5" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>ID Faskes</th>
-                                        <th>Kode Faskes</th>
-                                        <th>Tanggal Usulan</th>
-                                        <th>Created At</th>
-                                        <th>Modified At</th>
-                                        <th>ID Kategori PM</th>
-                                        <th>Status Verifikasi</th>
-                                        <th>Status Sertifikat</th>
-                                        <th>Keterangan</th>
-                                        <th>Status Setuju Katim</th>
-                                        <th>Keterangan Katim</th>
-                                        <th>Tanggal Setuju Katim</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($api_result as $item): ?>
-                                        <tr>
-                                            <td><?php echo htmlspecialchars($item['id'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['id_faskes'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['kode_faskes'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['tanggal_usulan'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['created_at'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['modified_at'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['id_kategori_pm'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['status_verifikasi'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['status_sertifikat'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['keterangan'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['status_setuju_katim'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['keterangan_katim'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($item['tanggal_setuju_katim'] ?? ''); ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        <?php else: ?>
-                            <p>Tidak ada data untuk ditampilkan.</p>
-                        <?php endif; ?>
-                    <?php endif; ?>
+<?php if (isset($api_result['error'])): ?>
+    <p>Error: <?php echo htmlspecialchars($api_result['error']); ?></p>
+<?php else: ?>
+    <?php if (!empty($api_result)): ?>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Faskes</th>
+                    <th>Kode Faskes</th>
+                    <th>Tanggal Usulan</th>
+                    <th>Created At</th>
+                    <th>Modified At</th>
+                    <th>ID Kategori PM</th>
+                    <th>Status Verifikasi</th>
+                    <th>Status Sertifikat</th>
+                    <th>Keterangan</th>
+                    <th>Status Setuju Katim</th>
+                    <th>Keterangan Katim</th>
+                    <th>Tanggal Setuju Katim</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($api_result as $item): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($item['id'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['id_faskes'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['kode_faskes'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['tanggal_usulan'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['created_at'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['modified_at'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['id_kategori_pm'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['status_verifikasi'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['status_sertifikat'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['keterangan'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['status_setuju_katim'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['keterangan_katim'] ?? ''); ?></td>
+                        <td><?php echo htmlspecialchars($item['tanggal_setuju_katim'] ?? ''); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Tidak ada data untuk ditampilkan.</p>
+    <?php endif; ?>
+<?php endif; ?>
 
           
         </div>
