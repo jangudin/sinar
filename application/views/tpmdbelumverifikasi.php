@@ -92,19 +92,19 @@
                                 <tbody>
                                     <?php foreach ($api_result as $item): ?>
                                         <tr>
-                                            <td><?php echo htmlspecialchars($item['id']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['id_faskes']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['kode_faskes']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['tanggal_usulan']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['created_at']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['modified_at']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['id_kategori_pm']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['status_verifikasi']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['status_sertifikat']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['keterangan']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['status_setuju_katim']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['keterangan_katim']); ?></td>
-                                            <td><?php echo htmlspecialchars($item['tanggal_setuju_katim']); ?></td>
+                                            <td><?php echo htmlspecialchars($item['id'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['id_faskes'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['kode_faskes'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['tanggal_usulan'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['created_at'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['modified_at'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['id_kategori_pm'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['status_verifikasi'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['status_sertifikat'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['keterangan'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['status_setuju_katim'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['keterangan_katim'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($item['tanggal_setuju_katim'] ?? ''); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
