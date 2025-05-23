@@ -40,14 +40,14 @@
               </a>
             </div>
             <div class="btn-group">
-              <a type="button" class="btn btn-success" href="<?php echo base_url('Mutu_fasyankes/nonrsbelumverifikasi/Laboratorium Kesehatan/Laboratorium Kesehatan') ?>">
-                Lab Kesmas
+              <a type="button" class="btn btn-success" href="<?php echo base_url('Mutu_fasyankes/tpmdbelumverifikasi') ?>">
+                TPMD (On Progres)
               </a>
             </div>
             <?php }else { ?>
              <div class="btn-group">
-              <a type="button" class="btn btn-success" href="<?php echo base_url('Mutu_fasyankes/tpmdbelumverifikasi') ?>">
-                TPMD (On Progres)
+              <a type="button" class="btn btn-success" href="<?php echo base_url('Mutu_fasyankes/nonrsbelumverifikasi/Klinik/Utama') ?>">
+                Klinik Utama
               </a>
             </div>
             <div class="btn-group">
