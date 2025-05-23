@@ -81,7 +81,13 @@
               </tr>
             </thead>
             <tbody>
-              
+              <h2>Hasil API Verifikasi</h2>
+
+                <?php if (isset($api_result['error'])): ?>
+                    <p>Error: <?php echo htmlspecialchars($api_result['error']); ?></p>
+                <?php else: ?>
+                    <pre><?php print_r($api_result); ?></pre>
+                <?php endif; ?>
             </tbody>
           </table>
         </div>
