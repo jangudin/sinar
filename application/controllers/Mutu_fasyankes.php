@@ -7,6 +7,7 @@ class Mutu_fasyankes extends CI_Controller {
       $this->load->model('Dashboard_tte');
       $this->load->model('Tte_non_rs');
       $this->load->model('New_progres');
+      $this->load->model('Api_model');
       $this->sina = $this->load->database('sina', TRUE);
       $this->dbfaskes = $this->load->database('dbfaskes', TRUE);
       $this->load->helper('tanggal_indonesia');
@@ -37,14 +38,17 @@ public function monitoring()
 }
 
 public function tpmdbelumverifikasi()
-{
-    // $faskes = $this->uri->segment(3) ?? null;
-    $data = array('contents' => 'tpmdbelumverifikasi',
-    //  'datam'    => $this->Dashboard_tte->tpmdbelumverifikasi($faskes)
- );
-   // echo json_encode($data);
-    $this->load->view('List_Rekomendasi',$data);
-}
+    {
+        // Call the API model method to get verification status
+        $api_result = $this->Api_model->check_verification_status();
+        // Prepare data array to pass to the view
+        $data = array(
+            'contents' => 'tpmdbelumverifikasi',
+            'api_result' => $api_result
+        );
+        // Load the view with the data
+        $this->load->view('List_Rekomendasi', $data);
+    }
 
 public function tpmd()
 {
