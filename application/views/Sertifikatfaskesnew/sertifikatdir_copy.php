@@ -133,12 +133,6 @@
       font-weight: bold;
     }
 
-    .ttd-date {
-        position: absolute;
-        bottom: 90px;  /* Sesuaikan nilai ini untuk mengatur jarak dari bawah */
-        right: 150px;   /* Sesuaikan dengan posisi ttd dirjen */
-    }
-
     /* Responsiveness */
     @media (max-width: 768px) {
       .sertifikat-nama {
@@ -252,7 +246,7 @@
             <img src="<?= $s->logo ?>" height="90" style="position: absolute; bottom: 80px; left: 200px;" />
         </div>
         <div class="ttddirjen">
-            <p class="ttd-date">Jakarta, <?= format_indo($s->tgl_nomor_surat);?></p>
+            <p class="mt-4">Jakarta, <?= format_indo($s->tgl_nomor_surat);?></p>
             <img src="<?= $dir ?>" height="90" style="position: absolute; bottom: 80px; right: 200px;" />
         </div>
     </main>
