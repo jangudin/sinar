@@ -187,8 +187,8 @@
                 Puskesmas
               <?php elseif ($s->jenis_faskes == 'Klinik'): ?>
                 Klinik
-              <?php elseif ($s->jenis_faskes == 'Laboratorium Kesehatan'): ?>
-                Labkes
+              <?php elseif ($s->jenis_faskes == 'Laboratorium'): ?>
+                Laboratorium
               <?php elseif ($s->jenis_faskes == 'Unit Transfusi Darah'): ?>
                 UTD
               <?php endif; ?>

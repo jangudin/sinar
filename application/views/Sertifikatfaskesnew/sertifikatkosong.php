@@ -181,7 +181,7 @@
               <?php elseif ($s->jenis_fasyankes_nama == 'Klinik'): ?>
                 Klinik
               <?php elseif ($s->jenis_fasyankes_nama == 'Laboratorium'): ?>
-                Labkes
+                Laboratorium
               <?php elseif ($s->jenis_fasyankes_nama == 'Unit Transfusi Darah'): ?>
                 UTD
               <?php endif; ?>
