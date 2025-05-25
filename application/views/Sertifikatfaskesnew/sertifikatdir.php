@@ -135,8 +135,8 @@
 
     .ttd-date {
         position: absolute;
-        bottom: 150px;  /* Sesuaikan nilai ini untuk mengatur jarak dari bawah */
-        right: 200px;   /* Sesuaikan dengan posisi ttd dirjen */
+        bottom: 155px;  /* Sesuaikan nilai ini untuk mengatur jarak dari bawah */
+        right: 210px;   /* Sesuaikan dengan posisi ttd dirjen */
     }
 
     /* Responsiveness */
