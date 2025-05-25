@@ -86,7 +86,7 @@
                   <?php endif; ?>
 
                 <?php else: ?>
-                   <h4> Jika Sertifikat Blank Silahkan klik button <a class="btn btn-primary" href="<?php echo base_url('AkreditasiNonRS/Generate_ulang/'.$s->jenis_faskes.'/'.$s->kode_faskes.'/'.$idp) ?>" role="button">REFRESH</a></h4><br/>
+                   <h4> Jika Sertifikat Blank Silahkan klik button <a class="btn btn-primary" href="<?php echo base_url('AkreditasiNonRS/filesertifikatkosong/'.$s->kode_faskes.'/'.$idp) ?>" role="button">REFRESH</a></h4><br/>
                     <label>Sertifikat <a href="<?= $hasiltte ?>" target="_blank">(Layar Penuh)</a></label><br/>
                     <iframe src="<?= $hasiltte ?>" frameborder="0" width="100%" height="800px"></iframe>
                     <br />
