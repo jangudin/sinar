@@ -1,0 +1,9 @@
+{
+    "window.autoDetectColorScheme": true,
+    "window.closeWhenEmpty": false,
+    "git.allowForcePush": true,
+    "git.allowNoVerifyCommit": true,
+    "git.alwaysSignOff": true,
+    "git.autofetch": "all",
+    "editor.fontLigatures": false
+}

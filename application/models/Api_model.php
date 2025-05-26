@@ -45,4 +45,41 @@ class Api_model extends CI_Model {
 
         return $result; // Return the decoded response
     }
+
+    public function sync_and_save_verification() {
+        $api_data = $this->check_verification_status();
+        
+        if (isset($api_data['error'])) {
+            return false;
+        }
+
+        // Simpan timestamp terakhir sync
+        $this->session->set_userdata('last_sync', date('Y-m-d H:i:s'));
+        
+        foreach ($api_data as $data) {
+            $insert_data = array(
+                'id_faskes' => $data['id_faskes'],
+                'kode_faskes' => $data['kode_faskes'],
+                'tanggal_usulan' => $data['tanggal_usulan'],
+                'status_verifikasi' => $data['status_verifikasi'],
+                'status_sertifikat' => $data['status_sertifikat'],
+                'status_setuju_katim' => $data['status_setuju_katim'],
+                'keterangan_katim' => $data['keterangan_katim'],
+                'tanggal_setuju_katim' => $data['tanggal_setuju_katim'],
+                'last_sync' => date('Y-m-d H:i:s')
+            );
+
+            // Cek data existing
+            $existing = $this->db->get_where('verifikasi_api', 
+                array('kode_faskes' => $data['kode_faskes']))->row();
+
+            if ($existing) {
+                $this->db->where('kode_faskes', $data['kode_faskes']);
+                $this->db->update('verifikasi_api', $insert_data);
+            } else {
+                $this->db->insert('verifikasi_api', $insert_data);
+            }
+        }
+        return true;
+    }
 }

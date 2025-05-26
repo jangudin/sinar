@@ -41,11 +41,43 @@ public function tpmdbelumverifikasi()
     {
         // Call the API model method to get verification status
         $api_result = $this->Api_model->check_verification_status();
+
+        // Simpan ke database
+        if (!empty($api_result)) {
+            foreach ($api_result as $row) {
+                $data_insert = array(
+                    'id_faskes'            => $row['id_faskes'],
+                    'kode_faskes'          => $row['kode_faskes'],
+                    'tanggal_usulan'       => $row['tanggal_usulan'],
+                    'status_verifikasi'    => $row['status_verifikasi'],
+                    'status_sertifikat'    => $row['status_sertifikat'],
+                    'status_setuju_katim'  => $row['status_setuju_katim'],
+                    'keterangan_katim'     => $row['keterangan_katim'],
+                    'tanggal_setuju_katim' => $row['tanggal_setuju_katim'],
+                    'last_sync'            => date('Y-m-d H:i:s')
+                );
+
+                // Cek apakah data sudah ada
+                $exists = $this->sina->get_where('verifikasi_api', 
+                    array('kode_faskes' => $row['kode_faskes']))->row();
+
+                if ($exists) {
+                    // Update jika sudah ada
+                    $this->sina->where('kode_faskes', $row['kode_faskes']);
+                    $this->sina->update('verifikasi_api', $data_insert);
+                } else {
+                    // Insert jika belum ada
+                    $this->sina->insert('verifikasi_api', $data_insert);
+                }
+            }
+        }
+
         // Prepare data array to pass to the view
         $data = array(
             'contents' => 'tpmdbelumverifikasi',
             'api_result' => $api_result
         );
+
         // Load the view with the data
         $this->load->view('List_Rekomendasi', $data);
     }
