@@ -818,21 +818,24 @@ public function tpmd_detail($id_pengajuan = null)
     }
 
     // Query untuk mendapatkan detail TPMD
-    $query = "SELECT 
-                va.*,
-                dp.nama_pm,
-                dp.alamat,
-                dp.kecamatan,
-                dp.kab_kota,
-                dp.provinsi,
-                dst.status as status_sertifikat,
-                dst.file_tte_dir
-             FROM verifikasi_api va
-             LEFT JOIN dbfaskes.data_pm dp 
-                ON va.id_faskes = dp.id_faskes
-             LEFT JOIN data_sertifikat_tpmd dst 
-                ON va.kode_faskes = dst.kode_faskes
-             WHERE va.id_pengajuan = ?";
+    $query = "SELECT
+                    db_akreditasi_non_rs.verifikasi_api.id,
+                    db_akreditasi_non_rs.verifikasi_api.kode_faskes,
+                    db_akreditasi_non_rs.verifikasi_api.id_faskes,
+                    dbfaskes.data_pm.nama_pm,
+                    dbfaskes.propinsi_dagri.nama_prop,
+                    dbfaskes.kota.nama_kota,
+                    dbfaskes.kecamatan.nama_camat,
+                    dbfaskes.data_pm.alamat_faskes 
+                FROM
+                    db_akreditasi_non_rs.verifikasi_api
+                    LEFT JOIN db_akreditasi_non_rs.data_sertifikat_tpmd ON verifikasi_api.kode_faskes = data_sertifikat_tpmd.kode_faskes
+                    LEFT JOIN dbfaskes.data_pm ON db_akreditasi_non_rs.verifikasi_api.id_faskes = dbfaskes.data_pm.id_faskes
+                    LEFT JOIN dbfaskes.propinsi_dagri ON dbfaskes.data_pm.id_prov_pm = dbfaskes.propinsi_dagri.id_prop
+                    LEFT JOIN dbfaskes.kota ON dbfaskes.data_pm.id_kota_pm = dbfaskes.kota.id_kota
+                    LEFT JOIN dbfaskes.kecamatan ON dbfaskes.data_pm.id_camat_pm = dbfaskes.kecamatan.id_camat 
+                WHERE
+                    verifikasi_api.id_pengajuan = ?";
 
     $detail = $this->sina->query($query, [$id_pengajuan])->row();
 
