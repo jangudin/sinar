@@ -819,6 +819,7 @@ public function tpmd_detail($id_pengajuan = null)
 
     // Query untuk mendapatkan detail TPMD
     $query = "SELECT
+                    verifikasi_api.status_setuju_katim,
                     db_akreditasi_non_rs.verifikasi_api.id,
                     db_akreditasi_non_rs.verifikasi_api.kode_faskes,
                     db_akreditasi_non_rs.verifikasi_api.id_faskes,
