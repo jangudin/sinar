@@ -77,23 +77,31 @@
                       width: 300px;
                       border: 3px solid #73AD21;
                     }
-            .capayanimgparipurna {
+            .capayan-container {
+                    position: fixed;
+                    width: 100%;
+                    text-align: center;
                     top: 55%;
-                      left:33 %;
-                      position: fixed;
-                      marging: auto;
+                    left: 0;
+                    right: 0;
+                }
+            .capayanimgparipurna {
+                    display: block;
+                    margin: 0 auto;
+                    max-width: 370px;
+                    height: 120px;
                   }
             .capayanimgutama {
-                    top: 55%;
-                      left:33 %;
-                      position: fixed;
-                      marging: auto;
+                    display: block;
+                    margin: 0 auto;
+                    max-width: 370px;
+                    height: 120px;
                   }
             .capayanimgmadya {
-                    top: 55%;
-                      left:33 %;
-                      position: fixed;
-                      marging: auto;
+                    display: block;
+                    margin: 0 auto;
+                    max-width: 370px;
+                    height: 120px;
                   }
           .bsd{
                     top: 63%;
@@ -134,7 +142,7 @@
             <h2 class="mt-4 mb-5">Tingkat Kelulusan</h2>
           </div>
 
-          <div>
+          <div class="capayan-container">
         <?php if ($s->capayan == 'Utama'): ?>
             <img src="https://sinar.kemkes.go.id/assets/capayan/UtamaLarsi.png" alt=""height=120 width=370 class="capayanimgutama"></img>
         <?php elseif ($s->capayan == 'Madya'): ?>

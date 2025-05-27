@@ -1,177 +1,164 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
+    
     <style>
-      .nmrs {
-        font-family: 'Germania One', cursive;
-      }
+        /* Page Setup */
+        @page {
+            margin: 0cm 0cm;
+        }
+        
+        body {
+            margin-top: 180px;
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        /* Watermark */
+        #watermark {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 29.7cm;
+            height: 42cm;
+            z-index: -1000;
+        }
+        
+        /* Certificate Components */
+        .sertifikat-nomor {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 140px;
+        }
+        
+        .sertifikat-nama {
+            position: fixed;
+            top: 33%;
+            left: 15%;
+            width: 800px;
+            text-align: center;
+        }
+        
+        .sertifikat-tingkat {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 51%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+        
+        .capayan-container {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 55%;
+            left: 0;
+            right: 0;
+        }
+        
+        .bsd {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 63%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+        
+        .mengetahui {
+            position: fixed;
+            top: 72%;
+            left: 14%;
+        }
+        
+        /* Typography */
+        .sertifikat-nomor h2,
+        .sertifikat-tingkat h2,
+        .bsd h3 {
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+        }
+        
+        .nmrs {
+            font-family: 'Germania One', cursive;
+        }
+        
+        /* Images */
+        .capayanimgparipurna,
+        .capayanimgutama,
+        .capayanimgmadya {
+            display: block;
+            margin: 0 auto;
+            max-width: 370px;
+            height: 120px;
+        }
     </style>
-    <style>
-            /** 
-            * Set the margins of the PDF to 0
-            * so the background image will cover the entire page.
-            **/
-            @page {
-                margin: 0cm 0cm;
-            }
+</head>
 
-            /**
-            * Define the real margins of the content of your PDF
-            * Here you will fix the margins of the header and footer
-            * Of your background image.
-            **/
-            body {
-                margin-top:    180px;
-                margin-bottom: 0cm;
-                margin-left:   0cm;
-                margin-right:  0cm;
-            }
-
-            /** 
-            * Define the width, height, margins and position of the watermark.
-            **/
-            #watermark {
-                position: fixed;
-                bottom:   0px;
-                left:     0px;
-                /** The width and height may change 
-                    according to the dimensions of your letterhead
-                **/
-                width:    29.7cm;
-                height:   42cm;
-
-                /** Your watermark should be behind every content**/
-                z-index:  -1000;
-            }
-            .sertifikat-nomor {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: 140px; /* Sesuaikan nilai top untuk mengatur jarak dari atas */
-}
-
-.sertifikat-nomor h2 {
-    font-size: 24px; /* Sesuaikan ukuran font */
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-}
-            .sertifikat-nama {
-                            top: 33%;
-                            left: 15%;
-                            text-align: center;
-                            position: fixed;
-                            width:800px;
-                          }
-            .sertifikat-tingkat {
-                      position: fixed;
-                      width: 100%;
-                      text-align: center;
-                      top: 51%;
-                      left: 0;
-                      right: 0;
-                      margin: 0 auto;
-                          }
-            .sertifikat-tingkat h2 {
-    font-size: 24px;
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-}
-            .fixed {
-                      position: fixed;
-                      bottom: 0;
-                      right: 0;
-                      width: 300px;
-                      border: 3px solid #73AD21;
-                    }
-            .capayan-container {
-    position: fixed;
-    width: 100%;
-    text-align: center;
-    top: 55%;
-    left: 0;
-    right: 0;
-}
-
-.capayanimgparipurna,
-.capayanimgutama,
-.capayanimgmadya {
-    display: block;
-    margin: 0 auto;
-    max-width: 370px;
-    height: 120px;
-}
-          .bsd{
-                    top: 63%;
-                    text-align: center;
-                      position: fixed;
-                      marging: auto;
-          }
-          .tglsertifikat{
-                    top: 70%;
-                    left:12%;
-                      position: fixed;
-                      marging: auto;
-          }
-          .mengetahui{
-                    top: 72%;
-                    left:14%;
-                      position: fixed;
-                      marging: auto;
-          }
-        </style>
-    </head>
-    <body class="text-centre">
-      <?php foreach ($data as $s) { ?>
-        <div id="watermark">
-            <img src="https://sinar.kemkes.go.id/assets/sertifikat/larsi.png" height="100%" width="100%" />
+<body class="text-center">
+    <?php foreach ($data as $s): ?>
+    <div id="watermark">
+        <img src="https://sinar.kemkes.go.id/assets/sertifikat/larsi.png" height="100%" width="100%" alt="Background">
+    </div>
+    
+    <main>
+        <div class="sertifikat-nomor">
+            <h2 class="mt-5">
+                Nomor : <?= $s->no_sertifikat ?? " " ?>
+            </h2>
         </div>
-        <main>
-          <div class="sertifikat-nomor">
-            <h2 class="mt-5">Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></h2>
-          </div>
-           <div class="sertifikat-nama">
+        
+        <div class="sertifikat-nama">
             <h3 class="mt-1">Diberikan Kepada :</h3>
-            <h1 class="mt-3" style="font-weight: bold;" ><?= $s->namaRS?></h1>
+            <h1 class="mt-3 font-weight-bold"><?= $s->namaRS ?></h1>
             <h3 class="mt-5">Alamat : </h3>
             <h4 class="mt-1 mb-2"><?= $s->ALAMAT ?></h4>
-          </div>
-       <div class="sertifikat-tingkat">
+        </div>
+        
+        <div class="sertifikat-tingkat">
             <h2 class="mt-4 mb-5">Tingkat Kelulusan</h2>
-          </div>
-
-          <div class="capayan-container">
-        <?php if ($s->capayan == 'Utama'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/UtamaLarsi.png" 
-                 alt="Utama" 
-                 class="capayanimgutama">
-        <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/MadyaLarsi.png" 
-                 alt="Madya" 
-                 class="capayanimgmadya">
-        <?php elseif ($s->capayan == 'Paripurna'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/ParipurnaLarsi.png" 
-                 alt="Paripurna" 
-                 class="capayanimgparipurna">
-        <?php endif; ?>
-          </div>
-          <div class="bsd">
-          <h3 class="mt-4 mb-5">Berlaku Sampai : <?=tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat)?></h3>
-          <h3 class="mt-4 mb-5">Jakarta, <?=tanggal_indonesia(date('Y-m-d'));?></h3>
-          </div>
-          <div class="mengetahui">
-          <h4 class="mt-4">Mengetahui,</h4>
-          </div>
-        </main>
-        <?php } ?>
-    </body>
+        </div>
+        
+        <div class="capayan-container">
+            <?php 
+            $capayan_types = [
+                'Utama' => 'UtamaLarsi',
+                'Madya' => 'MadyaLarsi',
+                'Paripurna' => 'ParipurnaLarsi'
+            ];
+            
+            if (isset($capayan_types[$s->capayan])): 
+            ?>
+                <img src="https://sinar.kemkes.go.id/assets/capayan/<?= $capayan_types[$s->capayan] ?>.png" 
+                     alt="<?= $s->capayan ?>" 
+                     class="capayanimgmadya">
+            <?php endif; ?>
+        </div>
+        
+        <div class="bsd">
+            <h3 class="mt-4 mb-5">Berlaku Sampai : <?= tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h3>
+            <h3 class="mt-4 mb-5">Jakarta, <?= tanggal_indonesia(date('Y-m-d')) ?></h3>
+        </div>
+        
+        <div class="mengetahui">
+            <h4 class="mt-4">Mengetahui,</h4>
+        </div>
+    </main>
+    <?php endforeach; ?>
+</body>
 </html>
