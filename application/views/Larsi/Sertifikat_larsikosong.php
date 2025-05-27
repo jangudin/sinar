@@ -12,15 +12,25 @@
         body {
             margin: 0;
             padding: 0;
-            background: url('data:image/png;base64,<?= base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/larsi.png')) ?>') no-repeat center;
-            background-size: 100% 100%;
             height: 42cm;
+            background-color: #fff;
+        }
+        
+        #watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
         
         main {
             width: 100%;
             text-align: center;
-            padding-top: 450px; /* Increased from 180px */
+            padding-top: 450px;
+            position: relative;
+            z-index: 1;
         }
         
         .sertifikat-nomor {
@@ -102,7 +112,28 @@
 </head>
 
 <body>
+    <?php 
+    // Pre-process image data
+    $background_image = base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/larsi.png'));
+    
+    // Pre-process capayan images
+    $capayan_images = [];
+    $capayan_types = ['Utama' => 'UtamaLarsi', 'Madya' => 'MadyaLarsi', 'Paripurna' => 'ParipurnaLarsi'];
+    foreach ($capayan_types as $key => $value) {
+        $img_path = FCPATH . "assets/capayan/{$value}.png";
+        if (file_exists($img_path)) {
+            $capayan_images[$key] = base64_encode(file_get_contents($img_path));
+        }
+    }
+    ?>
+
     <?php foreach ($data as $s): ?>
+    <!-- Background image -->
+    <div id="watermark">
+        <img src="data:image/png;base64,<?= $background_image ?>" 
+             style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+
     <main>
         <div class="sertifikat-nomor">
             <h2>Nomor : <?= $s->no_sertifikat ?? " " ?></h2>
@@ -120,22 +151,10 @@
         </div>
         
         <div class="capayan-container">
-            <?php 
-            $capayan_type = [
-                'Utama' => 'UtamaLarsi',
-                'Madya' => 'MadyaLarsi',
-                'Paripurna' => 'ParipurnaLarsi'
-            ];
-            if (isset($capayan_type[$s->capayan])): 
-                $img_path = FCPATH . "assets/capayan/{$capayan_type[$s->capayan]}.png";
-                if (file_exists($img_path)):
-            ?>
-                <img src="data:image/png;base64,<?= base64_encode(file_get_contents($img_path)) ?>" 
+            <?php if (isset($capayan_types[$s->capayan]) && isset($capayan_images[$s->capayan])): ?>
+                <img src="data:image/png;base64,<?= $capayan_images[$s->capayan] ?>" 
                      alt="<?= htmlspecialchars($s->capayan) ?>">
-            <?php 
-                endif;
-            endif; 
-            ?>
+            <?php endif; ?>
         </div>
         
         <div class="bsd">

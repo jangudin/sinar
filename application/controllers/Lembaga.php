@@ -4,9 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Lembaga extends CI_Controller {
     public function __construct() {
         parent::__construct();
-        date_default_timezone_set('Asia/Jakarta');
-        ini_set('max_execution_time', 300); // 5 minutes
-        ini_set('memory_limit', '256M');    // 256MB memory limit
+        ini_set('max_execution_time', 300);     // 5 minutes
+        ini_set('memory_limit', '256M');        // 256MB memory
+        ini_set('output_buffering', 'off');     // Disable output buffering
+        set_time_limit(300);                    // 5 minutes timeout
         $this->load->model('Dashboard_tte');
         $this->load->model('M_lpa');
         $this->sina = $this->load->database('sina', TRUE);
