@@ -107,15 +107,13 @@ class Lembaga extends CI_Controller {
         foreach ($config[$idlembaga]['methods'] as $method) {
             if (method_exists($this, $method)) {
                 $this->$method($id);
-            } else {
-                log_message('error', "Method {$method} not found");
+                // Flush output buffer to show progress
+                flush();
+                ob_flush();
             }
         }
 
-        // 6. Set attachment path
-        $attachment = $config[$idlembaga]['path'] . $id . '.pdf';
-
-        // 7. Prepare view data
+        // Prepare view data
         $data = array(
             'contents'   => "lembaga/Contentdetail",
             'rs'        => $this->Dashboard_tte->Detail($id),
@@ -125,7 +123,7 @@ class Lembaga extends CI_Controller {
             'id'        => $id
         );
 
-        // 8. Load view
+        // Load view
         $this->load->view('List_Rekomendasi', $data);
 
     } catch (Exception $e) {
