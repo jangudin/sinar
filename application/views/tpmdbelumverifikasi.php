@@ -41,10 +41,12 @@
                                 <span class="badge badge-warning">Belum Verifikasi</span>
                             </td>
                             <td>
-                                <a href="<?= base_url('mutu_fasyankes/detail_verifikasi/'.$row->id) ?>" 
-                                   class="btn btn-primary btn-sm">
-                                    <i class="fa fa-eye"></i> Detail
-                                </a>
+                                <div class="btn-group">
+                                    <a href="<?= base_url('mutu_fasyankes/tpmd_detail/'.$row->id_pengajuan) ?>" 
+                                       class="btn btn-primary btn-sm" title="Lihat Detail">
+                                        <i class="fa fa-eye"></i> Detail
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>

@@ -805,4 +805,70 @@ public function ttedirnonrs()
 }
 
 
+public function tpmd_detail($id_pengajuan = null)
+{
+    // Validasi parameter
+    if (!$id_pengajuan) {
+        $id_pengajuan = $this->uri->segment(3);
+        if (!$id_pengajuan) {
+            $this->session->set_flashdata('error', 'ID Pengajuan tidak valid');
+            redirect('mutu_fasyankes/tpmdbelumverifikasi');
+        }
+    }
+
+    // Query untuk mendapatkan detail TPMD
+    $query = "SELECT 
+                va.*,
+                dp.nama_pm,
+                dp.alamat,
+                dp.kecamatan,
+                dp.kab_kota,
+                dp.provinsi,
+                dst.status as status_sertifikat,
+                dst.file_tte_dir
+             FROM verifikasi_api va
+             LEFT JOIN dbfaskes.data_pm dp 
+                ON va.id_faskes = dp.id_faskes
+             LEFT JOIN data_sertifikat_tpmd dst 
+                ON va.kode_faskes = dst.kode_faskes
+             WHERE va.id_pengajuan = ?";
+
+    $detail = $this->sina->query($query, [$id_pengajuan])->row();
+
+    if (!$detail) {
+        $this->session->set_flashdata('error', 'Data TPMD tidak ditemukan');
+        redirect('mutu_fasyankes/tpmdbelumverifikasi');
+    }
+
+    // Generate sertifikat jika status katim "Ya"
+    $attachment = null;
+    $valid = null;
+    $hasiltte = null;
+
+    if ($detail->status_setuju_katim === 'Ya') {
+        $file_paths = [
+            'attachment' => 'assets/TPMD/' . $id_pengajuan . '.pdf',
+            'valid' => 'assets/TPMD/dir' . $id_pengajuan . '.pdf',
+            'hasiltte' => 'assets/TPMD/FINALdir' . $id_pengajuan . '.pdf'
+        ];
+
+        foreach ($file_paths as $key => $path) {
+            if (file_exists(FCPATH . $path)) {
+                $$key = base_url($path);
+            }
+        }
+    }
+
+    // Prepare data untuk view
+    $data = [
+        'contents' => 'tpmd_detail',
+        'title' => 'Detail TPMD',
+        'detail' => $detail,
+        'attachment' => $attachment,
+        'valid' => $valid,
+        'hasiltte' => $hasiltte
+    ];
+
+    $this->load->view('List_Rekomendasi', $data);
+}
 }
