@@ -56,6 +56,7 @@ public function tpmdbelumverifikasi()
     // 3. Get data for view using standardized query
     $query = "SELECT 
                 va.id,
+                va.id_pengajuan,
                 va.kode_faskes,
                 va.id_faskes,
                 dp.nama_pm 
