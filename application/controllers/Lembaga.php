@@ -103,17 +103,19 @@ class Lembaga extends CI_Controller {
             throw new Exception('Invalid institution type');
         }
 
-        // 5. Generate certificates
+        // 5. Set attachment path
+        $attachment = $config[$idlembaga]['path'] . $id . '.pdf';
+
+        // 6. Generate certificates
         foreach ($config[$idlembaga]['methods'] as $method) {
             if (method_exists($this, $method)) {
                 $this->$method($id);
-                // Flush output buffer to show progress
                 flush();
                 ob_flush();
             }
         }
 
-        // Prepare view data
+        // 7. Prepare view data
         $data = array(
             'contents'   => "lembaga/Contentdetail",
             'rs'        => $this->Dashboard_tte->Detail($id),
@@ -123,7 +125,7 @@ class Lembaga extends CI_Controller {
             'id'        => $id
         );
 
-        // Load view
+        // 8. Load view
         $this->load->view('List_Rekomendasi', $data);
 
     } catch (Exception $e) {
