@@ -37,7 +37,7 @@
             position: absolute;
             width: 100%;
             text-align: center;
-            top: 400px;
+            top: 450px;
         }
         
         .sertifikat-nama {

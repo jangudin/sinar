@@ -14,39 +14,46 @@
             padding: 0;
             background: url('data:image/png;base64,<?= base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/larsi.png')) ?>') no-repeat center;
             background-size: 100% 100%;
+            page-break-after: avoid;
         }
         
-        /* Optimize positioning */
         main {
             position: relative;
             width: 100%;
-            height: 100%;
-            padding-top: 180px;
+            height: 100vh;
+            padding-top: 100px;
+            page-break-inside: avoid;
         }
         
         .sertifikat-nomor {
             position: relative;
             width: 100%;
             text-align: center;
-            margin-top: 220px;
+            margin-top: 200px;
         }
         
         .sertifikat-nama {
             width: 800px;
-            margin: 50px auto;
+            margin: 30px auto;
             text-align: center;
         }
         
         .sertifikat-tingkat {
             width: 100%;
             text-align: center;
-            margin: 30px auto;
+            margin: 20px auto;
         }
         
-        /* Optimize images */
+        .capayan-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            margin: 20px auto;
+        }
+
         .capayan-container img {
             display: block;
-            margin: 20px auto;
+            margin: 15px auto;
             width: 370px;
             height: 120px;
         }
@@ -54,17 +61,17 @@
         .bsd {
             width: 100%;
             text-align: center;
-            margin: 40px auto;
+            margin: 25px auto;
         }
         
         .mengetahui {
             margin-left: 14%;
-            margin-top: 30px;
+            margin-top: 20px;
         }
         
         /* Typography */
         h1, h2, h3, h4 {
-            margin: 10px 0;
+            margin: 8px 0;
             padding: 0;
         }
     </style>
