@@ -14,66 +14,65 @@
             padding: 0;
             background: url('data:image/png;base64,<?= base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/larsi.png')) ?>') no-repeat center;
             background-size: 100% 100%;
-            page-break-after: avoid;
-            height: 100%;
-            overflow: hidden; /* Prevent scrolling */
+            height: 42cm;
         }
         
         main {
-            position: relative;
             width: 100%;
-            max-height: 42cm; /* A3 height */
-            padding-top: 80px;
-            page-break-inside: avoid;
-            overflow: hidden;
+            text-align: center;
+            padding-top: 180px;
         }
         
         .sertifikat-nomor {
-            margin-top: 180px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 50px;
         }
         
         .sertifikat-nama {
-            margin: 20px auto;
+            width: 800px;
+            margin: 0 auto 50px;
         }
         
         .sertifikat-tingkat {
-            margin: 15px auto;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
         }
         
         .capayan-container {
-            position: relative;
             width: 100%;
             text-align: center;
-            margin: 15px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin-bottom: 50px;
         }
-
+        
         .capayan-container img {
             display: block;
-            margin: 10px auto;
             width: 370px;
             height: 120px;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
+            margin: 0 auto;
         }
         
         .bsd {
-            margin: 20px auto;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
         }
         
         .mengetahui {
-            margin-left: 14%;
-            margin-top: 15px;
-            margin-bottom: 0;
+            width: 100%;
+            text-align: center;
         }
         
-        /* Keep all other existing styles but remove bottom margins from last elements */
-        .mengetahui h4 {
-            margin-bottom: 0;
+        /* Typography */
+        h1, h2, h3, h4 {
+            margin: 10px 0;
         }
+        
+        h1 { font-size: 32px; }
+        h2 { font-size: 24px; }
+        h3 { font-size: 20px; }
+        h4 { font-size: 18px; }
         
         /* Force single page */
         @media print {
