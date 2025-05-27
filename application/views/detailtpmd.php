@@ -42,19 +42,19 @@
                               </tr>
                               <tr>
                                   <th>Alamat</th>
-                                  <td><?= $detail->alamat ?></td>
+                                  <td><?= $detail->alamat_faskes ?></td>
                               </tr>
                               <tr>
                                   <th>Kecamatan</th>
-                                  <td><?= $detail->kecamatan ?></td>
+                                  <td><?= $detail->nama_camat ?></td>
                               </tr>
                               <tr>
                                   <th>Kab/Kota</th>
-                                  <td><?= $detail->kab_kota ?></td>
+                                  <td><?= $detail->nama_kota ?></td>
                               </tr>
                               <tr>
                                   <th>Provinsi</th>
-                                  <td><?= $detail->provinsi ?></td>
+                                  <td><?= $detail->nama_prop ?></td>
                               </tr>
                           </table>
                       </div>
