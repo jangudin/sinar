@@ -117,7 +117,7 @@
 <body>
     <?php 
     // Pre-process image data
-    $background_image = base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/larsidir.png'));
+    $background_image = base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/larsidir.jpg'));
     
     // Pre-process capayan images
     $capayan_images = [];
