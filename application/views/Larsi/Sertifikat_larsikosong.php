@@ -20,7 +20,7 @@
         main {
             width: 100%;
             text-align: center;
-            padding-top: 280px; /* Increased from 180px */
+            padding-top: 400px; /* Increased from 180px */
         }
         
         .sertifikat-nomor {
