@@ -10,11 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
     <style>
-      .nmrs {
-        font-family: 'Germania One', cursive;
-      }
-    </style>
-    <style>
         /* Page Setup */
         @page {
             margin: 0cm 0cm;
