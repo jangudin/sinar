@@ -47,7 +47,7 @@
         .sertifikat-tingkat {
             width: 100%;
             text-align: center;
-            margin-bottom: 40px; /* Increased spacing */
+            margin-bottom: 45px; /* Increased spacing */
         }
         
         .capayan-container {
@@ -66,7 +66,7 @@
         .bsd {
             width: 100%;
             text-align: center;
-            margin-bottom: 60px; /* Increased spacing */
+            margin-bottom: 70px; /* Increased spacing */
         }
         
         .mengetahui {
