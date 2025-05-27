@@ -806,9 +806,8 @@ public function ttedirnonrs()
 }
 
 
-public function tpmd_detail($id_pengajuan = null)
-{
-    // Validasi parameter
+public function tpmd_detail($id_pengajuan = null) {
+    // Validate input
     if (!$id_pengajuan) {
         $id_pengajuan = $this->uri->segment(3);
         if (!$id_pengajuan) {
@@ -817,63 +816,125 @@ public function tpmd_detail($id_pengajuan = null)
         }
     }
 
-    // Query untuk mendapatkan detail TPMD
-    $query = "SELECT
-                    verifikasi_api.*,
-                    db_akreditasi_non_rs.verifikasi_api.id,
-                    db_akreditasi_non_rs.verifikasi_api.kode_faskes,
-                    db_akreditasi_non_rs.verifikasi_api.id_faskes,
-                    dbfaskes.data_pm.nama_pm,
-                    dbfaskes.propinsi_dagri.nama_prop,
-                    dbfaskes.kota.nama_kota,
-                    dbfaskes.kecamatan.nama_camat,
-                    dbfaskes.data_pm.alamat_faskes 
-                FROM
-                    db_akreditasi_non_rs.verifikasi_api
-                    LEFT JOIN db_akreditasi_non_rs.data_sertifikat_tpmd ON verifikasi_api.kode_faskes = data_sertifikat_tpmd.kode_faskes
-                    LEFT JOIN dbfaskes.data_pm ON db_akreditasi_non_rs.verifikasi_api.id_faskes = dbfaskes.data_pm.id_faskes
-                    LEFT JOIN dbfaskes.propinsi_dagri ON dbfaskes.data_pm.id_prov_pm = dbfaskes.propinsi_dagri.id_prop
-                    LEFT JOIN dbfaskes.kota ON dbfaskes.data_pm.id_kota_pm = dbfaskes.kota.id_kota
-                    LEFT JOIN dbfaskes.kecamatan ON dbfaskes.data_pm.id_camat_pm = dbfaskes.kecamatan.id_camat 
-                WHERE
-                    verifikasi_api.id_pengajuan = ?";
-
-    $detail = $this->sina->query($query, [$id_pengajuan])->row();
+    // Get TPMD detail using the new query
+    $detail = $this->Tte_non_rs->get_tpmd_detail($id_pengajuan);
 
     if (!$detail) {
         $this->session->set_flashdata('error', 'Data TPMD tidak ditemukan');
         redirect('mutu_fasyankes/tpmdbelumverifikasi');
     }
 
-    // Generate sertifikat jika status katim "Ya"
-    $attachment = null;
-    $valid = null;
-    $hasiltte = null;
+    // Setup file paths
+    $file_paths = [
+        'attachment' => 'assets/TPMD/' . $id_pengajuan . '.pdf',
+        'valid' => 'assets/TPMD/dir' . $id_pengajuan . '.pdf',
+        'hasiltte' => 'assets/TPMD/FINALdir' . $id_pengajuan . '.pdf'
+    ];
 
-    if ($detail->status_setuju_katim === 'Ya') {
-        $file_paths = [
-            'attachment' => 'assets/TPMD/' . $id_pengajuan . '.pdf',
-            'valid' => 'assets/TPMD/dir' . $id_pengajuan . '.pdf',
-            'hasiltte' => 'assets/TPMD/FINALdir' . $id_pengajuan . '.pdf'
-        ];
+    // Check files existence
+    $files = array_map(function($path) {
+        return file_exists(FCPATH . $path) ? base_url($path) : null;
+    }, $file_paths);
 
-        foreach ($file_paths as $key => $path) {
-            if (file_exists(FCPATH . $path)) {
-                $$key = base_url($path);
-            }
-        }
-    }
-
-    // Prepare data untuk view
+    // Prepare view data
     $data = [
         'contents' => 'detailtpmd',
         'title' => 'Detail TPMD',
         'detail' => $detail,
-        'attachment' => $attachment,
-        'valid' => $valid,
-        'hasiltte' => $hasiltte
+        'attachment' => $files['attachment'],
+        'valid' => $files['valid'],
+        'hasiltte' => $files['hasiltte']
     ];
 
     $this->load->view('List_Rekomendasi', $data);
+}
+private function _generate_certificate($id) {
+    // 1. Validate input
+    if (empty($id)) {
+        throw new Exception('Invalid parameter');
+    }
+
+    // 2. Define paths
+    $output_path = FCPATH . "assets/generate/tpmd/";
+    $file_name = "tpmd_{$id}.pdf";
+    $full_path = $output_path . $file_name;
+
+    // 3. Check if directory exists, if not create it
+    if (!is_dir($output_path)) {
+        mkdir($output_path, 0777, true);
+    }
+
+    // 4. Check if file already exists
+    if (file_exists($full_path)) {
+        return base_url("assets/generate/tpmd/{$file_name}");
+    }
+
+    // 5. Get certificate data
+    $data = [
+        'title_pdf' => 'Sertifikat TPMD',
+        'detail' => $this->M_tpmd->get_detail($id),
+        'images' => [
+            'background' => base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/tpmd.png')),
+            'logo' => base64_encode(file_get_contents(FCPATH . 'assets/img/logo.png'))
+        ]
+    ];
+
+    // 6. Load PDF library
+    $this->load->library('pdf');
+    
+    // 7. Configure PDF settings
+    $this->pdf->setPaper('A4', 'portrait');
+    $this->pdf->setOptions([
+        'isRemoteEnabled' => true,
+        'isHtml5ParserEnabled' => true,
+        'isPhpEnabled' => true,
+        'dpi' => 96,
+        'defaultFont' => 'helvetica'
+    ]);
+
+    // 8. Generate PDF
+    try {
+        // Load view
+        $html = $this->load->view('tpmd/sertifikat_tpmd', $data, true);
+        
+        // Generate PDF
+        $this->pdf->load_html($html);
+        $this->pdf->render();
+        
+        // Save file
+        file_put_contents($full_path, $this->pdf->output());
+        
+        return base_url("assets/generate/tpmd/{$file_name}");
+    } catch (Exception $e) {
+        log_message('error', 'PDF Generation failed: ' . $e->getMessage());
+        throw new Exception('Failed to generate certificate');
+    }
+}
+
+public function generate_certificate($uri = null) {
+    try {
+        // 1. Decrypt ID
+        $id = decrypt_url($uri);
+        if (!$id) {
+            throw new Exception('Invalid parameter');
+        }
+
+        // 2. Generate certificate
+        $path = $this->_generate_certificate($id);
+        
+        // 3. Update database
+        $this->M_tpmd->update_certificate_status($id, [
+            'sertifikat_path' => $path,
+            'tanggal_generate' => date('Y-m-d H:i:s')
+        ]);
+
+        // 4. Return success response
+        $this->session->set_flashdata('msg', 'Sertifikat berhasil dibuat');
+        redirect('tpmd/detail/' . $uri);
+
+    } catch (Exception $e) {
+        $this->session->set_flashdata('error', $e->getMessage());
+        redirect('tpmd/detail/' . $uri);
+    }
 }
 }

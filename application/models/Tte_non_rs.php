@@ -3302,4 +3302,33 @@ function input_data($table, $datas)
 {
         return $this->sina->insert($table, $datas);
 }
+
+public function get_tpmd_detail($id_pengajuan) {
+    $query = "SELECT
+                verifikasi_api.*,
+                db_akreditasi_non_rs.verifikasi_api.id,
+                db_akreditasi_non_rs.verifikasi_api.kode_faskes,
+                db_akreditasi_non_rs.verifikasi_api.id_faskes,
+                dbfaskes.data_pm.nama_pm,
+                dbfaskes.propinsi_dagri.nama_prop,
+                dbfaskes.kota.nama_kota,
+                dbfaskes.kecamatan.nama_camat,
+                dbfaskes.data_pm.alamat_faskes 
+            FROM
+                db_akreditasi_non_rs.verifikasi_api
+                LEFT JOIN db_akreditasi_non_rs.data_sertifikat_tpmd 
+                    ON verifikasi_api.kode_faskes = data_sertifikat_tpmd.kode_faskes
+                LEFT JOIN dbfaskes.data_pm 
+                    ON db_akreditasi_non_rs.verifikasi_api.id_faskes = dbfaskes.data_pm.id_faskes
+                LEFT JOIN dbfaskes.propinsi_dagri 
+                    ON dbfaskes.data_pm.id_prov_pm = dbfaskes.propinsi_dagri.id_prop
+                LEFT JOIN dbfaskes.kota 
+                    ON dbfaskes.data_pm.id_kota_pm = dbfaskes.kota.id_kota
+                LEFT JOIN dbfaskes.kecamatan 
+                    ON dbfaskes.data_pm.id_camat_pm = dbfaskes.kecamatan.id_camat 
+            WHERE
+                verifikasi_api.id_pengajuan = ?";
+
+    return $this->sina->query($query, [$id_pengajuan])->row();
+}
 }

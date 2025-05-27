@@ -124,6 +124,20 @@
                         </div>
                     </div>
                     <?php endif; ?>
+
+                    <!-- Generate Certificate Button -->
+                    <?php if(!$attachment && $detail->status_verifikasi == 1): ?>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="btn-group">
+                                    <a href="<?= base_url('tpmd/generate_certificate/' . encrypt_url($detail->id)) ?>" 
+                                       class="btn btn-primary">
+                                        <i class="fa fa-file-pdf-o"></i> Generate Sertifikat
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
