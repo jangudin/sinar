@@ -88,6 +88,7 @@ private function _sync_verification_data($api_data)
 {
     foreach ($api_data as $row) {
         $data = [
+            'id_pengajuan'         => $row['id'],         // Tambahkan id dari API
             'id_faskes'            => $row['id_faskes'],
             'kode_faskes'          => $row['kode_faskes'],
             'tanggal_usulan'       => $row['tanggal_usulan'],
@@ -99,13 +100,16 @@ private function _sync_verification_data($api_data)
             'last_sync'            => date('Y-m-d H:i:s')
         ];
 
+        // Cek data existing berdasarkan id_pengajuan
         $exists = $this->sina->get_where('verifikasi_api', 
-            ['kode_faskes' => $row['kode_faskes']])->row();
+            ['id_pengajuan' => $row['id']])->row();
 
         if ($exists) {
-            $this->sina->where('kode_faskes', $row['kode_faskes']);
+            // Update jika sudah ada
+            $this->sina->where('id_pengajuan', $row['id']);
             $this->sina->update('verifikasi_api', $data);
         } else {
+            // Insert jika belum ada
             $this->sina->insert('verifikasi_api', $data);
         }
     }
