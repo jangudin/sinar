@@ -37,50 +37,79 @@ public function monitoring()
     $this->load->view('List_Rekomendasi',$data);
 }
 
-public function tpmdbelumverifikasi()
-    {
-        // Call the API model method to get verification status
-        $api_result = $this->Api_model->check_verification_status();
-
-        // Simpan ke database
-        if (!empty($api_result)) {
-            foreach ($api_result as $row) {
-                $data_insert = array(
-                    'id_faskes'            => $row['id_faskes'],
-                    'kode_faskes'          => $row['kode_faskes'],
-                    'tanggal_usulan'       => $row['tanggal_usulan'],
-                    'status_verifikasi'    => $row['status_verifikasi'],
-                    'status_sertifikat'    => $row['status_sertifikat'],
-                    'status_setuju_katim'  => $row['status_setuju_katim'],
-                    'keterangan_katim'     => $row['keterangan_katim'],
-                    'tanggal_setuju_katim' => $row['tanggal_setuju_katim'],
-                    'last_sync'            => date('Y-m-d H:i:s')
-                );
-
-                // Cek apakah data sudah ada
-                $exists = $this->sina->get_where('verifikasi_api', 
-                    array('kode_faskes' => $row['kode_faskes']))->row();
-
-                if ($exists) {
-                    // Update jika sudah ada
-                    $this->sina->where('kode_faskes', $row['kode_faskes']);
-                    $this->sina->update('verifikasi_api', $data_insert);
-                } else {
-                    // Insert jika belum ada
-                    $this->sina->insert('verifikasi_api', $data_insert);
-                }
-            }
-        }
-
-        // Prepare data array to pass to the view
-        $data = array(
-            'contents' => 'tpmdbelumverifikasi',
-            'api_result' => $api_result
-        );
-
-        // Load the view with the data
-        $this->load->view('List_Rekomendasi', $data);
+public function tpmdbelumverifikasi() 
+{
+    // 1. Call API and handle response
+    $api_result = $this->Api_model->check_verification_status();
+    if (empty($api_result)) {
+        $this->session->set_flashdata('error', 'Tidak ada data dari API');
+        redirect('mutu_fasyankes');
     }
+
+    // 2. Process API data and sync to database
+    try {
+        $this->_sync_verification_data($api_result);
+    } catch (Exception $e) {
+        log_message('error', 'Error syncing verification data: ' . $e->getMessage());
+    }
+
+    // 3. Get data for view using standardized query
+    $query = "SELECT 
+                va.id,
+                va.kode_faskes,
+                va.id_faskes,
+                dp.nama_pm 
+             FROM db_akreditasi_non_rs.verifikasi_api va
+             LEFT JOIN db_akreditasi_non_rs.data_sertifikat_tpmd dst 
+                ON va.kode_faskes = dst.kode_faskes
+             LEFT JOIN dbfaskes.data_pm dp 
+                ON va.id_faskes = dp.id_faskes 
+             WHERE dst.id IS NULL";
+
+    $result = $this->sina->query($query)->result();
+
+    // 4. Prepare view data
+    $data = [
+        'contents'  => 'tpmdbelumverifikasi',
+        'databelum' => $result,
+        'title'     => 'Daftar TPMD Belum Verifikasi'
+    ];
+
+    // 5. Load view
+    $this->load->view('List_Rekomendasi', $data);
+}
+
+/**
+ * Helper function to sync verification data
+ * @param array $api_data Data from API
+ * @return void
+ */
+private function _sync_verification_data($api_data) 
+{
+    foreach ($api_data as $row) {
+        $data = [
+            'id_faskes'            => $row['id_faskes'],
+            'kode_faskes'          => $row['kode_faskes'],
+            'tanggal_usulan'       => $row['tanggal_usulan'],
+            'status_verifikasi'    => $row['status_verifikasi'],
+            'status_sertifikat'    => $row['status_sertifikat'],
+            'status_setuju_katim'  => $row['status_setuju_katim'],
+            'keterangan_katim'     => $row['keterangan_katim'],
+            'tanggal_setuju_katim' => $row['tanggal_setuju_katim'],
+            'last_sync'            => date('Y-m-d H:i:s')
+        ];
+
+        $exists = $this->sina->get_where('verifikasi_api', 
+            ['kode_faskes' => $row['kode_faskes']])->row();
+
+        if ($exists) {
+            $this->sina->where('kode_faskes', $row['kode_faskes']);
+            $this->sina->update('verifikasi_api', $data);
+        } else {
+            $this->sina->insert('verifikasi_api', $data);
+        }
+    }
+}
 
 public function tpmd()
 {
