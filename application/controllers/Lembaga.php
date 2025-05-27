@@ -52,53 +52,93 @@ class Lembaga extends CI_Controller {
 
  public function Detail()
  {
-
+    // 1. Get and validate parameters
     $uri = $this->uri->segment(3);
+    if (!$uri) {
+        $this->session->set_flashdata('error', 'Invalid parameter');
+        redirect('lembaga');
+    }
+    
     $id = decrypt_url($uri);
     $idlembaga = $this->session->userdata('lembaga_id');
-    if($idlembaga == 'kars'){
-        $this->Kars($id);
-        $this->Karslembaga($id);
-        $this->Karsdirjen($id);
-        $attachment = 'assets/generate/kars/kars_kosong'.$id.'.pdf';
-    }elseif($idlembaga == 'lam') {
-        $this->Lam($id);
-        $this->Lamlembaga($id);
-        $this->Lamdirjen($id);
-        $attachment = 'assets/generate/lam/Lam'.$id.'.pdf';
-    }elseif ($idlembaga == 'larsi') {
-        $this->Larsi($id);
-        $this->Larsilembaga($id);
-        $this->Larsidirjen($id);
-        $attachment = 'assets/generate/larsi/Larsi'.$id.'.pdf';
-    }elseif ($idlembaga == 'larsdhp') {
-        $this->Larsdhp($id);
-        // $this->Larsdhplembaga($id);
-        // $this->Larsdhpdirjen($id);
-        $attachment = 'assets/generate/larsdhp/Larsdhp'.$id.'.pdf';
 
-    }elseif ($idlembaga == 'lafki') {
-        $this->Lafki($id);
-        $this->Lafkilembaga($id);
-        $this->Lafkidirjen($id);
-        $attachment = 'assets/generate/lafki/lafki'.$id.'.pdf';
-
-    }elseif ($idlembaga == 'lars') {
-        $this->Lars($id);
-        $this->Larslembaga($id);
-        $this->Larsdirjen($id);
-        $attachment = 'assets/generate/lars/Lars'.$id.'.pdf';
+    // 2. Generate certificates based on institution type
+    $config = $this->_get_certificate_config($idlembaga, $id);
+    if (!$config) {
+        $this->session->set_flashdata('error', 'Invalid institution type');
+        redirect('lembaga');
     }
-    $nonik = $this->session->userdata('nik'); 
-    $data = array('contents' => "lembaga/Contentdetail",
-      'rs'    => $this->Dashboard_tte->Detail($id),
-      'lembaga' => $this->session->userdata('lembaga_id'),
-      'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-      'nik' => $nonik,
-      'id' => $id,
-  );
 
-    $this->load->view('List_Rekomendasi',$data);
+    // 3. Generate certificates using helper methods
+    try {
+        $this->_generate_all_certificates($config);
+    } catch (Exception $e) {
+        log_message('error', 'Certificate generation failed: ' . $e->getMessage());
+        $this->session->set_flashdata('error', 'Failed to generate certificates');
+        redirect('lembaga');
+    }
+
+    // 4. Prepare view data
+    $data = [
+        'contents' => "lembaga/Contentdetail",
+        'rs' => $this->Dashboard_tte->Detail($id),
+        'lembaga' => $idlembaga,
+        'attachment' => is_file(FCPATH . $config['attachment']) ? base_url($config['attachment']) : null,
+        'nik' => $this->session->userdata('nik'),
+        'id' => $id
+    ];
+
+    // 5. Load view
+    $this->load->view('List_Rekomendasi', $data);
+}
+
+/**
+ * Helper method to get certificate configuration
+ */
+private function _get_certificate_config($idlembaga, $id)
+{
+    $configs = [
+        'kars' => [
+            'methods' => ['Kars', 'Karslembaga', 'Karsdirjen'],
+            'attachment' => "assets/generate/kars/kars_kosong{$id}.pdf"
+        ],
+        'lam' => [
+            'methods' => ['Lam', 'Lamlembaga', 'Lamdirjen'],
+            'attachment' => "assets/generate/lam/Lam{$id}.pdf"
+        ],
+        'larsi' => [
+            'methods' => ['Larsi', 'Larsilembaga', 'Larsidirjen'],
+            'attachment' => "assets/generate/larsi/Larsi{$id}.pdf"
+        ],
+        'larsdhp' => [
+            'methods' => ['Larsdhp', 'Larsdhplembaga', 'Larsdhpdirjen'],
+            'attachment' => "assets/generate/larsdhp/Larsdhp{$id}.pdf"
+        ],
+        'lafki' => [
+            'methods' => ['Lafki', 'Lafkilembaga', 'Lafkidirjen'],
+            'attachment' => "assets/generate/lafki/lafki{$id}.pdf"
+        ],
+        'lars' => [
+            'methods' => ['Lars', 'Larslembaga', 'Larsdirjen'],
+            'attachment' => "assets/generate/lars/Lars{$id}.pdf"
+        ]
+    ];
+
+    return isset($configs[$idlembaga]) ? $configs[$idlembaga] : null;
+}
+
+/**
+ * Helper method to generate all certificates
+ */
+private function _generate_all_certificates($config)
+{
+    foreach ($config['methods'] as $method) {
+        if (method_exists($this, $method)) {
+            $this->$method($id);
+        } else {
+            throw new Exception("Method {$method} not found");
+        }
+    }
 }
 
 public function resume()
@@ -1216,5 +1256,4 @@ public function ttesurtugrs()
         Berhasil melakukan Tandatangan Elektronik</div>');
     redirect($url);
 }
-
 }
