@@ -1,150 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
     <style>
-        /* Page Setup */
         @page {
-            margin: 0cm 0cm;
+            margin: 0;
+            size: A3 portrait;
         }
         
         body {
-            margin-top: 180px;
-            margin-bottom: 0;
-            margin-left: 0;
-            margin-right: 0;
+            margin: 0;
+            padding: 0;
+            background: url('data:image/png;base64,<?= base64_encode(file_get_contents(FCPATH . 'assets/sertifikat/larsi.png')) ?>') no-repeat center;
+            background-size: 100% 100%;
         }
         
-        /* Watermark */
-        #watermark {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 29.7cm;
-            height: 42cm;
-            z-index: -1000;
+        /* Optimize positioning */
+        main {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding-top: 180px;
         }
         
-        /* Certificate Components */
         .sertifikat-nomor {
-            position: absolute;
+            position: relative;
             width: 100%;
             text-align: center;
-            top: 400px;
+            margin-top: 220px;
         }
         
         .sertifikat-nama {
-            position: fixed;
-            top: 33%;
-            left: 15%;
             width: 800px;
+            margin: 50px auto;
             text-align: center;
         }
         
         .sertifikat-tingkat {
-            position: fixed;
             width: 100%;
             text-align: center;
-            top: 51%;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
+            margin: 30px auto;
         }
         
-        .capayan-container {
-            position: fixed;
-            width: 100%;
-            text-align: center;
-            top: 55%;
-            left: 0;
-            right: 0;
+        /* Optimize images */
+        .capayan-container img {
+            display: block;
+            margin: 20px auto;
+            width: 370px;
+            height: 120px;
         }
         
         .bsd {
-            position: fixed;
             width: 100%;
             text-align: center;
-            top: 63%;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
+            margin: 40px auto;
         }
         
         .mengetahui {
-            position: fixed;
-            top: 72%;
-            left: 14%;
+            margin-left: 14%;
+            margin-top: 30px;
         }
         
         /* Typography */
-        .sertifikat-nomor h2,
-        .sertifikat-tingkat h2,
-        .bsd h3 {
-            font-size: 24px;
-            margin: 0;
+        h1, h2, h3, h4 {
+            margin: 10px 0;
             padding: 0;
-            font-weight: normal;
-        }
-        
-        .nmrs {
-            font-family: 'Germania One', cursive;
-        }
-        
-        /* Images */
-        .capayanimgparipurna,
-        .capayanimgutama,
-        .capayanimgmadya {
-            display: block;
-            margin: 0 auto;
-            max-width: 370px;
-            height: 120px;
         }
     </style>
-    </head>
-    <body class="text-centre">
-      <?php foreach ($data as $s) { ?>
-        <div id="watermark">
-            <img src="https://sinar.kemkes.go.id/assets/sertifikat/larsi.png" height="100%" width="100%" />
+</head>
+
+<body>
+    <?php foreach ($data as $s): ?>
+    <main>
+        <div class="sertifikat-nomor">
+            <h2>Nomor : <?= $s->no_sertifikat ?? " " ?></h2>
         </div>
-        <main>
-          <div class="sertifikat-nomor">
-            <h2 class="mt-5">Nomor : <?php if($s->no_sertifikat == null){ ?> <?php echo " ";?> <?php }else{ ?> <?=$s->no_sertifikat?><?php } ?></h2>
-          </div>
-           <div class="sertifikat-nama">
-            <h3 class="mt-1">Diberikan Kepada :</h3>
-            <h1 class="mt-3" style="font-weight: bold;" ><?= $s->namaRS?></h1>
-            <h3 class="mt-5">Alamat : </h3>
-            <h4 class="mt-1 mb-2"><?= $s->ALAMAT ?></h4>
-          </div>
-       <div class="sertifikat-tingkat">
-            <h2 class="mt-4 mb-5">Tingkat Kelulusan</h2>
-          </div>
-
-          <div>
-        <?php if ($s->capayan == 'Utama'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/UtamaLarsi.png" alt=""height=120 width=370 class="capayanimgutama"></img>
-        <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/MadyaLarsi.png" alt=""height=120 width=370 class="capayanimgmadya"></img>
-        <?php elseif ($s->capayan == 'Paripurna'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/ParipurnaLarsi.png" alt=""height=120 width=370 class="capayanimgparipurna"></img>
-        <?php endif; ?>
-
-          </div>
-          <div class="bsd">
-          <h3 class="mt-4 mb-5">Berlaku Sampai : <?=tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat)?></h3>
-          <h3 class="mt-4 mb-5">Jakarta, <?=tanggal_indonesia(date('Y-m-d'));?></h3>
-          </div>
-          <div class="mengetahui">
-          <h4 class="mt-4">Mengetahui,</h4>
-          </div>
-        </main>
-        <?php } ?>
-    </body>
+        
+        <div class="sertifikat-nama">
+            <h3>Diberikan Kepada :</h3>
+            <h1 style="font-weight: bold;"><?= htmlspecialchars($s->namaRS) ?></h1>
+            <h3>Alamat : </h3>
+            <h4><?= htmlspecialchars($s->ALAMAT) ?></h4>
+        </div>
+        
+        <div class="sertifikat-tingkat">
+            <h2>Tingkat Kelulusan</h2>
+        </div>
+        
+        <div class="capayan-container">
+            <?php 
+            $capayan_type = [
+                'Utama' => 'UtamaLarsi',
+                'Madya' => 'MadyaLarsi',
+                'Paripurna' => 'ParipurnaLarsi'
+            ];
+            if (isset($capayan_type[$s->capayan])): 
+                $img_path = FCPATH . "assets/capayan/{$capayan_type[$s->capayan]}.png";
+                if (file_exists($img_path)):
+            ?>
+                <img src="data:image/png;base64,<?= base64_encode(file_get_contents($img_path)) ?>" 
+                     alt="<?= htmlspecialchars($s->capayan) ?>">
+            <?php 
+                endif;
+            endif; 
+            ?>
+        </div>
+        
+        <div class="bsd">
+            <h3>Berlaku Sampai : <?= tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h3>
+            <h3>Jakarta, <?= tanggal_indonesia(date('Y-m-d')) ?></h3>
+        </div>
+        
+        <div class="mengetahui">
+            <h4>Mengetahui,</h4>
+        </div>
+    </main>
+    <?php endforeach; ?>
+</body>
 </html>

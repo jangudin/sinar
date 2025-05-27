@@ -2,10 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Lembaga extends CI_Controller {
-    function __construct(){
+    public function __construct() {
         parent::__construct();
         date_default_timezone_set('Asia/Jakarta');
-        ini_set('max_execution_time', '500');
+        ini_set('max_execution_time', 300); // 5 minutes
+        ini_set('memory_limit', '256M');    // 256MB memory limit
         $this->load->model('Dashboard_tte');
         $this->load->model('M_lpa');
         $this->sina = $this->load->database('sina', TRUE);
