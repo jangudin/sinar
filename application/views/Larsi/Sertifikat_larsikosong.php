@@ -20,6 +20,10 @@
             margin-bottom: 0;
             margin-left: 0;
             margin-right: 0;
+            background-image: url('<?= base_url("assets/sertifikat/larsi.png") ?>');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
         }
         
         /* Watermark */
@@ -30,6 +34,10 @@
             width: 29.7cm;
             height: 42cm;
             z-index: -1000;
+            background-image: url('<?= base_url("assets/sertifikat/larsi.png") ?>');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
         }
         
         /* Certificate Components */
@@ -111,10 +119,6 @@
 
 <body class="text-center">
     <?php foreach ($data as $s): ?>
-    <div id="watermark">
-        <img src="https://sinar.kemkes.go.id/assets/sertifikat/larsi.png" height="100%" width="100%" alt="Background">
-    </div>
-    
     <main>
         <div class="sertifikat-nomor">
             <h2 class="mt-5">
