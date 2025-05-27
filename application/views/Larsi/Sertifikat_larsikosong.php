@@ -28,7 +28,7 @@
         main {
             width: 100%;
             text-align: center;
-            padding-top: 450px;
+            padding-top: 430px;
             position: relative;
             z-index: 1;
         }
@@ -82,7 +82,7 @@
         }
         
         h1 { 
-            font-size: 32px; 
+            font-size: 35px; 
         }
         
         h2 { 
@@ -140,10 +140,10 @@
         </div>
         
         <div class="sertifikat-nama">
-            <h3>Diberikan Kepada :</h3>
+            <h2>Diberikan Kepada :</h2>
             <h1 style="font-weight: bold;"><?= htmlspecialchars($s->namaRS) ?></h1>
-            <h3>Alamat : </h3>
-            <h4><?= htmlspecialchars($s->ALAMAT) ?></h4>
+            <h2>Alamat : </h2>
+            <h2><?= htmlspecialchars($s->ALAMAT) ?></h2>
         </div>
         
         <div class="sertifikat-tingkat">
@@ -158,8 +158,8 @@
         </div>
         
         <div class="bsd">
-            <h3>Berlaku Sampai : <?= tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h3>
-            <h3>Jakarta, <?= tanggal_indonesia(date('Y-m-d')) ?></h3>
+            <h2>Berlaku Sampai : <?= tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat) ?></h2>
+            <h2>Jakarta, <?= tanggal_indonesia(date('Y-m-d')) ?></h2>
         </div>
         
         <div class="mengetahui">
