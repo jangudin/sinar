@@ -73,8 +73,8 @@ class Lembaga extends CI_Controller {
         $attachment = 'assets/generate/larsi/Larsi'.$id.'.pdf';
     }elseif ($idlembaga == 'larsdhp') {
         $this->Larsdhp($id);
-        $this->Larsdhplembaga($id);
-        $this->Larsdhpdirjen($id);
+        // $this->Larsdhplembaga($id);
+        // $this->Larsdhpdirjen($id);
         $attachment = 'assets/generate/larsdhp/Larsdhp'.$id.'.pdf';
 
     }elseif ($idlembaga == 'lafki') {
