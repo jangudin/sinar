@@ -52,53 +52,87 @@ class Lembaga extends CI_Controller {
 
  public function Detail()
  {
+    try {
+        // 1. Validate input parameters
+        $uri = $this->uri->segment(3);
+        if (empty($uri)) {
+            throw new Exception('Invalid parameter');
+        }
 
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $idlembaga = $this->session->userdata('lembaga_id');
-    if($idlembaga == 'kars'){
-        $this->Kars($id);
-        $this->Karslembaga($id);
-        $this->Karsdirjen($id);
-        $attachment = 'assets/generate/kars/kars_kosong'.$id.'.pdf';
-    }elseif($idlembaga == 'lam') {
-        $this->Lam($id);
-        $this->Lamlembaga($id);
-        $this->Lamdirjen($id);
-        $attachment = 'assets/generate/lam/Lam'.$id.'.pdf';
-    }elseif ($idlembaga == 'larsi') {
-        $this->Larsi($id);
-        $this->Larsilembaga($id);
-        $this->Larsidirjen($id);
-        $attachment = 'assets/generate/larsi/Larsi'.$id.'.pdf';
-    }elseif ($idlembaga == 'larsdhp') {
-        $this->Larsdhp($id);
-        $this->Larsdhplembaga($id);
-        $this->Larsdhpdirjen($id);
-        $attachment = 'assets/generate/larsdhp/Larsdhp'.$id.'.pdf';
+        $id = decrypt_url($uri);
+        if (empty($id)) {
+            throw new Exception('Invalid decryption');
+        }
 
-    }elseif ($idlembaga == 'lafki') {
-        $this->Lafki($id);
-        $this->Lafkilembaga($id);
-        $this->Lafkidirjen($id);
-        $attachment = 'assets/generate/lafki/lafki'.$id.'.pdf';
+        // 2. Get user data
+        $idlembaga = $this->session->userdata('lembaga_id');
+        if (empty($idlembaga)) {
+            throw new Exception('Session expired');
+        }
 
-    }elseif ($idlembaga == 'lars') {
-        $this->Lars($id);
-        $this->Larslembaga($id);
-        $this->Larsdirjen($id);
-        $attachment = 'assets/generate/lars/Lars'.$id.'.pdf';
+        // 3. Define certificate configuration
+        $config = [
+            'kars' => [
+                'methods' => ['Kars', 'Karslembaga', 'Karsdirjen'],
+                'path' => 'assets/generate/kars/kars_kosong'
+            ],
+            'lam' => [
+                'methods' => ['Lam', 'Lamlembaga', 'Lamdirjen'],
+                'path' => 'assets/generate/lam/Lam'
+            ],
+            'larsi' => [
+                'methods' => ['Larsi', 'Larsilembaga', 'Larsidirjen'],
+                'path' => 'assets/generate/larsi/Larsi'
+            ],
+            'larsdhp' => [
+                'methods' => ['Larsdhp', 'Larsdhplembaga', 'Larsdhpdirjen'],
+                'path' => 'assets/generate/larsdhp/Larsdhp'
+            ],
+            'lafki' => [
+                'methods' => ['Lafki', 'Lafkilembaga', 'Lafkidirjen'],
+                'path' => 'assets/generate/lafki/lafki'
+            ],
+            'lars' => [
+                'methods' => ['Lars', 'Larslembaga', 'Larsdirjen'],
+                'path' => 'assets/generate/lars/Lars'
+            ]
+        ];
+
+        // 4. Validate institution type
+        if (!isset($config[$idlembaga])) {
+            throw new Exception('Invalid institution type');
+        }
+
+        // 5. Generate certificates
+        foreach ($config[$idlembaga]['methods'] as $method) {
+            if (method_exists($this, $method)) {
+                $this->$method($id);
+            } else {
+                log_message('error', "Method {$method} not found");
+            }
+        }
+
+        // 6. Set attachment path
+        $attachment = $config[$idlembaga]['path'] . $id . '.pdf';
+
+        // 7. Prepare view data
+        $data = array(
+            'contents'   => "lembaga/Contentdetail",
+            'rs'        => $this->Dashboard_tte->Detail($id),
+            'lembaga'   => $idlembaga,
+            'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
+            'nik'       => $this->session->userdata('nik'),
+            'id'        => $id
+        );
+
+        // 8. Load view
+        $this->load->view('List_Rekomendasi', $data);
+
+    } catch (Exception $e) {
+        log_message('error', $e->getMessage());
+        $this->session->set_flashdata('error', $e->getMessage());
+        redirect('lembaga');
     }
-    $nonik = $this->session->userdata('nik'); 
-    $data = array('contents' => "lembaga/Contentdetail",
-      'rs'    => $this->Dashboard_tte->Detail($id),
-      'lembaga' => $this->session->userdata('lembaga_id'),
-      'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-      'nik' => $nonik,
-      'id' => $id,
-  );
-
-    $this->load->view('List_Rekomendasi',$data);
 }
 
 public function resume()
@@ -1216,5 +1250,4 @@ public function ttesurtugrs()
         Berhasil melakukan Tandatangan Elektronik</div>');
     redirect($url);
 }
-
 }
