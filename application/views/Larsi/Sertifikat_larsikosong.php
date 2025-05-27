@@ -52,11 +52,18 @@
                 z-index:  -1000;
             }
             .sertifikat-nomor {
-                            top: 25%;
-                            text-align: center;
-                            position: fixed;
-                            marging: auto;
-                          }
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 140px; /* Sesuaikan nilai top untuk mengatur jarak dari atas */
+}
+
+.sertifikat-nomor h2 {
+    font-size: 24px; /* Sesuaikan ukuran font */
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
             .sertifikat-nama {
                             top: 33%;
                             left: 15%;
@@ -65,11 +72,20 @@
                             width:800px;
                           }
             .sertifikat-tingkat {
-                      top: 51%;
-                      text-align: center;
                       position: fixed;
-                      marging: auto;
+                      width: 100%;
+                      text-align: center;
+                      top: 51%;
+                      left: 0;
+                      right: 0;
+                      margin: 0 auto;
                           }
+            .sertifikat-tingkat h2 {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
             .fixed {
                       position: fixed;
                       bottom: 0;
@@ -77,24 +93,23 @@
                       width: 300px;
                       border: 3px solid #73AD21;
                     }
-            .capayanimgparipurna {
-                    top: 55%;
-                      left:33 %;
-                      position: fixed;
-                      marging: auto;
-                  }
-            .capayanimgutama {
-                    top: 55%;
-                      left:33 %;
-                      position: fixed;
-                      marging: auto;
-                  }
-            .capayanimgmadya {
-                    top: 55%;
-                      left:33 %;
-                      position: fixed;
-                      marging: auto;
-                  }
+            .capayan-container {
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    top: 55%;
+    left: 0;
+    right: 0;
+}
+
+.capayanimgparipurna,
+.capayanimgutama,
+.capayanimgmadya {
+    display: block;
+    margin: 0 auto;
+    max-width: 370px;
+    height: 120px;
+}
           .bsd{
                     top: 63%;
                     text-align: center;
@@ -134,15 +149,20 @@
             <h2 class="mt-4 mb-5">Tingkat Kelulusan</h2>
           </div>
 
-          <div>
+          <div class="capayan-container">
         <?php if ($s->capayan == 'Utama'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/UtamaLarsi.png" alt=""height=120 width=370 class="capayanimgutama"></img>
+            <img src="https://sinar.kemkes.go.id/assets/capayan/UtamaLarsi.png" 
+                 alt="Utama" 
+                 class="capayanimgutama">
         <?php elseif ($s->capayan == 'Madya'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/MadyaLarsi.png" alt=""height=120 width=370 class="capayanimgmadya"></img>
+            <img src="https://sinar.kemkes.go.id/assets/capayan/MadyaLarsi.png" 
+                 alt="Madya" 
+                 class="capayanimgmadya">
         <?php elseif ($s->capayan == 'Paripurna'): ?>
-            <img src="https://sinar.kemkes.go.id/assets/capayan/ParipurnaLarsi.png" alt=""height=120 width=370 class="capayanimgparipurna"></img>
+            <img src="https://sinar.kemkes.go.id/assets/capayan/ParipurnaLarsi.png" 
+                 alt="Paripurna" 
+                 class="capayanimgparipurna">
         <?php endif; ?>
-
           </div>
           <div class="bsd">
           <h3 class="mt-4 mb-5">Berlaku Sampai : <?=tanggal_indonesia($s->tanggal_kadaluarsa_sertifikat)?></h3>
