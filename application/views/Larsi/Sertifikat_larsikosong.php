@@ -47,13 +47,14 @@
         .sertifikat-tingkat {
             width: 100%;
             text-align: center;
-            margin-bottom: 45px; /* Increased spacing */
+            margin-bottom: 20px; /* Reduced spacing to move closer to capayan */
+            margin-top: 60px; /* Added top margin to move down */
         }
         
         .capayan-container {
             width: 100%;
             text-align: center;
-            margin-bottom: 70px; /* Increased spacing */
+            margin-bottom: 40px; /* Reduced spacing */
         }
         
         .capayan-container img {
@@ -66,13 +67,15 @@
         .bsd {
             width: 100%;
             text-align: center;
-            margin-bottom: 70px; /* Increased spacing */
+            margin-bottom: 40px; /* Reduced spacing */
+            margin-top: -20px; /* Negative margin to move up closer to capayan */
         }
         
         .mengetahui {
             width: 100%;
-            text-align: center;
-            margin-top: 20px; /* Added top margin */
+            text-align: left; /* Align left instead of center */
+            margin-top: 20px;
+            padding-left: 14%; /* Move left using padding instead of margin */
         }
         
         /* Typography */
