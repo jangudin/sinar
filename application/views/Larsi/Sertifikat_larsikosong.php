@@ -68,12 +68,29 @@
         /* Typography */
         h1, h2, h3, h4 {
             margin: 10px 0;
+            font-weight: normal; /* Make all headings normal weight by default */
         }
         
-        h1 { font-size: 32px; }
-        h2 { font-size: 24px; }
-        h3 { font-size: 20px; }
-        h4 { font-size: 18px; }
+        h1 { 
+            font-size: 32px; 
+        }
+        
+        h2 { 
+            font-size: 24px;
+        }
+        
+        h3 { 
+            font-size: 20px;
+        }
+        
+        h4 { 
+            font-size: 18px;
+        }
+        
+        /* Only make hospital name bold */
+        .sertifikat-nama h1 {
+            font-weight: bold;
+        }
         
         /* Force single page */
         @media print {
