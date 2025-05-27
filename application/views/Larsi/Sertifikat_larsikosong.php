@@ -20,30 +20,30 @@
         main {
             width: 100%;
             text-align: center;
-            padding-top: 180px;
+            padding-top: 280px; /* Increased from 180px */
         }
         
         .sertifikat-nomor {
             width: 100%;
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px; /* Increased spacing */
         }
         
         .sertifikat-nama {
             width: 800px;
-            margin: 0 auto 50px;
+            margin: 0 auto 70px; /* Increased bottom margin */
         }
         
         .sertifikat-tingkat {
             width: 100%;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* Increased spacing */
         }
         
         .capayan-container {
             width: 100%;
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 70px; /* Increased spacing */
         }
         
         .capayan-container img {
@@ -56,12 +56,13 @@
         .bsd {
             width: 100%;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px; /* Increased spacing */
         }
         
         .mengetahui {
             width: 100%;
             text-align: center;
+            margin-top: 20px; /* Added top margin */
         }
         
         /* Typography */
