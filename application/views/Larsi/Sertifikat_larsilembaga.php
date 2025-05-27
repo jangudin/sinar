@@ -10,118 +10,103 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
     <style>
-      .nmrs {
-        font-family: 'Germania One', cursive;
-      }
+        /* Page Setup */
+        @page {
+            margin: 0cm 0cm;
+        }
+        
+        body {
+            margin-top: 180px;
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        /* Watermark */
+        #watermark {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 29.7cm;
+            height: 42cm;
+            z-index: -1000;
+        }
+        
+        /* Certificate Components */
+        .sertifikat-nomor {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 300px;
+        }
+        
+        .sertifikat-nama {
+            position: fixed;
+            top: 33%;
+            left: 15%;
+            width: 800px;
+            text-align: center;
+        }
+        
+        .sertifikat-tingkat {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 51%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+        
+        .capayan-container {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 55%;
+            left: 0;
+            right: 0;
+        }
+        
+        .bsd {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 63%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+        
+        .mengetahui {
+            position: fixed;
+            top: 72%;
+            left: 14%;
+        }
+        
+        /* Typography */
+        .sertifikat-nomor h2,
+        .sertifikat-tingkat h2,
+        .bsd h3 {
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+        }
+        
+        .nmrs {
+            font-family: 'Germania One', cursive;
+        }
+        
+        /* Images */
+        .capayanimgparipurna,
+        .capayanimgutama,
+        .capayanimgmadya {
+            display: block;
+            margin: 0 auto;
+            max-width: 370px;
+            height: 120px;
+        }
     </style>
-    <style>
-            /** 
-            * Set the margins of the PDF to 0
-            * so the background image will cover the entire page.
-            **/
-            @page {
-                margin: 0cm 0cm;
-            }
-
-            /**
-            * Define the real margins of the content of your PDF
-            * Here you will fix the margins of the header and footer
-            * Of your background image.
-            **/
-            body {
-                margin-top:    180px;
-                margin-bottom: 0cm;
-                margin-left:   0cm;
-                margin-right:  0cm;
-            }
-
-            /** 
-            * Define the width, height, margins and position of the watermark.
-            **/
-            #watermark {
-                position: fixed;
-                bottom:   0px;
-                left:     0px;
-                /** The width and height may change 
-                    according to the dimensions of your letterhead
-                **/
-                width:    29.7cm;
-                height:   42cm;
-
-                /** Your watermark should be behind every content**/
-                z-index:  -1000;
-            }
-            .sertifikat-nomor {
-                            top: 25%;
-                            text-align: center;
-                            position: fixed;
-                            marging: auto;
-                          }
-            .sertifikat-nama {
-                            top: 33%;
-                            left: 15%;
-                            text-align: center;
-                            position: fixed;
-                            width:800px;
-                          }
-            .sertifikat-tingkat {
-                      top: 51%;
-                      text-align: center;
-                      position: fixed;
-                      marging: auto;
-                          }
-            .fixed {
-                      position: fixed;
-                      bottom: 0;
-                      right: 0;
-                      width: 300px;
-                      border: 3px solid #73AD21;
-                    }
-            .capayan-container {
-                    position: fixed;
-                    width: 100%;
-                    text-align: center;
-                    top: 55%;
-                    left: 0;
-                    right: 0;
-                }
-            .capayanimgparipurna {
-                    display: block;
-                    margin: 0 auto;
-                    max-width: 370px;
-                    height: 120px;
-                  }
-            .capayanimgutama {
-                    display: block;
-                    margin: 0 auto;
-                    max-width: 370px;
-                    height: 120px;
-                  }
-            .capayanimgmadya {
-                    display: block;
-                    margin: 0 auto;
-                    max-width: 370px;
-                    height: 120px;
-                  }
-          .bsd{
-                    top: 63%;
-                    text-align: center;
-                      position: fixed;
-                      marging: auto;
-          }
-          .tglsertifikat{
-                    top: 70%;
-                    left:12%;
-                      position: fixed;
-                      marging: auto;
-          }
-          .mengetahui{
-                    top: 72%;
-                    left:14%;
-                      position: fixed;
-                      marging: auto;
-          }
-        </style>
     </head>
     <body class="text-centre">
       <?php foreach ($data as $s) { ?>

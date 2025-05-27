@@ -10,99 +10,102 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Germania+One&display=swap" rel="stylesheet">
     <style>
-    /* Base Styles */
-    .nmrs {
-        font-family: 'Germania One', cursive;
-    }
-
-    /* Page Setup */
-    @page {
-        margin: 0cm 0cm;
-    }
-
-    body {
-        margin-top: 180px;
-        margin-bottom: 0;
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    /* Watermark */
-    #watermark {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 29.7cm;
-        height: 42cm;
-        z-index: -1000;
-    }
-
-    /* Certificate Components */
-    .sertifikat-nomor {
-        position: absolute;
-        width: 100%;
-        text-align: center;
-        top: 140px;
-    }
-
-    .sertifikat-nama {
-        position: fixed;
-        top: 33%;
-        left: 15%;
-        width: 800px;
-        text-align: center;
-    }
-
-    .sertifikat-tingkat {
-        position: fixed;
-        width: 100%;
-        text-align: center;
-        top: 51%;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-    }
-
-    /* Capayan Images */
-    .capayanimgparipurna,
-    .capayanimgutama,
-    .capayanimgmadya {
-        position: fixed;
-        top: 55%;
-        left: 50%;
-        transform: translateX(-50%);
-        margin: 0 auto;
-        display: block;
-        max-width: 370px;
-        height: 120px;
-    }
-
-    /* Bottom Sections */
-    .bsd {
-        position: fixed;
-        width: 100%;
-        text-align: center;
-        top: 63%;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-    }
-
-    .mengetahui {
-        position: fixed;
-        top: 72%;
-        left: 14%;
-    }
-
-    /* Typography */
-    .sertifikat-nomor h2,
-    .sertifikat-tingkat h2,
-    .bsd h3 {
-        font-size: 24px;
-        margin: 0;
-        padding: 0;
-        font-weight: normal;
-    }
+        /* Page Setup */
+        @page {
+            margin: 0cm 0cm;
+        }
+        
+        body {
+            margin-top: 180px;
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        /* Watermark */
+        #watermark {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 29.7cm;
+            height: 42cm;
+            z-index: -1000;
+        }
+        
+        /* Certificate Components */
+        .sertifikat-nomor {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 300px;
+        }
+        
+        .sertifikat-nama {
+            position: fixed;
+            top: 33%;
+            left: 15%;
+            width: 800px;
+            text-align: center;
+        }
+        
+        .sertifikat-tingkat {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 51%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+        
+        .capayan-container {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 55%;
+            left: 0;
+            right: 0;
+        }
+        
+        .bsd {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            top: 63%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+        
+        .mengetahui {
+            position: fixed;
+            top: 72%;
+            left: 14%;
+        }
+        
+        /* Typography */
+        .sertifikat-nomor h2,
+        .sertifikat-tingkat h2,
+        .bsd h3 {
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+        }
+        
+        .nmrs {
+            font-family: 'Germania One', cursive;
+        }
+        
+        /* Images */
+        .capayanimgparipurna,
+        .capayanimgutama,
+        .capayanimgmadya {
+            display: block;
+            margin: 0 auto;
+            max-width: 370px;
+            height: 120px;
+        }
     </style>
     </head>
     <body class="text-centre">
