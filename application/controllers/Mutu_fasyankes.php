@@ -866,7 +866,7 @@ public function tpmd_detail($id_pengajuan = null)
 
     // Prepare data untuk view
     $data = [
-        'contents' => 'tpmd_detail',
+        'contents' => 'detailtpmd',
         'title' => 'Detail TPMD',
         'detail' => $detail,
         'attachment' => $attachment,

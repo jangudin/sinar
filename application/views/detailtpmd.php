@@ -18,172 +18,98 @@
                 <?php echo $this->session->flashdata('msg');?>
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Detail</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Settings 1</a>
-                            <a class="dropdown-item" href="#">Settings 2</a>
-                          </div>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
+                    <h2>Detail TPMD</h2>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
-                  <table class="table table-striped table-sm">
-                  <?php foreach ($detail as $s) { ?>
-                  <tr>
-                    <td>Nama Faskes</td>
-                    <td>:</td>
-                    <td><?=$s->nama_pm ?></td>
-                  </tr>
-                  <tr>
-                    <td>Alamat</td>
-                    <td>:</td>
-                    <td><?=$s->alamat_faskes ?></td>
-                  </tr>
-                  </table>
-                </br>
-                <hr>
-                <?php if($hasiltte): ?>
-                            <label>Sertifikat <a href="<?= $hasiltte ?>" target="_blank">(Layar Penuh)</a></label><br/>
-                            <iframe src="<?= $hasiltte?>" frameborder="0" width="100%" height="1300px"></iframe>
-                <?php else: ?>
-                    <label>Sertifikat <a href="<?= $attachment ?>" target="_blank">(Layar Penuh)</a></label><br/>
-                    <iframe src="<?= $attachment ?>" frameborder="0" width="100%" height="1000px"></iframe>
-                    <br />
-                    <br />
-                    <hr>
-                    <br />
-                    <br />   
-                    <br>
-                    <br> 
-                    
-                    <form class="form-horizontal form-label-left" action="<?= base_url('DirjenYankes/ttedirjenTPMD') ?>" method="post" enctype="multipart/form-data">
-                          <div class="form-group row">
-                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nik <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 ">
-                              <input type="text" name="nik" value="<?php $this->session->userdata('nik') ?>" required="required" class="form-control">
-                              <input type="hidden" value="<?=$s->id_pengajuan ?>" name="idp" required="required" class="form-control  ">
-                              <input type="hidden" value="KEMENKES" name="lembaga" required="required" class="form-control">
-                              <input type="hidden" value="<?=$s->id ?>" name="data_sertifikat_tpmd_id" required="required" class="form-control">
-                              <input type="hidden" value="<?=$s->kode_faskes_baru ?>" name="id" required="required" class="form-control  ">
-                              <input type="hidden" value="TPMD" name="jenis" required="required" class="form-control  ">
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Passprase <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 ">
-                              <input type="password" id="last-name" name="passphrase" required="required" class="form-control ">
-                            </div>
-                          </div>
-                                        <div class="ln_solid">
-                                            <div class="form-group">
-                                                <div class="col-md-6 offset-md-3">
-                                                  <br>
-                                                    <button type='submit' class="btn btn-primary" onclick="spinner()">TTE SERTIFIKAT</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                        </form>
-                <?php endif; ?>
-                       <?php } ?>
-                          
-                  </div>
-                </div>
-              </div>
-                                    
-                  <br />
-                  <hr>
-                  <br />
-                  <br />
 
+                  <?php if($this->session->flashdata('error')): ?>
+                      <div class="alert alert-danger">
+                          <?= $this->session->flashdata('error') ?>
+                      </div>
+                  <?php endif; ?>
                   
-                    
-              <!-- <div class="col-md-12 col-sm-12  ">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>Progres Sertifikat <small>Sessions</small></h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" href="#">Settings 1</a>
-                          <a class="dropdown-item" href="#">Settings 2</a>
-                        </div>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <ul class="list-unstyled timeline">
-                    <li>
-                      <div class="block">
-                        <div class="tags">
-                          <a href="" class="tag">
-                            <span>Lembaga</span>
-                          </a>
-                        </div>
-                        <div class="block_content">
-                          <h2 class="title">
-                                          <a>Dikirim Ke Direktorat Mutu</a>
-                                      </h2>
-                          <div class="byline">
-                            <span>18 Oktober 2022</span> by <a>Jane Smith</a>
-                          </div>
-                        </div>
+                  <div class="x_content">
+                    <div class="row">
+                      <div class="col-md-6">
+                          <table class="table table-bordered">
+                              <tr>
+                                  <th width="30%">Kode Faskes</th>
+                                  <td><?= $detail->kode_faskes ?></td>
+                              </tr>
+                              <tr>
+                                  <th>Nama Faskes</th>
+                                  <td><?= $detail->nama_pm ?></td>
+                              </tr>
+                              <tr>
+                                  <th>Alamat</th>
+                                  <td><?= $detail->alamat ?></td>
+                              </tr>
+                              <tr>
+                                  <th>Kecamatan</th>
+                                  <td><?= $detail->kecamatan ?></td>
+                              </tr>
+                              <tr>
+                                  <th>Kab/Kota</th>
+                                  <td><?= $detail->kab_kota ?></td>
+                              </tr>
+                              <tr>
+                                  <th>Provinsi</th>
+                                  <td><?= $detail->provinsi ?></td>
+                              </tr>
+                          </table>
                       </div>
-                    </li>
-                    <li>
-                      <div class="block">
-                        <div class="tags">
-                          <a href="" class="tag">
-                            <span>Mutu</span>
-                          </a>
-                        </div>
-                        <div class="block_content">
-                          <h2 class="title">
-                                          <a>Dikirim Ke Dirjen Yankes</a>
-                                      </h2>
-                          <div class="byline">
-                            <span>18 Oktober 2022</span> by <a>Jane Smith</a>
-                          </div>
-                        </div>
+                      <div class="col-md-6">
+                          <table class="table table-bordered">
+                              <tr>
+                                  <th width="30%">Status Verifikasi</th>
+                                  <td>
+                                      <?php if($detail->status_verifikasi == 1): ?>
+                                          <span class="badge badge-success">Terverifikasi</span>
+                                      <?php else: ?>
+                                          <span class="badge badge-warning">Belum Verifikasi</span>
+                                      <?php endif; ?>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>Tanggal Usulan</th>
+                                  <td><?= format_indo($detail->tanggal_usulan) ?></td>
+                              </tr>
+                              <tr>
+                                  <th>Status Katim</th>
+                                  <td><?= $detail->status_setuju_katim ?></td>
+                              </tr>
+                              <tr>
+                                  <th>Keterangan Katim</th>
+                                  <td><?= $detail->keterangan_katim ?: '-' ?></td>
+                              </tr>
+                          </table>
                       </div>
-                    </li>
-                    <li>
-                      <div class="block">
-                        <div class="tags">
-                          <a href="" class="tag">
-                            <span>Dirgen Yankes</span>
-                          </a>
-                        </div>
-                        <div class="block_content">
-                          <h2 class="title">
-                                          <a>Selesai Ditandatangani</a>
-                                      </h2>
-                          <div class="byline">
-                            <span>18 Oktober 2022</span> by <a>Jane Smith</a>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
+                  </div>
 
+                  <?php if($attachment): ?>
+                  <div class="row mt-4">
+                      <div class="col-md-12">
+                          <h4>Dokumen Sertifikat</h4>
+                          <div class="btn-group">
+                              <a href="<?= $attachment ?>" class="btn btn-primary" target="_blank">
+                                  <i class="fa fa-file-pdf-o"></i> Sertifikat
+                              </a>
+                              <?php if($valid): ?>
+                              <a href="<?= $valid ?>" class="btn btn-success" target="_blank">
+                                  <i class="fa fa-check-circle"></i> Sertifikat Valid
+                              </a>
+                              <?php endif; ?>
+                              <?php if($hasiltte): ?>
+                              <a href="<?= $hasiltte ?>" class="btn btn-info" target="_blank">
+                                  <i class="fa fa-file-text"></i> Hasil TTE
+                              </a>
+                              <?php endif; ?>
+                          </div>
+                      </div>
+                  </div>
+                  <?php endif; ?>
                 </div>
               </div>
-            </div> -->
             </div>
           </div>
         </div>
