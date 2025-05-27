@@ -37,7 +37,7 @@
             position: absolute;
             width: 100%;
             text-align: center;
-            top: 300px;
+            top: 400px;
         }
         
         .sertifikat-nama {
@@ -127,7 +127,7 @@
             <h2 class="mt-4 mb-5">Tingkat Kelulusan</h2>
           </div>
 
-          <div class="capayan-container">
+          <div>
         <?php if ($s->capayan == 'Utama'): ?>
             <img src="https://sinar.kemkes.go.id/assets/capayan/UtamaLarsi.png" alt=""height=120 width=370 class="capayanimgutama"></img>
         <?php elseif ($s->capayan == 'Madya'): ?>
