@@ -104,30 +104,35 @@
                                     <h4 class="card-title">Dokumen Sertifikat</h4>
                                 </div>
                                 <div class="card-body">
-                                    <!-- PDF Preview -->
+                                    <!-- PDF Preview with disabled download -->
                                     <div class="mb-3">
-                                        <embed src="<?= $attachment ?>" 
-                                               type="application/pdf" 
-                                               width="100%" 
-                                               height="600px" 
-                                               style="border: 1px solid #ccc;">
+                                        <object 
+                                            data="<?= $attachment ?>" 
+                                            type="application/pdf" 
+                                            width="100%" 
+                                            height="600px"
+                                            style="border: 1px solid #ccc;">
+                                            <param name="download" value="false"/>
+                                            <param name="print" value="false"/>
+                                            <param name="toolbar" value="0"/>
+                                        </object>
                                     </div>
 
-                                    <!-- Download Buttons -->
+                                    <!-- View Only Buttons -->
                                     <div class="btn-group">
-                                        <a href="<?= $attachment ?>" class="btn btn-primary" target="_blank">
+                                        <a href="<?= $attachment ?>" class="btn btn-primary" target="_blank" 
+                                           onclick="return false;" style="cursor: not-allowed;">
                                             <i class="fa fa-file-pdf-o"></i> Lihat Sertifikat
                                         </a>
-                                        <a href="<?= $attachment ?>" class="btn btn-success" download>
-                                            <i class="fa fa-download"></i> Download Sertifikat
-                                        </a>
                                         <?php if($valid): ?>
-                                        <a href="<?= $valid ?>" class="btn btn-info" target="_blank">
+                                        <a href="<?= $valid ?>" class="btn btn-info" target="_blank"
+                                           onclick="return false;" style="cursor: not-allowed;">
                                             <i class="fa fa-check-circle"></i> Sertifikat Valid
                                         </a>
                                         <?php endif; ?>
                                         <?php if($hasiltte): ?>
-                                        <a href="<?= $hasiltte ?>" class="btn btn-warning" target="_blank">
+                                        <a href="<?= $hasiltte ?>" class="btn btn-warning" target="_blank"
+                                           onclick="return false;" style="cursor: not-allowed;">
                                             <i class="fa fa-file-text"></i> Hasil TTE
                                         </a>
                                         <?php endif; ?>
