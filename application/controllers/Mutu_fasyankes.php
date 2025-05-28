@@ -895,7 +895,7 @@ private function _generate_certificate($id) {
     // 8. Generate PDF
     try {
         // Load view
-        $html = $this->load->view('tpmd/sertifikat_tpmd', $data, true);
+        $html = $this->load->view('tpmd/sertifikatkosong', $data, true);
         
         // Generate PDF
         $this->pdf->load_html($html);
@@ -936,5 +936,49 @@ public function generate_certificate($uri = null) {
         $this->session->set_flashdata('error', $e->getMessage());
         redirect('tpmd/detail/' . $uri);
     }
+}
+public function verify_tpmd($encrypted_id = null) 
+{
+    try {
+        // Validate input
+        if (!$encrypted_id) {
+            throw new Exception('ID Pengajuan tidak valid');
+        }
+
+        $id_pengajuan = decrypt_url($encrypted_id);
+        if (!$id_pengajuan) {
+            throw new Exception('ID Pengajuan tidak valid');
+        }
+
+        // Validate form data
+        $status = $this->input->post('status_verifikasi');
+        $keterangan = $this->input->post('keterangan');
+
+        if (!in_array($status, ['1', '2'])) {
+            throw new Exception('Status verifikasi tidak valid');
+        }
+
+        if (empty($keterangan)) {
+            throw new Exception('Keterangan harus diisi');
+        }
+
+        // Update verification status
+        $data = [
+            'status_verifikasi' => $status,
+            'keterangan_verifikasi' => $keterangan,
+            'tanggal_verifikasi' => date('Y-m-d H:i:s'),
+            'verifikator_id' => $this->session->userdata('user_id')
+        ];
+
+        $this->Tte_non_rs->update_tpmd_verification($id_pengajuan, $data);
+
+        // Set success message
+        $this->session->set_flashdata('msg', 'Data berhasil diverifikasi');
+
+    } catch (Exception $e) {
+        $this->session->set_flashdata('error', $e->getMessage());
+    }
+
+    redirect('mutu_fasyankes/tpmd_detail/' . $encrypted_id);
 }
 }

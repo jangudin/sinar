@@ -125,6 +125,46 @@
                     </div>
                     <?php endif; ?>
 
+                    <!-- Verifikasi Form -->
+                    <?php if($detail->status_verifikasi != 1): ?>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Form Verifikasi TPMD</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form action="<?= base_url('mutu_fasyankes/verify_tpmd/' . encrypt_url($detail->id_pengajuan)) ?>" method="POST">
+                                        <div class="form-group">
+                                            <label>Status Verifikasi</label>
+                                            <select name="status_verifikasi" class="form-control" required>
+                                                <option value="">Pilih Status</option>
+                                                <option value="1">Setuju</option>
+                                                <option value="2">Tolak</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Keterangan</label>
+                                            <textarea name="keterangan" class="form-control" rows="3" required 
+                                                    placeholder="Masukkan keterangan verifikasi"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-check"></i> Submit Verifikasi
+                                            </button>
+                                            <button type="reset" class="btn btn-secondary">
+                                                <i class="fa fa-refresh"></i> Reset
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
                     <!-- Generate Certificate Button -->
                     <?php if(!$attachment && $detail->status_verifikasi == 1): ?>
                         <div class="row mt-4">

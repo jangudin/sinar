@@ -3331,4 +3331,9 @@ public function get_tpmd_detail($id_pengajuan) {
 
     return $this->sina->query($query, [$id_pengajuan])->row();
 }
+public function update_tpmd_verification($id_pengajuan, $data)
+{
+    $this->sina->where('id_pengajuan', $id_pengajuan);
+    return $this->sina->update('verifikasi_api', $data);
+}
 }
