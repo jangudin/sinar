@@ -1006,21 +1006,30 @@ public function view_pdf($encrypted_id) {
             throw new Exception('File not found');
         }
 
-        // 3. Set headers to prevent download
+        // 3. Set secure headers
         header('Content-Type: application/pdf');
-        header('Content-Disposition: inline; filename="sertifikat.pdf"');
-        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-        header('Cache-Control: post-check=0, pre-check=0', false);
-        header('Pragma: no-cache');
-        header('X-Frame-Options: SAMEORIGIN');
+        header('Content-Disposition: inline; filename="sertifikat_tpmd.pdf"');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET');
         header('X-Content-Type-Options: nosniff');
-        
-        // 4. Output file
+        header('X-Frame-Options: SAMEORIGIN');
+        header('Content-Security-Policy: default-src \'self\'');
+        header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+        header('Referrer-Policy: same-origin');
+
+        // 4. Clean output buffer
+        ob_clean();
+        flush();
+
+        // 5. Output file with specified length
+        $filesize = filesize($file_path);
+        header('Content-Length: ' . $filesize);
         readfile($file_path);
         exit;
 
     } catch (Exception $e) {
-        show_error($e->getMessage(), 404);
+        log_message('error', 'PDF View Error: ' . $e->getMessage());
+        show_error('Unable to display PDF. Please try again later.', 404);
     }
 }
 }

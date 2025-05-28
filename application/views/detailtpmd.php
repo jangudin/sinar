@@ -112,7 +112,12 @@
                                             height="600px"
                                             style="border: 1px solid #ccc;"
                                             sandbox="allow-scripts allow-same-origin"
+                                            security="restricted"
+                                            referrerpolicy="no-referrer"
+                                            loading="lazy"
+                                            importance="high"
                                             oncontextmenu="return false;">
+                                            <p>Your browser does not support iframes.</p>
                                         </iframe>
                                     </div>
 
