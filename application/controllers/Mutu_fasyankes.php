@@ -991,4 +991,36 @@ public function verify_tpmd($encrypted_id = null)
 
     redirect('mutu_fasyankes/tpmd_detail/' . $encrypted_id);
 }
+
+public function view_pdf($encrypted_id) {
+    try {
+        // 1. Decrypt and validate ID
+        $id_pengajuan = decrypt_url($encrypted_id);
+        if (!$id_pengajuan) {
+            throw new Exception('Invalid parameter');
+        }
+
+        // 2. Get file path
+        $file_path = FCPATH . "assets/TPMD/{$id_pengajuan}.pdf";
+        if (!file_exists($file_path)) {
+            throw new Exception('File not found');
+        }
+
+        // 3. Set headers to prevent download
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="sertifikat.pdf"');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Cache-Control: post-check=0, pre-check=0', false);
+        header('Pragma: no-cache');
+        header('X-Frame-Options: SAMEORIGIN');
+        header('X-Content-Type-Options: nosniff');
+        
+        // 4. Output file
+        readfile($file_path);
+        exit;
+
+    } catch (Exception $e) {
+        show_error($e->getMessage(), 404);
+    }
+}
 }

@@ -104,37 +104,32 @@
                                     <h4 class="card-title">Dokumen Sertifikat</h4>
                                 </div>
                                 <div class="card-body">
-                                    <!-- PDF Preview with disabled download -->
+                                    <!-- Secure PDF Preview using iframe -->
                                     <div class="mb-3">
-                                        <object 
-                                            data="<?= $attachment ?>" 
-                                            type="application/pdf" 
+                                        <iframe 
+                                            src="<?= base_url('mutu_fasyankes/view_pdf/' . encrypt_url($detail->id_pengajuan)) ?>"
                                             width="100%" 
                                             height="600px"
-                                            style="border: 1px solid #ccc;">
-                                            <param name="download" value="false"/>
-                                            <param name="print" value="false"/>
-                                            <param name="toolbar" value="0"/>
-                                        </object>
+                                            style="border: 1px solid #ccc;"
+                                            sandbox="allow-scripts allow-same-origin"
+                                            oncontextmenu="return false;">
+                                        </iframe>
                                     </div>
 
                                     <!-- View Only Buttons -->
                                     <div class="btn-group">
-                                        <a href="<?= $attachment ?>" class="btn btn-primary" target="_blank" 
-                                           onclick="return false;" style="cursor: not-allowed;">
+                                        <button class="btn btn-primary" disabled>
                                             <i class="fa fa-file-pdf-o"></i> Lihat Sertifikat
-                                        </a>
+                                        </button>
                                         <?php if($valid): ?>
-                                        <a href="<?= $valid ?>" class="btn btn-info" target="_blank"
-                                           onclick="return false;" style="cursor: not-allowed;">
+                                        <button class="btn btn-info" disabled>
                                             <i class="fa fa-check-circle"></i> Sertifikat Valid
-                                        </a>
+                                        </button>
                                         <?php endif; ?>
                                         <?php if($hasiltte): ?>
-                                        <a href="<?= $hasiltte ?>" class="btn btn-warning" target="_blank"
-                                           onclick="return false;" style="cursor: not-allowed;">
+                                        <button class="btn btn-warning" disabled>
                                             <i class="fa fa-file-text"></i> Hasil TTE
-                                        </a>
+                                        </button>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -201,3 +196,19 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Prevent keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'p' || e.key === 'c')) {
+            e.preventDefault();
+        }
+    });
+
+    // Prevent right click
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+});
+</script>
