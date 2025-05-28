@@ -805,49 +805,59 @@ public function ttedirnonrs()
     redirect($url);
 }
 
-
 public function tpmd_detail($id_pengajuan = null) {
-    // Validate input
-    if (!$id_pengajuan) {
-        $id_pengajuan = $this->uri->segment(3);
+    try {
+        // 1. Validate input
         if (!$id_pengajuan) {
-            $this->session->set_flashdata('error', 'ID Pengajuan tidak valid');
-            redirect('mutu_fasyankes/tpmdbelumverifikasi');
+            $id_pengajuan = $this->uri->segment(3);
+            if (!$id_pengajuan) {
+                throw new Exception('ID Pengajuan tidak valid');
+            }
         }
-    }
 
-    // Get TPMD detail using the new query
-    $detail = $this->Tte_non_rs->get_tpmd_detail($id_pengajuan);
+        // 2. Get TPMD detail
+        $detail = $this->Tte_non_rs->get_tpmd_detail($id_pengajuan);
+        if (!$detail) {
+            throw new Exception('Data TPMD tidak ditemukan');
+        }
 
-    if (!$detail) {
-        $this->session->set_flashdata('error', 'Data TPMD tidak ditemukan');
+        // 3. Generate certificate
+        $this->filesertifikattpmd(
+            $detail->kode_faskes, 
+            $id_pengajuan,
+            $detail->tanggal_usulan
+        );
+
+        // 4. Setup file paths
+        $file_paths = [
+            'attachment' => 'assets/TPMD/' . $id_pengajuan . '.pdf',
+            'valid' => 'assets/TPMD/dir' . $id_pengajuan . '.pdf',
+            'hasiltte' => 'assets/TPMD/FINALdir' . $id_pengajuan . '.pdf'
+        ];
+
+        // 5. Check files existence
+        $files = array_map(function($path) {
+            return file_exists(FCPATH . $path) ? base_url($path) : null;
+        }, $file_paths);
+
+        // 6. Prepare view data
+        $data = [
+            'contents' => 'detailtpmd',
+            'title' => 'Detail TPMD',
+            'detail' => $detail,
+            'attachment' => $files['attachment'],
+            'valid' => $files['valid'],
+            'hasiltte' => $files['hasiltte']
+        ];
+
+        $this->load->view('List_Rekomendasi', $data);
+
+    } catch (Exception $e) {
+        $this->session->set_flashdata('error', $e->getMessage());
         redirect('mutu_fasyankes/tpmdbelumverifikasi');
     }
-
-    // Setup file paths
-    $file_paths = [
-        'attachment' => 'assets/TPMD/' . $id_pengajuan . '.pdf',
-        'valid' => 'assets/TPMD/dir' . $id_pengajuan . '.pdf',
-        'hasiltte' => 'assets/TPMD/FINALdir' . $id_pengajuan . '.pdf'
-    ];
-
-    // Check files existence
-    $files = array_map(function($path) {
-        return file_exists(FCPATH . $path) ? base_url($path) : null;
-    }, $file_paths);
-
-    // Prepare view data
-    $data = [
-        'contents' => 'detailtpmd',
-        'title' => 'Detail TPMD',
-        'detail' => $detail,
-        'attachment' => $files['attachment'],
-        'valid' => $files['valid'],
-        'hasiltte' => $files['hasiltte']
-    ];
-
-    $this->load->view('List_Rekomendasi', $data);
 }
+
 private function _generate_certificate($id) {
     // 1. Validate input
     if (empty($id)) {
