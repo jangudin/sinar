@@ -104,17 +104,30 @@
                                     <h4 class="card-title">Dokumen Sertifikat</h4>
                                 </div>
                                 <div class="card-body">
+                                    <!-- PDF Preview -->
+                                    <div class="mb-3">
+                                        <embed src="<?= $attachment ?>" 
+                                               type="application/pdf" 
+                                               width="100%" 
+                                               height="600px" 
+                                               style="border: 1px solid #ccc;">
+                                    </div>
+
+                                    <!-- Download Buttons -->
                                     <div class="btn-group">
                                         <a href="<?= $attachment ?>" class="btn btn-primary" target="_blank">
-                                            <i class="fa fa-file-pdf-o"></i> Sertifikat
+                                            <i class="fa fa-file-pdf-o"></i> Lihat Sertifikat
+                                        </a>
+                                        <a href="<?= $attachment ?>" class="btn btn-success" download>
+                                            <i class="fa fa-download"></i> Download Sertifikat
                                         </a>
                                         <?php if($valid): ?>
-                                        <a href="<?= $valid ?>" class="btn btn-success" target="_blank">
+                                        <a href="<?= $valid ?>" class="btn btn-info" target="_blank">
                                             <i class="fa fa-check-circle"></i> Sertifikat Valid
                                         </a>
                                         <?php endif; ?>
                                         <?php if($hasiltte): ?>
-                                        <a href="<?= $hasiltte ?>" class="btn btn-info" target="_blank">
+                                        <a href="<?= $hasiltte ?>" class="btn btn-warning" target="_blank">
                                             <i class="fa fa-file-text"></i> Hasil TTE
                                         </a>
                                         <?php endif; ?>
