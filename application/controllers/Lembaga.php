@@ -2,10 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Lembaga extends CI_Controller {
-    function __construct(){
+    public function __construct() {
         parent::__construct();
-        date_default_timezone_set('Asia/Jakarta');
-        ini_set('max_execution_time', '300');
+        ini_set('max_execution_time', 300);     // 5 minutes
+        ini_set('memory_limit', '256M');        // 256MB memory
+        ini_set('output_buffering', 'off');     // Disable output buffering
+        set_time_limit(300);                    // 5 minutes timeout
         $this->load->model('Dashboard_tte');
         $this->load->model('M_lpa');
         $this->sina = $this->load->database('sina', TRUE);
@@ -52,53 +54,98 @@ class Lembaga extends CI_Controller {
 
  public function Detail()
  {
+    try {
+        // 1. Validate input parameters
+        $uri = $this->uri->segment(3);
+        if (empty($uri)) {
+            throw new Exception('Invalid parameter');
+        }
 
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $idlembaga = $this->session->userdata('lembaga_id');
-    if($idlembaga == 'kars'){
-        $this->Kars($id);
-        $this->Karslembaga($id);
-        $this->Karsdirjen($id);
-        $attachment = 'assets/generate/kars/kars_kosong'.$id.'.pdf';
-    }elseif($idlembaga == 'lam') {
-        $this->Lam($id);
-        $this->Lamlembaga($id);
-        $this->Lamdirjen($id);
-        $attachment = 'assets/generate/lam/Lam'.$id.'.pdf';
-    }elseif ($idlembaga == 'larsi') {
-        $this->Larsi($id);
-        $this->Larsilembaga($id);
-        $this->Larsidirjen($id);
-        $attachment = 'assets/generate/larsi/Larsi'.$id.'.pdf';
-    }elseif ($idlembaga == 'larsdhp') {
-        $this->Larsdhp($id);
-        $this->Larsdhplembaga($id);
-        $this->Larsdhpdirjen($id);
-        $attachment = 'assets/generate/larsdhp/Larsdhp'.$id.'.pdf';
+        $id = decrypt_url($uri);
+        if (empty($id)) {
+            throw new Exception('Invalid decryption');
+        }
 
-    }elseif ($idlembaga == 'lafki') {
-        $this->Lafki($id);
-        $this->Lafkilembaga($id);
-        $this->Lafkidirjen($id);
-        $attachment = 'assets/generate/lafki/lafki'.$id.'.pdf';
+        // 2. Get user data
+        $idlembaga = $this->session->userdata('lembaga_id');
+        if (empty($idlembaga)) {
+            throw new Exception('Session expired');
+        }
 
-    }elseif ($idlembaga == 'lars') {
-        $this->Lars($id);
-        $this->Larslembaga($id);
-        $this->Larsdirjen($id);
-        $attachment = 'assets/generate/lars/Lars'.$id.'.pdf';
+        // 3. Define paths based on lembaga type
+        $paths = [
+            'kars' => [
+                'sertifikat' => 'assets/generate/kars/kars_kosong' . $id . '.pdf',
+                'hasiltte' => 'assets/generate/kars/ttekars_lembaga' . $id . '.pdf'
+            ],
+            'lam' => [
+                'sertifikat' => 'assets/generate/lam/Lam' . $id . '.pdf',
+                'hasiltte' => 'assets/generate/lam/tteLamlembaga' . $id . '.pdf'
+            ],
+            'larsi' => [
+                'sertifikat' => 'assets/generate/larsi/Larsi' . $id . '.pdf',
+                'hasiltte' => 'assets/generate/larsi/tteLarsilembaga' . $id . '.pdf'
+            ],
+            'larsdhp' => [
+                'sertifikat' => 'assets/generate/larsdhp/Larsdhp' . $id . '.pdf',
+                'hasiltte' => 'assets/generate/larsdhp/tteLarsdhplembaga' . $id . '.pdf'
+            ],
+            'lafki' => [
+                'sertifikat' => 'assets/generate/lafki/lafki' . $id . '.pdf',
+                'hasiltte' => 'assets/generate/lafki/ttelafkilembaga' . $id . '.pdf'
+            ],
+            'lars' => [
+                'sertifikat' => 'assets/generate/lars/Lars' . $id . '.pdf',
+                'hasiltte' => 'assets/generate/lars/tteLarslembaga' . $id . '.pdf'
+            ]
+        ];
+
+        // 4. Validate lembaga type
+        if (!isset($paths[$idlembaga])) {
+            throw new Exception('Invalid institution type');
+        }
+
+        // 5. Generate certificate
+        if ($idlembaga == 'larsi') {
+            $this->Larsi($id);
+            $this->Larsilembaga($id);
+            $this->Larsidirjen($id);
+        } else {
+            $method = ucfirst($idlembaga);
+            if (method_exists($this, $method)) {
+                $this->$method($id);
+            }
+            $method .= 'lembaga';
+            if (method_exists($this, $method)) {
+                $this->$method($id);
+            }
+            $method = ucfirst($idlembaga) . 'dirjen';
+            if (method_exists($this, $method)) {
+                $this->$method($id);
+            }
+        }
+
+        // 6. Prepare view data
+        $data = array(
+            'contents'   => "lembaga/Contentdetail",
+            'rs'        => $this->Dashboard_tte->Detail($id),
+            'lembaga'   => $idlembaga,
+            'attachment' => is_file(FCPATH . $paths[$idlembaga]['sertifikat']) ? 
+                          base_url($paths[$idlembaga]['sertifikat']) : null,
+            'hasiltte'  => is_file(FCPATH . $paths[$idlembaga]['hasiltte']) ? 
+                          base_url($paths[$idlembaga]['hasiltte']) : null,
+            'nik'       => $this->session->userdata('nik'),
+            'id'        => $id
+        );
+
+        // 7. Load view
+        $this->load->view('List_Rekomendasi', $data);
+
+    } catch (Exception $e) {
+        log_message('error', $e->getMessage());
+        $this->session->set_flashdata('error', $e->getMessage());
+        redirect('lembaga');
     }
-    $nonik = $this->session->userdata('nik'); 
-    $data = array('contents' => "lembaga/Contentdetail",
-      'rs'    => $this->Dashboard_tte->Detail($id),
-      'lembaga' => $this->session->userdata('lembaga_id'),
-      'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-      'nik' => $nonik,
-      'id' => $id,
-  );
-
-    $this->load->view('List_Rekomendasi',$data);
 }
 
 public function resume()
@@ -144,11 +191,25 @@ public function resume()
 
 // generate pdf kars open
 
+private function base64EncodeImage($filename = "")
+{
+    if (file_exists($filename)) {
+        $type = pathinfo($filename, PATHINFO_EXTENSION);
+        $data = file_get_contents($filename);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+    return '';
+}
+
 public function Kars($id)
 {
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+      $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/bgsertifikat/newKARS-0.jpg');
+      $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsparipurna.png');
+      $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsutama.png');
+      $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsmadya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -178,6 +239,10 @@ public function Karslembaga($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/bgsertifikat/newKARS-1.jpg');
+     $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsparipurna.png');
+     $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsutama.png');
+     $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsmadya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -207,6 +272,10 @@ public function Karsdirjen($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+     $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/karsdir.jpg');
+     $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsparipurna.png');
+     $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsutama.png');
+     $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/karsmadya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -240,6 +309,10 @@ public function Lam($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lafkikosong.jpeg');
+    $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/paripurna.png');
+    $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/utama.png');
+    $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/madya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -270,6 +343,10 @@ public function Lamlembaga($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lamkprskosong.jpg');
+    $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/lamutama.png');
+    $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/lammadya.png');
+    $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/lamparipurna.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -300,6 +377,10 @@ public function Lamdirjen($id)
     $uri = $this->uri->segment(3);
     $id = decrypt_url($uri);
     $this->load->library('pdfgenerator');
+    $data['background_base64'] = $this->base64EncodeImage(FCPATH . 'assets/sertifikat/lafkikosong.jpeg');
+    $data['paripurna'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/paripurna.png');
+    $data['utama'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/utama.png');
+    $data['madya'] = $this->base64EncodeImage(FCPATH . 'assets/capayan/madya.png');
 
         // title dari pdf
     $this->data['title_pdf'] = 'Sertifikat';
@@ -325,371 +406,73 @@ public function Lamdirjen($id)
 
 }
 
+private function _generate_larsi_certificate($type, $id) {
+    // Check if file already exists
+    $file_pdf = $type . $id;
+    $output_path = FCPATH . "assets/generate/larsi/{$file_pdf}.pdf";
+    
+    if (file_exists($output_path)) {
+        return true;
+    }
+
+    // Setup common configuration
+    $this->load->library('pdfgenerator');
+    $data = [
+        'title_pdf' => 'Sertifikat',
+        'data' => $this->Dashboard_tte->Detail($id)
+    ];
+    
+    // Generate PDF based on type
+    $template = '';
+    $generator_method = '';
+    
+    switch($type) {
+        case 'Larsi':
+            $template = 'Larsi/Sertifikat_larsikosong';
+            $generator_method = 'generatelasi';
+            break;
+        case 'Larsilembaga':
+            $template = 'Larsi/Sertifikat_larsilembaga';
+            $generator_method = 'generatelasilembaga';
+            break;
+        case 'Larsidirjen':
+            $template = 'Larsi/Sertifikat_larsidirjen';
+            $generator_method = 'generatelasidirjen';
+            break;
+    }
+
+    $html = $this->load->view($template, $data, true);
+    return $this->pdfgenerator->$generator_method($html, $file_pdf, 'A3', 'portrait');
+}
+
 public function Larsi($id)
 {
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larsi'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Larsi/Sertifikat_larsikosong',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelasi($html,$file_pdf,$paper,$orientation);
-
-
+    try {
+        return $this->_generate_larsi_certificate('Larsi', $id);
+    } catch (Exception $e) {
+        log_message('error', 'Failed to generate Larsi certificate: ' . $e->getMessage());
+        return false;
+    }
 }
 
-public function Larsilembaga($id)
+public function Larsilembaga($id) 
 {
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larsilembaga'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Larsi/Sertifikat_larsilembaga',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelasilembaga($html,$file_pdf,$paper,$orientation);
-
-
+    try {
+        return $this->_generate_larsi_certificate('Larsilembaga', $id);
+    } catch (Exception $e) {
+        log_message('error', 'Failed to generate Larsilembaga certificate: ' . $e->getMessage());
+        return false;
+    }
 }
-
 
 public function Larsidirjen($id)
 {
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larsidirjen'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Larsi/Sertifikat_larsidirjen',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelasidirjen($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-public function Larsdhp($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larsdhp'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Larsdhp/Sertifikat_larsdhpkosong',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelarsdhp($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-public function Larsdhplembaga($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larsdhplembaga'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Larsdhp/Sertifikat_larsdhplembaga',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelarsdhplembaga($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-
-public function Larsdhpdirjen($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larsdhpdirjen'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Larsdhp/Sertifikat_larsdhpdirjen',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelarsdhpdirjen($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-
-public function Lafki($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'lafki'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Lafki/Sertifikat_lafkikosong',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelafki($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-public function Lafkilembaga($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'lafkilembaga'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Lafki/Sertifikat_lafkilembaga',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelafkilembaga($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-public function Lafkidirjen($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'lafkidirjen'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Lafki/Sertifikat_lafkidirjen',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelafkidirjen($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-public function Lars($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Lars'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Lars/Sertifikat_larskosong',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelars($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-public function Larslembaga($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larslembaga'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Lars/Sertifikat_larslembaga',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelarslembaga($html,$file_pdf,$paper,$orientation);
-
-
-}
-
-
-public function Larsdirjen($id)
-{
-    $uri = $this->uri->segment(3);
-    $id = decrypt_url($uri);
-
-    $this->load->library('pdfgenerator');
-
-        // title dari pdf
-    $this->data['title_pdf'] = 'Sertifikat';
-
-        // filename dari pdf ketika didownload
-    $file_pdf = 'Larsdirjen'.$id;
-        // setting paper
-    $paper = 'A3';
-        //orientasi paper potrait / landscape
-    $orientation = "portrait";
-    $content = $this->Dashboard_tte->Detail($id);
-    $data['data'] = $content;
-
-       // echo json_encode($data[data]);
-
-    $html =  $this->load->view('Lars/Sertifikat_larsdirjen',$data,true);
-
-          // $html =  base_url('assets/KARS1.png');
-
-
-    $this->pdfgenerator->generatelarsdirjen($html,$file_pdf,$paper,$orientation);
-
-
+    try {
+        return $this->_generate_larsi_certificate('Larsidirjen', $id);
+    } catch (Exception $e) {
+        log_message('error', 'Failed to generate Larsidirjen certificate: ' . $e->getMessage());
+        return false;
+    }
 }
 
 public function lembagatte()
@@ -807,7 +590,7 @@ public function lembagatte()
        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
        CURLOPT_CUSTOMREQUEST => "POST",
        CURLOPT_POSTFIELDS => $data,
-       CURLOPT_USERPWD=> 'esign-sinar'.':'.'kq&UnD31@l',
+       CURLOPT_USERPWD=> 'esign-sinar2'.':'.'s1n4r3344x',
 
            ); // cURL options
 
@@ -907,7 +690,7 @@ public function dirgenlembagatte1($id,$passphrase,$filename,$filedir,$attachment
        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
        CURLOPT_CUSTOMREQUEST => "POST",
        CURLOPT_POSTFIELDS => $data,
-       CURLOPT_USERPWD=> 'esign-sinar'.':'.'kq&UnD31@l',
+       CURLOPT_USERPWD=> 'esign-sinar2'.':'.'s1n4r3344x',
 
            ); // cURL options
 
@@ -1118,7 +901,7 @@ public function ttesurtugrs()
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => "POST",
       CURLOPT_POSTFIELDS => $data,
-      CURLOPT_USERPWD=> 'esign-sinar'.':'.'kq&UnD31@l',
+      CURLOPT_USERPWD=> 'esign-sinar2'.':'.'s1n4r3344xl',
            ); // cURL options
 
     curl_setopt_array($ch, $options);
@@ -1166,5 +949,4 @@ public function ttesurtugrs()
         Berhasil melakukan Tandatangan Elektronik</div>');
     redirect($url);
 }
-
 }
