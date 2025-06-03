@@ -15,169 +15,143 @@
     }
   </style>
   <style>
-            /** 
-            * Set the margins of the PDF to 0
-            * so the background image will cover the entire page.
-            **/
     @page {
-      margin: 0cm 0cm;
+        margin: 0cm 0cm;
+        size: A4 landscape;
     }
 
-            /**
-            * Define the real margins of the content of your PDF
-            * Here you will fix the margins of the header and footer
-            * Of your background image.
-            **/
     body {
-      margin-top:    180px;
-      margin-bottom: 0cm;
-      margin-left:   0cm;
-      margin-right:  0cm;
+        margin: 0;
+        padding: 0;
+        font-family: 'bernard-mt-condensed-regular', sans-serif;
+        position: relative;
+        height: 21cm;
+        width: 29.7cm;
     }
 
-            /** 
-            * Define the width, height, margins and position of the watermark.
-            **/
     #watermark {
-      position: fixed;
-      bottom:   0px;
-      left:     0px;
-                /** The width and height may change 
-                    according to the dimensions of your letterhead
-                **/
-      width:    29.7cm;
-      height:   21cm;
-
-      /** Your watermark should be behind every content**/
-      z-index:  -1000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1000;
     }
+
+    #watermark img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    main {
+        position: relative;
+        z-index: 1;
+        padding: 2cm 1.5cm;
+    }
+
+    .fixed-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Header Section */
     .sertifikat-nomor {
-      top: 24.5%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
-    }
-      .sertifikat-pm {
-      top: 26%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
-    }
-    .sertifikat-nama {
-      top: 31%;
-      left: 14%;
-      text-align: center;
-      position: fixed;
-      width:800px;
+        text-align: center;
+        margin-bottom: 0.5cm;
     }
 
-    .sertifikat-garis {
-      top: 33%;
-      left: 14%;
-      text-align: center;
-      position: fixed;
-      width:800px;
+    .sertifikat-nomor p {
+        font-size: 20px;
+        color: red;
+        margin: 0;
     }
-    .sertifikat-tingkat {
-      top: 46%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
+
+    .sertifikat-pm {
+        text-align: center;
+        margin-bottom: 1cm;
     }
-    .fixed {
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      width: 300px;
-      border: 3px solid #73AD21;
+
+    .sertifikat-pm p {
+        font-size: 25px;
+        font-weight: bold;
+        margin: 0;
     }
-    .capayanimgparipurna {
-      top: 52%;
-      left : 25%;
-      position: fixed;
-      marging: auto;
+
+    /* Content Section */
+    .sertifikat-nama {
+        text-align: center;
+        margin: 1cm auto;
+        width: 800px;
     }
-    .capayanimgutama {
-      top: 55%;
-      left:35 %;
-      position: fixed;
-      marging: auto;
+
+    .sertifikat-nama p {
+        font-size: 25px;
+        font-weight: bold;
+        letter-spacing: -1px;
+        margin: 0;
     }
-    .ttdlembaga {
-      top: 80%;
-      left:15 %;
-      position: fixed;
-      marging: auto;
+
+    .alamat-table {
+        width: 80%;
+        margin: 1cm auto;
+        font-size: 18px;
     }
-    .ttddirjen {
-      top: 80%;
-      left:55 %;
-      position: fixed;
-      marging: auto;
+
+    .alamat-table td {
+        padding: 0.2cm 0;
     }
-    .bsd{
-      top: 53%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
+
+    /* Status Section */
+    .bsd {
+        text-align: center;
+        margin: 1cm auto;
     }
-    .berlaku{
-      top: 67%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
+
+    .desc {
+        font-size: 17px;
+        margin: 0.5cm 0;
     }
-    .capayan{
-      top: 50%;
-      text-align: center;
-      position: fixed;
-      marging: auto;
+
+    .capayan {
+        text-align: center;
+        margin: 1cm auto;
     }
-    .tglprn{
-      top: 72%;
-      left: 10%;
-      position: fixed;
-      marging: auto;
+
+    .capayan img {
+        max-height: 260px;
+        display: block;
+        margin: 0 auto;
     }
-    .tglsertifikat{
-      top: 70%;
-      left:12%;
-      position: fixed;
-      marging: auto;
+
+    .berlaku {
+        text-align: center;
+        margin: 1cm auto;
     }
-    .tglsekarang{
-      top: 70%;
-      left:55%;
-      position: fixed;
-      marging: auto;
+
+    /* Typography */
+    .title {
+        font-size: 17px;
     }
-    .atasnama{
-      top: 71.5%;
-      left:55%;
-      position: fixed;
-      marging: auto;
+
+    .tingkat {
+        font-size: 30px;
+        font-weight: bold;
     }
-    code {
-      font-family: Consolas, Monaco, Courier New, Courier, monospace;
-      font-size: 18px;
-      color:  black;
+
+    /* Print Settings */
+    @media print {
+        body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        #watermark {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
     }
-    .p3 {
-     font-family: "Lucida Console", "Courier New", monospace;
-   }
-   .title{
-    font-family: 'bernard-mt-condensed-regular', sans-serif;
-    font-size:  17px;
-  }
-  .desc{
-    font-family: 'bernard-mt-condensed-regular', sans-serif;
-    font-size:  17px;
-  }
-  .tingkat{
-    font-family: 'bernard-mt-condensed-regular', sans-serif;
-    font-size:  30px;
-    font-weight: bold;
-  }
 </style>
 </head>
 <body class="text-centre">
@@ -200,7 +174,7 @@
 
             <br>
             <br>
-      <table style="padding-left: 145px; padding-top:80px;">
+      <table class="alamat-table">
         <thead>
           <tr>
             <td>
