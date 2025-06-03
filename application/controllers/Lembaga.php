@@ -100,6 +100,8 @@ public function Detail()
       'id' => $id,
   );
 
+  echo json_encode($idlembaga);
+
     $this->load->view('List_Rekomendasi',$data);
 }
 
