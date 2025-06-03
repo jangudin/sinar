@@ -123,7 +123,7 @@ class Lembaga extends CI_Controller {
             'rs'        => $this->Dashboard_tte->Detail($id),
             'lembaga'   => $idlembaga,
             'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-            'hasiltte'  => is_file(FCPATH . $config[$idlembaga]['path'] . $id . '.pdf') ? base_url($config[$idlembaga]['path'] . $id . '.pdf') : null,
+            'hasiltte'  => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
             'nik'       => $this->session->userdata('nik'),
             'id'        => $id
         );
