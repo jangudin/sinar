@@ -128,7 +128,7 @@ class Lembaga extends CI_Controller {
             'id'        => $id
         );
 
-        echo json_encode($data['hasiltte']);
+        echo json_encode($data['hasiltte']);exit;
 
         // 8. Load view
         $this->load->view('List_Rekomendasi', $data);
