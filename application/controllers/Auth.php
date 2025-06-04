@@ -10,7 +10,7 @@ class Auth extends CI_Controller {
     	public function index()
 {
     // Menginisialisasi sesi dan menghasilkan CAPTCHA
-    $this->load->view('pengumuman/index/');
+    $this->load->view('pengumuman/index');
 }
 
 // 	public function index()
