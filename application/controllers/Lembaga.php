@@ -72,73 +72,62 @@ class Lembaga extends CI_Controller {
             throw new Exception('Session expired');
         }
 
-        // 3. Define paths based on lembaga type
-        $paths = [
+        // 3. Define certificate configuration
+        $config = [
             'kars' => [
-                'sertifikat' => 'assets/generate/kars/kars_kosong' . $id . '.pdf',
-                'hasiltte' => 'assets/generate/kars/ttekars_lembaga' . $id . '.pdf'
+                'methods' => ['Kars', 'Karslembaga', 'Karsdirjen'],
+                'path' => 'assets/generate/kars/kars_kosong'
             ],
             'lam' => [
-                'sertifikat' => 'assets/generate/lam/Lam' . $id . '.pdf',
-                'hasiltte' => 'assets/generate/lam/tteLamlembaga' . $id . '.pdf'
+                'methods' => ['Lam', 'Lamlembaga', 'Lamdirjen'],
+                'path' => 'assets/generate/lam/Lam'
             ],
             'larsi' => [
-                'sertifikat' => 'assets/generate/larsi/Larsi' . $id . '.pdf',
-                'hasiltte' => 'assets/generate/larsi/tteLarsilembaga' . $id . '.pdf'
+                'methods' => ['Larsi', 'Larsilembaga', 'Larsidirjen'],
+                'path' => 'assets/generate/larsi/Larsi'
             ],
             'larsdhp' => [
-                'sertifikat' => 'assets/generate/larsdhp/Larsdhp' . $id . '.pdf',
-                'hasiltte' => 'assets/generate/larsdhp/tteLarsdhplembaga' . $id . '.pdf'
+                'methods' => ['Larsdhp', 'Larsdhplembaga', 'Larsdhpdirjen'],
+                'path' => 'assets/generate/larsdhp/Larsdhp'
             ],
             'lafki' => [
-                'sertifikat' => 'assets/generate/lafki/lafki' . $id . '.pdf',
-                'hasiltte' => 'assets/generate/lafki/ttelafkilembaga' . $id . '.pdf'
+                'methods' => ['Lafki', 'Lafkilembaga', 'Lafkidirjen'],
+                'path' => 'assets/generate/lafki/lafki'
             ],
             'lars' => [
-                'sertifikat' => 'assets/generate/lars/Lars' . $id . '.pdf',
-                'hasiltte' => 'assets/generate/lars/tteLarslembaga' . $id . '.pdf'
+                'methods' => ['Lars', 'Larslembaga', 'Larsdirjen'],
+                'path' => 'assets/generate/lars/Lars'
             ]
         ];
 
-        // 4. Validate lembaga type
-        if (!isset($paths[$idlembaga])) {
+        // 4. Validate institution type
+        if (!isset($config[$idlembaga])) {
             throw new Exception('Invalid institution type');
         }
 
-        // 5. Generate certificate
-        if ($idlembaga == 'larsi') {
-            $this->Larsi($id);
-            $this->Larsilembaga($id);
-            $this->Larsidirjen($id);
-        } else {
-            $method = ucfirst($idlembaga);
+        // 5. Set attachment path
+        $attachment = $config[$idlembaga]['path'] . $id . '.pdf';
+
+        // 6. Generate certificates
+        foreach ($config[$idlembaga]['methods'] as $method) {
             if (method_exists($this, $method)) {
                 $this->$method($id);
-            }
-            $method .= 'lembaga';
-            if (method_exists($this, $method)) {
-                $this->$method($id);
-            }
-            $method = ucfirst($idlembaga) . 'dirjen';
-            if (method_exists($this, $method)) {
-                $this->$method($id);
+                flush();
+                ob_flush();
             }
         }
 
-        // 6. Prepare view data
+        // 7. Prepare view data
         $data = array(
             'contents'   => "lembaga/Contentdetail",
             'rs'        => $this->Dashboard_tte->Detail($id),
             'lembaga'   => $idlembaga,
-            'attachment' => is_file(FCPATH . $paths[$idlembaga]['sertifikat']) ? 
-                          base_url($paths[$idlembaga]['sertifikat']) : null,
-            'hasiltte'  => is_file(FCPATH . $paths[$idlembaga]['hasiltte']) ? 
-                          base_url($paths[$idlembaga]['hasiltte']) : null,
+            'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
             'nik'       => $this->session->userdata('nik'),
             'id'        => $id
         );
 
-        // 7. Load view
+        // 8. Load view
         $this->load->view('List_Rekomendasi', $data);
 
     } catch (Exception $e) {
