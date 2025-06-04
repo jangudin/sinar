@@ -234,36 +234,51 @@ public function nonrssudahtte()
 
 public function nonrsdetail()
 {
-    $id = $this->uri->segment(3);
+    try {
+        $id = $this->uri->segment(3);
+        if (!$id) {
+            throw new Exception('ID tidak valid');
+        }
 
-    // Ambil data dari database
-    $cek = $this->Tte_non_rs->list_faskes_dirjen_detail($id);
+        // Get data from database
+        $cek = $this->Tte_non_rs->list_faskes_dirjen_detail($id);
 
-    // Cek jika $cek ada dan tidak kosong
-    if (!empty($cek) && isset($cek[0])) {
-        // Hanya mengakses elemen pertama jika ada
-        $lembaga = $cek[0]->file_name;  
-        $dirjenyankes = $cek[0]->url_sertifikat;  
-        
-        // Tentukan path file
-        $attachment = 'assets/faskessertif/' . $dirjenyankes;
-        $hasiltte = 'assets/faskessertif/' . $lembaga;
-    } else {
-        // Jika data tidak ada, beri nilai default
+        // Initialize variables
         $attachment = null;
         $hasiltte = null;
+
+        // Check if data exists and has required properties
+        if (!empty($cek) && isset($cek[0])) {
+            $detail = $cek[0];
+            
+            // Safely get file names using null coalescing operator
+            $lembaga = $detail->file_name ?? null;
+            $dirjenyankes = $detail->url_sertifikat ?? null;
+
+            // Only set paths if we have valid filenames
+            if ($lembaga) {
+                $hasiltte = 'assets/faskessertif/' . $lembaga;
+            }
+            if ($dirjenyankes) {
+                $attachment = 'assets/faskessertif/' . $dirjenyankes;
+            }
+        }
+
+        // Prepare view data
+        $data = array(
+            'contents' => 'vdetailnonrs',
+            'data' => $cek,
+            'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
+            'hasiltte' => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null
+        );
+
+        // Load view
+        $this->load->view('List_Rekomendasi', $data);
+
+    } catch (Exception $e) {
+        $this->session->set_flashdata('error', $e->getMessage());
+        redirect('DirjenYankes/nonrsbelumtte');
     }
-
-    // Siapkan data untuk view
-    $data = array(
-        'contents'   => 'vdetailnonrs',
-        'data'       => $this->Tte_non_rs->list_faskes_dirjen_detail($id),  // Bisa dibuang jika data sudah dimasukkan sebelumnya
-        'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-        'hasiltte'   => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null,
-    );
-
-    // Tampilkan view
-    $this->load->view('List_Rekomendasi', $data);
 }
 
 
