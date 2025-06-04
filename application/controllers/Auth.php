@@ -6,23 +6,16 @@ class Auth extends CI_Controller {
 		parent:: __construct();
 		$this->load->model('m_login');
 	}
-
-    	public function index()
+	public function index()
 {
     // Menginisialisasi sesi dan menghasilkan CAPTCHA
-    $this->load->view('pengumuman/index');
+    $this->load->helper('string');
+    $captcha = random_string('alnum', 6);
+    $this->session->set_userdata('captcha_code', $captcha);
+
+    $data['captcha'] = $captcha;
+    $this->load->view('auth/index', $data);
 }
-
-// 	public function index()
-// {
-//     // Menginisialisasi sesi dan menghasilkan CAPTCHA
-//     $this->load->helper('string');
-//     $captcha = random_string('alnum', 6);
-//     $this->session->set_userdata('captcha_code', $captcha);
-
-//     $data['captcha'] = $captcha;
-//     $this->load->view('auth/index', $data);
-// }
 
 
 	// 	public function page()
