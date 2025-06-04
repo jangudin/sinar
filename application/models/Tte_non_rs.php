@@ -600,48 +600,73 @@ class Tte_non_rs extends CI_Model{
                 return $hsl->result();
         }
 
-        public function list_faskes_dirjen_detail($id)
-        {
-                $hsl=$this->sina->query("SELECT
-                        a.id,
-                        a.persetujuan_direktur_id,
-                        a.kode_faskes,
-                        a.id_pengajuan,
-                        a.nama_faskes,
-                        a.jenis_faskes,
-                        a.alamat,
-                        a.kecamatan,
-                        a.kabkot,
-                        a.provinsi,
-                        a.status_akreditasi,
-                        a.tgl_survei,
-                        a.logo,
-                        a.nomor_surat,
-                        a.tgl_nomor_surat,
-                        a.lpa AS lpa_id,
-                        a.created_at,
-                        a.updated_at,
-                        b.id AS id_lpa,
-                        b.data_sertifikat_id,
-                        b.tgl_berakhir,
-                        b.tgl_tte,
-                        b.status_tte,
-                        b.file_name,
-                        b.created_at,
-                        b.updated_at,
-                        c.url_sertifikat,
-                        b.file_name AS url_lpa,
-                        b.file_tte_dir
-                        FROM
-                        data_sertifikat AS a
-                        LEFT JOIN tte_lpa AS b ON a.id = b.data_sertifikat_id 
-                        LEFT JOIN tte_dirjen AS c ON b.id = c.tte_lpa_id
-                        WHERE b.id IS NOT NULL
-                        AND a.id_pengajuan = '".$id."'
-                        GROUP BY a.id_pengajuan
-                        ORDER BY a.created_at desc");
-                return $hsl->result();
-        }
+public function list_faskes_dirjen_detail($id) {
+    $query = "SELECT DISTINCT
+        a.id,
+        a.persetujuan_direktur_id,
+        a.kode_faskes,
+        a.id_pengajuan,
+        a.nama_faskes,
+        a.jenis_faskes,
+        a.alamat,
+        a.kecamatan,
+        a.kabkot,
+        a.provinsi,
+        a.status_akreditasi,
+        a.tgl_survei,
+        a.logo,
+        a.nomor_surat,
+        a.tgl_nomor_surat,
+        a.lpa AS lpa_id,
+        a.created_at,
+        a.updated_at,
+        b.id AS id_lpa,
+        b.data_sertifikat_id,
+        b.tgl_berakhir,
+        b.tgl_tte,
+        b.status_tte,
+        b.file_name AS url_lpa,
+        b.file_tte_dir,
+        c.url_sertifikat
+    FROM
+        data_sertifikat AS a
+        LEFT JOIN tte_lpa AS b ON a.id = b.data_sertifikat_id 
+        LEFT JOIN tte_dirjen AS c ON b.id = c.tte_lpa_id
+    WHERE 
+        b.id IS NOT NULL
+        AND a.id_pengajuan = ?
+    GROUP BY 
+        a.id,
+        a.persetujuan_direktur_id,
+        a.kode_faskes,
+        a.id_pengajuan,
+        a.nama_faskes,
+        a.jenis_faskes,
+        a.alamat,
+        a.kecamatan,
+        a.kabkot,
+        a.provinsi,
+        a.status_akreditasi,
+        a.tgl_survei,
+        a.logo,
+        a.nomor_surat,
+        a.tgl_nomor_surat,
+        a.lpa,
+        a.created_at,
+        a.updated_at,
+        b.id,
+        b.data_sertifikat_id,
+        b.tgl_berakhir,
+        b.tgl_tte,
+        b.status_tte,
+        b.file_name,
+        b.file_tte_dir,
+        c.url_sertifikat
+    ORDER BY 
+        a.created_at DESC";
+
+    return $this->sina->query($query, [$id])->result();
+}
 
         public function detail_faskes($idp)
         {
