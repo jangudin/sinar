@@ -119,9 +119,9 @@ $db['nmrs'] = array(
 
 $db['sina'] = array(
 	'dsn' => '',
-	'hostname' => '192.168.67.130',
+	'hostname' => '192.168.69.134',
     'username' => 'su_sinar',
-    'password' => 'qbVGwhML5rNSt3JC',
+    'password' => 'ja0SKGVhS2UmNbta',
 	'database' => 'db_akreditasi_non_rs',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
@@ -141,9 +141,9 @@ $db['sina'] = array(
 
 $db['dbfaskes'] = array(
 	'dsn' => '',
-	'hostname' => '192.168.67.130',
+	'hostname' => '192.168.69.134',
     'username' => 'su_sinar',
-    'password' => 'qbVGwhML5rNSt3JC',
+    'password' => 'ja0SKGVhS2UmNbta',
 	'database' => 'dbfaskes',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
