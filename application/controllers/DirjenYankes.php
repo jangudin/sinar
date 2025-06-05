@@ -238,19 +238,6 @@ public function nonrsdetail()
 
     // Ambil data dari database
     $cek = $this->Tte_non_rs->list_faskes_dirjen_detail($id);
-    echo "Query Result:\n";
-    print_r($cek);
-    echo "\n\nProperties:\n";
-    if(!empty($cek) && isset($cek[0])) {
-        echo "file_name: " . (isset($cek[0]->file_name) ? $cek[0]->file_name : 'not set') . "\n";
-        echo "url_sertifikat: " . (isset($cek[0]->url_sertifikat) ? $cek[0]->url_sertifikat : 'not set') . "\n";
-    } else {
-        echo "No results found";
-    }
-    echo "</pre>";
-    die();exit; // Stop execution here to see debug output
-
-
     
 
     // Cek jika $cek ada dan tidak kosong
@@ -267,6 +254,8 @@ public function nonrsdetail()
         $attachment = null;
         $hasiltte = null;
     }
+
+    echo json_encode($attachment);exit;
 
     // Siapkan data untuk view
     $data = array(
