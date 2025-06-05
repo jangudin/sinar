@@ -303,70 +303,72 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
 
     // Laboratorium
     if (strtolower($faskes) === 'laboratorium') {
-        if ($jenis === null) return [];
-        $whereJenis = '';
-        if (strtolower($jenis) === 'laboratorium medis') {
-            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
-        } elseif (strtolower($jenis) === 'laboratorium kesmas') {
-            $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
-        }
-        $sql = "
-            SELECT
-                dl.nama_lab AS NamaFaskes,
-                pus.fasyankes_id AS kode_faskes,
-                pus.fasyankes_id_baru AS kode_faskes_baru,
-                (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id) AS tanggal_survei,
-                pr.created_at AS surv,
-                pk.created_at AS peka,
-                pd.created_at AS dir,
-                tl.created_at AS ttelpa,
-                ds.tgl_nomor_surat,
-                lpaa.inisial AS nmLPA,
-                DATEDIFF(IFNULL(pr.created_at, date(NOW())), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
-                DATEDIFF(IFNULL(pk.created_at, date(NOW())), pr.created_at) AS katim,
-                DATEDIFF(IFNULL(pd.created_at, date(NOW())), pk.created_at) AS direktur,
-                DATEDIFF(IFNULL(ds.tgl_nomor_surat, date(NOW())), ds.created_at) AS adminNomor,
-                DATEDIFF(IFNULL(tl.created_at, date(NOW())), ds.tgl_nomor_surat) AS lpa,
-                DATEDIFF(IFNULL(td.created_at, date(NOW())), tl.created_at) AS dirjen,
-                pk.id AS idk,
-                pd.id AS idd,
-                tl.id AS idl,
-                td.id AS iddir,
-                tl.created_at AS ttelpa,
-                td.created_at AS TTD
-            FROM
-                pengajuan_usulan_survei AS pus
-                JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
-                INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
-                INNER JOIN dbfaskes.data_labkes AS dl ON tf.id_faskes = dl.id_faskes
-                RIGHT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
-                RIGHT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
-                RIGHT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
-                RIGHT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
-                RIGHT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
-                RIGHT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
-                RIGHT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
-                RIGHT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
-                RIGHT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
-                RIGHT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
-                LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
-                LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
-                LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
-                LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
-                LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
-            WHERE pus.fasyankes_id IS NOT NULL
-            AND dl.nama_lab IS NOT NULL
-            AND td.id IS NULL
-            /*WHEREJENIS*/
-            GROUP BY
-            pus.id
-            ORDER BY
-            tanggal_survei DESC
-        ";
-        $sql = str_replace('/*WHEREJENIS*/', $whereJenis, $sql);
-        $query = $this->sina->query($sql);
-        return $query->result();
+    if ($jenis === null) return [];
+    
+    $whereJenis = '';
+    if (strtolower($jenis) === 'laboratorium medis') {
+        $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) = 'Laboratorium Medis' ";
+    } elseif (strtolower($jenis) === 'laboratorium kesmas') {
+        $whereJenis = " AND LEFT(dl.jenis_pelayanan, 18) != 'Laboratorium Medis' ";
     }
+
+    $sql = "SELECT
+        dl.nama_lab AS NamaFaskes,
+        pus.fasyankes_id AS kode_faskes,
+        pus.fasyankes_id_baru AS kode_faskes_baru,
+        MAX(pusd.tanggal_survei) AS tanggal_survei,
+        MIN(pr.created_at) AS surv,
+        MIN(pk.created_at) AS peka,
+        MIN(pd.created_at) AS dir,
+        MIN(tl.created_at) AS ttelpa,
+        MIN(ds.tgl_nomor_surat) as tgl_nomor_surat,
+        lpaa.inisial AS nmLPA,
+        DATEDIFF(IFNULL(MIN(pr.created_at), date(NOW())), MAX(pusd.tanggal_survei)) AS rekom,
+        DATEDIFF(IFNULL(MIN(pk.created_at), date(NOW())), MIN(pr.created_at)) AS katim,
+        DATEDIFF(IFNULL(MIN(pd.created_at), date(NOW())), MIN(pk.created_at)) AS direktur,
+        DATEDIFF(IFNULL(MIN(ds.tgl_nomor_surat), date(NOW())), MIN(ds.created_at)) AS adminNomor,
+        DATEDIFF(IFNULL(MIN(tl.created_at), date(NOW())), MIN(ds.tgl_nomor_surat)) AS lpa,
+        DATEDIFF(IFNULL(MIN(td.created_at), date(NOW())), MIN(tl.created_at)) AS dirjen,
+        MIN(pk.id) AS idk,
+        MIN(pd.id) AS idd,
+        MIN(tl.id) AS idl,
+        MIN(td.id) AS iddir,
+        MIN(td.created_at) AS TTD
+    FROM pengajuan_usulan_survei AS pus
+    JOIN lpa AS lpaa ON pus.lpa_id = lpaa.id
+    INNER JOIN dbfaskes.trans_final AS tf ON pus.fasyankes_id = tf.kode_faskes
+    INNER JOIN dbfaskes.data_labkes AS dl ON tf.id_faskes = dl.id_faskes
+    LEFT JOIN pengajuan_usulan_survei_detail AS pusd ON pus.id = pusd.pengajuan_usulan_survei_id
+    LEFT JOIN penerimaan_pengajuan_usulan_survei AS ppus ON ppus.pengajuan_usulan_survei_id = pus.id
+    LEFT JOIN berkas_usulan_survei AS bus ON bus.penerimaan_pengajuan_usulan_survei_id = ppus.id
+    LEFT JOIN kelengkapan_berkas AS kb ON kb.berkas_usulan_survei_id = bus.id
+    LEFT JOIN penetapan_tanggal_survei AS pts ON pts.kelengkapan_berkas_id = kb.id
+    LEFT JOIN trans_final_ep_surveior AS tfes ON tfes.penetapan_tanggal_survei_id = pts.id
+    LEFT JOIN pengiriman_laporan_survei AS pls ON pls.penetapan_tanggal_survei_id = pts.id
+    LEFT JOIN penetapan_verifikator AS pv ON pv.pengiriman_laporan_survei_id = pls.id
+    LEFT JOIN trans_final_ep_verifikator AS tfev ON tfev.penetapan_verifikator_id = pv.id
+    LEFT JOIN pengiriman_rekomendasi AS pr ON pr.trans_final_ep_verifikator_id = tfev.id
+    LEFT JOIN persetujuan_ketua AS pk ON pk.pengiriman_rekomendasi_id = pr.id
+    LEFT JOIN persetujuan_direktur AS pd ON pd.persetujuan_ketua_id = pk.id
+    LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
+    LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
+    LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id
+    WHERE pus.fasyankes_id IS NOT NULL
+    AND dl.nama_lab IS NOT NULL
+    AND td.id IS NULL
+    /*WHEREJENIS*/
+    GROUP BY 
+        dl.nama_lab,
+        pus.fasyankes_id,
+        pus.fasyankes_id_baru,
+        lpaa.inisial,
+        pus.id
+    ORDER BY tanggal_survei DESC";
+
+    $sql = str_replace('/*WHEREJENIS*/', $whereJenis, $sql);
+    $query = $this->sina->query($sql);
+    return $query->result();
+}
 
     // UTD
     if (strtolower($faskes) === 'utd' || strtolower($faskes) === 'unit transfusi darah') {
