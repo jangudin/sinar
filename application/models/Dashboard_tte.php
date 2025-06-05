@@ -273,7 +273,6 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
                 pus.id,
                 pus.fasyankes_id,
                 pus.fasyankes_id_baru,
-                ppd.`name`,
                 lpaa.inisial
             ORDER BY
                 tanggal_survei DESC
