@@ -230,7 +230,6 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
                 pr.created_at AS surv,
                 pk.created_at AS peka,
                 pd.created_at AS dir,
-                ds.tgl_nomor_surat,
                 lpaa.inisial AS nmLPA,
                 DATEDIFF(IFNULL(pr.created_at, date(NOW())), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
                 DATEDIFF(IFNULL(pk.created_at, date(NOW())), pr.created_at) AS katim,
