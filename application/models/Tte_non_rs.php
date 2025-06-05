@@ -1931,7 +1931,6 @@ public function bahansertifikat($faskes,$id,$id_p)
             e.nama,
             sr.nama,
             g.nama,
-            data_labkes.jenis_pelayanan,
             propinsi.nama_prop,
             kota.nama_kota,
             yyy.nama_camat
