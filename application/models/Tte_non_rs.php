@@ -1915,9 +1915,26 @@ public function bahansertifikat($faskes,$id,$id_p)
                 LEFT OUTER JOIN persetujuan_direktur r ON r.persetujuan_ketua_id = q.id 
                 WHERE
                 1 = 1 
-                                                                                                                -- AND q.id IS NOT NULL
-                                                                                                                AND c.nama = 'Pusat Kesehatan Masyarakat'
-                                                                                                                AND a.id = '$id_p'
+                AND q.id IS NOT NULL
+                AND c.nama = 'Pusat Kesehatan Masyarakat'
+                AND a.id = '$id_p'
+                GROUP BY 
+            a.id,
+            a.fasyankes_id,
+            g.logo,
+            g.inisial,
+            b.status_usulan_id,
+            b.keterangan,
+            h.nama,
+            c.nama,
+            d.nama,
+            e.nama,
+            sr.nama,
+            g.nama,
+            data_labkes.jenis_pelayanan,
+            propinsi.nama_prop,
+            kota.nama_kota,
+            yyy.nama_camat
                                                                                                                 ORDER BY
                                                                                                                 pusd.tanggal_survei DESC
                                                                                                                 LIMIT 1");
@@ -2029,6 +2046,22 @@ $puskesmaskmk=$this->sina->query("SELECT
         1 = 1 
         AND c.nama = 'Pusat Kesehatan Masyarakat'
         AND a.id = '$id_p'
+        GROUP BY 
+            a.id,
+            a.fasyankes_id,
+            g.logo,
+            g.inisial,
+            b.status_usulan_id,
+            b.keterangan,
+            h.nama,
+            c.nama,
+            d.nama,
+            e.nama,
+            sr.nama,
+            g.nama,
+            propinsi.nama_prop,
+            kota.nama_kota,
+            yyy.nama_camat
         ORDER BY
         pusd.tanggal_survei DESC
         LIMIT 1");
@@ -2156,6 +2189,22 @@ $klinik=$this->sina->query("SELECT
         AND c.nama = 'Klinik'
         AND q.id IS NOT NULL
         AND a.id = '$id_p'
+        GROUP BY 
+            a.id,
+            a.fasyankes_id,
+            g.logo,
+            g.inisial,
+            b.status_usulan_id,
+            b.keterangan,
+            h.nama,
+            c.nama,
+            d.nama,
+            e.nama,
+            sr.nama,
+            g.nama,
+            propinsi.nama_prop,
+            kota.nama_kota,
+            yyy.nama_camat
         ORDER BY
         a.created_at DESC");
 
@@ -2280,6 +2329,23 @@ $labkes=$this->sina->query("SELECT
         AND c.nama = 'Laboratorium'
         AND q.id IS NOT NULL
         AND a.id = '$id_p'
+        GROUP BY 
+            a.id,
+            a.fasyankes_id,
+            g.logo,
+            g.inisial,
+            b.status_usulan_id,
+            b.keterangan,
+            h.nama,
+            c.nama,
+            d.nama,
+            e.nama,
+            sr.nama,
+            g.nama,
+            data_labkes.jenis_pelayanan,
+            propinsi.nama_prop,
+            kota.nama_kota,
+            yyy.nama_camat
         ORDER BY
         a.created_at DESC");
 
