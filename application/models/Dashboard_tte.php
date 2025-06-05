@@ -270,7 +270,11 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
                 AND td.id IS NULL
                 AND dk.jenis_klinik = '$jenis'
             GROUP BY
-                pus.id
+                pus.id,
+                pus.fasyankes_id,
+                pus.fasyankes_id_baru,
+                ppd.`name`,
+                lpaa.inisial
             ORDER BY
                 tanggal_survei DESC
 SQL
