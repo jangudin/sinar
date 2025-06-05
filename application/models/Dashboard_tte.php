@@ -234,9 +234,8 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
     // Klinik
     if (strtolower($faskes) === 'klinik') {
         if ($jenis === null) return [];
-        $jenis_escape = $this->sina->escape($jenis);
-        $sql = str_replace("dk.jenis_klinik = '$jenis'", "dk.jenis_klinik = $jenis_escape", <<<SQL
-            SELECT 
+        
+        $sql = "SELECT 
             dk.nama_klinik AS NamaFaskes,
             pus.fasyankes_id AS kode_faskes,
             pus.fasyankes_id_baru AS kode_faskes_baru,
@@ -297,11 +296,9 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
             pd.id,
             tl.id,
             td.id
-        ORDER BY tanggal_survei DESC
-SQL
-        );
-        $query = $this->sina->query($sql);
-        return $query->result();
+        ORDER BY tanggal_survei DESC";
+
+        return $this->sina->query($sql, [$jenis])->result();
     }
 
     // Laboratorium
@@ -642,8 +639,8 @@ SQL
             LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
             LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
             LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
-            WHERE pus.fasyankes_id IS NOT NULL AND
-            du.nama_utd IS NOT NULL
+            WHERE pus.fasyankes_id IS NOT NULL
+            AND du.nama_utd IS NOT NULL
             AND td.id IS NULL
             AND ds.lpa = '$lpaid'
             GROUP BY
