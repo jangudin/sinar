@@ -1918,22 +1918,6 @@ public function bahansertifikat($faskes,$id,$id_p)
                 AND q.id IS NOT NULL
                 AND c.nama = 'Pusat Kesehatan Masyarakat'
                 AND a.id = '$id_p'
-                GROUP BY 
-            a.id,
-            a.fasyankes_id,
-            g.logo,
-            g.inisial,
-            b.status_usulan_id,
-            b.keterangan,
-            h.nama,
-            c.nama,
-            d.nama,
-            e.nama,
-            sr.nama,
-            g.nama,
-            propinsi.nama_prop,
-            kota.nama_kota,
-            yyy.nama_camat
                                                                                                                 ORDER BY
                                                                                                                 pusd.tanggal_survei DESC
                                                                                                                 LIMIT 1");
@@ -2045,22 +2029,6 @@ $puskesmaskmk=$this->sina->query("SELECT
         1 = 1 
         AND c.nama = 'Pusat Kesehatan Masyarakat'
         AND a.id = '$id_p'
-        GROUP BY 
-            a.id,
-            a.fasyankes_id,
-            g.logo,
-            g.inisial,
-            b.status_usulan_id,
-            b.keterangan,
-            h.nama,
-            c.nama,
-            d.nama,
-            e.nama,
-            sr.nama,
-            g.nama,
-            propinsi.nama_prop,
-            kota.nama_kota,
-            yyy.nama_camat
         ORDER BY
         pusd.tanggal_survei DESC
         LIMIT 1");
