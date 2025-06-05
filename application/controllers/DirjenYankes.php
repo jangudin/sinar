@@ -234,51 +234,50 @@ public function nonrssudahtte()
 
 public function nonrsdetail()
 {
-    try {
-        $id = $this->uri->segment(3);
-        if (!$id) {
-            throw new Exception('ID tidak valid');
-        }
+    $id = $this->uri->segment(3);
 
-        // Get data from database
-        $cek = $this->Tte_non_rs->list_faskes_dirjen_detail($id);
+    // Ambil data dari database
+    $cek = $this->Tte_non_rs->list_faskes_dirjen_detail($id);
+    echo "Query Result:\n";
+    print_r($cek);
+    echo "\n\nProperties:\n";
+    if(!empty($cek) && isset($cek[0])) {
+        echo "file_name: " . (isset($cek[0]->file_name) ? $cek[0]->file_name : 'not set') . "\n";
+        echo "url_sertifikat: " . (isset($cek[0]->url_sertifikat) ? $cek[0]->url_sertifikat : 'not set') . "\n";
+    } else {
+        echo "No results found";
+    }
+    echo "</pre>";
+    die();exit; // Stop execution here to see debug output
 
-        // Initialize variables
+
+    
+
+    // Cek jika $cek ada dan tidak kosong
+    if (!empty($cek) && isset($cek[0])) {
+        // Hanya mengakses elemen pertama jika ada
+        $lembaga = $cek[0]->file_name;  
+        $dirjenyankes = $cek[0]->url_sertifikat;  
+        
+        // Tentukan path file
+        $attachment = 'assets/faskessertif/' . $dirjenyankes;
+        $hasiltte = 'assets/faskessertif/' . $lembaga;
+    } else {
+        // Jika data tidak ada, beri nilai default
         $attachment = null;
         $hasiltte = null;
-
-        // Check if data exists and has required properties
-        if (!empty($cek) && isset($cek[0])) {
-            $detail = $cek[0];
-            
-            // Safely get file names using null coalescing operator
-            $lembaga = $detail->file_name ?? null;
-            $dirjenyankes = $detail->url_sertifikat ?? null;
-
-            // Only set paths if we have valid filenames
-            if ($lembaga) {
-                $hasiltte = 'assets/faskessertif/' . $lembaga;
-            }
-            if ($dirjenyankes) {
-                $attachment = 'assets/faskessertif/' . $dirjenyankes;
-            }
-        }
-
-        // Prepare view data
-        $data = array(
-            'contents' => 'vdetailnonrs',
-            'data' => $cek,
-            'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
-            'hasiltte' => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null
-        );
-
-        // Load view
-        $this->load->view('List_Rekomendasi', $data);
-
-    } catch (Exception $e) {
-        $this->session->set_flashdata('error', $e->getMessage());
-        redirect('DirjenYankes/nonrsbelumtte');
     }
+
+    // Siapkan data untuk view
+    $data = array(
+        'contents'   => 'vdetailnonrs',
+        'data'       => $this->Tte_non_rs->list_faskes_dirjen_detail($id),  // Bisa dibuang jika data sudah dimasukkan sebelumnya
+        'attachment' => is_file(FCPATH . $attachment) ? base_url($attachment) : null,
+        'hasiltte'   => is_file(FCPATH . $hasiltte) ? base_url($hasiltte) : null,
+    );
+
+    // Tampilkan view
+    $this->load->view('List_Rekomendasi', $data);
 }
 
 
