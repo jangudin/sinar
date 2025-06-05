@@ -255,7 +255,7 @@ public function nonrsdetail()
         $hasiltte = null;
     }
 
-    echo json_encode($attachment);exit;
+    echo json_encode($cek);exit;
 
     // Siapkan data untuk view
     $data = array(
