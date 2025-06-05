@@ -2449,7 +2449,13 @@ $utd=$this->sina->query("SELECT
             e.nama,
             sr.nama,
             g.nama,
+            data_utd.nama_utd,
+            data_utd.id_prov,
+            data_utd.alamat_faskes,
+            propinsi.id_prop,
             propinsi.nama_prop,
+            data_utd.id_kota,
+            kota.id_kota,
             kota.nama_kota,
             yyy.nama_camat
         ORDER BY
