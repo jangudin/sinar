@@ -2436,6 +2436,22 @@ $utd=$this->sina->query("SELECT
         AND c.nama = 'Unit Transfusi Darah'
         AND q.id IS NOT NULL
         AND a.id = '$id_p'
+        GROUP BY 
+            a.id,
+            a.fasyankes_id,
+            g.logo,
+            g.inisial,
+            b.status_usulan_id,
+            b.keterangan,
+            h.nama,
+            c.nama,
+            d.nama,
+            e.nama,
+            sr.nama,
+            g.nama,
+            propinsi.nama_prop,
+            kota.nama_kota,
+            yyy.nama_camat
         ORDER BY
         a.created_at DESC");
 
