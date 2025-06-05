@@ -625,7 +625,7 @@ public function list_faskes_dirjen_detail($id) {
         b.tgl_berakhir,
         b.tgl_tte,
         b.status_tte,
-        b.file_name AS url_lpa,
+        b.file_name,
         b.file_tte_dir,
         c.url_sertifikat
     FROM
