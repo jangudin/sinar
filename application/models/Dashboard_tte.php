@@ -168,13 +168,13 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
                 ppd.`name` AS NamaFaskes,
                 pus.fasyankes_id AS kode_faskes,
                 pus.fasyankes_id_baru AS kode_faskes_baru,
-                (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id) AS tanggal_survei,
+                MAX(pusd.tanggal_survei) AS tanggal_survei,
                 pr.created_at AS surv,
                 pk.created_at AS peka,
                 pd.created_at AS dir,
                 ds.tgl_nomor_surat,
                 lpaa.inisial AS nmLPA,
-                DATEDIFF(IFNULL(pr.created_at, date(NOW())), (SELECT MAX(pusd2.tanggal_survei) FROM pengajuan_usulan_survei_detail AS pusd2 WHERE pusd2.pengajuan_usulan_survei_id = pus.id)) AS rekom,
+                DATEDIFF(IFNULL(pr.created_at, date(NOW())), MAX(pusd.tanggal_survei)) AS rekom,
                 DATEDIFF(IFNULL(pk.created_at, date(NOW())), pr.created_at) AS katim,
                 DATEDIFF(IFNULL(pd.created_at, date(NOW())), pk.created_at) AS direktur,
                 DATEDIFF(IFNULL(ds.tgl_nomor_surat, date(NOW())), ds.created_at) AS adminNomor,
@@ -209,7 +209,21 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
                 pus.fasyankes_id IS NOT NULL
                 AND td.id IS NULL
             GROUP BY
-                pus.id
+                ppd.name,
+                pus.fasyankes_id,
+                pus.fasyankes_id_baru,
+                lpaa.inisial,
+                pr.created_at,
+                pk.created_at,
+                pd.created_at,
+                ds.tgl_nomor_surat,
+                ds.created_at,
+                tl.created_at,
+                td.created_at,
+                pk.id,
+                pd.id,
+                tl.id,
+                td.id
             ORDER BY
                 tanggal_survei DESC
         ";
@@ -263,8 +277,7 @@ public function MonitoringDirjen($faskes = null, $jenis = null)
                 LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
                 LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
                 LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
-            WHERE
-                pus.fasyankes_id IS NOT NULL
+            WHERE pus.fasyankes_id IS NOT NULL
                 AND dk.nama_klinik IS NOT NULL
                 AND td.id IS NULL
                 AND dk.jenis_klinik = '$jenis'
@@ -394,14 +407,13 @@ SQL
                 LEFT JOIN data_sertifikat AS ds ON ds.persetujuan_direktur_id = pd.id
                 LEFT JOIN tte_lpa AS tl ON tl.data_sertifikat_id = ds.id
                 LEFT JOIN tte_dirjen AS td ON td.tte_lpa_id = tl.id 
-            WHERE
-                pus.fasyankes_id IS NOT NULL
-                AND du.nama_utd IS NOT NULL
-                AND td.id IS NULL
+            WHERE pus.fasyankes_id IS NOT NULL
+            AND du.nama_utd IS NOT NULL
+            AND td.id IS NULL
             GROUP BY
-                pus.id
+            pus.id
             ORDER BY
-                tanggal_survei DESC
+            tanggal_survei DESC
         ";
         $query = $this->sina->query($sql);
         return $query->result();
@@ -1002,6 +1014,7 @@ SQL
         LEFT JOIN ( SELECT data_sertifikat.id, data_sertifikat.kode_faskes, data_sertifikat.jenis_faskes FROM data_sertifikat WHERE data_sertifikat.jenis_faskes = 'Pusat Kesehatan Masyarakat' ) AS x1 ON y.kode_faskes = x1.kode_faskes
         LEFT JOIN ( SELECT data_sertifikat.id, data_sertifikat.kode_faskes, data_sertifikat.jenis_faskes FROM data_sertifikat WHERE data_sertifikat.jenis_faskes = 'Laboratorium Kesehatan' ) AS x2 ON y.kode_faskes = x2.kode_faskes
         GROUP BY y.provinsi
+       
         ");
         return $hsl->result();
     }
