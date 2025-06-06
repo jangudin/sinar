@@ -8,7 +8,7 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         
-        // Load core libraries
+        // Load only required components
         $this->load->library(['session', 'form_validation']);
         $this->load->model('m_login');
         $this->load->helper(['url', 'form']);
@@ -42,7 +42,7 @@ class Login extends CI_Controller {
             return;
         }
 
-        // Get sanitized input
+        // Use CI's built-in XSS filtering through form_validation
         $email = $this->input->post('email', TRUE);
         $password = $this->input->post('password', TRUE);
 
