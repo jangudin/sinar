@@ -50,6 +50,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'Auth';
+
+// Add V2 routes
+$route['V2/login'] = 'V2/Login';
+$route['V2/logout'] = 'V2/Login/logout';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['filesertifikat/(:any)/(:any)'] = 'Mutu_fasyankes/filesertifikat/$1/$2';
