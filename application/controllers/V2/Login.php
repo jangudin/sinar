@@ -9,10 +9,9 @@ class Login extends CI_Controller {
         parent::__construct();
         
         // Load core libraries
-        $this->load->library(['session']);
+        $this->load->library(['session', 'form_validation']);
         $this->load->model('m_login');
-        $this->load->library('form_validation');
-        $this->load->helper(['string', 'security', 'url']);
+        $this->load->helper(['url', 'form']);
         
         // Set security headers
         $this->output->set_header('X-Frame-Options: SAMEORIGIN');
@@ -43,9 +42,9 @@ class Login extends CI_Controller {
             return;
         }
 
-        // Sanitize input
-        $email = $this->security->xss_clean($this->input->post('email', TRUE));
-        $password = $this->security->xss_clean($this->input->post('password', TRUE));
+        // Get sanitized input
+        $email = $this->input->post('email', TRUE);
+        $password = $this->input->post('password', TRUE);
 
         // Check for account lockout
         if ($this->_is_account_locked($email)) {
