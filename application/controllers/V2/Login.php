@@ -28,7 +28,7 @@ class Login extends CI_Controller {
 
         $data['title'] = 'Login - SINAR';
         $data['error'] = $this->session->flashdata('msg');
-        $this->load->view('auth/index', $data);
+        $this->load->view('V2/Login/index', $data);
     }
 
     public function aksi_login() {
