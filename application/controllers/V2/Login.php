@@ -2,13 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
-    function __construct(){
+    private $max_attempts = 3;
+    private $lockout_time = 900; // 15 minutes in seconds
+
+    function __construct() {
         parent::__construct();
         
-        // Load core libraries first without security config
-        $this->load->library(['session', 'security']);
-        
-        // Load remaining dependencies
+        // Load core libraries
+        $this->load->library(['session']);
         $this->load->model('m_login');
         $this->load->library('form_validation');
         $this->load->helper(['string', 'security', 'url']);
@@ -23,34 +24,15 @@ class Login extends CI_Controller {
         // Check if already logged in
         if ($this->session->userdata('status') === 'login') {
             $this->_redirect_by_role();
-        }
-
-        // Generate CAPTCHA
-        $captcha = random_string('alnum', 6);
-        $this->session->set_userdata('captcha_code', $captcha);
-
-        $data['captcha'] = $captcha;
-        $this->load->view('auth/index', $data);
-    }
-
-    public function pengumuman()
-{
-    $this->load->view('pengumuman/index');
-}
-
-
-
-    public function aksi_login() {
-        // Validate CAPTCHA
-        $input_captcha = $this->input->post('captcha');
-        $stored_captcha = $this->session->userdata('captcha_code');
-        
-        if ($input_captcha !== $stored_captcha) {
-            $this->session->set_flashdata('msg', '<div class="alert alert-danger">CAPTCHA tidak valid</div>');
-            redirect('Auth');
             return;
         }
 
+        $data['title'] = 'Login - SINAR';
+        $data['error'] = $this->session->flashdata('msg');
+        $this->load->view('auth/index', $data);
+    }
+
+    public function aksi_login() {
         // Form validation rules
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|max_length[100]');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|max_length[100]');
@@ -65,8 +47,10 @@ class Login extends CI_Controller {
         $email = $this->security->xss_clean($this->input->post('email', TRUE));
         $password = $this->security->xss_clean($this->input->post('password', TRUE));
 
-        // Add brute force protection
-        $this->_check_login_attempts($email);
+        // Check for account lockout
+        if ($this->_is_account_locked($email)) {
+            return;
+        }
 
         // Check login
         $user = $this->m_login->cek_login($email, $password);
@@ -78,14 +62,26 @@ class Login extends CI_Controller {
         }
     }
 
-    private function _check_login_attempts($email) {
-        $attempts = $this->session->userdata('login_attempts_' . md5($email)) ?? 0;
+    private function _is_account_locked($email) {
+        $attempts = (int)$this->session->userdata('login_attempts_' . md5($email));
         
-        if ($attempts >= 3) {
-            $this->session->set_flashdata('msg', '<div class="alert alert-danger">Terlalu banyak percobaan login. Silakan coba lagi dalam 15 menit.</div>');
-            redirect('Auth');
-            exit;
+        if ($attempts >= $this->max_attempts) {
+            $last_attempt = $this->session->userdata('last_attempt_' . md5($email));
+            $time_elapsed = time() - $last_attempt;
+            
+            if ($time_elapsed < $this->lockout_time) {
+                $remaining = ceil(($this->lockout_time - $time_elapsed) / 60);
+                $this->session->set_flashdata('msg', 
+                    '<div class="alert alert-danger">Terlalu banyak percobaan login. Silakan coba lagi dalam ' . $remaining . ' menit.</div>'
+                );
+                redirect('Auth');
+                return true;
+            }
+            
+            // Reset attempts after lockout period
+            $this->session->unset_userdata('login_attempts_' . md5($email));
         }
+        return false;
     }
 
     private function _handle_successful_login($user) {
@@ -106,22 +102,21 @@ class Login extends CI_Controller {
         ];
         
         $this->session->set_userdata($session_data);
-
-        // Log successful login
         log_message('info', 'Successful login: ' . $user['email']);
-
         $this->_redirect_by_role($user['jabatan_sertifikat_id'], $user['id']);
     }
 
     private function _handle_failed_login($email) {
-        // Increment login attempts
-        $attempts = $this->session->userdata('login_attempts_' . md5($email)) ?? 0;
-        $this->session->set_userdata('login_attempts_' . md5($email), $attempts + 1);
+        $attempts = (int)$this->session->userdata('login_attempts_' . md5($email)) + 1;
+        $this->session->set_userdata([
+            'login_attempts_' . md5($email) => $attempts,
+            'last_attempt_' . md5($email) => time()
+        ]);
 
-        // Log failed attempt
         log_message('warning', 'Failed login attempt for email: ' . $email);
-
-        $this->session->set_flashdata('msg', '<div class="alert alert-danger"><p>Username atau Password salah.</p></div>');
+        $this->session->set_flashdata('msg', 
+            '<div class="alert alert-danger"><p>Username atau Password salah.</p></div>'
+        );
         redirect('Auth');
     }
 
@@ -137,23 +132,19 @@ class Login extends CI_Controller {
             '10' => 'DirjenYankes/nonrsbelumtte'
         ];
 
-        if (isset($redirects[$jabatan])) {
-            redirect($redirects[$jabatan]);
-        } else {
-            $this->session->set_flashdata('msg', '<div class="alert alert-danger"><p>Jabatan tidak dikenali.</p></div>');
-            redirect('Auth');
-        }
+        redirect(isset($redirects[$jabatan]) ? $redirects[$jabatan] : 'Auth');
+    }
+
+    public function pengumuman() {
+        $this->load->view('pengumuman/index');
     }
 
     public function logout() {
-        // Log logout
         log_message('info', 'User logged out: ' . $this->session->userdata('name'));
-
-        // Clear all session data
         $this->session->sess_destroy();
-        
-        // Redirect with message
-        $this->session->set_flashdata('msg', '<div class="alert alert-success">Anda telah berhasil logout</div>');
+        $this->session->set_flashdata('msg', 
+            '<div class="alert alert-success">Anda telah berhasil logout</div>'
+        );
         redirect(base_url());
     }
 }
