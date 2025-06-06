@@ -1,151 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
+    <title>Login | e-saf</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?= base_url('assets/plugins/fontawesome-free/css/all.min.css') ?>">
-    
-    <style>
+    <meta name="description" content="Aplikasi Tandatangan elektronik Sinar">
+    <meta name="author" content="Wahyudin">
+    <!-- Bootstrap -->
+    <link href="<?php echo base_url() . 'assets/temp/css/bootstrap.min.css' ?>" rel="stylesheet">
+    <!-- styles -->
+    <link href="<?php echo base_url() . 'assets/temp/css/stylesl.css' ?>" rel="stylesheet">
+    <style type="email/css">
         body {
-            background: #f8f9fa;
-            height: 100vh;
-        }
-        .login-container {
-            max-width: 400px;
-            padding: 2rem;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        .logo-container {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .logo-container img {
-            max-width: 150px;
-            height: auto;
-        }
-        .login-title {
-            text-align: center;
-            color: #333;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-        .form-control {
-            border-radius: 5px;
-            padding: 0.75rem 1rem;
-            border: 1px solid #ddd;
-        }
-        .input-group-text {
-            background: transparent;
-            border-right: none;
-        }
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #80bdff;
-        }
-        .btn-login {
-            padding: 0.75rem;
-            font-weight: 600;
-            background: #007bff;
-            border: none;
-            border-radius: 5px;
-        }
-        .btn-login:hover {
-            background: #0069d9;
-        }
-        .alert {
-            border-radius: 5px;
-            margin-bottom: 1rem;
+            background-image: url(<?php echo base_url() . 'assets/bg.png' ?>);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100%;
         }
     </style>
+
+
 </head>
-<body>
-    <div class="d-flex align-items-center justify-content-center h-100">
-        <div class="login-container">
-            <div class="logo-container">
-                <img src="<?= base_url('assets/img/logo.png') ?>" alt="Logo SINAR">
-            </div>
-            
-            <h4 class="login-title">Login SINAR</h4>
 
-            <?php if(isset($error)) echo $error; ?>
-            
-            <?= form_open('V2/Login/aksi_login', ['class' => 'needs-validation']) ?>
-                <div class="form-group mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <input type="email" 
-                               class="form-control" 
-                               name="email" 
-                               placeholder="Email"
-                               required 
-                               autofocus>
+<body class="login" style="margin-top: 60px;">
+
+
+    <div class="page-content container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-wrapper">
+                    <div class="box">
+                        <div class="content-wrap">
+                            <img width="200px" src="<?php echo base_url() . 'assets/temp/img/logotte.png' ?>" />
+                            <h3><b>Sertifikasi Elektronik</b></h3>
+                            <h2><b>SINAR<b>
+                                        <h2>
+                                            <p><?php echo $this->session->flashdata('msg'); ?></p>
+                                            <hr />
+                                            <form action="<?php echo base_url('Auth/aksi_login'); ?>" method="post">
+    <input class="form-control" type="email" name="email" placeholder="Username" required>
+    <input class="form-control" type="password" name="password" placeholder="Password" required>
+
+    <div class="action">
+        <button type="submit" class="btn btn-lg">Login</button>
+    </div>
+</form>
+
+                                            <br>
+                                            <br>
+                                            <div>
+                                                <img width="120px" src="<?php echo base_url() . 'assets/temp/img/loginlg1.png' ?>" />
+                                                <img width="120px" src="<?php echo base_url() . 'assets/temp/img/logobsre.png' ?>" />
+                                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group mb-4">
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                        <input type="password" 
-                               class="form-control" 
-                               name="password" 
-                               placeholder="Password"
-                               required>
-                        <span class="input-group-text password-toggle" style="cursor: pointer;">
-                            <i class="fas fa-eye"></i>
-                        </span>
-                    </div>
+                    <!-- 			        <div class="already">
+						<button class="btn btn-light" type="submit">Portal Ditjen Yankes</button>
+						<button class="btn btn-light" type="submit">Dashboard</button>
+			        </div> -->
                 </div>
-
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary btn-login">
-                        <i class="fas fa-sign-in-alt me-2"></i> Login
-                    </button>
-                </div>
-            <?= form_close() ?>
-            
-            <div class="text-center mt-4">
-                <small class="text-muted">
-                    &copy; <?= date('Y') ?> SINAR - Sistem Informasi Akreditasi
-                </small>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
-    <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>
-    <script>
-        $(document).ready(function() {
-            // Password visibility toggle
-            $('.password-toggle').click(function() {
-                const input = $(this).siblings('input');
-                const icon = $(this).find('i');
-                
-                if (input.attr('type') === 'password') {
-                    input.attr('type', 'text');
-                    icon.removeClass('fa-eye').addClass('fa-eye-slash');
-                } else {
-                    input.attr('type', 'password');
-                    icon.removeClass('fa-eye-slash').addClass('fa-eye');
-                }
-            });
 
-            // Disable form resubmission
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-        });
-    </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="<?php echo base_url() . 'assets/temp/js/jquery.min.js' ?>"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="<?php echo base_url() . 'assets/temp/js/bootstrap.min.js' ?>"></script>
+
 </body>
+
 </html>
