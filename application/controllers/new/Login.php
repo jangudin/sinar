@@ -4,9 +4,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends CI_Controller {
     function __construct(){
         parent::__construct();
+        
+        // Load core libraries first
+        $this->load->library(['session']);
+        
+        // Load security library with config
+        $config['csrf_protection'] = TRUE;
+        $config['csrf_token_name'] = 'csrf_token';
+        $config['csrf_cookie_name'] = 'csrf_cookie';
+        $this->load->library('security', $config);
+        
+        // Load remaining dependencies
         $this->load->model('m_login');
-        $this->load->library(['form_validation', 'session', 'security']);
+        $this->load->library('form_validation');
         $this->load->helper(['string', 'security', 'url']);
+        
+        // Set security headers
+        $this->output->set_header('X-Frame-Options: SAMEORIGIN');
+        $this->output->set_header('X-XSS-Protection: 1; mode=block');
+        $this->output->set_header('X-Content-Type-Options: nosniff');
     }
 
     public function index() {
