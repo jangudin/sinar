@@ -8,9 +8,9 @@ class Login extends CI_Controller {
     function __construct() {
         parent::__construct();
         
-        // Load only required components
+        // Load core libraries
         $this->load->library(['session', 'form_validation']);
-        $this->load->model('m_login');
+        $this->load->model('V2/M_login','m_login');
         $this->load->helper(['url', 'form']);
         
         // Set security headers
@@ -42,9 +42,9 @@ class Login extends CI_Controller {
             return;
         }
 
-        // Use CI's built-in XSS filtering through form_validation
-        $email = $this->input->post('email', TRUE);
-        $password = $this->input->post('password', TRUE);
+        // Sanitize input
+        $email = $this->security->xss_clean($this->input->post('email', TRUE));
+        $password = $this->security->xss_clean($this->input->post('password', TRUE));
 
         // Check for account lockout
         if ($this->_is_account_locked($email)) {
