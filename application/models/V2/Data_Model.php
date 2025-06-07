@@ -51,11 +51,11 @@ class Data_Model extends CI_Model { // Match the filename case
             r.tanggal_terbit_sertifikat DESC
         LIMIT ? OFFSET ?";
             
-        // Execute query directly and get result
-        $result = $this->db->query($sql, [(int)$lem_id, (int)$limit, (int)$offset]);
+        // Bind parameters using query builder to ensure proper type casting
+        $this->db->query($sql, [(int)$lem_id, (int)$limit, (int)$offset]);
         
         return [
-            'data' => $result->result(),
+            'data' => $this->db->get()->result(),
             'total_rows' => $total_rows,
             'per_page' => $limit
         ];
