@@ -50,15 +50,30 @@ class M_login extends CI_Model {
     }
 
     private function log_login_attempt($email, $success) {
-        // Get IP address with filter options
-        $ip_address = $this->input->ip_address() ?: '0.0.0.0';
-        
-        // Get user agent safely
-        $user_agent = $this->input->user_agent() ?: 'Unknown';
-        
+        // Set filter options
+        $filter_options = array(
+            'options' => array(
+                'default' => '0.0.0.0'
+            )
+        );
+
+        // Get and validate IP address
+        $ip_address = $this->input->ip_address();
+        if ($ip_address === FALSE) {
+            $ip_address = '0.0.0.0';
+        } else {
+            $ip_address = filter_var($ip_address, FILTER_VALIDATE_IP, $filter_options);
+        }
+
+        // Get and clean user agent
+        $user_agent = $this->input->user_agent();
+        if (empty($user_agent)) {
+            $user_agent = 'Unknown';
+        }
+
         $data = array(
             'email' => $email,
-            'ip_address' => filter_var($ip_address, FILTER_VALIDATE_IP, ['options' => ['default' => '0.0.0.0']]),
+            'ip_address' => $ip_address,
             'user_agent' => substr($user_agent, 0, 255),
             'success' => $success ? 1 : 0,
             'attempted_at' => date('Y-m-d H:i:s')
