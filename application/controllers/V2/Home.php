@@ -44,6 +44,13 @@ class Home extends CI_Controller {
         }
 
         try {
+            // Add this debug line
+            log_message('debug', 'Current user session: ' . json_encode([
+                'lembaga_id' => $this->session->userdata('lembaga_id'),
+                'status' => $this->session->userdata('status'),
+                'full_session' => $this->session->userdata()
+            ]));
+
             // Get and validate parameters
             $status = $this->input->post('status');
             if (!in_array($status, ['sudah', 'belum'])) {

@@ -4,60 +4,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Data_Model extends CI_Model { // Match the filename case
     
     public function get_belum_tte($lem_id = null, $limit = 10, $offset = 0) {
-        if (!$lem_id) {
-            throw new Exception('Lembaga ID is required');
+        // Validate lembaga_id
+        if (!$lem_id || !is_numeric($lem_id)) {
+            log_message('error', 'Invalid lembaga_id: ' . var_export($lem_id, true));
+            throw new Exception('Invalid Lembaga ID');
         }
 
-        // Cast parameters
-        $lem_id = (int)$lem_id;
-        $limit = (int)$limit;
-        $offset = (int)$offset;
-
-        // Debug query parameters
-        log_message('debug', 'Query parameters: lem_id=' . $lem_id);
-
-        // Count query with explicit JOIN conditions
-        $count_sql = "SELECT COUNT(*) as total
-        FROM db_akreditasi.rekomendasi r
-        INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
-        INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
-        LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
-        WHERE ps.lembaga_akreditasi_id = $lem_id
-        AND r.tanggal_surat_pengajuan_sertifikat > '2022-12-08'
-        AND (sp.lembaga IS NULL OR sp.lembaga = '0')
-        AND r.tanggal_terbit_sertifikat IS NOT NULL 
-        AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL";
-
-        $total_rows = $this->db->query($count_sql)->row()->total;
-
-        // Main query with debugging
-        $sql = "SELECT DISTINCT
+        // Use Query Builder instead of raw SQL for better security
+        $this->db->select('
             r.id,
             r.no_sertifikat,
             ps.kode_rs AS kodeRS,
             d.RUMAH_SAKIT AS namaRS,
-            ps.lembaga_akreditasi_id AS lembagaAkreditasiId,
-            sp.id as IdProgres,
-            sp.id_rekomendasi,
-            COALESCE(sp.lembaga, '0') as lembaga,
-            COALESCE(sp.mutu, '0') as mutu,
-            COALESCE(sp.dirjen, '0') as dirjen
-        FROM db_akreditasi.rekomendasi r
-        INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
-        INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
-        INNER JOIN db_fasyankes.`data` d ON d.Propinsi = ps.kode_rs
-        LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
-        WHERE ps.lembaga_akreditasi_id = ?
-        AND r.tanggal_surat_pengajuan_sertifikat > '2022-12-08'
-        AND (sp.lembaga IS NULL OR sp.lembaga = '0')
-        AND r.tanggal_terbit_sertifikat IS NOT NULL 
-        AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL
-        ORDER BY r.tanggal_terbit_sertifikat DESC
-        LIMIT ? OFFSET ?";
+            COALESCE(sp.lembaga, "0") as lembaga,
+            COALESCE(sp.mutu, "0") as mutu,
+            COALESCE(sp.dirjen, "0") as dirjen
+        ', FALSE);
 
-        // Debug final query
-        $query = $this->db->query($sql, [$lem_id, $limit, $offset]);
-        log_message('debug', 'Final query: ' . $this->db->last_query());
+        $this->db->from('db_akreditasi.rekomendasi r');
+        $this->db->join('db_akreditasi.survei s', 's.id = r.survei_id', 'inner');
+        $this->db->join('db_akreditasi.pengajuan_survei ps', 'ps.id = s.pengajuan_survei_id', 'inner');
+        $this->db->join('db_fasyankes.data d', 'd.Propinsi = ps.kode_rs', 'inner');
+        $this->db->join('db_akreditasi.Sertifikat_progres1 sp', 'r.id = sp.id_rekomendasi', 'left');
+
+        // Add WHERE conditions
+        $where = [
+            'ps.lembaga_akreditasi_id' => $lem_id,
+            'r.tanggal_terbit_sertifikat IS NOT NULL' => NULL,
+            'r.tanggal_kadaluarsa_sertifikat IS NOT NULL' => NULL
+        ];
+        $this->db->where($where);
+        $this->db->where('r.tanggal_surat_pengajuan_sertifikat >', '2022-12-08');
+        $this->db->where('(sp.lembaga IS NULL OR sp.lembaga = "0")');
+
+        // Get total rows before adding limit
+        $total_rows = $this->db->get()->num_rows();
+
+        // Clone the query for data with limit
+        $this->db->limit($limit, $offset);
+        $this->db->order_by('r.tanggal_terbit_sertifikat', 'DESC');
+        
+        $query = $this->db->get();
+        
+        // Debug information
+        log_message('debug', 'Last Query: ' . $this->db->last_query());
+        log_message('debug', 'Total Rows: ' . $total_rows);
+        log_message('debug', 'Results: ' . $query->num_rows());
 
         return [
             'data' => $query->result(),
@@ -65,61 +57,56 @@ class Data_Model extends CI_Model { // Match the filename case
             'per_page' => $limit
         ];
     }
-    
-    public function get_sudah_tte($lem_id = null, $limit = 10, $offset = 0) {
-        // Cast parameters to integers
-        $limit = (int)$limit;
-        $offset = (int)$offset;
-        
-        // Count total rows first
-        $count_sql = "SELECT COUNT(*) as total
-        FROM db_akreditasi.rekomendasi r
-        INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
-        INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
-        LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
-        WHERE ps.lembaga_akreditasi_id = ?
-        AND sp.lembaga = '1'
-        AND sp.mutu = '1'
-        AND sp.dirjen = '1'";
-        
-        $total_rows = $this->db->query($count_sql, array($lem_id))->row()->total;
 
-        // Main query with limit and offset
-        $sql = "SELECT
+    public function get_sudah_tte($lem_id = null, $limit = 10, $offset = 0) {
+        // Similar structure but for completed TTE
+        if (!$lem_id || !is_numeric($lem_id)) {
+            log_message('error', 'Invalid lembaga_id: ' . var_export($lem_id, true));
+            throw new Exception('Invalid Lembaga ID');
+        }
+
+        $this->db->select('
             r.id,
             r.no_sertifikat,
             ps.kode_rs AS kodeRS,
             d.RUMAH_SAKIT AS namaRS,
-            ps.lembaga_akreditasi_id AS lembagaAkreditasiId,
-            sp.id as IdProgres,
-            sp.id_rekomendasi,
             sp.lembaga,
             sp.mutu,
-            sp.keterangan,
             sp.dirjen,
-            sp.tgl_dibuat_lembaga,
-            sp.tgl_dibuat_mutu,
             sp.tgl_dibuat_dirjen
-        FROM
-            db_akreditasi.rekomendasi r
-            INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
-            INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
-            INNER JOIN db_fasyankes.`data` d ON d.Propinsi = ps.kode_rs
-            LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi 
-        WHERE
-            ps.lembaga_akreditasi_id = ?
-            AND sp.lembaga = '1'
-            AND sp.mutu = '1'
-            AND sp.dirjen = '1'
-        ORDER BY 
-            sp.tgl_dibuat_dirjen DESC
-        LIMIT ? OFFSET ?";
-            
-        // Use consistent parameter binding
-        $result = $this->db->query($sql, [(int)$lem_id, (int)$limit, (int)$offset]);
+        ', FALSE);
+
+        $this->db->from('db_akreditasi.rekomendasi r');
+        $this->db->join('db_akreditasi.survei s', 's.id = r.survei_id', 'inner');
+        $this->db->join('db_akreditasi.pengajuan_survei ps', 'ps.id = s.pengajuan_survei_id', 'inner');
+        $this->db->join('db_fasyankes.data d', 'd.Propinsi = ps.kode_rs', 'inner');
+        $this->db->join('db_akreditasi.Sertifikat_progres1 sp', 'r.id = sp.id_rekomendasi', 'inner');
+
+        // Add WHERE conditions for completed TTE
+        $where = [
+            'ps.lembaga_akreditasi_id' => $lem_id,
+            'sp.lembaga' => '1',
+            'sp.mutu' => '1',
+            'sp.dirjen' => '1'
+        ];
+        $this->db->where($where);
+
+        // Get total rows before adding limit
+        $total_rows = $this->db->get()->num_rows();
+
+        // Clone the query for data with limit
+        $this->db->limit($limit, $offset);
+        $this->db->order_by('sp.tgl_dibuat_dirjen', 'DESC');
         
+        $query = $this->db->get();
+        
+        // Debug information
+        log_message('debug', 'Last Query: ' . $this->db->last_query());
+        log_message('debug', 'Total Rows: ' . $total_rows);
+        log_message('debug', 'Results: ' . $query->num_rows());
+
         return [
-            'data' => $result->result(),
+            'data' => $query->result(),
             'total_rows' => $total_rows,
             'per_page' => $limit
         ];
