@@ -57,28 +57,3 @@ class Home extends CI_Controller {
         }
     }
 }
-
-/* Add this CSS to your existing <style> section */
-.table {
-    margin-bottom: 0;
-}
-
-.table th {
-    background: #f8f9fa;
-    font-weight: 600;
-}
-
-.table td, .table th {
-    padding: 0.75rem;
-    vertical-align: middle;
-}
-
-.badge {
-    padding: 0.5em 0.8em;
-    font-weight: 500;
-}
-
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-}
