@@ -100,7 +100,7 @@
 <nav class="navbar navbar-expand-lg" style="background: var(--primary);">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="#">
-            <img src="<?= base_url('assets/img/logo.png') ?>" height="40" alt="SINAR">
+            <img src="<?= base_url('assets/temp/img/logotte.png') ?>" height="40" alt="SINAR">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -118,7 +118,7 @@
                 </li>
             </ul>
             <div class="user-profile d-flex align-items-center">
-                <img src="<?= base_url('assets/img/user.png') ?>" alt="User" class="me-2">
+                <img src="<?= base_url('assets/temp/img/loginlg1.png') ?>" alt="User" class="me-2">
                 <span class="text-white"><?= $this->session->userdata('name') ?? 'User' ?></span>
                 <a href="<?= base_url('V2/logout') ?>" class="btn btn-outline-light btn-sm ms-3">
                     <i class="fas fa-sign-out-alt"></i> Logout
