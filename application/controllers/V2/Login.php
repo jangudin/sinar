@@ -10,7 +10,7 @@ class Login extends CI_Controller {
         
         // Load helpers and libraries
         $this->load->helper(['url', 'file']);
-        $this->load->library(['session', 'form_validation', 'security']);
+        $this->load->library(['session', 'form_validation']);
         $this->load->model('V2/M_login','m_login');
         
         // Set security headers
