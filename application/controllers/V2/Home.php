@@ -43,24 +43,47 @@ class Home extends CI_Controller {
             exit('No direct script access allowed');
         }
 
-        $status = $this->input->post('status');
-        $lem_id = $this->session->userdata('lembaga_id'); // Get lembaga ID from session
-        $page = $this->input->post('page') ?? 1;
-        $limit = $this->input->post('limit') ?? 10;
-        $offset = ($page - 1) * $limit;
-
         try {
-            $result = [];
-            if ($status === 'sudah') {
-                $result = $this->Data_model->get_sudah_tte($lem_id, $limit, $offset);
-            } else {
-                $result = $this->Data_model->get_belum_tte($lem_id, $limit, $offset);
+            // Get and validate parameters
+            $status = $this->input->post('status');
+            if (!in_array($status, ['sudah', 'belum'])) {
+                throw new Exception('Invalid status parameter');
             }
 
-            // Calculate pagination info
+            $lem_id = $this->session->userdata('lembaga_id');
+            if (!$lem_id) {
+                throw new Exception('Session lembaga_id not found');
+            }
+
+            // Debug session data
+            log_message('debug', 'Session data: ' . json_encode($this->session->userdata()));
+            log_message('debug', 'Lembaga ID: ' . $lem_id);
+
+            $page = max(1, (int)($this->input->post('page') ?? 1));
+            $limit = max(1, (int)($this->input->post('limit') ?? 10));
+            $offset = ($page - 1) * $limit;
+
+            // Debug request parameters
+            log_message('debug', sprintf(
+                'Request params - status: %s, lem_id: %d, page: %d, limit: %d, offset: %d',
+                $status, $lem_id, $page, $limit, $offset
+            ));
+
+            // Get data with strict typing
+            $result = ($status === 'sudah') 
+                ? $this->Data_model->get_sudah_tte((int)$lem_id, $limit, $offset)
+                : $this->Data_model->get_belum_tte((int)$lem_id, $limit, $offset);
+
+            // Debug result
+            log_message('debug', 'Query result count: ' . count($result['data']));
+
+            if (empty($result['data'])) {
+                log_message('debug', 'No data returned for given parameters');
+            }
+
             $total_pages = ceil($result['total_rows'] / $result['per_page']);
             
-            echo json_encode([
+            $response = [
                 'status' => 'success',
                 'data' => $result['data'],
                 'pagination' => [
@@ -68,12 +91,26 @@ class Home extends CI_Controller {
                     'total_pages' => $total_pages,
                     'total_records' => $result['total_rows'],
                     'per_page' => $result['per_page']
+                ],
+                'debug' => [
+                    'lembaga_id' => $lem_id,
+                    'status' => $status,
+                    'page' => $page,
+                    'limit' => $limit
                 ]
-            ]);
+            ];
+
+            echo json_encode($response);
+            
         } catch (Exception $e) {
+            log_message('error', 'TTE Data Error: ' . $e->getMessage());
             echo json_encode([
                 'status' => 'error',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'debug' => [
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine()
+                ]
             ]);
         }
     }
