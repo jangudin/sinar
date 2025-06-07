@@ -5,13 +5,21 @@ class Login extends CI_Controller {
     private $max_attempts = 3;
     private $lockout_time = 900; // 15 minutes in seconds
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         
+        // Load helpers first
+        $this->load->helper(['url', 'file']);
+        
+        // Initialize session
+        if (!is_dir(FCPATH . 'writable/sessions')) {
+            mkdir(FCPATH . 'writable/sessions', 0700, TRUE);
+        }
+        $this->load->library('session');
+        
         // Load core libraries
-        $this->load->library(['session', 'form_validation']);
+        $this->load->library(['form_validation']);
         $this->load->model('V2/M_login','m_login');
-        $this->load->helper(['url', 'form']);
         
         // Set security headers
         $this->output->set_header('X-Frame-Options: SAMEORIGIN');
