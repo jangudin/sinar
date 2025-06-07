@@ -35,14 +35,15 @@ class Home extends CI_Controller {
     }
 
     public function get_tte_data() {
+        // Get lembaga_id from session
+        $lembaga_id = $this->session->userdata('lembaga_id');
         $status = $this->input->post('status');
-        $lem_id = $this->session->userdata('lembaga_id'); // Assuming you have this in session
         
         try {
             if ($status === 'sudah') {
-                $data = $this->Data_model->get_sudah_tte($lem_id);
+                $data = $this->Data_model->get_sudah_tte($lembaga_id);
             } else {
-                $data = $this->Data_model->get_belum_tte($lem_id);
+                $data = $this->Data_model->get_belum_tte($lembaga_id);
             }
             
             echo json_encode([

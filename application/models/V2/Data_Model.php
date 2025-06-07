@@ -5,65 +5,64 @@ class Data_Model extends CI_Model { // Match the filename case
     
     public function get_belum_tte($lem_id = null) {
         $sql = "SELECT
-            db_akreditasi.rekomendasi.id,
-            db_akreditasi.rekomendasi.no_sertifikat,
-            db_akreditasi.pengajuan_survei.kode_rs AS kodeRS,
-            db_fasyankes.`data`.RUMAH_SAKIT AS namaRS,
-            db_akreditasi.pengajuan_survei.lembaga_akreditasi_id AS lembagaAkreditasiId,
-            db_akreditasi.Sertifikat_progres1.lembaga,
-            db_akreditasi.Sertifikat_progres1.mutu,
-            db_akreditasi.Sertifikat_progres1.keterangan,
-            db_akreditasi.Sertifikat_progres1.dirjen,
-            db_akreditasi.sertifikasi.rekomendasi_id 
+            r.id,
+            r.no_sertifikat,
+            ps.kode_rs AS kodeRS,
+            d.RUMAH_SAKIT AS namaRS,
+            ps.lembaga_akreditasi_id AS lembagaAkreditasiId,
+            sp.id as IdProgres,
+            sp.id_rekomendasi,
+            sp.lembaga,
+            sp.mutu,
+            sp.keterangan,
+            sp.dirjen
         FROM
-            db_akreditasi.rekomendasi
-            LEFT JOIN db_akreditasi.survei ON db_akreditasi.survei.id = db_akreditasi.rekomendasi.survei_id
-            LEFT JOIN db_akreditasi.pengajuan_survei ON db_akreditasi.pengajuan_survei.id = db_akreditasi.survei.pengajuan_survei_id
-            LEFT JOIN db_fasyankes.`data` ON db_fasyankes.`data`.Propinsi = db_akreditasi.pengajuan_survei.kode_rs
-            LEFT JOIN db_akreditasi.Sertifikat_progres1 ON db_akreditasi.rekomendasi.id = db_akreditasi.Sertifikat_progres1.id_rekomendasi
-            LEFT JOIN db_akreditasi.sertifikasi ON db_akreditasi.rekomendasi.id = db_akreditasi.sertifikasi.rekomendasi_id 
+            db_akreditasi.rekomendasi r
+            INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
+            INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
+            INNER JOIN db_fasyankes.`data` d ON d.Propinsi = ps.kode_rs
+            LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
         WHERE
-            lembaga_akreditasi_id = ? 
-            AND rekomendasi.tanggal_surat_pengajuan_sertifikat > '2022-12-08'
-            AND db_akreditasi.Sertifikat_progres1.lembaga IS NULL
-            AND rekomendasi.tanggal_terbit_sertifikat IS NOT NULL 
-            AND rekomendasi.tanggal_kadaluarsa_sertifikat IS NOT NULL";
+            ps.lembaga_akreditasi_id = ?
+            AND (sp.lembaga IS NULL OR sp.mutu IS NULL OR sp.dirjen IS NULL)
+            AND r.tanggal_terbit_sertifikat IS NOT NULL
+            AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL
+        ORDER BY 
+            r.tanggal_terbit_sertifikat DESC";
             
-        $query = $this->db->query($sql, array($lem_id));
-        return $query->result();
+        return $this->db->query($sql, array($lem_id))->result();
     }
     
     public function get_sudah_tte($lem_id = null) {
         $sql = "SELECT
-            db_akreditasi.rekomendasi.id,
-            db_akreditasi.rekomendasi.no_sertifikat,
-            db_akreditasi.pengajuan_survei.kode_rs AS kodeRS,
-            db_fasyankes.`data`.RUMAH_SAKIT AS namaRS,
-            db_akreditasi.pengajuan_survei.lembaga_akreditasi_id AS lembagaAkreditasiId,
-            db_akreditasi.Sertifikat_progres1.id as IdProgres,
-            db_akreditasi.Sertifikat_progres1.id_rekomendasi,
-            db_akreditasi.Sertifikat_progres1.lembaga,
-            db_akreditasi.Sertifikat_progres1.mutu,
-            db_akreditasi.Sertifikat_progres1.keterangan,
-            db_akreditasi.Sertifikat_progres1.dirjen,
-            db_akreditasi.Sertifikat_progres1.tgl_dibuat_lembaga,
-            db_akreditasi.Sertifikat_progres1.tgl_dibuat_mutu,
-            db_akreditasi.Sertifikat_progres1.tgl_dibuat_dirjen
+            r.id,
+            r.no_sertifikat,
+            ps.kode_rs AS kodeRS,
+            d.RUMAH_SAKIT AS namaRS,
+            ps.lembaga_akreditasi_id AS lembagaAkreditasiId,
+            sp.id as IdProgres,
+            sp.id_rekomendasi,
+            sp.lembaga,
+            sp.mutu,
+            sp.keterangan,
+            sp.dirjen,
+            sp.tgl_dibuat_lembaga,
+            sp.tgl_dibuat_mutu,
+            sp.tgl_dibuat_dirjen
         FROM
-            db_akreditasi.rekomendasi
-            INNER JOIN db_akreditasi.survei ON db_akreditasi.survei.id = db_akreditasi.rekomendasi.survei_id
-            INNER JOIN db_akreditasi.pengajuan_survei ON db_akreditasi.pengajuan_survei.id = db_akreditasi.survei.pengajuan_survei_id
-            INNER JOIN db_fasyankes.`data` ON db_fasyankes.`data`.Propinsi = db_akreditasi.pengajuan_survei.kode_rs
-            LEFT JOIN db_akreditasi.Sertifikat_progres1 ON db_akreditasi.rekomendasi.id = db_akreditasi.Sertifikat_progres1.id_rekomendasi 
+            db_akreditasi.rekomendasi r
+            INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
+            INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
+            INNER JOIN db_fasyankes.`data` d ON d.Propinsi = ps.kode_rs
+            LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi 
         WHERE
-            lembaga_akreditasi_id = ? 
-            AND db_akreditasi.Sertifikat_progres1.lembaga = '1'
-            AND db_akreditasi.Sertifikat_progres1.mutu = '1'
-            AND db_akreditasi.Sertifikat_progres1.dirjen = '1'
+            ps.lembaga_akreditasi_id = ?
+            AND sp.lembaga = '1'
+            AND sp.mutu = '1'
+            AND sp.dirjen = '1'
         ORDER BY 
-            db_akreditasi.Sertifikat_progres1.tgl_dibuat_dirjen DESC";
+            sp.tgl_dibuat_dirjen DESC";
             
-        $query = $this->db->query($sql, array($lem_id));
-        return $query->result();
-    }
+    return $this->db->query($sql, array($lem_id))->result();
+}
 }
