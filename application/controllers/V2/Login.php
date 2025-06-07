@@ -123,7 +123,7 @@ class Login extends CI_Controller {
         $redirects = [
             '1' => $id == '10' ? 'DirjenYankes' : 'DirjenYankes/nonrsbelumtte',
             '2' => $id == '48' ? 'Mutu_fasyankes/nonrsbelumverifikasi' : 'Mutu_fasyankes',
-            '3' => 'V2/DataLpa',
+            '3' => 'V2/Home',
             '4' => 'Monitoring',
             '5' => 'AkreditasiNonRS',
             '7' => 'AdminNomorSurat',
