@@ -63,10 +63,15 @@ class Home extends CI_Controller {
     }
 
     public function index() {
+        // Get user and lembaga data
         $data['title'] = 'Dashboard - SINAR';
         $data['user'] = $this->session->userdata();
-        echo json_encode( $lem_id = $this->session->userdata('lembaga_id'));exit;
+        $data['lembaga_id'] = $this->session->userdata('lembaga_id');
         
+        // Log for debugging
+        log_message('debug', 'Lembaga ID in session: ' . $data['lembaga_id']);
+        
+        // Load view with data
         $this->load->view('V2/home/index', $data);
     }
 
