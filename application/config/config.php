@@ -331,60 +331,20 @@ $config['encryption_key'] = 'ud1n';
 |--------------------------------------------------------------------------
 | Session Variables
 |--------------------------------------------------------------------------
-|
-| 'sess_driver'
-|
-|	The storage driver to use: files, database, redis, memcached
-|
-| 'sess_cookie_name'
-|
-|	The session cookie name, must contain only [0-9a-z_-] characters
-|
-| 'sess_expiration'
-|
-|	The number of SECONDS you want the session to last.
-|	Setting to 0 (zero) means expire when the browser is closed.
-|
-| 'sess_save_path'
-|
-|	The location to save sessions to, driver dependent.
-|
-|	For the 'files' driver, it's a path to a writable directory.
-|	WARNING: Only absolute paths are supported!
-|
-|	For the 'database' driver, it's a table name.
-|	Please read up the manual for the format with other session drivers.
-|
-|	IMPORTANT: You are REQUIRED to set a valid save path!
-|
-| 'sess_match_ip'
-|
-|	Whether to match the user's IP address when reading the session data.
-|
-|	WARNING: If you're using the database driver, don't forget to update
-|	         your session table's PRIMARY KEY when changing this setting.
-|
-| 'sess_time_to_update'
-|
-|	How many seconds between CI regenerating the session ID.
-|
-| 'sess_regenerate_destroy'
-|
-|	Whether to destroy session data associated with the old session ID
-|	when auto-regenerating the session ID. When set to FALSE, the data
-|	will be later deleted by the garbage collector.
-|
-| Other session cookie settings are shared with the rest of the application,
-| except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
-|
 */
-$config['sess_driver'] = 'database';
+$config['sess_driver'] = 'files';  // Change back to files
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
-$config['sess_save_path'] = 'ci_sessions';  // table name
+$config['sess_expire_on_close'] = FALSE;
+$config['sess_encrypt_cookie'] = FALSE;
+$config['sess_use_database'] = FALSE;
+$config['sess_table_name'] = 'ci_sessions';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
+$config['sess_expiration'] = 7200;
+
+// Important: Set the save path to a writable directory
+$config['sess_save_path'] = FCPATH . 'application/cache/sessions';
 
 /*
 |--------------------------------------------------------------------------
