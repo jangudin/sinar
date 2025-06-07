@@ -160,6 +160,30 @@
                 transform: translateY(0);
             }
         }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .table td, .table th {
+            padding: 0.75rem;
+            vertical-align: middle;
+        }
+
+        .badge {
+            padding: 0.5em 0.8em;
+            font-weight: 500;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>
@@ -347,12 +371,58 @@
     }
 
     function showTTEData(status) {
-        // Logic to fetch and show TTE data based on status (sudah/belum)
+        // Show loading state
         $('#tteTableTitle').text('Data TTE - ' + (status === 'sudah' ? 'Sudah TTE' : 'Belum TTE'));
         $('#tteDataSection').show();
         $('#tteSectionContainer').hide();
+        
+        // Show loading indicator
+        $('#tteTableBody').html('<tr><td colspan="6" class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>');
 
-        // TODO: Add AJAX call to fetch data
+        // AJAX call to fetch data
+        $.ajax({
+            url: '<?= base_url('V2/Home/get_tte_data') ?>',
+            type: 'POST',
+            data: { status: status },
+            dataType: 'json',
+            success: function(response) {
+                let html = '';
+                if (response.data && response.data.length > 0) {
+                    response.data.forEach((item, index) => {
+                        html += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${item.kodeRS}</td>
+                                <td>${item.namaRS}</td>
+                                <td>${item.no_sertifikat}</td>
+                                <td>
+                                    <span class="badge bg-${status === 'sudah' ? 'success' : 'warning'}">
+                                        ${status === 'sudah' ? 'Sudah TTE' : 'Belum TTE'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" onclick="viewDetail(${item.id})">
+                                        <i class="fas fa-eye"></i> Detail
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    html = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+                }
+                $('#tteTableBody').html(html);
+            },
+            error: function(xhr, status, error) {
+                $('#tteTableBody').html(`
+                    <tr>
+                        <td colspan="6" class="text-center text-danger">
+                            <i class="fas fa-exclamation-circle"></i> Error: ${error}
+                        </td>
+                    </tr>
+                `);
+            }
+        });
     }
 
     function hideTTEData() {
