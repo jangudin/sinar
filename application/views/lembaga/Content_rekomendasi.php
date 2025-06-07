@@ -47,6 +47,7 @@
                                                 $kdrs=$a['kodeRS'];
                                                 $mutu=$a['mutu'];
                                                 $noser=$a['no_sertifikat'];
+                                                $encrypted_id = encrypt_url($id);
                                         ?>
                                     <tr>
                                     <td><?php echo $no; ?></td>
