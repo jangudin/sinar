@@ -138,7 +138,7 @@
                 <p class="mb-0">Sistem Informasi Akreditasi Rumah Sakit</p>
             </div>
             <div class="col-md-6 text-end">
-                <img src="<?= base_url('assets/img/kemkes.png') ?>" height="60" alt="Kemkes">
+                <img src="<?= base_url('assets/temp/img/loginlg1.png') ?>" height="60" alt="Kemkes">
             </div>
         </div>
     </div>
