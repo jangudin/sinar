@@ -8,17 +8,15 @@ class Login extends CI_Controller {
     public function __construct() {
         parent::__construct();
         
-        // Load helpers first
-        $this->load->helper(['url', 'file']);
-        
-        // Initialize session
-        if (!is_dir(FCPATH . 'writable/sessions')) {
-            mkdir(FCPATH . 'writable/sessions', 0700, TRUE);
+        // Create session directory if it doesn't exist
+        $session_path = BASEPATH . '../writable/sessions';
+        if (!is_dir($session_path)) {
+            mkdir($session_path, 0700, TRUE);
         }
-        $this->load->library('session');
         
-        // Load core libraries
-        $this->load->library(['form_validation']);
+        // Load helpers and libraries
+        $this->load->helper(['url', 'file']);
+        $this->load->library(['session', 'form_validation']);
         $this->load->model('V2/M_login','m_login');
         
         // Set security headers
