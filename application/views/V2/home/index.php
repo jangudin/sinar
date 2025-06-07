@@ -87,11 +87,24 @@
             color: white !important;
         }
 
+        .dropdown-toggle::after {
+            display: inline-block;
+            margin-left: 0.5em;
+            vertical-align: 0.2em;
+            content: "";
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+        }
+
         .dropdown-menu {
             background: white;
             border: none;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: 0.5rem;
+            margin-top: 0.5rem !important;
+            animation: fadeIn 0.3s ease;
+            min-width: 200px;
         }
 
         .dropdown-item {
@@ -103,6 +116,11 @@
         .dropdown-item:hover {
             background: rgba(0,0,0,0.05);
             color: var(--secondary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .navbar-nav .dropdown-toggle::after {
@@ -138,11 +156,12 @@
             <!-- User Profile Dropdown (Right Side) -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" 
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle fa-lg me-2"></i>
                         <span class="text-white"><?= $this->session->userdata('name') ?? 'User' ?></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
                         <li>
                             <a class="dropdown-item" href="<?= base_url('V2/logout') ?>">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -262,6 +281,12 @@
 <script src="<?= base_url('assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
 <script>
     $(document).ready(function() {
+        // Initialize Bootstrap dropdowns
+        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            return new bootstrap.Dropdown(dropdownToggleEl)
+        });
+
         // Enable tooltips
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
