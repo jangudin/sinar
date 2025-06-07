@@ -9,12 +9,29 @@ class Home extends CI_Controller {
         $this->load->helper(['url','file']);
         $this->load->model('V2/Data_Model', 'Data_model');
         
-        // Check authentication and lembaga_id
+        // Enhanced authentication check
         if($this->session->userdata('status') != "login") {
             redirect('V2/Login');
         }
         
-        if(!$this->session->userdata('lembaga_id')) {
+        // Validate and ensure lembaga_id
+        $this->_validate_lembaga_id();
+    }
+
+    private function _validate_lembaga_id() {
+        $lem_id = $this->session->userdata('lembaga_id');
+        
+        if(!$lem_id) {
+            // Try to get from database
+            $user_id = $this->session->userdata('user_id');
+            if($user_id) {
+                $user_data = $this->db->get_where('users', ['id' => $user_id])->row();
+                if($user_data && $user_data->lembaga_id) {
+                    // Update session with valid lembaga_id
+                    $this->session->set_userdata('lembaga_id', $user_data->lembaga_id);
+                    return;
+                }
+            }
             redirect('V2/Login');
         }
     }
@@ -44,73 +61,74 @@ class Home extends CI_Controller {
         }
 
         try {
-            // Add this debug line
-            log_message('debug', 'Current user session: ' . json_encode([
-                'lembaga_id' => $this->session->userdata('lembaga_id'),
-                'status' => $this->session->userdata('status'),
-                'full_session' => $this->session->userdata()
-            ]));
+            // Get lembaga_id from session first
+            $lem_id = (int)$this->session->userdata('lembaga_id');
+            
+            // Validate lembaga_id immediately
+            if (!$lem_id || $lem_id <= 0) {
+                // Check if it exists in the database
+                $user_data = $this->db->get_where('users', ['id' => $this->session->userdata('user_id')])->row();
+                if ($user_data && $user_data->lembaga_id) {
+                    $lem_id = (int)$user_data->lembaga_id;
+                    // Update session
+                    $this->session->set_userdata('lembaga_id', $lem_id);
+                } else {
+                    throw new Exception('Invalid or missing Lembaga ID');
+                }
+            }
 
-            // Get and validate parameters
             $status = $this->input->post('status');
             if (!in_array($status, ['sudah', 'belum'])) {
                 throw new Exception('Invalid status parameter');
             }
 
-            $lem_id = $this->session->userdata('lembaga_id');
-            if (!$lem_id) {
-                throw new Exception('Session lembaga_id not found');
-            }
-
-            // Debug session data
-            log_message('debug', 'Session data: ' . json_encode($this->session->userdata()));
-            log_message('debug', 'Lembaga ID: ' . $lem_id);
+            // Debug information
+            log_message('debug', sprintf(
+                'Processing request with lembaga_id: %d, status: %s',
+                $lem_id,
+                $status
+            ));
 
             $page = max(1, (int)($this->input->post('page') ?? 1));
             $limit = max(1, (int)($this->input->post('limit') ?? 10));
             $offset = ($page - 1) * $limit;
 
-            // Debug request parameters
-            log_message('debug', sprintf(
-                'Request params - status: %s, lem_id: %d, page: %d, limit: %d, offset: %d',
-                $status, $lem_id, $page, $limit, $offset
-            ));
-
-            // Get data with strict typing
+            // Get data with validated lembaga_id
             $result = ($status === 'sudah') 
-                ? $this->Data_model->get_sudah_tte((int)$lem_id, $limit, $offset)
-                : $this->Data_model->get_belum_tte((int)$lem_id, $limit, $offset);
+                ? $this->Data_model->get_sudah_tte($lem_id, $limit, $offset)
+                : $this->Data_model->get_belum_tte($lem_id, $limit, $offset);
 
-            // Debug result
-            log_message('debug', 'Query result count: ' . count($result['data']));
-
-            if (empty($result['data'])) {
-                log_message('debug', 'No data returned for given parameters');
+            if (!$result || empty($result['data'])) {
+                log_message('debug', sprintf(
+                    'No data found for lembaga_id: %d, status: %s',
+                    $lem_id,
+                    $status
+                ));
             }
 
-            $total_pages = ceil($result['total_rows'] / $result['per_page']);
-            
-            $response = [
+            echo json_encode([
                 'status' => 'success',
                 'data' => $result['data'],
                 'pagination' => [
                     'current_page' => (int)$page,
-                    'total_pages' => $total_pages,
+                    'total_pages' => ceil($result['total_rows'] / $limit),
                     'total_records' => $result['total_rows'],
-                    'per_page' => $result['per_page']
+                    'per_page' => $limit
                 ],
                 'debug' => [
                     'lembaga_id' => $lem_id,
-                    'status' => $status,
-                    'page' => $page,
-                    'limit' => $limit
+                    'status' => $status
                 ]
-            ];
+            ]);
 
-            echo json_encode($response);
-            
         } catch (Exception $e) {
-            log_message('error', 'TTE Data Error: ' . $e->getMessage());
+            log_message('error', sprintf(
+                'Error processing TTE data: %s (File: %s, Line: %d)',
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine()
+            ));
+            
             echo json_encode([
                 'status' => 'error',
                 'message' => $e->getMessage(),
