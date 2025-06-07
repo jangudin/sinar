@@ -137,6 +137,10 @@
             padding: 0.4rem 0.8rem; /* reduced padding */
             font-size: 0.9rem;      /* reduced font size */
         }
+
+        .btn:not(:first-child) {
+            margin-left: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -261,10 +265,10 @@
                     <button class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Pengajuan Baru
                     </button>
-                    <button class="btn btn-info text-white">
+                    <button class="btn btn-info text-white ms-3">
                         <i class="fas fa-search"></i> Cek Status
                     </button>
-                    <button class="btn btn-success">
+                    <button class="btn btn-success ms-3">
                         <i class="fas fa-download"></i> Unduh Laporan
                     </button>
                 </div>
