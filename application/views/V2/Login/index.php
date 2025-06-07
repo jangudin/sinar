@@ -1,4 +1,3 @@
-<?php
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,102 +12,7 @@
     <!-- Font Awesome -->
     <link href="<?= base_url('assets/plugins/fontawesome-free/css/all.min.css') ?>" rel="stylesheet">
     
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-        }
-
-        body {
-            background-image: url('<?= base_url("assets/bg.png") ?>');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-            margin: 1rem;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .main-logo {
-            max-width: 200px;
-            height: auto;
-            margin-bottom: 1rem;
-        }
-
-        .secondary-logos {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .secondary-logos img {
-            max-width: 120px;
-            height: auto;
-        }
-
-        .login-title {
-            text-align: center;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-control {
-            border-radius: 8px;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            margin-bottom: 1rem;
-        }
-
-        .form-control:focus {
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
-            border-color: var(--primary-color);
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 8px;
-            background: var(--primary-color);
-            border: none;
-            color: white;
-            font-weight: 600;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-login:hover {
-            background: #0056b3;
-            transform: translateY(-1px);
-        }
-
-        .alert {
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .divider {
-            border-top: 1px solid #eee;
-            margin: 1.5rem 0;
-        }
-    </style>
+    <!-- ...existing styles... -->
 </head>
 <body>
     <div class="login-container">
