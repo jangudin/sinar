@@ -163,6 +163,41 @@
             transition: transform 0.3s ease;
         }
 
+        /* Logo and Title Styles */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .main-logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .login-title {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-title.main {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e3c72;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-title.sub {
+            font-size: 1.2rem;
+            color: #2a5298;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 480px) {
             .secondary-logos {
@@ -172,6 +207,14 @@
             
             .secondary-logos img {
                 max-width: 80px; /* Smaller on mobile */
+            }
+
+            .login-title.main {
+                font-size: 2rem;
+            }
+            
+            .login-title.sub {
+                font-size: 1rem;
             }
         }
     </style>
@@ -183,8 +226,8 @@
     <div class="login-container">
         <div class="logo-container">
             <img src="<?= base_url('assets/temp/img/logotte.png') ?>" alt="SINAR Logo" class="main-logo">
-            <h3 class="login-title"><strong>Sertifikasi Elektronik</strong></h3>
-            <h2 class="login-title"><strong>SINAR</strong></h2>
+            <h3 class="login-title sub">Sertifikasi Elektronik</h3>
+            <h2 class="login-title main">SINAR</h2>
         </div>
 
         <?php if($this->session->flashdata('msg')): ?>
