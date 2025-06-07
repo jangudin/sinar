@@ -7,14 +7,13 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->library(['session']);
         $this->load->helper(['url']);
-        $this->load->model('V2/Data_model','Data_model'); // Add model
+        $this->load->model('Data_model'); // Add model
         
         // Check authentication
         if($this->session->userdata('status') != "login") {
             redirect('V2/Login');
         }
     }
-
 
     public function index() {
         $data['title'] = 'Dashboard - SINAR';
