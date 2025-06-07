@@ -14,8 +14,13 @@ class Home extends CI_Controller {
         }
     }
 
-public function index() {
-    $data['title'] = 'Dashboard - SINAR';
-    $this->load->view('V2/home/index', $data);
-}
+    public function index() {
+        $data['title'] = 'Dashboard - SINAR';
+        $data['user'] = $this->session->userdata();
+        
+        $this->load->view('V2/templates/header', $data);
+        $this->load->view('V2/templates/navbar', $data);
+        $this->load->view('V2/home/index', $data);
+        $this->load->view('V2/templates/footer', $data);
+    }
 }
