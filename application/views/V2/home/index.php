@@ -141,6 +141,25 @@
         .btn:not(:first-child) {
             margin-left: 1rem;
         }
+
+        #tteSectionContainer {
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card {
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -210,11 +229,11 @@
             <div class="stat-card">
                 <h3 class="mb-4">Aksi Cepat</h3>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-info">
-                        <i class="fas fa-plus-circle"></i> Rumah Sakit
+                    <button class="btn btn-info" onclick="toggleTTESection()">
+                        <i class="fas fa-hospital"></i> Rumah Sakit
                     </button>
                     <button class="btn btn-primary text-white ms-3">
-                        <i class="fas fa-search"></i> Non Rumah Sakit
+                        <i class="fas fa-building"></i> Non Rumah Sakit
                     </button>
                     <button class="btn btn-success ms-3">
                         <i class="fas fa-download"></i> Unduh Laporan
@@ -224,11 +243,16 @@
         </div>
     </div>
 
-    <!-- TTE Actions -->
-    <div class="row mt-4">
+    <!-- TTE Actions (Initially Hidden) -->
+    <div class="row mt-4" id="tteSectionContainer" style="display: none;">
         <div class="col-12">
             <div class="stat-card">
-                <h3 class="mb-4">Status TTE Rumah Sakit</h3>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-4">Status TTE Rumah Sakit</h3>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="toggleTTESection()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
                 <div class="d-flex gap-2">
                     <button class="btn btn-success" onclick="showTTEData('sudah')">
                         <i class="fas fa-check-circle"></i> Sudah TTE
@@ -316,6 +340,24 @@
             });
         });
     });
+
+    function toggleTTESection() {
+        $('#tteSectionContainer').toggle();
+        $('#tteDataSection').hide();
+    }
+
+    function showTTEData(status) {
+        // Logic to fetch and show TTE data based on status (sudah/belum)
+        $('#tteTableTitle').text('Data TTE - ' + (status === 'sudah' ? 'Sudah TTE' : 'Belum TTE'));
+        $('#tteDataSection').show();
+        $('#tteSectionContainer').hide();
+
+        // TODO: Add AJAX call to fetch data
+    }
+
+    function hideTTEData() {
+        $('#tteDataSection').hide();
+    }
 </script>
 
 </body>
