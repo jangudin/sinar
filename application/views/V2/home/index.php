@@ -373,6 +373,7 @@
 
     let currentPage = 1;
     const perPage = 10;
+    let currentStatus = '';  // Add this global variable
 
     function toggleTTESection() {
         $('#tteSectionContainer').toggle();
@@ -380,6 +381,7 @@
     }
 
     function showTTEData(status, page = 1) {
+        currentStatus = status;  // Store the status globally
         currentPage = page;
         $('#tteTableTitle').text('Data TTE - ' + (status === 'sudah' ? 'Sudah TTE' : 'Belum TTE'));
         $('#tteDataSection').show();
@@ -400,19 +402,30 @@
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
-                    renderTable(response.data);
-                    renderPagination(response.pagination);
+                    renderTable(response.data, status);  // Pass status to renderTable
+                    renderPagination(response.pagination, status);  // Pass status to renderPagination
                 } else {
-                    showError(response.message);
+                    $('#tteTableBody').html(`
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">
+                                <i class="fas fa-exclamation-circle"></i> ${response.message || 'Terjadi kesalahan'}
+                            </td>
+                        </tr>
+                    `);
                 }
             },
             error: function(xhr, status, error) {
-                showError(error);
+                $('#tteTableBody').html(`
+                    <tr>
+                        <td colspan="6" class="text-center text-danger">
+                            <i class="fas fa-exclamation-circle"></i> ${error || 'Terjadi kesalahan sistem'}
+                        </tr>
+                    `);
             }
         });
     }
 
-    function renderTable(data) {
+    function renderTable(data, status) {
         let html = '';
         if (data && data.length > 0) {
             data.forEach((item, index) => {
@@ -431,10 +444,10 @@
 
                 html += `
                     <tr>
-                        <td>${index + 1}</td>
-                        <td>${item.kodeRS}</td>
-                        <td>${item.namaRS}</td>
-                        <td>${item.no_sertifikat}</td>
+                        <td>${((currentPage - 1) * perPage) + index + 1}</td>
+                        <td>${item.kodeRS || '-'}</td>
+                        <td>${item.namaRS || '-'}</td>
+                        <td>${item.no_sertifikat || '-'}</td>
                         <td>${progressStatus}</td>
                         <td>
                             <button class="btn btn-sm btn-info" onclick="viewDetail('${item.id}')">
@@ -445,19 +458,25 @@
                 `;
             });
         } else {
-            html = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+            html = `
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <i class="fas fa-info-circle"></i> Tidak ada data ${status === 'sudah' ? 'sudah' : 'belum'} TTE
+                    </td>
+                </tr>
+            `;
         }
         $('#tteTableBody').html(html);
     }
 
-    function renderPagination(pagination) {
+    function renderPagination(pagination, status) {
         const {current_page, total_pages, total_records, per_page} = pagination;
         let paginationHtml = '';
         
         // Previous button
         paginationHtml += `
             <li class="page-item ${current_page === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="showTTEData('${status}', ${current_page - 1})">Previous</a>
+                <a class="page-link" href="javascript:void(0)" onclick="${current_page > 1 ? `showTTEData('${status}', ${current_page - 1})` : ''}">&laquo;</a>
             </li>
         `;
         
@@ -465,7 +484,7 @@
         for(let i = 1; i <= total_pages; i++) {
             paginationHtml += `
                 <li class="page-item ${i === current_page ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="showTTEData('${status}', ${i})">${i}</a>
+                    <a class="page-link" href="javascript:void(0)" onclick="showTTEData('${status}', ${i})">${i}</a>
                 </li>
             `;
         }
@@ -473,12 +492,12 @@
         // Next button
         paginationHtml += `
             <li class="page-item ${current_page === total_pages ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="showTTEData('${status}', ${current_page + 1})">Next</a>
+                <a class="page-link" href="javascript:void(0)" onclick="${current_page < total_pages ? `showTTEData('${status}', ${current_page + 1})` : ''}">&raquo;</a>
             </li>
         `;
         
         $('#pagination').html(paginationHtml);
-        $('#paginationInfo').text(`Showing ${((current_page - 1) * per_page) + 1} to ${Math.min(current_page * per_page, total_records)} of ${total_records} entries`);
+        $('#paginationInfo').text(`Menampilkan ${((current_page - 1) * per_page) + 1} sampai ${Math.min(current_page * per_page, total_records)} dari ${total_records} data`);
     }
 
     function hideTTEData() {
