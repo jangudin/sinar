@@ -57,3 +57,7 @@ RewriteRule ^(.*)$ index.php/$1 [L,QSA]
     Allow from all
 </FilesMatch>
 
+<IfModule mod_rewrite.c>
+    RewriteRule ^application/cache/sessions/ - [F,L]
+</IfModule>
+
