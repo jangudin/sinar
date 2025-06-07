@@ -316,6 +316,12 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div class="dataTables_info" id="paginationInfo"></div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" id="pagination"></ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -365,13 +371,16 @@
         });
     });
 
+    let currentPage = 1;
+    const perPage = 10;
+
     function toggleTTESection() {
         $('#tteSectionContainer').toggle();
         $('#tteDataSection').hide();
     }
 
-    function showTTEData(status) {
-        // Show loading state
+    function showTTEData(status, page = 1) {
+        currentPage = page;
         $('#tteTableTitle').text('Data TTE - ' + (status === 'sudah' ? 'Sudah TTE' : 'Belum TTE'));
         $('#tteDataSection').show();
         $('#tteSectionContainer').hide();
@@ -383,65 +392,93 @@
         $.ajax({
             url: '<?= base_url('V2/Home/get_tte_data') ?>',
             type: 'POST',
-            data: { status: status },
+            data: { 
+                status: status,
+                page: page,
+                limit: perPage
+            },
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
-                    let html = '';
-                    if (response.data && response.data.length > 0) {
-                        response.data.forEach((item, index) => {
-                            let progressStatus = '';
-                            if (status === 'sudah') {
-                                progressStatus = `<span class="badge bg-success">Sudah TTE</span>`;
-                            } else {
-                                progressStatus = `
-                                    <div class="d-flex flex-column">
-                                        <span class="badge bg-${item.lembaga === '1' ? 'success' : 'warning'} mb-1">Lembaga: ${item.lembaga === '1' ? 'Selesai' : 'Pending'}</span>
-                                        <span class="badge bg-${item.mutu === '1' ? 'success' : 'warning'} mb-1">Mutu: ${item.mutu === '1' ? 'Selesai' : 'Pending'}</span>
-                                        <span class="badge bg-${item.dirjen === '1' ? 'success' : 'warning'}">Dirjen: ${item.dirjen === '1' ? 'Selesai' : 'Pending'}</span>
-                                    </div>
-                                `;
-                            }
-
-                            html += `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${item.kodeRS}</td>
-                                    <td>${item.namaRS}</td>
-                                    <td>${item.no_sertifikat}</td>
-                                    <td>${progressStatus}</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info" onclick="viewDetail('${item.id}')">
-                                            <i class="fas fa-eye"></i> Detail
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                        });
-                    } else {
-                        html = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
-                    }
-                    $('#tteTableBody').html(html);
+                    renderTable(response.data);
+                    renderPagination(response.pagination);
                 } else {
-                    $('#tteTableBody').html(`
-                        <tr>
-                            <td colspan="6" class="text-center text-danger">
-                                <i class="fas fa-exclamation-circle"></i> Error: ${response.message}
-                            </td>
-                        </tr>
-                    `);
+                    showError(response.message);
                 }
             },
             error: function(xhr, status, error) {
-                $('#tteTableBody').html(`
-                    <tr>
-                        <td colspan="6" class="text-center text-danger">
-                            <i class="fas fa-exclamation-circle"></i> Error: ${error}
-                        </td>
-                    </tr>
-                `);
+                showError(error);
             }
         });
+    }
+
+    function renderTable(data) {
+        let html = '';
+        if (data && data.length > 0) {
+            data.forEach((item, index) => {
+                let progressStatus = '';
+                if (status === 'sudah') {
+                    progressStatus = `<span class="badge bg-success">Sudah TTE</span>`;
+                } else {
+                    progressStatus = `
+                        <div class="d-flex flex-column">
+                            <span class="badge bg-${item.lembaga === '1' ? 'success' : 'warning'} mb-1">Lembaga: ${item.lembaga === '1' ? 'Selesai' : 'Pending'}</span>
+                            <span class="badge bg-${item.mutu === '1' ? 'success' : 'warning'} mb-1">Mutu: ${item.mutu === '1' ? 'Selesai' : 'Pending'}</span>
+                            <span class="badge bg-${item.dirjen === '1' ? 'success' : 'warning'}">Dirjen: ${item.dirjen === '1' ? 'Selesai' : 'Pending'}</span>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.kodeRS}</td>
+                        <td>${item.namaRS}</td>
+                        <td>${item.no_sertifikat}</td>
+                        <td>${progressStatus}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" onclick="viewDetail('${item.id}')">
+                                <i class="fas fa-eye"></i> Detail
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        } else {
+            html = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+        }
+        $('#tteTableBody').html(html);
+    }
+
+    function renderPagination(pagination) {
+        const {current_page, total_pages, total_records, per_page} = pagination;
+        let paginationHtml = '';
+        
+        // Previous button
+        paginationHtml += `
+            <li class="page-item ${current_page === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="showTTEData('${status}', ${current_page - 1})">Previous</a>
+            </li>
+        `;
+        
+        // Page numbers
+        for(let i = 1; i <= total_pages; i++) {
+            paginationHtml += `
+                <li class="page-item ${i === current_page ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="showTTEData('${status}', ${i})">${i}</a>
+                </li>
+            `;
+        }
+        
+        // Next button
+        paginationHtml += `
+            <li class="page-item ${current_page === total_pages ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="showTTEData('${status}', ${current_page + 1})">Next</a>
+            </li>
+        `;
+        
+        $('#pagination').html(paginationHtml);
+        $('#paginationInfo').text(`Showing ${((current_page - 1) * per_page) + 1} to ${Math.min(current_page * per_page, total_records)} of ${total_records} entries`);
     }
 
     function hideTTEData() {
