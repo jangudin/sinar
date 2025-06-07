@@ -17,11 +17,6 @@ class Login extends CI_Controller {
         $this->output->set_header('X-Frame-Options: SAMEORIGIN');
         $this->output->set_header('X-XSS-Protection: 1; mode=block');
         $this->output->set_header('X-Content-Type-Options: nosniff');
-        
-        // Set session cookie params for better security
-        ini_set('session.cookie_httponly', '1');
-        ini_set('session.use_only_cookies', '1');
-        ini_set('session.cookie_secure', '1');
     }
 
     public function index() {
