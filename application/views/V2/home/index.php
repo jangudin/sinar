@@ -145,7 +145,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                        <img src="<?= base_url('assets/temp/img/loginlg1.png') ?>" alt="User" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+                        <i class="fas fa-user-circle fa-lg me-2"></i>
                         <span class="text-white"><?= $this->session->userdata('name') ?? 'User' ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
