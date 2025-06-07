@@ -5,22 +5,26 @@ class Home extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
-        $this->load->library(['session']);
+        $this->load->library(['session', 'database']);
         $this->load->helper(['url','file']);
         $this->load->model('V2/Data_Model', 'Data_model');
         
-        // Enhanced authentication check
+        // Check login status first
         if($this->session->userdata('status') != "login") {
-            redirect('Auth');
+            if (!$this->input->is_ajax_request()) {
+                redirect('Auth');
+            }
+            return;
         }
         
-        // Validate and ensure lembaga_id
+        // Then validate lembaga_id
         $this->_validate_lembaga_id();
     }
 
     private function _validate_lembaga_id() {
         $lem_id = $this->session->userdata('lembaga_id');
-        
+        $user_id = $this->session->userdata('id'); // Changed from user_id to id to match Login session
+
         // First try: Check session
         if($lem_id && is_numeric($lem_id) && $lem_id > 0) {
             // Verify lembaga exists in database
@@ -33,34 +37,29 @@ class Home extends CI_Controller {
         }
 
         // Second try: Get from user data
-        $user_id = $this->session->userdata('user_id');
         if($user_id) {
             $user_data = $this->db->select('u.*, l.id as valid_lembaga_id')
                                  ->from('users u')
-                                 ->join('lembaga_akreditasi l', 'l.id = u.lembaga_id')
+                                 ->join('lembaga_akreditasi l', 'l.id = u.lembaga_akreditasi_id') // Fixed column name
                                  ->where('u.id', $user_id)
+                                 ->where('u.status', 1) // Add status check
                                  ->get()
                                  ->row();
 
             if($user_data && $user_data->valid_lembaga_id) {
                 // Update session with verified lembaga_id
                 $this->session->set_userdata('lembaga_id', $user_data->valid_lembaga_id);
-                log_message('info', 'Updated lembaga_id in session for user_id: ' . $user_id);
                 return true;
             }
         }
 
-        // If we get here, no valid lembaga_id was found
-        log_message('error', sprintf(
-            'Invalid lembaga_id - Session Data: %s, User ID: %s',
-            json_encode($this->session->userdata()),
-            $user_id ?? 'null'
-        ));
-
-        // Clear invalid session data and redirect to Auth
-        $this->session->unset_userdata('lembaga_id');
-        $this->session->set_flashdata('error', 'Invalid or missing institution ID. Please login again.');
-        redirect('Auth');
+        // Only redirect if not an AJAX request
+        if (!$this->input->is_ajax_request()) {
+            $this->session->set_flashdata('error', 'Silahkan login kembali');
+            redirect('Auth');
+        }
+        
+        return false;
     }
 
     public function index() {
