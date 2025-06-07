@@ -12,7 +12,7 @@ class Home extends CI_Controller {
         // Check login status first
         if($this->session->userdata('status') != "login") {
             if (!$this->input->is_ajax_request()) {
-                redirect('Auth');
+                redirect('V2/Login'); // Changed from Auth to V2/Login
             }
             return;
         }
@@ -56,7 +56,7 @@ class Home extends CI_Controller {
         // Only redirect if not an AJAX request
         if (!$this->input->is_ajax_request()) {
             $this->session->set_flashdata('error', 'Silahkan login kembali');
-            redirect('Auth');
+            redirect('V2/Login'); // Changed from Auth to V2/Login
         }
         
         return false;
@@ -152,7 +152,7 @@ class Home extends CI_Controller {
             ));
             
             if (strpos($e->getMessage(), 'Institution ID validation failed') !== false) {
-                redirect('Auth');
+                redirect('V2/Login'); // Changed from Auth to V2/Login
             }
 
             echo json_encode([
