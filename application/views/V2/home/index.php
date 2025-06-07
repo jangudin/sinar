@@ -211,10 +211,10 @@
                 <h3 class="mb-4">Aksi Cepat</h3>
                 <div class="d-flex gap-2">
                     <button class="btn btn-danger">
-                        <i class="fas fa-plus-circle"></i> Belum TTE
+                        <i class="fas fa-plus-circle"></i> Rumah Sakit
                     </button>
                     <button class="btn btn-primary text-white ms-3">
-                        <i class="fas fa-search"></i> Sudah TTE
+                        <i class="fas fa-search"></i> Non Rumah Sakit
                     </button>
                     <button class="btn btn-success ms-3">
                         <i class="fas fa-download"></i> Unduh Laporan
