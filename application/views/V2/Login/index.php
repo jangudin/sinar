@@ -147,6 +147,33 @@
             border-radius: 50%;
             pointer-events: none;
         }
+
+        .secondary-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .secondary-logos img {
+            max-width: 100px; /* Reduced from previous size */
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .secondary-logos {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .secondary-logos img {
+                max-width: 80px; /* Smaller on mobile */
+            }
+        }
     </style>
 </head>
 <body>
