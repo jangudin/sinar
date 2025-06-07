@@ -100,6 +100,46 @@
             background: var(--secondary-color);
             transform: translateY(-2px);
         }
+
+        .card {
+            transition: transform 0.2s ease-in-out;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .opacity-50 {
+            opacity: 0.5;
+        }
+
+        .btn-outline-light {
+            border-width: 2px;
+        }
+
+        .btn-outline-light:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .x_panel {
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .x_title {
+            border-bottom: 2px solid #f5f5f5;
+            padding: 1rem;
+        }
+
+        .x_content {
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -180,6 +220,134 @@
                 </button>
             </div>
             <!-- Add more quick actions as needed -->
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <!-- Verification Status -->
+        <div class="col-md-6 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><i class="fa fa-check-circle"></i> Status Verifikasi</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-danger text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="card-title">Belum Verifikasi</h6>
+                                            <h2 class="mb-0">0</h2>
+                                        </div>
+                                        <i class="fas fa-clock fa-3x opacity-50"></i>
+                                    </div>
+                                    <a href="#" class="btn btn-outline-light btn-sm mt-3">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-success text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="card-title">Sudah Verifikasi</h6>
+                                            <h2 class="mb-0">0</h2>
+                                        </div>
+                                        <i class="fas fa-check-double fa-3x opacity-50"></i>
+                                    </div>
+                                    <a href="#" class="btn btn-outline-light btn-sm mt-3">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TTE RS Status -->
+        <div class="col-md-6 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><i class="fa fa-hospital"></i> Status TTE Rumah Sakit</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-warning text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="card-title">Belum TTE RS</h6>
+                                            <h2 class="mb-0">0</h2>
+                                        </div>
+                                        <i class="fas fa-file fa-3x opacity-50"></i>
+                                    </div>
+                                    <a href="#" class="btn btn-outline-light btn-sm mt-3">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-primary text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="card-title">Sudah TTE RS</h6>
+                                            <h2 class="mb-0">0</h2>
+                                        </div>
+                                        <i class="fas fa-file-signature fa-3x opacity-50"></i>
+                                    </div>
+                                    <a href="#" class="btn btn-outline-light btn-sm mt-3">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TTE Non-RS Status -->
+        <div class="col-md-6 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><i class="fa fa-building"></i> Status TTE Non-RS</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-warning text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="card-title">Belum TTE Non-RS</h6>
+                                            <h2 class="mb-0">0</h2>
+                                        </div>
+                                        <i class="fas fa-file fa-3x opacity-50"></i>
+                                    </div>
+                                    <a href="#" class="btn btn-outline-light btn-sm mt-3">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-primary text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="card-title">Sudah TTE Non-RS</h6>
+                                            <h2 class="mb-0">0</h2>
+                                        </div>
+                                        <i class="fas fa-file-signature fa-3x opacity-50"></i>
+                                    </div>
+                                    <a href="#" class="btn btn-outline-light btn-sm mt-3">Lihat Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
