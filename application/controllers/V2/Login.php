@@ -8,12 +8,6 @@ class Login extends CI_Controller {
     public function __construct() {
         parent::__construct();
         
-        // Ensure session directory exists
-        $session_path = FCPATH . 'application/cache/sessions';
-        if (!is_dir($session_path)) {
-            mkdir($session_path, 0777, TRUE);
-        }
-        
         // Load helpers and libraries
         $this->load->helper(['url', 'file']);
         $this->load->library(['session', 'form_validation', 'security']);
@@ -25,13 +19,9 @@ class Login extends CI_Controller {
         $this->output->set_header('X-Content-Type-Options: nosniff');
         
         // Set session cookie params for better security
-        session_set_cookie_params([
-            'lifetime' => 7200,
-            'path' => '/',
-            'domain' => '',
-            'secure' => TRUE,
-            'httponly' => TRUE
-        ]);
+        ini_set('session.cookie_httponly', '1');
+        ini_set('session.use_only_cookies', '1');
+        ini_set('session.cookie_secure', '1');
     }
 
     public function index() {
