@@ -47,7 +47,7 @@
                                                 $kdrs=$a['kodeRS'];
                                                 $mutu=$a['mutu'];
                                                 $noser=$a['no_sertifikat'];
-                                                $encrypted_id = encrypt_url($id);
+                                                // $encrypted_id = encrypt_url($id);
                                         ?>
                                     <tr>
                                     <td><?php echo $no; ?></td>
@@ -56,24 +56,11 @@
                                     <td><?php echo $noser; ?></td>
                                     <!-- <td><span class="badge badge-success">Sudah TTE</span></td> -->
                                     <td>
-                                        <?php 
-                                            $encrypted_id = !empty($id) ? encrypt_url($id) : '';
-                                            if (!empty($encrypted_id)): 
-                                                if ($mutu == null):
-                                        ?>
-                                            <a href="<?= base_url('Lembaga/Detail/' . $encrypted_id) ?>" 
-                                               class="btn btn-success btn-xs" 
-                                               onclick="spinner()">Detail</a>
-                                        <?php else: ?>
-                                            <a href="<?= base_url('Lembaga/resume/' . $encrypted_id) ?>" 
-                                               class="btn btn-success btn-xs" 
-                                               onclick="spinner()">Detail</a>
-                                        <?php 
-                                                endif;
-                                            else:
-                                        ?>
-                                            <button class="btn btn-secondary btn-xs" disabled>Error</button>
-                                        <?php endif; ?>
+                                      <?php if ($mutu == null ): ?>
+                                         <a href="<?php echo base_url('Lembaga/Detail/'.$id);?>" class="btn btn-success btn-xs" onclick="spinner()" >Detail</a>
+                                      <?php else: ?>
+                                         <a href="<?php echo base_url('Lembaga/resume/'.$id);?>" class="btn btn-success btn-xs" onclick="spinner()" >Detail</a>
+                                      <?php endif; ?>
                                     </td>
                                     </tr>
                                     <?php endforeach;?>
