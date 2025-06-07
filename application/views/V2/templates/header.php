@@ -1,108 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'SINAR - Sistem Informasi Akreditasi' ?></title>
-    
-    <!-- CSS -->
-    <link href="<?= base_url('assets/temp/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/plugins/fontawesome-free/css/all.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/plugins/datatables/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #1e3c72;
-            --secondary-color: #2a5298;
-            --accent-color: #4CAF50;
-        }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SINAR - Sistem Informasi Akreditasi</title>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f4f6f9;
-        }
-
-        .navbar-custom {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 1rem 2rem;
-        }
-
-        .navbar-brand img {
-            height: 40px;
-        }
-
-        .navbar-dark .navbar-nav .nav-link {
-            color: rgba(255,255,255,.8);
-        }
-
-        .navbar-dark .navbar-nav .nav-link:hover {
-            color: #fff;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            color: white;
-            gap: 0.5rem;
-        }
-
-        .user-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-
-        .right_col {
-            padding: 2rem;
-            margin-top: 60px;
-        }
-
-        .breadcrumb {
-            background: transparent;
-            padding: 0;
-            margin: 1rem 0;
-        }
-
-        .breadcrumb-item + .breadcrumb-item::before {
-            content: "›";
-        }
-    </style>
+    <!-- Bootstrap -->
+    <link href="<?= base_url('assets/vendors/bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<?= base_url('assets/vendors/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="<?= base_url('assets/build/css/custom.min.css') ?>" rel="stylesheet">
 </head>
-<body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="<?= base_url('V2/Home') ?>">
-            <img src="<?= base_url('assets/temp/img/logotte.png') ?>" alt="SINAR">
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url('V2/Home') ?>">
-                        <i class="fas fa-home"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url('V2/Data') ?>">
-                        <i class="fas fa-database"></i> Data
-                    </a>
-                </li>
-            </ul>
-            
-            <div class="user-profile">
-                <img src="<?= base_url('assets/temp/img/user.png') ?>" alt="User">
-                <span><?= $this->session->userdata('name') ?? 'User' ?></span>
-                <a href="<?= base_url('V2/logout') ?>" class="btn btn-outline-light btn-sm ms-3">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <!-- sidebar -->
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="<?= base_url() ?>" class="site_title">
+                            <i class="fa fa-hospital-o"></i> 
+                            <span>SINAR</span>
+                        </a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                        <div class="profile_pic">
+                            <img src="<?= base_url('assets/images/user.png') ?>" alt="User" class="img-circle profile_img">
+                        </div>
+                        <div class="profile_info">
+                            <span>Welcome,</span>
+                            <h2><?= $this->session->userdata('name') ?? 'User' ?></h2>
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+
+                    <br />
+
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>General</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a href="<?= base_url('V2/Home') ?>">
+                                        <i class="fa fa-home"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="<?= base_url('V2/Data/add') ?>">Add New</a></li>
+                                        <li><a href="<?= base_url('V2/Data') ?>">List Data</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                </div>
             </div>
-        </div>
-    </div>
-</nav>
+            <!-- /sidebar -->
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+                    <nav class="nav navbar-nav">
+                        <ul class="navbar-right">
+                            <li class="nav-item dropdown open">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="<?= base_url('assets/images/user.png') ?>" alt="">
+                                    <?= $this->session->userdata('name') ?? 'User' ?>
+                                </a>
+                                <div class="dropdown-menu dropdown-usermenu pull-right">
+                                    <a class="dropdown-item" href="<?= base_url('V2/logout') ?>">
+                                        <i class="fa fa-sign-out pull-right"></i> Log Out
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
