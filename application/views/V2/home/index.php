@@ -263,10 +263,10 @@
                 <h3 class="mb-4">Aksi Cepat</h3>
                 <div class="d-flex gap-2">
                     <button class="btn btn-primary">
-                        <i class="fas fa-plus-circle"></i> Pengajuan Baru
+                        <i class="fas fa-plus-circle"></i> Belum TTE
                     </button>
                     <button class="btn btn-info text-white ms-3">
-                        <i class="fas fa-search"></i> Cek Status
+                        <i class="fas fa-search"></i> Sudah TTE
                     </button>
                     <button class="btn btn-success ms-3">
                         <i class="fas fa-download"></i> Unduh Laporan
