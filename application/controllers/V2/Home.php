@@ -41,18 +41,30 @@ class Home extends CI_Controller {
 
         $status = $this->input->post('status');
         $lem_id = $this->session->userdata('lembaga_id'); // Get lembaga ID from session
+        $page = $this->input->post('page') ?? 1;
+        $limit = $this->input->post('limit') ?? 10;
+        $offset = ($page - 1) * $limit;
 
         try {
-            $data = [];
+            $result = [];
             if ($status === 'sudah') {
-                $data = $this->Data_model->get_sudah_tte($lem_id);
+                $result = $this->Data_model->get_sudah_tte($lem_id, $limit, $offset);
             } else {
-                $data = $this->Data_model->get_belum_tte($lem_id);
+                $result = $this->Data_model->get_belum_tte($lem_id, $limit, $offset);
             }
 
+            // Calculate pagination info
+            $total_pages = ceil($result['total_rows'] / $result['per_page']);
+            
             echo json_encode([
                 'status' => 'success',
-                'data' => $data
+                'data' => $result['data'],
+                'pagination' => [
+                    'current_page' => (int)$page,
+                    'total_pages' => $total_pages,
+                    'total_records' => $result['total_rows'],
+                    'per_page' => $result['per_page']
+                ]
             ]);
         } catch (Exception $e) {
             echo json_encode([
