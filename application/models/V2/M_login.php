@@ -15,8 +15,8 @@ class M_login extends CI_Model {
         $this->db->select('
             u.*,
             js.nama,
-            js.id,
-            la.nama,
+            js.id as kode,
+            la.nama as nama_lembaga,
             ps.nama as nama_pejabat
         ');
         $this->db->from($this->users_table . ' u');
@@ -50,13 +50,20 @@ class M_login extends CI_Model {
     }
 
     private function log_login_attempt($email, $success) {
+        // Get IP address with filter options
+        $ip_address = $this->input->ip_address() ?: '0.0.0.0';
+        
+        // Get user agent safely
+        $user_agent = $this->input->user_agent() ?: 'Unknown';
+        
         $data = array(
             'email' => $email,
-            'ip_address' => $this->input->ip_address(),
-            'user_agent' => $this->input->user_agent(),
+            'ip_address' => filter_var($ip_address, FILTER_VALIDATE_IP, ['options' => ['default' => '0.0.0.0']]),
+            'user_agent' => substr($user_agent, 0, 255),
             'success' => $success ? 1 : 0,
             'attempted_at' => date('Y-m-d H:i:s')
         );
+        
         $this->db->insert($this->login_attempts_table, $data);
     }
 
