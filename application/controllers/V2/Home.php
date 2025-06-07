@@ -69,7 +69,7 @@ class Home extends CI_Controller {
         $data['lembaga_id'] = $this->session->userdata('lembaga_id');
         
         // Log for debugging
-        log_message('debug', 'Lembaga ID in session: ' . $data['lembaga_id']);
+        log_message('debug', 'Lembaga ID in session: ' . $data['lembaga_id']);exit;
         
         // Load view with data
         $this->load->view('V2/home/index', $data);
