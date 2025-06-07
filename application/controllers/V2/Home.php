@@ -5,7 +5,7 @@ class Home extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
-        $this->load->library(['session', 'database']);
+        $this->load->library(['session']);
         $this->load->helper(['url','file']);
         $this->load->model('V2/Data_Model', 'Data_model');
         
