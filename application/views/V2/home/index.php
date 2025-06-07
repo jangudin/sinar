@@ -1,180 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
-    
-    <!-- CSS -->
-    <link href="<?= base_url('assets/temp/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/plugins/fontawesome-free/css/all.min.css') ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #1e3c72;
-            --secondary-color: #2a5298;
-            --accent-color: #4CAF50;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f4f6f9;
-        }
-
-        .right_col {
-            padding: 2rem;
-        }
-
-        .page-title {
-            margin-bottom: 2rem;
-        }
-
-        .breadcrumbs {
-            padding: 0.5rem 0;
-            color: #6c757d;
-        }
-
-        .breadcrumbs a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .breadcrumbs a:hover {
-            color: var(--secondary-color);
-        }
-
-        .x_panel {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-
-        .x_title {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .x_content {
-            padding: 1.5rem;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            border-bottom: 2px solid #dee2e6;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .alert {
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-    </style>
-</head>
-<body>
-
 <div class="right_col" role="main">
-    <div class="page-title">
-        <div class="title_left">
-            <h3><?= $title ?></h3>
+    <!-- Welcome Section -->
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-tachometer-alt"></i> Dashboard</h2>
+            <div class="clearfix"></div>
         </div>
-        
-        <!-- Breadcrumbs -->
-        <div class="breadcrumbs">
-            <?php foreach($breadcrumbs as $crumb): ?>
-                <?php if($crumb['url'] != '#'): ?>
-                    <a href="<?= base_url($crumb['url']) ?>"><?= $crumb['label'] ?></a> /
-                <?php else: ?>
-                    <?= $crumb['label'] ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2><i class="fas fa-info-circle"></i> Detail Informasi</h2>
-                    <div class="clearfix"></div>
-                </div>
-                
-                <div class="x_content">
-                    <?php if($this->session->flashdata('error')): ?>
-                        <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-circle me-2"></i>
-                            <?= $this->session->flashdata('error') ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Data Details -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-hover">
-                                <tr>
-                                    <th width="200">Kode RS</th>
-                                    <td><?= $item->kode_rs ?? 'N/A' ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Nama RS</th>
-                                    <td><?= $item->nama_rs ?? 'N/A' ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Status Verifikasi</th>
-                                    <td>
-                                        <?php if($item->status_verifikasi ?? false): ?>
-                                            <span class="badge bg-success">Sudah Verifikasi</span>
-                                        <?php else: ?>
-                                            <span class="badge bg-danger">Belum Verifikasi</span>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Status TTE</th>
-                                    <td>
-                                        <?php if($item->status_tte ?? false): ?>
-                                            <span class="badge bg-success">Sudah TTE</span>
-                                        <?php else: ?>
-                                            <span class="badge bg-warning">Belum TTE</span>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal Pengajuan</th>
-                                    <td><?= $item->tanggal_pengajuan ?? 'N/A' ?></td>
-                                </tr>
-                            </table>
+        <div class="x_content">
+            <div class="row">
+                <!-- Verifikasi -->
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua">
+                            <i class="fa fa-check-circle"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Verifikasi</span>
+                            <span class="info-box-number">0</span>
+                            <a href="#" class="small-box-footer">More info</a>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Action Buttons -->
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <a href="<?= base_url('V2/Data') ?>" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left me-2"></i> Kembali
-                            </a>
-                            <a href="<?= base_url('V2/Data/edit/' . ($item->id ?? '')) ?>" class="btn btn-primary">
-                                <i class="fas fa-edit me-2"></i> Edit
-                            </a>
-                            <a href="<?= base_url('V2/Data/print/' . ($item->id ?? '')) ?>" class="btn btn-info" target="_blank">
-                                <i class="fas fa-print me-2"></i> Cetak
-                            </a>
+                <!-- TTE RS -->
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green">
+                            <i class="fa fa-hospital"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">TTE RS</span>
+                            <span class="info-box-number">0</span>
+                            <a href="#" class="small-box-footer">More info</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TTE Non RS -->
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow">
+                            <i class="fa fa-building"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">TTE Non RS</span>
+                            <span class="info-box-number">0</span>
+                            <a href="#" class="small-box-footer">More info</a>
                         </div>
                     </div>
                 </div>
@@ -183,9 +53,53 @@
     </div>
 </div>
 
-<!-- Scripts -->
-<script src="<?= base_url('assets/temp/js/jquery.min.js') ?>"></script>
-<script src="<?= base_url('assets/temp/js/bootstrap.bundle.min.js') ?>"></script>
+<style>
+.info-box {
+    border-radius: 3px;
+    background: #ffffff;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
 
-</body>
-</html>
+.info-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.info-box-icon {
+    border-radius: 3px 0 0 3px;
+    display: block;
+    float: left;
+    height: 90px;
+    width: 90px;
+    text-align: center;
+    font-size: 45px;
+    line-height: 90px;
+    color: #fff;
+}
+
+.info-box-content {
+    padding: 15px 10px;
+    margin-left: 90px;
+}
+
+.info-box-text {
+    display: block;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+}
+
+.info-box-number {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.bg-aqua { background-color: #00c0ef !important; }
+.bg-green { background-color: #00a65a !important; }
+.bg-yellow { background-color: #f39c12 !important; }
+</style>
