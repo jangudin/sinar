@@ -11,7 +11,7 @@ class Home extends CI_Controller {
         
         // Enhanced authentication check
         if($this->session->userdata('status') != "login") {
-            redirect('V2/Login');
+            redirect('Auth');
         }
         
         // Validate and ensure lembaga_id
