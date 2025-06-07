@@ -7,10 +7,14 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->library(['session']);
         $this->load->helper(['url','file']);
-        $this->load->model('V2/Data_Model', 'Data_model'); // Fix model name case
+        $this->load->model('V2/Data_Model', 'Data_model');
         
-        // Check authentication
+        // Check authentication and lembaga_id
         if($this->session->userdata('status') != "login") {
+            redirect('V2/Login');
+        }
+        
+        if(!$this->session->userdata('lembaga_id')) {
             redirect('V2/Login');
         }
     }
@@ -18,8 +22,6 @@ class Home extends CI_Controller {
     public function index() {
         $data['title'] = 'Dashboard - SINAR';
         $data['user'] = $this->session->userdata();
-        $lem_id = $this->session->userdata('lembaga_id');
-        echo json_encode($lem_id);exit;
         
         $this->load->view('V2/home/index', $data);
     }
@@ -41,22 +43,22 @@ class Home extends CI_Controller {
             exit('No direct script access allowed');
         }
 
+        $status = $this->input->post('status');
+        $lem_id = $this->session->userdata('lembaga_id'); // Get lembaga ID from session
+        $page = $this->input->post('page') ?? 1;
+        $limit = $this->input->post('limit') ?? 10;
+        $offset = ($page - 1) * $limit;
+
         try {
-            $status = $this->input->post('status');
-            $page = $this->input->post('page', TRUE) ?? 1;
-            $limit = $this->input->post('limit', TRUE) ?? 10;
-            $offset = ($page - 1) * $limit;
-            
-            $lem_id = $this->session->userdata('lembaga_id');
-            if (!$lem_id) {
-                throw new Exception('Session tidak valid');
+            $result = [];
+            if ($status === 'sudah') {
+                $result = $this->Data_model->get_sudah_tte($lem_id, $limit, $offset);
+            } else {
+                $result = $this->Data_model->get_belum_tte($lem_id, $limit, $offset);
             }
 
-            $result = $status === 'sudah' 
-                ? $this->Data_model->get_sudah_tte($lem_id, $limit, $offset)
-                : $this->Data_model->get_belum_tte($lem_id, $limit, $offset);
-
-            $total_pages = ceil($result['total_rows'] / $limit);
+            // Calculate pagination info
+            $total_pages = ceil($result['total_rows'] / $result['per_page']);
             
             echo json_encode([
                 'status' => 'success',
@@ -65,7 +67,7 @@ class Home extends CI_Controller {
                     'current_page' => (int)$page,
                     'total_pages' => $total_pages,
                     'total_records' => $result['total_rows'],
-                    'per_page' => (int)$limit
+                    'per_page' => $result['per_page']
                 ]
             ]);
         } catch (Exception $e) {
