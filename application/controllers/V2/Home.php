@@ -7,7 +7,7 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->library(['session']);
         $this->load->helper(['url']);
-        $this->load->model('V2/Data_model','Data_model'); // Add model
+        $this->load->model('V2/Data_Model', 'Data_model'); // Fixed model path and case
         
         // Check authentication
         if($this->session->userdata('status') != "login") {

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Data_model extends CI_Model {
+class Data_Model extends CI_Model { // Match the filename case
     
     public function get_belum_tte($lem_id = null) {
         $sql = "SELECT
