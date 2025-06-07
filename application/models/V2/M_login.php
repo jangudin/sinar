@@ -14,9 +14,9 @@ class M_login extends CI_Model {
     public function cek_login($email, $password) {
         $this->db->select('
             u.*,
-            js.nama_jabatan,
-            js.kode,
-            la.nama_lembaga,
+            js.nama,
+            js.id,
+            la.nama,
             ps.nama as nama_pejabat
         ');
         $this->db->from($this->users_table . ' u');
