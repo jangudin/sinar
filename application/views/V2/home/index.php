@@ -128,8 +128,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- All navigation moved to right -->
-            <ul class="navbar-nav ms-auto">
+            <!-- Main Navigation -->
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link active" href="#"><i class="fas fa-home"></i> Dashboard</a>
                 </li>
@@ -139,6 +139,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> TTE</a>
                 </li>
+            </ul>
+            
+            <!-- User Profile Dropdown (Right-aligned) -->
+            <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
                         <img src="<?= base_url('assets/temp/img/loginlg1.png') ?>" alt="User" class="rounded-circle me-2" style="width: 32px; height: 32px;">
