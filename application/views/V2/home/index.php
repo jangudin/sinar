@@ -4,233 +4,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - SINAR</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link href="<?= base_url('assets/vendors/bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/vendors/font-awesome/css/all.min.css') ?>" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --primary: #2A3F54;
-            --secondary: #172D44;
+            --primary: #1e3c72;
+            --secondary: #2a5298;
             --success: #26B99A;
             --info: #3498DB;
             --warning: #F39C12;
             --danger: #E74C3C;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: #F7F7F7;
         }
 
-        .container-fluid {
-            padding: 0 15px;
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .right_col {
-            padding: 10px 20px;
-            margin-left: 230px;
-            transition: margin-left 0.3s ease;
-        }
-
-        .tile_count {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .tile_stats_count {
-            flex: 1;
-            min-width: 300px;
+        .stat-card {
             background: white;
-            padding: 20px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-            transition: transform 0.2s;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .tile_stats_count:hover {
+        .stat-card:hover {
             transform: translateY(-5px);
         }
 
-        .count_top {
-            font-size: 14px;
-            color: #666;
-            display: block;
-            margin-bottom: 10px;
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 24px;
+            margin-bottom: 1rem;
         }
 
-        .count {
-            font-size: 30px;
+        .stat-number {
+            font-size: 2rem;
             font-weight: 600;
-            color: var(--primary);
-        }
-
-        .count_bottom {
-            font-size: 12px;
-            color: var(--success);
-            display: block;
-            margin-top: 5px;
-        }
-
-        .x_panel {
-            background: white;
-            border-radius: 4px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-        }
-
-        .x_title {
-            border-bottom: 2px solid #E6E9ED;
-            padding: 1px 5px 6px;
-            margin-bottom: 15px;
-        }
-
-        .x_title h2 {
-            font-size: 18px;
-            color: #333;
+            margin: 0;
+            line-height: 1;
         }
 
         .progress {
-            height: 20px;
-            background: #F5F5F5;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .progress-bar {
-            height: 100%;
-            transition: width 0.3s ease;
-        }
-
-        .bg-success { background: var(--success); }
-        .bg-info { background: var(--info); }
-        .bg-warning { background: var(--warning); }
-        .bg-danger { background: var(--danger); }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
+            height: 8px;
+            margin: 1rem 0;
             border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            margin: 5px;
-            transition: all 0.3s;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .footer {
+            background: white;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
         }
 
-        .btn-primary { background: var(--primary); }
-        .btn-success { background: var(--success); }
-        .btn-info { background: var(--info); }
-        .btn-warning { background: var(--warning); }
-
-        .widget_summary {
-            padding: 10px;
-            border-bottom: 1px solid #E6E9ED;
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
         }
 
-        .w_left { width: 30%; float: left; text-align: left; }
-        .w_center { width: 40%; float: left; }
-        .w_right { width: 30%; float: left; text-align: right; }
-
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
+        .nav-link:hover {
+            color: white !important;
         }
 
-        @media (max-width: 768px) {
-            .right_col {
-                margin-left: 0;
-            }
-            .tile_stats_count {
-                min-width: 100%;
-            }
+        .user-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
 
-<div class="right_col" role="main">
-    <!-- Top Tiles -->
-    <div class="tile_count">
-        <div class="tile_stats_count">
-            <span class="count_top"><i class="fas fa-check-circle"></i> Total Verifikasi</span>
-            <div class="count">0</div>
-            <span class="count_bottom"><i class="fas fa-arrow-up"></i> Sudah Verifikasi</span>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg" style="background: var(--primary);">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" href="#">
+            <img src="<?= base_url('assets/img/logo.png') ?>" height="40" alt="SINAR">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-home"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-tasks"></i> Verifikasi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> TTE</a>
+                </li>
+            </ul>
+            <div class="user-profile d-flex align-items-center">
+                <img src="<?= base_url('assets/img/user.png') ?>" alt="User" class="me-2">
+                <span class="text-white"><?= $this->session->userdata('name') ?? 'User' ?></span>
+                <a href="<?= base_url('V2/logout') ?>" class="btn btn-outline-light btn-sm ms-3">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
         </div>
-        <div class="tile_stats_count">
-            <span class="count_top"><i class="fas fa-hospital"></i> TTE RS</span>
-            <div class="count">0</div>
-            <span class="count_bottom"><i class="fas fa-arrow-up"></i> Sudah TTE</span>
-        </div>
-        <div class="tile_stats_count">
-            <span class="count_top"><i class="fas fa-building"></i> TTE Non-RS</span>
-            <div class="count">0</div>
-            <span class="count_bottom"><i class="fas fa-arrow-up"></i> Sudah TTE</span>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container-fluid py-4">
+    <!-- Welcome Section -->
+    <div class="dashboard-header">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="mb-0">Selamat Datang di SINAR</h2>
+                <p class="mb-0">Sistem Informasi Akreditasi Rumah Sakit</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <img src="<?= base_url('assets/img/kemkes.png') ?>" height="60" alt="Kemkes">
+            </div>
         </div>
     </div>
 
-    <!-- Progress Panels -->
+    <!-- Stats Row -->
     <div class="row">
-        <!-- Verifikasi Progress -->
-        <div class="col-md-6">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Status Verifikasi</h2>
-                    <div class="clearfix"></div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-success text-white">
+                    <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="x_content">
-                    <div class="widget_summary">
-                        <div class="w_left">Belum Verifikasi</div>
-                        <div class="w_center">
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" style="width: 50%"></div>
-                            </div>
-                        </div>
-                        <div class="w_right">0</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="widget_summary">
-                        <div class="w_left">Sudah Verifikasi</div>
-                        <div class="w_center">
-                            <div class="progress">
-                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                            </div>
-                        </div>
-                        <div class="w_right">0</div>
-                        <div class="clearfix"></div>
-                    </div>
+                <h3>Verifikasi</h3>
+                <p class="stat-number">0</p>
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
+                </div>
+                <div class="d-flex justify-content-between text-muted">
+                    <span>Total</span>
+                    <span>60%</span>
                 </div>
             </div>
         </div>
-
-        <!-- Quick Actions -->
-        <div class="col-md-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Aksi Cepat</h2>
-                    <div class="clearfix"></div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary text-white">
+                    <i class="fas fa-hospital"></i>
                 </div>
-                <div class="x_content">
+                <h3>TTE RS</h3>
+                <p class="stat-number">0</p>
+                <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 45%"></div>
+                </div>
+                <div class="d-flex justify-content-between text-muted">
+                    <span>Total</span>
+                    <span>45%</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-warning text-white">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>TTE Non-RS</h3>
+                <p class="stat-number">0</p>
+                <div class="progress">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 30%"></div>
+                </div>
+                <div class="d-flex justify-content-between text-muted">
+                    <span>Total</span>
+                    <span>30%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="stat-card">
+                <h3 class="mb-4">Aksi Cepat</h3>
+                <div class="d-flex gap-2">
                     <button class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Pengajuan Baru
                     </button>
-                    <button class="btn btn-info">
+                    <button class="btn btn-info text-white">
                         <i class="fas fa-search"></i> Cek Status
                     </button>
                     <button class="btn btn-success">
-                        <i class="fas fa-download"></i> Export Data
+                        <i class="fas fa-download"></i> Unduh Laporan
                     </button>
                 </div>
             </div>
@@ -238,10 +216,42 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mb-0 text-muted">&copy; <?= date('Y') ?> SINAR - Sistem Informasi Akreditasi</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <p class="mb-0 text-muted">Version 2.0 | Kementerian Kesehatan RI</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="<?= base_url('assets/vendors/jquery/dist/jquery.min.js') ?>"></script>
+<script src="<?= base_url('assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
 <script>
     $(document).ready(function() {
-        // Add any JavaScript functionality here
+        // Enable tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Animate numbers
+        $('.stat-number').each(function () {
+            $(this).prop('Counter', 0).animate({
+                Counter: $(this).text()
+            }, {
+                duration: 1000,
+                step: function (now) {
+                    $(this).text(Math.ceil(now));
+                }
+            });
+        });
     });
 </script>
 
