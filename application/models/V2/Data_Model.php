@@ -4,6 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Data_Model extends CI_Model { // Match the filename case
     
     public function get_belum_tte($lem_id = null, $limit = 10, $offset = 0) {
+        // Cast parameters to integers
+        $limit = (int)$limit;
+        $offset = (int)$offset;
+        
         // Count total rows first
         $count_sql = "SELECT COUNT(*) as total
         FROM db_akreditasi.rekomendasi r
@@ -16,7 +20,7 @@ class Data_Model extends CI_Model { // Match the filename case
         AND r.tanggal_terbit_sertifikat IS NOT NULL 
         AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL";
         
-        $total_rows = $this->db->query($count_sql, array($lem_id))->row()->total;
+        $total_rows = $this->db->query($count_sql, [$lem_id])->row()->total;
 
         // Main query with limit and offset
         $sql = "SELECT
@@ -47,14 +51,20 @@ class Data_Model extends CI_Model { // Match the filename case
             r.tanggal_terbit_sertifikat DESC
         LIMIT ? OFFSET ?";
             
+        $result = $this->db->query($sql, [$lem_id, $limit, $offset]);
+        
         return [
-            'data' => $this->db->query($sql, array($lem_id, $limit, $offset))->result(),
+            'data' => $result->result(),
             'total_rows' => $total_rows,
             'per_page' => $limit
         ];
     }
     
     public function get_sudah_tte($lem_id = null, $limit = 10, $offset = 0) {
+        // Cast parameters to integers
+        $limit = (int)$limit;
+        $offset = (int)$offset;
+        
         // Count total rows first
         $count_sql = "SELECT COUNT(*) as total
         FROM db_akreditasi.rekomendasi r
