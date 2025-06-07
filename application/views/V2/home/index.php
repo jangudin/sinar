@@ -204,58 +204,6 @@
         </div>
     </div>
 
-    <!-- Stats Row -->
-    <div class="row">
-        <div class="col-md-4">
-            <div class="stat-card">
-                <div class="stat-icon bg-success text-white">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h3>Verifikasi</h3>
-                <p class="stat-number">0</p>
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
-                </div>
-                <div class="d-flex justify-content-between text-muted">
-                    <span>Total</span>
-                    <span>60%</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card">
-                <div class="stat-icon bg-primary text-white">
-                    <i class="fas fa-hospital"></i>
-                </div>
-                <h3>TTE RS</h3>
-                <p class="stat-number">0</p>
-                <div class="progress">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 45%"></div>
-                </div>
-                <div class="d-flex justify-content-between text-muted">
-                    <span>Total</span>
-                    <span>45%</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card">
-                <div class="stat-icon bg-warning text-white">
-                    <i class="fas fa-building"></i>
-                </div>
-                <h3>TTE Non-RS</h3>
-                <p class="stat-number">0</p>
-                <div class="progress">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 30%"></div>
-                </div>
-                <div class="d-flex justify-content-between text-muted">
-                    <span>Total</span>
-                    <span>30%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Quick Actions -->
     <div class="row mt-4">
         <div class="col-12">
