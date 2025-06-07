@@ -51,9 +51,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'Auth';
 
-// Add V2 routes
-$route['V2/login'] = 'V2/Login';
+// V2 routes
+$route['V2'] = 'V2/Login';
+$route['V2/Login'] = 'V2/Login';
+$route['V2/Login/(:any)'] = 'V2/Login/$1';
 $route['V2/logout'] = 'V2/Login/logout';
+
+// Auth routes (legacy)
+$route['Auth'] = 'Auth';
+$route['Auth/(:any)'] = 'Auth/$1';
+$route['logout'] = 'Auth/logout';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

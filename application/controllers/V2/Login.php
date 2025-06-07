@@ -38,7 +38,7 @@ class Login extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('msg', validation_errors('<div class="alert alert-danger">', '</div>'));
-            redirect('Auth');
+            redirect('V2/Login'); // Change this from 'Auth' to 'V2/Login'
             return;
         }
 
