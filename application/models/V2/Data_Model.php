@@ -24,8 +24,9 @@ class Data_Model extends CI_Model { // Match the filename case
             LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
         WHERE
             ps.lembaga_akreditasi_id = ?
-            AND (sp.lembaga IS NULL OR sp.mutu IS NULL OR sp.dirjen IS NULL)
-            AND r.tanggal_terbit_sertifikat IS NOT NULL
+           AND r.tanggal_surat_pengajuan_sertifikat > '2022-12-08'
+            AND sp.lembaga IS NULL
+            AND r.tanggal_terbit_sertifikat IS NOT NULL 
             AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL
         ORDER BY 
             r.tanggal_terbit_sertifikat DESC";
