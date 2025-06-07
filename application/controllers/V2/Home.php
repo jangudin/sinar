@@ -65,6 +65,7 @@ class Home extends CI_Controller {
     public function index() {
         $data['title'] = 'Dashboard - SINAR';
         $data['user'] = $this->session->userdata();
+        echo json_encode( $lem_id = $this->session->userdata('lembaga_id'));exit;
         
         $this->load->view('V2/home/index', $data);
     }
