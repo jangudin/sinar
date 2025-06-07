@@ -32,4 +32,33 @@ class Home extends CI_Controller {
         // Load view
         $this->load->view('V2/home/belum_tte', $data);
     }
+
+    public function get_tte_data() {
+        // Check for AJAX request
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+
+        $status = $this->input->post('status');
+        $lem_id = $this->session->userdata('lembaga_id'); // Get lembaga ID from session
+
+        try {
+            $data = [];
+            if ($status === 'sudah') {
+                $data = $this->Data_model->get_sudah_tte($lem_id);
+            } else {
+                $data = $this->Data_model->get_belum_tte($lem_id);
+            }
+
+            echo json_encode([
+                'status' => 'success',
+                'data' => $data
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }

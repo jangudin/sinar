@@ -386,32 +386,51 @@
             data: { status: status },
             dataType: 'json',
             success: function(response) {
-                let html = '';
-                if (response.data && response.data.length > 0) {
-                    response.data.forEach((item, index) => {
-                        html += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${item.kodeRS}</td>
-                                <td>${item.namaRS}</td>
-                                <td>${item.no_sertifikat}</td>
-                                <td>
-                                    <span class="badge bg-${status === 'sudah' ? 'success' : 'warning'}">
-                                        ${status === 'sudah' ? 'Sudah TTE' : 'Belum TTE'}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" onclick="viewDetail(${item.id})">
-                                        <i class="fas fa-eye"></i> Detail
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    });
+                if (response.status === 'success') {
+                    let html = '';
+                    if (response.data && response.data.length > 0) {
+                        response.data.forEach((item, index) => {
+                            let progressStatus = '';
+                            if (status === 'sudah') {
+                                progressStatus = `<span class="badge bg-success">Sudah TTE</span>`;
+                            } else {
+                                progressStatus = `
+                                    <div class="d-flex flex-column">
+                                        <span class="badge bg-${item.lembaga === '1' ? 'success' : 'warning'} mb-1">Lembaga: ${item.lembaga === '1' ? 'Selesai' : 'Pending'}</span>
+                                        <span class="badge bg-${item.mutu === '1' ? 'success' : 'warning'} mb-1">Mutu: ${item.mutu === '1' ? 'Selesai' : 'Pending'}</span>
+                                        <span class="badge bg-${item.dirjen === '1' ? 'success' : 'warning'}">Dirjen: ${item.dirjen === '1' ? 'Selesai' : 'Pending'}</span>
+                                    </div>
+                                `;
+                            }
+
+                            html += `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${item.kodeRS}</td>
+                                    <td>${item.namaRS}</td>
+                                    <td>${item.no_sertifikat}</td>
+                                    <td>${progressStatus}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" onclick="viewDetail('${item.id}')">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    } else {
+                        html = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+                    }
+                    $('#tteTableBody').html(html);
                 } else {
-                    html = '<tr><td colspan="6" class="text-center">Tidak ada data</td></tr>';
+                    $('#tteTableBody').html(`
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">
+                                <i class="fas fa-exclamation-circle"></i> Error: ${response.message}
+                            </td>
+                        </tr>
+                    `);
                 }
-                $('#tteTableBody').html(html);
             },
             error: function(xhr, status, error) {
                 $('#tteTableBody').html(`
