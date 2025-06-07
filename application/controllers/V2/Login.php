@@ -9,9 +9,14 @@ class Login extends CI_Controller {
         parent::__construct();
         
         // Create session directory if it doesn't exist
-        $session_path = BASEPATH . '../writable/sessions';
+        $session_path = FCPATH . 'writable/sessions';
         if (!is_dir($session_path)) {
-            mkdir($session_path, 0700, TRUE);
+            mkdir($session_path, 0777, TRUE);
+        }
+        
+        // Set proper permissions on session directory
+        if (is_dir($session_path)) {
+            chmod($session_path, 0777);
         }
         
         // Load helpers and libraries
