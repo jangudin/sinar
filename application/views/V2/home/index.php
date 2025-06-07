@@ -210,7 +210,7 @@
             <div class="stat-card">
                 <h3 class="mb-4">Aksi Cepat</h3>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-danger">
+                    <button class="btn btn-info">
                         <i class="fas fa-plus-circle"></i> Rumah Sakit
                     </button>
                     <button class="btn btn-primary text-white ms-3">
@@ -219,6 +219,54 @@
                     <button class="btn btn-success ms-3">
                         <i class="fas fa-download"></i> Unduh Laporan
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TTE Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="stat-card">
+                <h3 class="mb-4">Status TTE Rumah Sakit</h3>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" onclick="showTTEData('sudah')">
+                        <i class="fas fa-check-circle"></i> Sudah TTE
+                    </button>
+                    <button class="btn btn-warning text-white ms-3" onclick="showTTEData('belum')">
+                        <i class="fas fa-clock"></i> Belum TTE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Table Section (Initially Hidden) -->
+    <div class="row mt-4" id="tteDataSection" style="display: none;">
+        <div class="col-12">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0" id="tteTableTitle">Data TTE</h3>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="hideTTEData()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="tteTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode RS</th>
+                                <th>Nama RS</th>
+                                <th>No Sertifikat</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tteTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
