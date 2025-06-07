@@ -262,7 +262,7 @@
             <div class="stat-card">
                 <h3 class="mb-4">Aksi Cepat</h3>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-Warning">
+                    <button class="btn btn-danger">
                         <i class="fas fa-plus-circle"></i> Belum TTE
                     </button>
                     <button class="btn btn-primary text-white ms-3">
