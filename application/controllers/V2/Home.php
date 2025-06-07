@@ -57,10 +57,10 @@ class Home extends CI_Controller {
             $user_id ?? 'null'
         ));
 
-        // Clear invalid session data
+        // Clear invalid session data and redirect to Auth
         $this->session->unset_userdata('lembaga_id');
         $this->session->set_flashdata('error', 'Invalid or missing institution ID. Please login again.');
-        redirect('V2/Login');
+        redirect('Auth');
     }
 
     public function index() {
@@ -152,6 +152,10 @@ class Home extends CI_Controller {
                 $e->getLine()
             ));
             
+            if (strpos($e->getMessage(), 'Institution ID validation failed') !== false) {
+                redirect('Auth');
+            }
+
             echo json_encode([
                 'status' => 'error',
                 'message' => $e->getMessage(),
