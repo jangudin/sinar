@@ -36,8 +36,8 @@
 
         .stat-card {
             background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
+            border-radius: 8px;
+            padding: 1rem;  /* reduced from 1.5rem */
             margin-bottom: 1rem;
             transition: transform 0.3s;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -48,26 +48,31 @@
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            line-height: 60px;
+            width: 45px;    /* reduced from 60px */
+            height: 45px;   /* reduced from 60px */
+            line-height: 45px; /* reduced from 60px */
             text-align: center;
             border-radius: 50%;
-            font-size: 24px;
-            margin-bottom: 1rem;
+            font-size: 18px; /* reduced from 24px */
+            margin-bottom: 0.75rem; /* reduced from 1rem */
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: 1.5rem; /* reduced from 2rem */
             font-weight: 600;
             margin: 0;
             line-height: 1;
         }
 
         .progress {
-            height: 8px;
-            margin: 1rem 0;
-            border-radius: 4px;
+            height: 6px;    /* reduced from 8px */
+            margin: 0.75rem 0; /* reduced from 1rem */
+            border-radius: 3px;
+        }
+
+        h3 {
+            font-size: 1.2rem; /* reduced heading size */
+            margin-bottom: 0.5rem;
         }
 
         .footer {
@@ -125,6 +130,12 @@
 
         .navbar-nav .dropdown-toggle::after {
             margin-left: 0.5rem;
+        }
+
+        /* Adjust spacing for action buttons */
+        .btn {
+            padding: 0.4rem 0.8rem; /* reduced padding */
+            font-size: 0.9rem;      /* reduced font size */
         }
     </style>
 </head>
