@@ -68,22 +68,46 @@ class Home extends CI_Controller {
         $data['user'] = $this->session->userdata();
         $data['lembaga_id'] = $this->session->userdata('lembaga_id');
         
-        // Log for debugging
-        log_message('debug', 'Lembaga ID in session: ' . $data['lembaga_id']);exit;
+        // Add TTE counts to dashboard data
+        $lem_id = (int)$this->session->userdata('lembaga_id');
+        $data['tte_stats'] = [
+            'belum' => $this->Data_model->get_belum_tte($lem_id, 1, 0)['total_rows'],
+            'sudah' => $this->Data_model->get_sudah_tte($lem_id, 1, 0)['total_rows']
+        ];
+        
+        // Log for debugging without exit
+        log_message('debug', 'Lembaga ID in session: ' . $data['lembaga_id']);
+        log_message('debug', 'User data: ' . json_encode($data['user']));
         
         // Load view with data
+        $this->load->view('V2/templates/header', $data);
         $this->load->view('V2/home/index', $data);
+        $this->load->view('V2/templates/footer');
     }
 
     public function belum_tte() {
         $data['title'] = 'Data Belum TTE - SINAR';
         $data['user'] = $this->session->userdata();
+        $lem_id = (int)$this->session->userdata('lembaga_id');
         
-        // Get data belum TTE
-        $data['items'] = $this->Data_model->get_belum_tte();
+        // Get data with pagination
+        $page = max(1, (int)($this->input->get('page') ?? 1));
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        // Get data belum TTE with lembaga_id
+        $result = $this->Data_model->get_belum_tte($lem_id, $limit, $offset);
+        $data['items'] = $result['data'];
+        $data['pagination'] = [
+            'current_page' => $page,
+            'total_pages' => ceil($result['total_rows'] / $limit),
+            'total_records' => $result['total_rows']
+        ];
         
         // Load view
+        $this->load->view('V2/templates/header', $data);
         $this->load->view('V2/home/belum_tte', $data);
+        $this->load->view('V2/templates/footer');
     }
 
     public function get_tte_data() {
