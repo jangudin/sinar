@@ -117,13 +117,22 @@
                     <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> TTE</a>
                 </li>
             </ul>
-            <div class="user-profile d-flex align-items-center">
-                <img src="<?= base_url('assets/temp/img/loginlg1.png') ?>" alt="User" class="me-2">
-                <span class="text-white"><?= $this->session->userdata('name') ?? 'User' ?></span>
-                <a href="<?= base_url('V2/logout') ?>" class="btn btn-outline-light btn-sm ms-3">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </div>
+            <!-- Moved to right -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                        <img src="<?= base_url('assets/temp/img/loginlg1.png') ?>" alt="User" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+                        <span class="text-white"><?= $this->session->userdata('name') ?? 'User' ?></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="<?= base_url('V2/logout') ?>">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
