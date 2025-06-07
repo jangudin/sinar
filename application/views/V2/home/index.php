@@ -87,12 +87,6 @@
             color: white !important;
         }
 
-        .user-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-
         .dropdown-menu {
             background: white;
             border: none;
