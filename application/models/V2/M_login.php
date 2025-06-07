@@ -99,4 +99,15 @@ class M_login extends CI_Model {
         $this->db->where('u.id', $user_id);
         return $this->db->get()->row_array();
     }
+
+    public function get_lembaga_stats() {
+        return $this->db->select('l.id, l.nama, COUNT(u.id) as user_count, u.jabatan_sertifikat_id')
+                        ->from('lembaga_akreditasi l')
+                        ->join('users u', 'u.lembaga_akreditasi_id = l.id', 'left')
+                        ->where('u.status', 1)
+                        ->group_by(['l.id', 'l.nama'])
+                        ->order_by('l.id', 'ASC')
+                        ->get()
+                        ->result();
+    }
 }

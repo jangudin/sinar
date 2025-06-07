@@ -5,35 +5,61 @@ class Home extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
-        $this->load->library(['session']);
-        $this->load->helper(['url','file']);
+        $this->load->library(['session', 'database']);
+        $this->load->helper(['url', 'file']);
         $this->load->model('V2/Data_Model', 'Data_model');
         
-        // Enhanced authentication check
         if($this->session->userdata('status') != "login") {
             redirect('V2/Login');
         }
         
-        // Validate and ensure lembaga_id
+        // Now validates against database
         $this->_validate_lembaga_id();
     }
 
     private function _validate_lembaga_id() {
         $lem_id = $this->session->userdata('lembaga_id');
         
-        if(!$lem_id) {
-            // Try to get from database
-            $user_id = $this->session->userdata('user_id');
-            if($user_id) {
-                $user_data = $this->db->get_where('users', ['id' => $user_id])->row();
-                if($user_data && $user_data->lembaga_id) {
-                    // Update session with valid lembaga_id
-                    $this->session->set_userdata('lembaga_id', $user_data->lembaga_id);
-                    return;
-                }
+        // First try: Check session
+        if($lem_id && is_numeric($lem_id) && $lem_id > 0) {
+            // Verify lembaga exists in database
+            $exists = $this->db->where('id', $lem_id)
+                              ->get('lembaga_akreditasi')
+                              ->num_rows();
+            if($exists) {
+                return true;
             }
-            redirect('V2/Login');
         }
+
+        // Second try: Get from user data
+        $user_id = $this->session->userdata('user_id');
+        if($user_id) {
+            $user_data = $this->db->select('u.*, l.id as valid_lembaga_id')
+                                 ->from('users u')
+                                 ->join('lembaga_akreditasi l', 'l.id = u.lembaga_id')
+                                 ->where('u.id', $user_id)
+                                 ->get()
+                                 ->row();
+
+            if($user_data && $user_data->valid_lembaga_id) {
+                // Update session with verified lembaga_id
+                $this->session->set_userdata('lembaga_id', $user_data->valid_lembaga_id);
+                log_message('info', 'Updated lembaga_id in session for user_id: ' . $user_id);
+                return true;
+            }
+        }
+
+        // If we get here, no valid lembaga_id was found
+        log_message('error', sprintf(
+            'Invalid lembaga_id - Session Data: %s, User ID: %s',
+            json_encode($this->session->userdata()),
+            $user_id ?? 'null'
+        ));
+
+        // Clear invalid session data
+        $this->session->unset_userdata('lembaga_id');
+        $this->session->set_flashdata('error', 'Invalid or missing institution ID. Please login again.');
+        redirect('V2/Login');
     }
 
     public function index() {
@@ -61,23 +87,19 @@ class Home extends CI_Controller {
         }
 
         try {
-            // Get lembaga_id from session first
-            $lem_id = (int)$this->session->userdata('lembaga_id');
-            
-            // Validate lembaga_id immediately
-            if (!$lem_id || $lem_id <= 0) {
-                // Check if it exists in the database
-                $user_data = $this->db->get_where('users', ['id' => $this->session->userdata('user_id')])->row();
-                if ($user_data && $user_data->lembaga_id) {
-                    $lem_id = (int)$user_data->lembaga_id;
-                    // Update session
-                    $this->session->set_userdata('lembaga_id', $lem_id);
-                } else {
-                    throw new Exception('Invalid or missing Lembaga ID');
-                }
+            // Revalidate lembaga_id for AJAX calls
+            if(!$this->_validate_lembaga_id()) {
+                throw new Exception('Institution ID validation failed');
             }
 
+            $lem_id = (int)$this->session->userdata('lembaga_id');
             $status = $this->input->post('status');
+            
+            // Validate required parameters
+            if (!$lem_id || $lem_id <= 0) {
+                throw new Exception('Invalid institution ID');
+            }
+            
             if (!in_array($status, ['sudah', 'belum'])) {
                 throw new Exception('Invalid status parameter');
             }
