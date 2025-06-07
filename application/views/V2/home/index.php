@@ -92,6 +92,28 @@
             height: 32px;
             border-radius: 50%;
         }
+
+        .dropdown-menu {
+            background: white;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--secondary);
+        }
+
+        .navbar-nav .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
     </style>
 </head>
 <body>
