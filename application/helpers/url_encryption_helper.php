@@ -3,15 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if (!function_exists('encrypt_url')) {
     function encrypt_url($string) {
-        // Early return for null/empty values
-        if ($string === null || $string === '') {
-            log_message('error', 'encrypt_url received null or empty value');
-            return '';
-        }
-
-        // Force string type and trim
-        $string = trim((string)$string);
-        if (empty($string)) {
+        // Force string conversion first
+        $string = (string)$string;
+        
+        // Early return for empty values
+        if (trim($string) === '') {
+            log_message('error', 'encrypt_url received empty value');
             return '';
         }
 
@@ -19,19 +16,26 @@ if (!function_exists('encrypt_url')) {
         
         if (!isset($CI->encryption)) {
             $CI->load->library('encryption');
+            
+            // Set encryption configuration once
+            $CI->encryption->initialize([
+                'cipher' => 'aes-128',
+                'mode' => 'cbc',
+                'key' => config_item('encryption_key'),
+                'raw_data' => false
+            ]);
         }
 
-        // Initialize encryption with explicit config
-        $CI->encryption->initialize([
-            'cipher' => 'aes-128',
-            'mode' => 'cbc',
-            'key' => config_item('encryption_key')
-        ]);
-
         try {
+            // Ensure string is properly encoded
+            $string = base64_encode($string);
+            
+            // Encrypt the encoded string
             $encrypted = $CI->encryption->encrypt($string);
+            
             if ($encrypted !== false) {
-                return str_replace(['+', '/', '='], ['-', '_', '~'], base64_encode($encrypted));
+                // Make URL safe
+                return strtr(base64_encode($encrypted), '+/=', '._-');
             }
         } catch (Exception $e) {
             log_message('error', 'Encryption failed: ' . $e->getMessage());
@@ -43,14 +47,11 @@ if (!function_exists('encrypt_url')) {
 
 if (!function_exists('decrypt_url')) {
     function decrypt_url($string) {
-        // Input validation and sanitization
-        if ($string === null || $string === '') {
-            return '';
-        }
-
-        // Force string type and trim
-        $string = trim((string)$string);
-        if (empty($string)) {
+        // Force string conversion first
+        $string = (string)$string;
+        
+        // Early return for empty values
+        if (trim($string) === '') {
             return '';
         }
 
@@ -59,24 +60,29 @@ if (!function_exists('decrypt_url')) {
         if (!isset($CI->encryption)) {
             $CI->load->library('encryption');
             
-            // Set encryption configuration
-            $config = array(
-                'cipher' => 'aes-256',
+            // Set encryption configuration once
+            $CI->encryption->initialize([
+                'cipher' => 'aes-128',
                 'mode' => 'cbc',
                 'key' => config_item('encryption_key'),
-                'raw_data' => true
-            );
-            
-            $CI->encryption->initialize($config);
+                'raw_data' => false
+            ]);
         }
 
         try {
-            $decoded = base64_decode(strtr($string, '._-', '+/='));
-            if ($decoded !== false) {
-                $decrypted = $CI->encryption->decrypt($decoded);
-                if ($decrypted !== false) {
-                    return $decrypted;
-                }
+            // Restore base64 string
+            $string = strtr($string, '._-', '+/=');
+            
+            // Decode URL safe string
+            $decoded = base64_decode($string);
+            if ($decoded === false) {
+                return '';
+            }
+            
+            // Decrypt and decode
+            $decrypted = $CI->encryption->decrypt($decoded);
+            if ($decrypted !== false) {
+                return base64_decode($decrypted);
             }
         } catch (Exception $e) {
             log_message('error', 'Decryption failed: ' . $e->getMessage());
