@@ -23,10 +23,10 @@ class Home extends CI_Controller {
 
     private function _validate_lembaga_id() {
         $lem_id = $this->session->userdata('lembaga_id');
-        $user_id = $this->session->userdata('id'); // Changed from user_id to id to match Login session
+        $user_id = $this->session->userdata('id');
 
-        // First try: Check session
-        if($lem_id && is_numeric($lem_id) && $lem_id > 0) {
+        // First try: Check session - remove numeric check since ID could be string
+        if($lem_id && !empty($lem_id)) {
             // Verify lembaga exists in database
             $exists = $this->db->where('id', $lem_id)
                               ->get('lembaga_akreditasi')
@@ -40,9 +40,9 @@ class Home extends CI_Controller {
         if($user_id) {
             $user_data = $this->db->select('u.*, l.id as valid_lembaga_id')
                                  ->from('users u')
-                                 ->join('lembaga_akreditasi l', 'l.id = u.lembaga_akreditasi_id') // Fixed column name
+                                 ->join('lembaga_akreditasi l', 'l.id = u.lembaga_akreditasi_id')
                                  ->where('u.id', $user_id)
-                                 ->where('u.status', 1) // Add status check
+                                 ->where('u.status', 1)
                                  ->get()
                                  ->row();
 
@@ -109,11 +109,11 @@ class Home extends CI_Controller {
                 throw new Exception('Institution ID validation failed');
             }
 
-            $lem_id = (int)$this->session->userdata('lembaga_id');
+            $lem_id = $this->session->userdata('lembaga_id');
             $status = $this->input->post('status');
             
-            // Validate required parameters
-            if (!$lem_id || $lem_id <= 0) {
+            // Validate required parameters - remove integer validation
+            if (empty($lem_id)) {
                 throw new Exception('Invalid institution ID');
             }
             
@@ -132,7 +132,7 @@ class Home extends CI_Controller {
             $limit = max(1, (int)($this->input->post('limit') ?? 10));
             $offset = ($page - 1) * $limit;
 
-            // Get data with validated lembaga_id
+            // Get data with original lembaga_id (not cast to int)
             $result = ($status === 'sudah') 
                 ? $this->Data_model->get_sudah_tte($lem_id, $limit, $offset)
                 : $this->Data_model->get_belum_tte($lem_id, $limit, $offset);

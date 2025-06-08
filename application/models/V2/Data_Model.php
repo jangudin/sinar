@@ -4,12 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Data_Model extends CI_Model { // Match the filename case
     
     public function get_belum_tte($lem_id = null, $limit = 10, $offset = 0) {
-        // Cast parameters to integers
-        $lem_id = (int)$lem_id;
+        // Remove integer casting for lem_id
+        if (empty($lem_id)) {
+            throw new Exception('Lembaga ID is required');
+        }
+
         $limit = (int)$limit;
         $offset = (int)$offset;
 
-        // First get the total count
+        // Count query with parameterized query
         $count_sql = "SELECT COUNT(DISTINCT r.id) as total 
             FROM db_akreditasi.rekomendasi r
             INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
