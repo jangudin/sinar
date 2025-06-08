@@ -62,8 +62,11 @@ class Data_Model extends CI_Model { // Match the filename case
     }
 
     public function get_sudah_tte($lem_id = null, $limit = 10, $offset = 0) {
-        // Cast parameters
-        $lem_id = (int)$lem_id;
+        // Remove integer casting since lembaga_id is string
+        if (empty($lem_id)) {
+            throw new Exception('Lembaga ID is required');
+        }
+
         $limit = (int)$limit;
         $offset = (int)$offset;
 
@@ -76,12 +79,15 @@ class Data_Model extends CI_Model { // Match the filename case
             WHERE ps.lembaga_akreditasi_id = ?
             AND sp.lembaga = '1'
             AND sp.mutu = '1'
-            AND sp.dirjen = '1'";
+            AND sp.dirjen = '1'
+            AND r.tanggal_terbit_sertifikat IS NOT NULL 
+            AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL
+            AND r.tanggal_surat_pengajuan_sertifikat > '2022-12-08'";
 
         $total_rows = $this->db->query($count_sql, [$lem_id])->row()->total;
 
         // Main query for data
-        $sql = "SELECT 
+        $sql = "SELECT DISTINCT
             r.id,
             r.no_sertifikat,
             ps.kode_rs AS kodeRS,
@@ -98,16 +104,22 @@ class Data_Model extends CI_Model { // Match the filename case
             DATE_FORMAT(r.tanggal_terbit_sertifikat, '%d-%m-%Y') as tgl_terbit,
             DATE_FORMAT(r.tanggal_kadaluarsa_sertifikat, '%d-%m-%Y') as tgl_kadaluarsa
         FROM db_akreditasi.rekomendasi r
-        INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
-        INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
-        INNER JOIN db_fasyankes.`data` d ON d.Propinsi = ps.kode_rs
-        INNER JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
+            INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
+            INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
+            INNER JOIN db_fasyankes.`data` d ON d.Propinsi = ps.kode_rs
+            INNER JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
         WHERE ps.lembaga_akreditasi_id = ?
-        AND sp.lembaga = '1'
-        AND sp.mutu = '1'
-        AND sp.dirjen = '1'
+            AND sp.lembaga = '1'
+            AND sp.mutu = '1'
+            AND sp.dirjen = '1'
+            AND r.tanggal_terbit_sertifikat IS NOT NULL 
+            AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL
+            AND r.tanggal_surat_pengajuan_sertifikat > '2022-12-08'
         ORDER BY sp.tgl_dibuat_dirjen DESC
         LIMIT ? OFFSET ?";
+
+        // Debug: Echo the executed query
+        // echo $this->db->last_query();
 
         $result = $this->db->query($sql, [$lem_id, $limit, $offset]);
 
