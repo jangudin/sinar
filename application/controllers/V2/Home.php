@@ -63,13 +63,24 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-        // Get user and lembaga data
+        // Debug session data
+        $lem_id = $this->session->userdata('lembaga_id');
+        $user_data = $this->session->userdata();
+        
+        echo "<pre>";
+        echo "Lembaga ID: " . var_export($lem_id, true) . "\n";
+        echo "User Data: " . var_export($user_data, true) . "\n";
+        echo "</pre>";
+        exit;
+
+        // Original code commented out for debugging
+        /*
         $data['title'] = 'Dashboard - SINAR';
         $data['user'] = $this->session->userdata();
         $data['lembaga_id'] = $this->session->userdata('lembaga_id');
         
-        // Load view with data - ensure no whitespace before/after PHP tags
         $this->load->view('V2/home/index', $data);
+        */
     }
 
     public function belum_tte() {
