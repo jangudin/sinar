@@ -104,16 +104,10 @@ class Home extends CI_Controller {
         }
 
         try {
-            // Revalidate lembaga_id for AJAX calls
-            if(!$this->_validate_lembaga_id()) {
-                throw new Exception('Institution ID validation failed');
-            }
-
             $lem_id = $this->session->userdata('lembaga_id');
             $status = $this->input->post('status');
-            $search = trim($this->input->post('search')); // Add search parameter
-            
-            // Validate required parameters - remove integer validation
+            $search = trim($this->input->post('search'));
+
             if (empty($lem_id)) {
                 throw new Exception('Invalid institution ID');
             }
@@ -122,29 +116,13 @@ class Home extends CI_Controller {
                 throw new Exception('Invalid status parameter');
             }
 
-            // Debug information
-            log_message('debug', sprintf(
-                'Processing request with lembaga_id: %d, status: %s',
-                $lem_id,
-                $status
-            ));
-
             $page = max(1, (int)($this->input->post('page') ?? 1));
             $limit = max(1, (int)($this->input->post('limit') ?? 10));
             $offset = ($page - 1) * $limit;
 
-            // Get data with original lembaga_id (not cast to int)
             $result = ($status === 'sudah') 
                 ? $this->Data_model->get_sudah_tte($lem_id, $limit, $offset, $search)
                 : $this->Data_model->get_belum_tte($lem_id, $limit, $offset, $search);
-
-            if (!$result || empty($result['data'])) {
-                log_message('debug', sprintf(
-                    'No data found for lembaga_id: %d, status: %s',
-                    $lem_id,
-                    $status
-                ));
-            }
 
             echo json_encode([
                 'status' => 'success',
@@ -154,32 +132,23 @@ class Home extends CI_Controller {
                     'total_pages' => ceil($result['total_rows'] / $limit),
                     'total_records' => $result['total_rows'],
                     'per_page' => $limit
-                ],
-                'debug' => [
-                    'lembaga_id' => $lem_id,
-                    'status' => $status
                 ]
             ]);
 
         } catch (Exception $e) {
-            log_message('error', sprintf(
-                'Error processing TTE data: %s (File: %s, Line: %d)',
-                $e->getMessage(),
-                $e->getFile(),
-                $e->getLine()
-            ));
+            log_message('error', $e->getMessage());
             
             if (strpos($e->getMessage(), 'Institution ID validation failed') !== false) {
-                redirect('V2/Login'); // Changed from Auth to V2/Login
+                if (!$this->input->is_ajax_request()) {
+                    redirect('V2/Login');
+                }
+                echo json_encode(['status' => 'error', 'message' => 'Session expired']);
+                return;
             }
 
             echo json_encode([
                 'status' => 'error',
-                'message' => $e->getMessage(),
-                'debug' => [
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine()
-                ]
+                'message' => $e->getMessage()
             ]);
         }
     }
