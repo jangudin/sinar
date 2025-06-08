@@ -1,128 +1,34 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'SINAR - Sistem Informasi Akreditasi' ?></title>
-    
-    <!-- CSS Libraries -->
-    <link href="<?= base_url('assets/vendors/bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/vendors/font-awesome/css/all.min.css') ?>" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #1e3c72;
-            --secondary: #2a5298;
-            --success: #26B99A;
-            --info: #3498DB;
-            --warning: #F39C12;
-            --danger: #E74C3C;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #F7F7F7;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 0.5rem 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand img { height: 40px; }
-
-        .nav-link {
-            padding: 0.8rem 1rem !important;
-            transition: all 0.3s;
-        }
-
-        .nav-link:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        /* Content Styles */
-        .right_col {
-            padding: 2rem;
-            margin-top: 60px;
-            min-height: calc(100vh - 120px);
-        }
-
-        .tile_stats_count {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-
-        .tile_stats_count:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Card Styles */
-        .x_panel {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            padding: 15px;
-        }
-
-        .x_title {
-            border-bottom: 2px solid #E6E9ED;
-            padding: 1px 5px 6px;
-            margin-bottom: 10px;
-        }
-
-        /* Progress Bars */
-        .progress {
-            height: 20px;
-            background: #F5F5F5;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            transition: width 0.3s ease;
-        }
-
-        /* Footer Styles */
-        .footer {
-            background: white;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-
-        /* Utility Classes */
-        .shadow-hover:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .rounded-custom {
-            border-radius: 8px;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .right_col {
-                padding: 1rem;
-                margin-top: 56px;
-            }
-
-            .tile_stats_count {
-                margin-bottom: 15px;
-            }
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= $title ?? 'SINAR' ?></title>
+    <!-- Ensure no whitespace or output before DOCTYPE -->
 </head>
-<body class="nav-md">
+<body>
+    <!-- Navbar start -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>SINAR</span>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="<?= base_url('V2/Home') ?>">Dashboard</a>
+                <!-- Other menu items -->
+            </div>
+            <div class="navbar-end">
+                <span class="navbar-item">
+                    <?= $user['name'] ?? '' ?> - <?= $user['apps'] ?? 'Pimpinan Lembaga Akreditasi' ?>
+                </span>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar end -->
+
     <div class="container body">
         <div class="main_container">
             <!-- sidebar -->
@@ -200,3 +106,40 @@
                 </div>
             </div>
             <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3><?= $title ?? 'Dashboard' ?></h3>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <!-- Add your page content here -->
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    SINAR - Sistem Informasi Akreditasi
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- JS Libraries -->
+    <script src="<?= base_url('assets/vendors/jquery/dist/jquery.min.js') ?>"></script>
+    <script src="<?= base_url('assets/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
+    <script src="<?= base_url('assets/vendors/font-awesome/js/all.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/main.js') ?>"></script>
+</body>
+</html>
