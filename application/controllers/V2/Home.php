@@ -111,6 +111,7 @@ class Home extends CI_Controller {
 
             $lem_id = $this->session->userdata('lembaga_id');
             $status = $this->input->post('status');
+            $search = trim($this->input->post('search')); // Add search parameter
             
             // Validate required parameters - remove integer validation
             if (empty($lem_id)) {
@@ -134,8 +135,8 @@ class Home extends CI_Controller {
 
             // Get data with original lembaga_id (not cast to int)
             $result = ($status === 'sudah') 
-                ? $this->Data_model->get_sudah_tte($lem_id, $limit, $offset)
-                : $this->Data_model->get_belum_tte($lem_id, $limit, $offset);
+                ? $this->Data_model->get_sudah_tte($lem_id, $limit, $offset, $search)
+                : $this->Data_model->get_belum_tte($lem_id, $limit, $offset, $search);
 
             if (!$result || empty($result['data'])) {
                 log_message('debug', sprintf(
