@@ -68,21 +68,8 @@ class Home extends CI_Controller {
         $data['user'] = $this->session->userdata();
         $data['lembaga_id'] = $this->session->userdata('lembaga_id');
         
-        // Add TTE counts to dashboard data
-        $lem_id = (int)$this->session->userdata('lembaga_id');
-        $data['tte_stats'] = [
-            'belum' => $this->Data_model->get_belum_tte($lem_id, 1, 0)['total_rows'],
-            'sudah' => $this->Data_model->get_sudah_tte($lem_id, 1, 0)['total_rows']
-        ];
-        
-        // Log for debugging without exit
-        log_message('debug', 'Lembaga ID in session: ' . $data['lembaga_id']);
-        log_message('debug', 'User data: ' . json_encode($data['user']));
-        
-        // Load view with data
-        $this->load->view('V2/templates/header', $data);
+        // Load view with data - ensure no whitespace before/after PHP tags
         $this->load->view('V2/home/index', $data);
-        $this->load->view('V2/templates/footer');
     }
 
     public function belum_tte() {
