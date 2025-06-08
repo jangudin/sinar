@@ -9,6 +9,18 @@ class Data_Model extends CI_Model { // Match the filename case
         $limit = (int)$limit;
         $offset = (int)$offset;
 
+        // Get total count first with a separate query
+        $count_sql = "SELECT COUNT(DISTINCT r.id) as total 
+            FROM db_akreditasi.rekomendasi r
+            INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
+            INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
+            LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
+            WHERE ps.lembaga_akreditasi_id = ?
+            AND r.tanggal_surat_pengajuan_sertifikat > '2022-12-08'
+            AND (sp.lembaga IS NULL OR sp.lembaga = '0')";
+
+        $total_rows = $this->db->query($count_sql, [$lem_id])->row()->total;
+
         // Main query for data
         $sql = "SELECT DISTINCT
             r.id,
@@ -24,27 +36,20 @@ class Data_Model extends CI_Model { // Match the filename case
             COALESCE(sp.keterangan, '') as keterangan,
             DATE_FORMAT(r.tanggal_terbit_sertifikat, '%d-%m-%Y') as tgl_terbit,
             DATE_FORMAT(r.tanggal_kadaluarsa_sertifikat, '%d-%m-%Y') as tgl_kadaluarsa
-        FROM
-            db_akreditasi.rekomendasi r
+        FROM db_akreditasi.rekomendasi r
             INNER JOIN db_akreditasi.survei s ON s.id = r.survei_id
             INNER JOIN db_akreditasi.pengajuan_survei ps ON ps.id = s.pengajuan_survei_id
             INNER JOIN db_fasyankes.`data` d ON d.Propinsi = ps.kode_rs
             LEFT JOIN db_akreditasi.Sertifikat_progres1 sp ON r.id = sp.id_rekomendasi
-        WHERE
-            ps.lembaga_akreditasi_id = ?
+        WHERE ps.lembaga_akreditasi_id = ?
             AND r.tanggal_surat_pengajuan_sertifikat > '2022-12-08'
             AND (sp.lembaga IS NULL OR sp.lembaga = '0')
             AND r.tanggal_terbit_sertifikat IS NOT NULL 
             AND r.tanggal_kadaluarsa_sertifikat IS NOT NULL
-        ORDER BY 
-            r.tanggal_terbit_sertifikat DESC
+        ORDER BY r.tanggal_terbit_sertifikat DESC
         LIMIT ? OFFSET ?";
 
-        // Get total rows count
-        $count_sql = str_replace('SELECT DISTINCT', 'SELECT COUNT(DISTINCT r.id) as total', 
-                               substr($sql, 0, strpos($sql, 'ORDER BY')));
-        
-        $total_rows = $this->db->query($count_sql, [$lem_id])->row()->total;
+        // Execute the main query
         $result = $this->db->query($sql, [$lem_id, $limit, $offset]);
 
         return [
